@@ -20,6 +20,7 @@ directory; rerun commands are in [`evals/README.md`](../evals/README.md).
 | Behavioral contract corpus | **PASS — 100 cases**, including 53 adversarial cases and 46 invariant families |
 | Adapter mapping | **PASS — 100 shared cases per adapter**; native explicit invocation is `$design-council` on OpenAI and `/design-council:design-council` on Claude Code |
 | OpenAI package | **PASS** with the official plugin validator and official skill validator |
+| Private GitHub Codex install | **PASS** from immutable `v0.9.0-beta.2`; marketplace resolved and installed `0.9.0-beta.2` |
 | Claude package | **PASS** with strict Claude plugin validation for both the generated plugin and root marketplace |
 | Shared-core drift | **PASS — 98 shared files**, including 10 byte-identical Council Human Models |
 | Package contract | **PASS** for manifests, skill metadata, schemas, scripts, methods, templates, and optional interview companion boundaries |
@@ -38,6 +39,12 @@ make release-check
 
 ## Runtime behavior
 
+- **Private-tag installation:** after authenticated Git setup, Codex added
+  `grantholt-byte/design-council` at `--ref v0.9.0-beta.2`, discovered the
+  available plugin at version `0.9.0-beta.2`, and installed it into the plugin
+  cache from the Git marketplace snapshot. A fresh temporary work directory
+  then explicitly invoked the installed skill and returned the complete roster
+  with Council judgment correctly distinguished from human evidence.
 - **OpenAI clean-context install:** explicit invocation introduced all ten
   fictional members while preserving the evidence disclaimer; implicit
   invocation refused to invent evidence for an AI career-decider; the negative
