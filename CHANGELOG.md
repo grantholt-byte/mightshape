@@ -2,7 +2,7 @@
 
 All notable changes use [Semantic Versioning](https://semver.org/).
 
-## [1.0.0] — 2026-08-12
+## [0.9.0-beta.1] — 2026-08-12
 
 ### Added
 
@@ -46,4 +46,4 @@ All notable changes use [Semantic Versioning](https://semver.org/).
 
 ### Breaking Changes
 
-- None. This is the first production release.
+- None. This is the first private-beta release candidate.

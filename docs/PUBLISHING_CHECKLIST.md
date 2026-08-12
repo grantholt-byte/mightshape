@@ -5,7 +5,7 @@ Nothing in this file authorizes publication. Check items only with inspectable e
 ## Shared product
 
 - [ ] Product owner confirms public publisher/repository identity.
-- [ ] Product owner deliberately confirms MIT or replaces it before any distribution.
+- [x] MIT retained for the private beta; reconfirm the licensing strategy before public publication.
 - [ ] `VERSION` and `CHANGELOG.md` are final and synchronized.
 - [ ] README, privacy, security, terms, attribution, and support routes reviewed.
 - [ ] Logo/icon and repository demo assets reviewed; no Stanford marks or endorsement.
@@ -47,4 +47,4 @@ Nothing in this file authorizes publication. Check items only with inspectable e
 - [ ] `dist/design-council-openai-<version>.zip` inspected.
 - [ ] `dist/design-council-claude-<version>.zip` inspected.
 - [ ] Archive hashes recorded in release notes.
-- [ ] Owner explicitly approves beta or publication audience.
+- [x] Owner explicitly approved the private-beta channel and colleague audience.

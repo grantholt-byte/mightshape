@@ -13,7 +13,7 @@ make validate-openai
 ```
 
 The installable package is `dist/openai/design-council/` and the deterministic archive is
-`dist/design-council-openai-1.0.0.zip`.
+`dist/design-council-openai-0.9.0-beta.1.zip`.
 
 ## Test from the repository marketplace
 
@@ -59,15 +59,24 @@ only through a deliberate project-data retention decision.
 
 ## GitHub marketplace source
 
-After the owner publishes this repository and replaces `<owner>/<repo>`:
+For a collaborator who has access to the private beta repository:
 
 ```bash
-codex plugin marketplace add <owner>/<repo> --ref v1.0.0 --json
+gh auth setup-git
+git ls-remote https://github.com/grantholt-byte/design-council.git \
+  refs/tags/v0.9.0-beta.1
+codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.1 --json
+codex plugin list --marketplace design-council --available --json
 codex plugin add design-council@design-council --json
+codex plugin list --json
 ```
 
-The GitHub command is documented but cannot be executed until an owner/repository and tag
-exist. Do not publish just to satisfy this test.
+GitHub authentication must grant the collaborator read access to the private repository.
+This installs from the immutable beta tag rather than the moving `main` branch.
+
+To move to a later immutable beta tag, remove the installed plugin and marketplace, then
+repeat the commands above with the new `--ref`. `marketplace upgrade` refreshes a moving
+branch; it does not change a marketplace pinned to an older tag.
 
 ## Troubleshooting
 

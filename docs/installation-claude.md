@@ -18,7 +18,7 @@ Set `DC_CLAUDE_CLI` to an explicit executable path in controlled build
 environments.
 
 The installable package is `dist/claude/design-council/` and the deterministic archive is
-`dist/design-council-claude-1.0.0.zip`.
+`dist/design-council-claude-0.9.0-beta.1.zip`.
 
 ## One-session sideload test
 
@@ -67,15 +67,15 @@ chooses to remove that project data.
 
 ## GitHub-hosted marketplace
 
-After a repository and `v1.0.0` tag exist:
+For a collaborator who has access to the private beta repository:
 
 ```bash
-claude plugin marketplace add <owner>/<repo>@v1.0.0
+claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.1
 claude plugin install design-council@design-council
 ```
 
-Replace `<owner>/<repo>` only after the owner chooses the public repository. The local
-commands above are the pre-publication test path.
+GitHub authentication must grant the collaborator read access. The local commands above
+remain the no-network development path.
 
 ## Troubleshooting
 

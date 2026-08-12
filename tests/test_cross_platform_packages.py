@@ -7,7 +7,7 @@ from pathlib import Path
 
 from scripts.build_packages import build
 from scripts.check_cross_platform_drift import check
-from scripts.validate_packages import basic_claude_validate
+from scripts.validate_packages import basic_claude_validate, is_semver
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -62,6 +62,14 @@ class CrossPlatformPackageTests(unittest.TestCase):
         openai_marketplace = json.loads((ROOT / ".agents/plugins/marketplace.json").read_text(encoding="utf-8"))
         self.assertEqual(openai_marketplace["name"], "design-council")
         self.assertEqual(openai_marketplace["plugins"][0]["name"], "design-council")
+
+    def test_release_validator_accepts_semver_prereleases(self) -> None:
+        for valid in ("1.0.0", "0.9.0-beta.1", "2.4.1-rc.3+build.9"):
+            with self.subTest(valid=valid):
+                self.assertTrue(is_semver(valid))
+        for invalid in ("1.0", "v1.0.0", "01.0.0", "0.9.0-beta.01"):
+            with self.subTest(invalid=invalid):
+                self.assertFalse(is_semver(invalid))
 
     def test_state_schema_is_platform_neutral(self) -> None:
         text = (CANONICAL / "schemas/project-state.schema.json").read_text(encoding="utf-8").lower()

@@ -62,7 +62,7 @@ These repository demo images are composed from the live acceptance-session outpu
 Build both self-contained packages from the shared core:
 
 ```bash
-git clone <your-repository-url>
+git clone --branch v0.9.0-beta.1 --depth 1 https://github.com/grantholt-byte/design-council.git
 cd design-council
 python3 scripts/build_packages.py --clean
 ```
@@ -167,8 +167,8 @@ See [methodology](docs/methodology.md) and the canonical [source notes](skills/d
 
 ## Contributing, security, and license
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), and [SECURITY.md](SECURITY.md). The repository currently contains a proposed MIT license suitable for broad open-source reuse. Because that choice affects commercial reuse and derivative rights, the product owner must ratify it—or replace it—before public distribution; see [licensing options](docs/licensing.md).
+Read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), and [SECURITY.md](SECURITY.md). The code is licensed under MIT, which keeps installation and collaboration simple while allowing separately operated proprietary hosted services. See [the licensing decision](docs/licensing.md).
 
 ## Release status
 
-Version `1.0.0` is the synchronized package target. This repository has not been published to either marketplace. Public release still requires owner-selected repository/publisher identity, license ratification, public support/privacy/terms URLs where applicable, and the platforms’ current review or catalog steps.
+Version `0.9.0-beta.1` is the synchronized private beta. The tagged GitHub repository is private and has not been published to either marketplace. Public release still requires publisher identity, public support/privacy/terms URLs where applicable, a fresh release audit, and the platforms’ current review or catalog steps.

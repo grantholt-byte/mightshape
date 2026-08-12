@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -19,6 +20,24 @@ CLAUDE = ROOT / "dist/claude/design-council"
 OPENAI_VALIDATOR = Path.home() / ".codex/skills/.system/plugin-creator/scripts/validate_plugin.py"
 SKILL_VALIDATOR = Path.home() / ".codex/skills/.system/skill-creator/scripts/quick_validate.py"
 PLATFORMS = ("openai", "claude")
+SEMVER_RE = re.compile(
+    r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)"
+    r"(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?"
+    r"(?:\+([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$"
+)
+
+
+def is_semver(value: object) -> bool:
+    """Return whether value is a SemVer 2.0.0 release or prerelease string."""
+    match = SEMVER_RE.fullmatch(str(value))
+    if not match:
+        return False
+    prerelease = match.group(4)
+    if prerelease:
+        for identifier in prerelease.split("."):
+            if identifier.isdigit() and len(identifier) > 1 and identifier.startswith("0"):
+                return False
+    return True
 
 
 def run(command: list[str], cwd: Path = ROOT) -> dict[str, Any]:
@@ -37,8 +56,8 @@ def basic_openai_validate() -> list[str]:
         return [f"OpenAI JSON load failed: {exc}"]
     if manifest.get("name") != "design-council":
         errors.append("OpenAI plugin name must be design-council")
-    if not str(manifest.get("version", "")).count(".") == 2:
-        errors.append("OpenAI plugin version must be semantic x.y.z")
+    if not is_semver(manifest.get("version", "")):
+        errors.append("OpenAI plugin version must be valid SemVer (for example 1.0.0 or 0.9.0-beta.1)")
     if not (OPENAI / "skills/design-council/SKILL.md").is_file():
         errors.append("OpenAI skill is missing")
     if marketplace.get("name") != "design-council":
@@ -60,8 +79,8 @@ def basic_claude_validate() -> list[str]:
         return [f"Claude JSON load failed: {exc}"]
     if manifest.get("name") != "design-council":
         errors.append("Claude plugin name must be design-council")
-    if not str(manifest.get("version", "")).count(".") == 2:
-        errors.append("Claude plugin version must be semantic x.y.z")
+    if not is_semver(manifest.get("version", "")):
+        errors.append("Claude plugin version must be valid SemVer (for example 1.0.0 or 0.9.0-beta.1)")
     if not (CLAUDE / "skills/design-council/SKILL.md").is_file():
         errors.append("Claude skill is missing")
     if not (CLAUDE / "agents/sealed-member.md").is_file():

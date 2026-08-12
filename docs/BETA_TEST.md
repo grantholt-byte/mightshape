@@ -1,7 +1,7 @@
 # Design Council beta evaluator guide
 
-Use a tagged prerelease such as `0.9.0-beta.1` if testing occurs before the owner accepts
-the production release. Do not call an unvalidated package `1.0.0` in public.
+The current private beta is tagged `v0.9.0-beta.1`. Do not call it `1.0.0` or represent it
+as a public marketplace release.
 
 ## Setup
 

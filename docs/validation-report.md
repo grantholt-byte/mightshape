@@ -1,8 +1,11 @@
 # V1 validation report
 
-**Validation date:** 2026-08-12  
-**Scope:** repository state before publication; no deployment or marketplace
-submission was performed.
+**Validation date:** 2026-08-12
+
+**Release:** `v0.9.0-beta.1` private beta
+
+**Scope:** validated private GitHub distribution; no public deployment or
+marketplace submission was performed.
 
 This report records observed checks only. A portable summary is committed at
 [`evals/evidence/model-backed-summary.json`](../evals/evidence/model-backed-summary.json).
@@ -13,7 +16,7 @@ directory; rerun commands are in [`evals/README.md`](../evals/README.md).
 
 | Check | Observed result |
 |---|---|
-| Python unit suite | **PASS — 74 tests** |
+| Python unit suite | **PASS — 75 tests** |
 | Behavioral contract corpus | **PASS — 100 cases**, including 53 adversarial cases and 46 invariant families |
 | Adapter mapping | **PASS — 100 shared cases per adapter**; native explicit invocation is `$design-council` on OpenAI and `/design-council:design-council` on Claude Code |
 | OpenAI package | **PASS** with the official plugin validator and official skill validator |
@@ -92,8 +95,9 @@ telemetry remain intentionally unimplemented.
 
 ## Release boundary
 
-The repository was not deployed, pushed, submitted, approved, or published to
-OpenAI, Anthropic, GitHub, ChatGPT Sites, or any marketplace. Publication still
-requires the owner-controlled identity, license, repository, public policy URLs,
-authenticated platform checks, and approval steps in the
-[`publishing checklist`](PUBLISHING_CHECKLIST.md).
+The source and deterministic packages are distributed only through the private
+GitHub beta tag `v0.9.0-beta.1`. Nothing was submitted, approved, or published
+to the OpenAI or Anthropic marketplaces, and no interview Site was deployed.
+Public publication still requires owner-controlled publisher identity, public
+policy/support URLs, authenticated platform checks, and the approval steps in
+the [`publishing checklist`](PUBLISHING_CHECKLIST.md).

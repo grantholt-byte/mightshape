@@ -46,6 +46,23 @@ EXPECTED_TEMPLATES = {
     "hmw-card.md", "prototype-card.md", "experiment-card.md", "decision-record.md",
 }
 SOURCE_FAMILIES = {"stanford_dschool", "supplemental_design_practice", "design_council_original"}
+SEMVER_RE = re.compile(
+    r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)"
+    r"(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?"
+    r"(?:\+([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$"
+)
+
+
+def _is_semver(value: object) -> bool:
+    match = SEMVER_RE.fullmatch(str(value))
+    if not match:
+        return False
+    prerelease = match.group(4)
+    if prerelease:
+        for identifier in prerelease.split("."):
+            if identifier.isdigit() and len(identifier) > 1 and identifier.startswith("0"):
+                return False
+    return True
 
 
 def _check(condition: bool, code: str, message: str, errors: list[dict[str, str]]) -> None:
@@ -73,7 +90,12 @@ def validate_package(root: str | Path) -> dict[str, Any]:
         try:
             manifest = load_json(manifest_path)
             _check(manifest.get("name") == "design-council", "MANIFEST_NAME", "plugin name must be design-council", errors)
-            _check(bool(re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", str(manifest.get("version", "")))), "MANIFEST_VERSION", "plugin version must be semantic x.y.z", errors)
+            _check(
+                _is_semver(manifest.get("version", "")),
+                "MANIFEST_VERSION",
+                "plugin version must be valid SemVer (for example 1.0.0 or 0.9.0-beta.1)",
+                errors,
+            )
             skill_path = root / str(manifest.get("skills", "")).lstrip("./")
             _check(skill_path.is_dir(), "MANIFEST_SKILLS", "manifest skills path does not exist", errors)
             interface = manifest.get("interface", {})
