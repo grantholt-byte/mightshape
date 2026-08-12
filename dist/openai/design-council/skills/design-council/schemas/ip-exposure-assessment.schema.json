@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/ip-exposure-assessment.schema.json",
+  "title": "External study IP exposure assessment",
+  "description": "Facilitation and risk-awareness output; never a legal or confidentiality guarantee.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["sponsor_identity_exposure", "solution_exposure", "technical_ip_exposure", "commercial_strategy_exposure", "competitor_inference_risk", "participant_conflict_risk", "overall", "legal_guarantee", "disclaimer"],
+  "properties": {
+    "sponsor_identity_exposure": {"enum": ["NONE", "LOW", "MODERATE", "HIGH"]},
+    "solution_exposure": {"enum": ["NONE", "LOW", "MODERATE", "HIGH"]},
+    "technical_ip_exposure": {"enum": ["NONE", "LOW", "MODERATE", "HIGH"]},
+    "commercial_strategy_exposure": {"enum": ["NONE", "LOW", "MODERATE", "HIGH"]},
+    "competitor_inference_risk": {"enum": ["NONE", "LOW", "MODERATE", "HIGH"]},
+    "participant_conflict_risk": {"enum": ["NONE", "LOW", "MODERATE", "HIGH"]},
+    "overall": {"enum": ["LOW", "MODERATE", "HIGH"]},
+    "legal_guarantee": {"const": false},
+    "disclaimer": {"type": "string", "minLength": 20}
+  }
+}

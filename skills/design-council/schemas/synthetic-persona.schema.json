@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/synthetic-persona.schema.json",
+  "title": "Inquiry Lab synthetic persona",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "participant_type", "provenance", "reality_packet_id", "variation_dimensions", "human_model", "epistemic_layers", "limitations", "created_at"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^SP-[0-9]{3,}$"},
+    "participant_type": {"enum": ["SYNTHETIC_USER", "SYNTHETIC_PRACTITIONER", "SYNTHETIC_EXPERT"]},
+    "provenance": {"enum": ["SYNTHETIC_USER", "SYNTHETIC_PRACTITIONER", "SYNTHETIC_EXPERT"]},
+    "reality_packet_id": {"type": "string", "pattern": "^RP-[0-9]{3,}$"},
+    "variation_dimensions": {"type": "object", "minProperties": 2, "additionalProperties": {"type": ["string", "number", "boolean"]}},
+    "human_model": {"$ref": "human-model.schema.json"},
+    "epistemic_layers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["DOMAIN_GROUNDING", "REASONABLE_INFERENCE", "CONSTRUCTED_CONTINUITY", "UNKNOWN"],
+      "properties": {
+        "DOMAIN_GROUNDING": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["detail", "source_ids"],
+            "properties": {
+              "detail": {"type": "string", "minLength": 1},
+              "source_ids": {"type": "array", "items": {"type": "string"}, "minItems": 1}
+            }
+          }
+        },
+        "REASONABLE_INFERENCE": {"type": "array", "items": {"type": "string"}},
+        "CONSTRUCTED_CONTINUITY": {"type": "array", "items": {"type": "string"}},
+        "UNKNOWN": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "limitations": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "created_at": {"type": "string", "format": "date-time"}
+  }
+}

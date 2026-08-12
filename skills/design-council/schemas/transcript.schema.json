@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/transcript.schema.json",
+  "title": "Inquiry transcript",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "study_id", "participant_id", "provenance", "solution_blackout", "messages", "covered_topics", "emerging_threads", "status", "created_at"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^T-[0-9]{3,}$"},
+    "study_id": {"type": "string"},
+    "participant_id": {"type": "string", "pattern": "^P-[0-9]{3,}$"},
+    "provenance": {"enum": ["HUMAN_INTERVIEW", "SYNTHETIC_USER", "SYNTHETIC_PRACTITIONER", "SYNTHETIC_EXPERT"]},
+    "solution_blackout": {"type": "boolean"},
+    "concept_revealed_at_message": {"type": ["integer", "null"], "minimum": 0},
+    "messages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["index", "role", "text", "created_at"],
+        "properties": {
+          "index": {"type": "integer", "minimum": 0},
+          "role": {"enum": ["interviewer", "participant", "system_event"]},
+          "text": {"type": "string"},
+          "created_at": {"type": "string", "format": "date-time"}
+        }
+      }
+    },
+    "covered_topics": {"type": "array", "items": {"type": "string"}},
+    "emerging_threads": {"type": "array", "items": {"type": "string"}},
+    "status": {"enum": ["active", "stopped", "complete", "withdrawn", "deleted"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "completed_at": {"type": ["string", "null"], "format": "date-time"}
+  }
+}

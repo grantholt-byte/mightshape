@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/demand-signal-event.schema.json",
+  "title": "Optional content-free Exchange demand signal",
+  "description": "Local interface only in V1; no remote telemetry transport is implemented.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event", "occurred_at", "collection_opt_in", "contains_project_content"],
+  "properties": {
+    "event": {"enum": ["human_participant_source_requested", "bring_your_own_study_created", "external_participant_needed", "participant_recruitment_requested", "verified_expert_requested"]},
+    "occurred_at": {"type": "string", "format": "date-time"},
+    "collection_opt_in": {"const": true},
+    "contains_project_content": {"const": false}
+  }
+}

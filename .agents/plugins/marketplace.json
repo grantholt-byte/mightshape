@@ -1,0 +1,20 @@
+{
+  "name": "design-council",
+  "interface": {
+    "displayName": "Design Council"
+  },
+  "plugins": [
+    {
+      "name": "design-council",
+      "source": {
+        "source": "local",
+        "path": "./dist/openai/design-council"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

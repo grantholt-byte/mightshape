@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/external-study-packet.schema.json",
+  "title": "Minimized participant-facing study packet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "internal_study_id", "generated_at", "participant_source", "research_session_type", "project_exposure_level", "solution_blackout", "participant_facing", "disclosure_review_id", "omitted_categories", "approval_status", "consent_version"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^ESP-[0-9]{3,}$"},
+    "internal_study_id": {"type": "string", "pattern": "^STUDY-[0-9]{3,}$"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "participant_source": {"enum": ["SYNTHETIC", "BRING_YOUR_OWN", "EXCHANGE"]},
+    "research_session_type": {"enum": ["HUMAN_PULSE", "QUALITATIVE_INTERVIEW", "PROTOTYPE_TEST", "CONCEPT_REACTION", "EXPERT_REVIEW", "CO_CREATION"]},
+    "project_exposure_level": {"enum": ["LEVEL_0_PROBLEM_ONLY", "LEVEL_1_ABSTRACTED_CONCEPT", "LEVEL_2_PROTOTYPE_BLIND", "LEVEL_3_CONFIDENTIAL"]},
+    "solution_blackout": {"type": "boolean"},
+    "participant_facing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["purpose", "context", "topics", "duration_minutes", "ai_interviewer_disclosure", "stop_notice"],
+      "properties": {
+        "purpose": {"type": "string", "minLength": 1},
+        "context": {"type": "string", "minLength": 1},
+        "topics": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "duration_minutes": {"type": "integer", "minimum": 1, "maximum": 240},
+        "prototype_reference": {"type": ["string", "null"]},
+        "ai_interviewer_disclosure": {"type": "string", "minLength": 1},
+        "stop_notice": {"type": "string", "minLength": 1}
+      }
+    },
+    "disclosure_review_id": {"type": "string", "pattern": "^DR-[0-9]{3,}$"},
+    "omitted_categories": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "approval_status": {"enum": ["DRAFT", "REQUIRES_USER_DECISION", "APPROVED_FOR_EXTERNAL_USE"]},
+    "consent_version": {"type": "string", "minLength": 1}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"project_exposure_level": {"const": "LEVEL_0_PROBLEM_ONLY"}}, "required": ["project_exposure_level"]},
+      "then": {"properties": {"solution_blackout": {"const": true}, "participant_facing": {"properties": {"prototype_reference": {"type": "null"}}}}}
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <rect width="1600" height="1000" fill="#F5F3EE"/>
+  <rect x="54" y="54" width="1492" height="892" rx="28" fill="#FFFEFB" stroke="#D9D5CC" stroke-width="2"/>
+  <circle cx="118" cy="116" r="8" fill="#6457FF"/><circle cx="142" cy="92" r="8" fill="#9F97FF"/><circle cx="174" cy="86" r="8" fill="#C0BAFF"/><circle cx="200" cy="104" r="8" fill="#7B70FF"/><circle cx="206" cy="136" r="8" fill="#ABA4FF"/><circle cx="184" cy="158" r="8" fill="#6457FF"/><circle cx="152" cy="160" r="8" fill="#8B81FF"/><circle cx="128" cy="144" r="8" fill="#B8B2FF"/>
+  <text x="248" y="112" font-family="Inter, Helvetica, Arial, sans-serif" font-size="34" font-weight="700" fill="#211F26">◇ DESIGN COUNCIL</text>
+  <text x="248" y="150" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" fill="#655F6C">Think wider. Frame better. Build what matters.</text>
+  <text x="1350" y="120" font-family="Inter, Helvetica, Arial, sans-serif" font-size="17" text-anchor="end" fill="#7A7480">LIVE ACCEPTANCE OUTPUT · 2026-08-12</text>
+  <line x1="92" y1="198" x2="1508" y2="198" stroke="#E5E1D9" stroke-width="2"/>
+  <text x="94" y="250" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="2" fill="#6457FF">JOURNEY</text>
+  <text x="94" y="306" font-family="Inter, Helvetica, Arial, sans-serif" font-size="27" font-weight="650" fill="#29262E">INTAKE ✓  ━  EMPATHIZE PLAN ✓  ━  DEFINE PROVISIONAL ✓  ━  IDEATE ✓  ━  PROTOTYPE ✓  ━  TEST ○</text>
+  <rect x="94" y="352" width="1414" height="116" rx="18" fill="#EEECFF"/>
+  <text x="126" y="397" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="1.4" fill="#4D42D0">RECOMMENDATION</text>
+  <text x="126" y="438" font-family="Inter, Helvetica, Arial, sans-serif" font-size="29" font-weight="600" fill="#27232E">Build a manual scheduling experiment first—not the production AI app.</text>
+  <text x="94" y="530" font-family="Inter, Helvetica, Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="1.8" fill="#6C6672">INTAKE / CURRENT KNOWLEDGE</text>
+  <rect x="94" y="564" width="438" height="244" rx="18" fill="#F8F7F3" stroke="#DEDAD2"/>
+  <text x="124" y="606" font-family="Inter, Helvetica, Arial, sans-serif" font-size="19" font-weight="700" fill="#312E36">USER_PROVIDED</text>
+  <text x="124" y="646" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" fill="#35313A">A proposed AI family</text><text x="124" y="678" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" fill="#35313A">scheduler exists.</text>
+  <text x="124" y="732" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" fill="#736D77">This establishes intent—</text><text x="124" y="760" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" fill="#736D77">not demand or fit.</text>
+  <rect x="548" y="564" width="438" height="244" rx="18" fill="#FFF8E9" stroke="#EAD8AC"/>
+  <text x="578" y="606" font-family="Inter, Helvetica, Arial, sans-serif" font-size="19" font-weight="700" fill="#8C6110">△ ASSUMPTION</text>
+  <text x="578" y="646" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" fill="#35313A">Automatic planning is</text><text x="578" y="678" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" fill="#35313A">better than visibility</text><text x="578" y="710" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" fill="#35313A">or negotiation.</text>
+  <text x="578" y="760" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" fill="#736D77">OPEN / HIGH RISK</text>
+  <rect x="1002" y="564" width="506" height="244" rx="18" fill="#F2F2F1" stroke="#D8D6D2"/>
+  <text x="1032" y="606" font-family="Inter, Helvetica, Arial, sans-serif" font-size="19" font-weight="700" fill="#4E4A52">? UNKNOWN</text>
+  <text x="1032" y="646" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" fill="#35313A">Who coordinates?</text><text x="1032" y="678" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" fill="#35313A">Who approves changes?</text><text x="1032" y="710" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" fill="#35313A">Who repairs mistakes?</text>
+  <text x="1032" y="760" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" fill="#736D77">HUMAN EVIDENCE: NONE</text>
+  <line x1="94" y1="850" x2="1508" y2="850" stroke="#E5E1D9"/>
+  <text x="94" y="900" font-family="Inter, Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#6457FF">↳ NEXT MOVE</text>
+  <text x="280" y="900" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" fill="#35313A">Reconstruct the last genuinely bad scheduling day before automating it.</text>
+</svg>

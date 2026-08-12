@@ -1,0 +1,3 @@
+# Full JSON Schema validation for tests and release checks. Core runtime has a
+# standard-library structural fallback when this package is unavailable.
+jsonschema>=4.22,<5

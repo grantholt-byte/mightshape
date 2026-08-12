@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/exchange-credit-ledger.schema.json",
+  "title": "Future Exchange research-credit ledger contract",
+  "description": "Schema boundary only. V1 performs no payments, balances, pricing, or ledger writes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["ledger_version", "feature_status", "currency", "account_id", "balance", "entries"],
+  "properties": {
+    "ledger_version": {"const": "1.0.0"},
+    "feature_status": {"enum": ["FUTURE_FEATURE", "NOT_CONFIGURED", "ACTIVE"]},
+    "currency": {"const": "EXCHANGE_CREDITS"},
+    "account_id": {"type": ["string", "null"]},
+    "balance": {"type": ["number", "null"], "minimum": 0},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "transaction_type", "amount", "study_id", "participant_id", "created_at"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^XCL-[0-9]{3,}$"},
+          "transaction_type": {"enum": ["EARN", "SPEND", "PURCHASE", "ADJUSTMENT"]},
+          "amount": {"type": "number", "exclusiveMinimum": 0},
+          "study_id": {"type": ["string", "null"], "pattern": "^STUDY-[0-9]{3,}$"},
+          "participant_id": {"type": ["string", "null"], "pattern": "^P-[0-9]{3,}$"},
+          "created_at": {"type": "string", "format": "date-time"}
+        }
+      }
+    },
+    "pricing_model": {"type": "null"}
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/evidence.schema.json",
+  "title": "Design Council evidence item",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "claim", "provenance", "confidence", "evidence_strength", "status", "source_refs"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^E-[0-9]{3,}$"},
+    "claim": {"type": "string", "minLength": 1},
+    "provenance": {
+      "enum": [
+        "OBSERVED_HUMAN_BEHAVIOR",
+        "HUMAN_INTERVIEW",
+        "USER_PROVIDED",
+        "AUTHORITATIVE_RESEARCH",
+        "RESEARCH_SUPPORTED_INFERENCE",
+        "SYNTHETIC_USER",
+        "SYNTHETIC_PRACTITIONER",
+        "SYNTHETIC_EXPERT",
+        "DESIGN_COUNCIL",
+        "ASSUMPTION",
+        "UNKNOWN"
+      ]
+    },
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "evidence_strength": {"type": "integer", "minimum": 0, "maximum": 5},
+    "status": {"enum": ["unvalidated", "active", "superseded", "contradicted", "withdrawn"]},
+    "source_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "scope": {"type": ["string", "null"]},
+    "study_id": {"type": ["string", "null"]},
+    "participant_id": {"type": ["string", "null"], "pattern": "^(P-[0-9]{3,})?$"},
+    "excerpt": {"type": ["string", "null"]},
+    "consent_allows_quote": {"type": ["boolean", "null"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "target_id"],
+        "properties": {
+          "type": {"enum": ["supports", "contradicts", "tests", "transforms", "derived_from"]},
+          "target_id": {"type": "string"}
+        }
+      }
+    }
+  }
+}

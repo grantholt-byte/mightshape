@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <rect width="1600" height="1000" fill="#EFF7F6"/>
+  <rect x="54" y="54" width="1492" height="892" rx="28" fill="#FFFEFB" stroke="#C9DEDB" stroke-width="2"/>
+  <text x="94" y="118" font-family="Inter, Helvetica, Arial, sans-serif" font-size="34" font-weight="700" fill="#20272A">◇ INQUIRY LAB</text>
+  <text x="94" y="158" font-family="Inter, Helvetica, Arial, sans-serif" font-size="21" fill="#637174">Emergency department nursing · DEEP grounding</text>
+  <text x="1506" y="124" text-anchor="end" font-family="Inter, Helvetica, Arial, sans-serif" font-size="17" fill="#788587">LIVE ACCEPTANCE OUTPUT · 2026-08-12</text>
+  <line x1="94" y1="202" x2="1506" y2="202" stroke="#DAE7E5"/>
+  <text x="94" y="254" font-family="Inter, Helvetica, Arial, sans-serif" font-size="19" font-weight="800" letter-spacing="1.5" fill="#178B81">REALITY PACKET · RP-ED-001</text>
+  <text x="94" y="302" font-family="Inter, Helvetica, Arial, sans-serif" font-size="28" font-weight="700" fill="#283034">General U.S. grounding · local workflow remains unknown</text>
+  <rect x="94" y="344" width="900" height="438" rx="18" fill="#F4F8F7" stroke="#D4E3E1"/>
+  <text x="126" y="390" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" font-weight="800" fill="#176C65">● AUTHORITATIVE_RESEARCH</text>
+  <text x="126" y="430" font-family="Inter, Helvetica, Arial, sans-serif" font-size="21" fill="#343C40">Triage is rapid, primarily nurse-led, and should use a standardized</text><text x="126" y="461" font-family="Inter, Helvetica, Arial, sans-serif" font-size="21" fill="#343C40">acuity scale without delaying care. · ACEP / ENA</text>
+  <text x="126" y="512" font-family="Inter, Helvetica, Arial, sans-serif" font-size="21" fill="#343C40">Information may be split across conversation, patients, EHR screens,</text><text x="126" y="543" font-family="Inter, Helvetica, Arial, sans-serif" font-size="21" fill="#343C40">messages, whiteboards, and personal worksheets. · AHRQ</text>
+  <text x="126" y="594" font-family="Inter, Helvetica, Arial, sans-serif" font-size="21" fill="#343C40">Boarding keeps admitted patients in the ED when an inpatient bed</text><text x="126" y="625" font-family="Inter, Helvetica, Arial, sans-serif" font-size="21" fill="#343C40">is unavailable, extending frontline care work. · AHRQ</text>
+  <text x="126" y="680" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" font-weight="800" fill="#6B5D8A">◐ RESEARCH_SUPPORTED_INFERENCE</text>
+  <text x="126" y="720" font-family="Inter, Helvetica, Arial, sans-serif" font-size="21" fill="#343C40">The practical loop may be: observe → act → document → communicate</text><text x="126" y="751" font-family="Inter, Helvetica, Arial, sans-serif" font-size="21" fill="#343C40">→ reassess, repeatedly interrupted by changing risk and responsibility.</text>
+  <rect x="1022" y="344" width="484" height="438" rx="18" fill="#E9F4F2" stroke="#C7DED9"/>
+  <text x="1054" y="390" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" font-weight="800" fill="#176C65">RESEARCH CONTROLS</text>
+  <text x="1054" y="438" font-family="Inter, Helvetica, Arial, sans-serif" font-size="20" fill="#30383C">SOLUTION BLACKOUT</text>
+  <rect x="1332" y="410" width="128" height="44" rx="22" fill="#178B81"/><text x="1396" y="439" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="17" font-weight="800" fill="#FFFFFF">ON</text>
+  <text x="1054" y="500" font-family="Inter, Helvetica, Arial, sans-serif" font-size="20" fill="#30383C">EXPOSURE LEVEL</text><text x="1054" y="536" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" fill="#178B81">LEVEL_0_PROBLEM_ONLY</text>
+  <text x="1054" y="596" font-family="Inter, Helvetica, Arial, sans-serif" font-size="20" fill="#30383C">HUMAN EVIDENCE</text><text x="1054" y="632" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" fill="#A24B4B">NONE COLLECTED</text>
+  <text x="1054" y="692" font-family="Inter, Helvetica, Arial, sans-serif" font-size="20" fill="#30383C">REALITY CHECK</text><text x="1054" y="728" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" fill="#87681A">INCONCLUSIVE</text>
+  <rect x="94" y="818" width="1412" height="90" rx="16" fill="#203C3A"/>
+  <text x="124" y="853" font-family="Inter, Helvetica, Arial, sans-serif" font-size="17" font-weight="800" fill="#A8DCD5">↳ NEXT MOVE</text>
+  <text x="124" y="884" font-family="Inter, Helvetica, Arial, sans-serif" font-size="21" fill="#FFFFFF">Observe a target ED and reconstruct specific interruptions before turning general workflow into product requirements.</text>
+</svg>

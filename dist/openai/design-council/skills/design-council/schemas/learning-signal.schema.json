@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/learning-signal.schema.json",
+  "title": "Opt-in privacy-preserving methodological learning signal",
+  "description": "Contains method outcomes only; raw project content, conversations, code, transcripts, quotations, participant identities, and company names are structurally excluded.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "contribution_opt_in", "participant_content_included", "challenge_archetypes", "methods_used", "stage_transitions", "problem_frame_changed", "assumptions_tested", "assumptions_falsified", "prototype_types", "minority_report_influenced_direction", "synthetic_human_reality_check_result", "build_gate_outcome"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "contribution_opt_in": {"const": true},
+    "participant_content_included": {"const": false},
+    "challenge_archetypes": {"type": "array", "items": {"enum": ["DIGITAL_PRODUCT", "AI_PRODUCT", "PHYSICAL_PRODUCT", "SERVICE", "EXPERIENCE", "BUSINESS_MODEL", "WORKFLOW", "ORGANIZATIONAL", "POLICY", "SOCIAL_SYSTEM", "HYBRID"]}, "uniqueItems": true},
+    "methods_used": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "stage_transitions": {"type": "array", "items": {"type": "string"}},
+    "problem_frame_changed": {"type": "boolean"},
+    "assumptions_tested": {"type": "integer", "minimum": 0},
+    "assumptions_falsified": {"type": "integer", "minimum": 0},
+    "prototype_types": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "minority_report_influenced_direction": {"type": ["boolean", "null"]},
+    "synthetic_human_reality_check_result": {"enum": ["NOT_RUN", "SUPPORTED", "CONTRADICTED", "TRANSFORMED", "INCONCLUSIVE"]},
+    "build_gate_outcome": {"enum": ["NOT_ASSESSED", "READY", "READY_WITH_KNOWN_RISK", "TEST_FIRST", "REFRAME_FIRST"]}
+  }
+}

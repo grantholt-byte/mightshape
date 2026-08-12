@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/inquiry-study.schema.json",
+  "title": "Inquiry Lab study",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "title", "study_type", "research_goal", "topics_to_cover", "covered_topics", "emerging_threads", "adaptive_follow_up_priorities", "solution_blackout", "concept_reveal", "stop_conditions", "privacy_configuration", "consent", "participant_id_prefix", "status", "created_at"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^STUDY-[0-9]{3,}$"},
+    "title": {"type": "string", "minLength": 1},
+    "study_type": {"enum": ["SYNTHETIC", "HUMAN", "MIXED", "ANALOGOUS", "REALITY_CHECK"]},
+    "participant_source": {"$ref": "participant-source.schema.json"},
+    "research_session": {"$ref": "research-session-type.schema.json"},
+    "project_exposure": {"$ref": "project-exposure.schema.json"},
+    "conflict_policy": {"$ref": "conflict-policy.schema.json"},
+    "internal_study_ref": {"type": ["string", "null"], "pattern": "^STUDY-[0-9]{3,}$"},
+    "external_packet_ids": {"type": "array", "items": {"type": "string", "pattern": "^ESP-[0-9]{3,}$"}, "uniqueItems": true},
+    "research_goal": {"type": "string", "minLength": 1},
+    "topics_to_cover": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "covered_topics": {"type": "array", "items": {"type": "string"}},
+    "emerging_threads": {"type": "array", "items": {"type": "string"}},
+    "adaptive_follow_up_priorities": {"type": "array", "items": {"type": "string"}},
+    "solution_blackout": {"type": "boolean"},
+    "concept_reveal": {"type": "object"},
+    "stop_conditions": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "privacy_configuration": {"type": "object"},
+    "consent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "ai_disclosure", "purpose", "duration_minutes", "data_collected", "reviewers", "deidentified_quotes", "may_stop", "retention", "contact"],
+      "properties": {
+        "version": {"type": "string"},
+        "ai_disclosure": {"type": "string", "minLength": 1},
+        "purpose": {"type": "string", "minLength": 1},
+        "duration_minutes": {"type": "integer", "minimum": 1},
+        "data_collected": {"type": "array", "items": {"type": "string"}},
+        "reviewers": {"type": "string"},
+        "deidentified_quotes": {"type": "boolean"},
+        "may_stop": {"const": true},
+        "retention": {"type": "string"},
+        "contact": {"type": "string"}
+      }
+    },
+    "participant_id_prefix": {"const": "P-"},
+    "public_token": {"type": ["string", "null"], "minLength": 24},
+    "status": {"enum": ["draft", "ready", "active", "closed", "archived"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"}
+  }
+}

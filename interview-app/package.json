@@ -1,0 +1,53 @@
+{
+  "name": "design-council-interview-app",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "dev": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext dev",
+    "build": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext build",
+    "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
+    "test": "node --test tests/interview.test.mjs",
+    "test:render": "npm run build && node --test tests/rendered-html.test.mjs",
+    "test:screenshots": "node scripts/capture-screenshots.mjs",
+    "test:full": "npm run build && node --test tests/*.test.mjs",
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "seed:study": "node scripts/create-study.mjs"
+  },
+  "dependencies": {
+    "drizzle-orm": "0.45.2",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "1.52.0",
+    "@cloudflare/workers-types": "5.20260812.1",
+    "@eslint/js": "9.39.4",
+    "@next/eslint-plugin-next": "16.3.0",
+    "@types/node": "22.19.19",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
+    "@vitejs/plugin-react": "6.0.5",
+    "@vitejs/plugin-rsc": "0.5.34",
+    "drizzle-kit": "0.31.10",
+    "eslint": "9.39.4",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "globals": "16.4.0",
+    "react-server-dom-webpack": "19.2.8",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.67.0",
+    "vinext": "1.0.0-beta.5",
+    "vite": "8.2.1",
+    "wrangler": "4.122.0"
+  },
+  "overrides": {
+    "sharp": "0.35.3"
+  },
+  "type": "module"
+}

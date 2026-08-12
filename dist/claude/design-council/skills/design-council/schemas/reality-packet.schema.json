@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/reality-packet.schema.json",
+  "title": "Inquiry Lab Reality Packet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "grounding_level", "role", "scope_and_locale", "responsibilities", "working_environment", "workflows", "decision_rights", "terminology", "tools_and_systems", "dependencies", "organizational_relationships", "incentives", "constraints", "regulations", "performance_pressures", "failure_modes", "workarounds", "common_variations", "cultural_context", "supported_facts", "research_supported_inferences", "unresolved_questions", "local_variation", "sources", "created_at"],
+  "$defs": {"stringArray": {"type": "array", "items": {"type": "string"}}},
+  "properties": {
+    "id": {"type": "string", "pattern": "^RP-[0-9]{3,}$"},
+    "grounding_level": {"enum": ["FAST", "RESEARCHED", "DEEP"]},
+    "role": {"type": "string", "minLength": 1},
+    "scope_and_locale": {"type": "string", "minLength": 1},
+    "responsibilities": {"$ref": "#/$defs/stringArray"},
+    "working_environment": {"$ref": "#/$defs/stringArray"},
+    "workflows": {"$ref": "#/$defs/stringArray"},
+    "decision_rights": {"$ref": "#/$defs/stringArray"},
+    "terminology": {"$ref": "#/$defs/stringArray"},
+    "tools_and_systems": {"$ref": "#/$defs/stringArray"},
+    "dependencies": {"$ref": "#/$defs/stringArray"},
+    "organizational_relationships": {"$ref": "#/$defs/stringArray"},
+    "incentives": {"$ref": "#/$defs/stringArray"},
+    "constraints": {"$ref": "#/$defs/stringArray"},
+    "regulations": {"$ref": "#/$defs/stringArray"},
+    "regulations_not_applicable": {"type": "boolean"},
+    "performance_pressures": {"$ref": "#/$defs/stringArray"},
+    "failure_modes": {"$ref": "#/$defs/stringArray"},
+    "workarounds": {"$ref": "#/$defs/stringArray"},
+    "common_variations": {"$ref": "#/$defs/stringArray"},
+    "cultural_context": {"$ref": "#/$defs/stringArray"},
+    "supported_facts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["claim", "source_ids"],
+        "properties": {
+          "claim": {"type": "string", "minLength": 1},
+          "source_ids": {"type": "array", "items": {"type": "string", "pattern": "^SRC-[0-9]{3,}$"}, "minItems": 1, "uniqueItems": true}
+        }
+      }
+    },
+    "research_supported_inferences": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["claim", "based_on"],
+        "properties": {
+          "claim": {"type": "string"},
+          "based_on": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "unresolved_questions": {"$ref": "#/$defs/stringArray"},
+    "local_variation": {"$ref": "#/$defs/stringArray"},
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "title", "publisher", "url", "accessed", "authority_type"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^SRC-[0-9]{3,}$"},
+          "title": {"type": "string"},
+          "publisher": {"type": "string"},
+          "url": {"type": "string", "format": "uri"},
+          "published": {"type": ["string", "null"]},
+          "accessed": {"type": "string", "format": "date"},
+          "authority_type": {"enum": ["primary", "official", "peer_reviewed", "professional_authority", "other"]}
+        }
+      }
+    },
+    "created_at": {"type": "string", "format": "date-time"}
+  }
+}

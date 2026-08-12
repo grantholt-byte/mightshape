@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/research-finding.schema.json",
+  "title": "Inquiry research finding",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "statement", "finding_type", "provenance", "source_refs", "scope", "confidence", "evidence_strength", "created_at"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^F-[0-9]{3,}$"},
+    "statement": {"type": "string", "minLength": 1},
+    "finding_type": {"enum": ["pattern", "tension", "contradiction", "need_candidate", "insight_candidate", "unknown", "research_question"]},
+    "provenance": {"enum": ["OBSERVED_HUMAN_BEHAVIOR", "HUMAN_INTERVIEW", "AUTHORITATIVE_RESEARCH", "RESEARCH_SUPPORTED_INFERENCE", "SYNTHETIC_USER", "SYNTHETIC_PRACTITIONER", "SYNTHETIC_EXPERT", "DESIGN_COUNCIL", "UNKNOWN"]},
+    "source_refs": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "scope": {"type": "string"},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "evidence_strength": {"type": "integer", "minimum": 0, "maximum": 5},
+    "contradicts": {"type": "array", "items": {"type": "string"}},
+    "created_at": {"type": "string", "format": "date-time"}
+  }
+}

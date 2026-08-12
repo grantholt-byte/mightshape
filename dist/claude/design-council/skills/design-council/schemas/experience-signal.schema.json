@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/experience-signal.schema.json",
+  "title": "Experience-based participant matching signal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "signal", "basis", "frequency", "recency", "self_reported"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^XS-[0-9]{3,}$"},
+    "signal": {"type": "string", "pattern": "^[a-z][a-z0-9_]{2,}$"},
+    "basis": {"enum": ["LIVED_EXPERIENCE", "PROFESSIONAL_ROLE", "WORKFLOW_EXPOSURE", "DECISION_RESPONSIBILITY", "ENVIRONMENT", "TECHNOLOGY_USAGE", "RELEVANT_CONSTRAINT"]},
+    "frequency": {"enum": ["ONCE", "OCCASIONAL", "MONTHLY", "WEEKLY", "DAILY", "CONTINUOUS", "UNKNOWN"]},
+    "recency": {"enum": ["CURRENT", "WITHIN_6_MONTHS", "WITHIN_2_YEARS", "OLDER", "UNKNOWN"]},
+    "years_experience": {"type": ["number", "null"], "minimum": 0},
+    "self_reported": {"type": "boolean"},
+    "methodological_relevance": {"type": "string"}
+  }
+}

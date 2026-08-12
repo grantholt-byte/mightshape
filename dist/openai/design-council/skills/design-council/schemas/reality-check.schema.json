@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/reality-check.schema.json",
+  "title": "Inquiry Lab Reality Check",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "synthetic_hypothesis_id", "expected_pattern", "human_evidence_needed", "strategy", "human_evidence_ids", "comparison", "outcome", "frame_before", "frame_after", "assumptions_changed", "next_mode", "created_at"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^RC-[0-9]{3,}$"},
+    "synthetic_hypothesis_id": {"type": "string", "pattern": "^E-[0-9]{3,}$"},
+    "expected_pattern": {"type": "string"},
+    "human_evidence_needed": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "strategy": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "human_evidence_ids": {"type": "array", "items": {"type": "string", "pattern": "^E-[0-9]{3,}$"}},
+    "comparison": {"type": "string"},
+    "outcome": {"enum": ["supported", "contradicted", "transformed", "inconclusive"]},
+    "frame_before": {"type": "string"},
+    "frame_after": {"type": "string"},
+    "assumptions_changed": {"type": "array", "items": {"type": "string"}},
+    "next_mode": {"enum": ["EMPATHIZE", "DEFINE", "IDEATE", "PROTOTYPE", "TEST"]},
+    "created_at": {"type": "string", "format": "date-time"}
+  }
+}

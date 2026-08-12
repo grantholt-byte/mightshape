@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/pov.schema.json",
+  "title": "Design Council point of view",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "user", "need", "insight", "evidence_ids", "status", "created_at"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^POV-[0-9]{3,}$"},
+    "user": {"type": "string", "minLength": 1},
+    "need": {"type": "string", "minLength": 1},
+    "insight": {"type": "string", "minLength": 1},
+    "statement": {"type": "string"},
+    "frame_type": {"enum": ["obvious", "behavioral", "systems", "counterintuitive", "other"]},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "unknowns": {"type": "array", "items": {"type": "string"}},
+    "heuristic_score": {"type": ["integer", "null"], "minimum": 0, "maximum": 30},
+    "status": {"enum": ["candidate", "active", "superseded", "retired"]},
+    "superseded_by": {"type": ["string", "null"]},
+    "changed_because": {"type": "array", "items": {"type": "string"}},
+    "created_at": {"type": "string", "format": "date-time"},
+    "superseded_at": {"type": ["string", "null"], "format": "date-time"}
+  }
+}

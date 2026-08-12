@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <rect width="1600" height="1000" fill="#ECE9FF"/>
+  <rect x="54" y="54" width="1492" height="892" rx="28" fill="#FFFEFB" stroke="#CFC9F0" stroke-width="2"/>
+  <text x="94" y="118" font-family="Inter, Helvetica, Arial, sans-serif" font-size="34" font-weight="700" fill="#24202A">◆ BUILD GATE</text>
+  <rect x="1198" y="80" width="308" height="70" rx="35" fill="#6457FF"/>
+  <text x="1352" y="125" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="25" font-weight="800" fill="#FFFFFF">TEST_FIRST</text>
+  <text x="94" y="165" font-family="Inter, Helvetica, Arial, sans-serif" font-size="19" fill="#756E79">Advisory, not a hard block · Family scheduling acceptance run</text>
+  <line x1="94" y1="204" x2="1506" y2="204" stroke="#E3DED7"/>
+  <text x="94" y="258" font-family="Inter, Helvetica, Arial, sans-serif" font-size="19" font-weight="800" letter-spacing="1.5" fill="#6457FF">⚡ PROTOTYPE CARD · PROTO-001</text>
+  <text x="94" y="310" font-family="Inter, Helvetica, Arial, sans-serif" font-size="32" font-weight="700" fill="#2A2630">Consent-based scheduling concierge in shadow mode</text>
+  <rect x="94" y="350" width="670" height="224" rx="18" fill="#F7F5F0" stroke="#DED9D0"/>
+  <text x="124" y="394" font-family="Inter, Helvetica, Arial, sans-serif" font-size="17" font-weight="800" fill="#77707C">CRITICAL QUESTION</text>
+  <text x="124" y="438" font-family="Inter, Helvetica, Arial, sans-serif" font-size="23" fill="#302C35">Does planning assistance reduce vigilance,</text><text x="124" y="472" font-family="Inter, Helvetica, Arial, sans-serif" font-size="23" fill="#302C35">or does one person still catch and repair</text><text x="124" y="506" font-family="Inter, Helvetica, Arial, sans-serif" font-size="23" fill="#302C35">nearly every mismatch?</text>
+  <text x="124" y="548" font-family="Inter, Helvetica, Arial, sans-serif" font-size="17" fill="#766F79">A-005 · OPEN / HIGH RISK</text>
+  <rect x="792" y="350" width="714" height="224" rx="18" fill="#F0EEFF" stroke="#D4CEFF"/>
+  <text x="822" y="394" font-family="Inter, Helvetica, Arial, sans-serif" font-size="17" font-weight="800" fill="#5749D8">MINIMUM FIDELITY</text>
+  <text x="822" y="438" font-family="Inter, Helvetica, Arial, sans-serif" font-size="23" fill="#302C35">Existing calendars and messages,</text><text x="822" y="472" font-family="Inter, Helvetica, Arial, sans-serif" font-size="23" fill="#302C35">a spreadsheet or paper log,</text><text x="822" y="506" font-family="Inter, Helvetica, Arial, sans-serif" font-size="23" fill="#302C35">and one daily proposed plan.</text>
+  <text x="822" y="548" font-family="Inter, Helvetica, Arial, sans-serif" font-size="17" fill="#6457FF">A human performs all “AI” work.</text>
+  <text x="94" y="628" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" font-weight="800" letter-spacing="1.4" fill="#6457FF">DO NOT BUILD YET</text>
+  <text x="94" y="675" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" fill="#4B454F">✕ AI models     ✕ calendar integrations     ✕ automatic writes     ✕ accounts</text>
+  <text x="94" y="712" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" fill="#4B454F">✕ production database     ✕ optimization engine     ✕ subscriptions     ✕ polished UI</text>
+  <rect x="94" y="754" width="1412" height="108" rx="18" fill="#FFF5E0" stroke="#E9D6A8"/>
+  <text x="124" y="796" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" font-weight="800" fill="#9A6710">EVIDENCE DEBT · ED-001</text>
+  <text x="124" y="835" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" fill="#352F2A">No direct human evidence. The reversible learning prototype is authorized; production software is not.</text>
+  <text x="94" y="910" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" fill="#766F79">LIVE ACCEPTANCE OUTPUT · 2026-08-12 · no interview or experiment represented as completed</text>
+</svg>

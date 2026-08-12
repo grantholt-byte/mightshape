@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/participant.schema.json",
+  "title": "Inquiry participant",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "study_id", "participant_type", "consent_status", "status", "created_at"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^P-[0-9]{3,}$"},
+    "study_id": {"type": "string", "pattern": "^STUDY-[0-9]{3,}$"},
+    "participant_type": {"enum": ["HUMAN", "SYNTHETIC_USER", "SYNTHETIC_PRACTITIONER", "SYNTHETIC_EXPERT"]},
+    "participant_source": {"enum": ["SYNTHETIC", "BRING_YOUR_OWN", "EXCHANGE"]},
+    "participant_profile_ref": {"type": ["string", "null"]},
+    "verification_status": {"enum": ["SELF_REPORTED", "VERIFIED", "PROFESSIONALLY_VERIFIED", "CREDENTIAL_VERIFIED"]},
+    "synthetic_persona_id": {"type": ["string", "null"]},
+    "consent_status": {"enum": ["not_required_synthetic", "pending", "consented", "declined", "withdrawn"]},
+    "consent_version": {"type": ["string", "null"]},
+    "status": {"enum": ["invited", "active", "stopped", "complete", "deleted"]},
+    "created_at": {"type": "string", "format": "date-time"}
+  }
+}

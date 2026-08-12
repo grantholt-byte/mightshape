@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "platform": "claude",
+  "display_name": "Claude Code",
+  "package_root": "dist/claude/design-council",
+  "plugin_manifest": ".claude-plugin/plugin.json",
+  "skill_entrypoint": "skills/design-council/SKILL.md",
+  "explicit_invocation": "/design-council:design-council",
+  "shared_case_map": {
+    "source": "evals/cases",
+    "include_families": "all"
+  },
+  "prompt_mapping": {
+    "explicit": "prefix_explicit_invocation",
+    "implicit": "unchanged",
+    "avoid": "unchanged"
+  },
+  "required_paths": [
+    ".claude-plugin/plugin.json",
+    "skills/design-council/SKILL.md",
+    "agents/sealed-member.md"
+  ],
+  "forbidden_paths": [
+    ".codex-plugin/plugin.json",
+    "hooks/hooks.json"
+  ],
+  "text_assertions": [
+    {
+      "path": "skills/design-council/SKILL.md",
+      "must_contain": "/design-council:design-council"
+    },
+    {
+      "path": "skills/design-council/SKILL.md",
+      "must_contain": "common evidence packet → sealed responses → freeze"
+    }
+  ]
+}

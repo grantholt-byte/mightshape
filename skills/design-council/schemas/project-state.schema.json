@@ -1,0 +1,203 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/project-state.schema.json",
+  "title": "Design Council project state",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "revision",
+    "project",
+    "challenge",
+    "classification",
+    "journey",
+    "stakeholders",
+    "evidence",
+    "assumptions",
+    "unknowns",
+    "observations",
+    "needs",
+    "insights",
+    "povs",
+    "hmw_questions",
+    "ideas",
+    "concept_clusters",
+    "outliers",
+    "selected_concepts",
+    "prototypes",
+    "experiments",
+    "inquiry_studies",
+    "reality_packets",
+    "synthetic_personas",
+    "participants",
+    "reality_checks",
+    "decisions",
+    "minority_reports",
+    "design_debt",
+    "evidence_debt",
+    "build_gate",
+    "council_memory",
+    "history"
+  ],
+  "$defs": {
+    "record": {"type": "object"},
+    "recordArray": {"type": "array", "items": {"$ref": "#/$defs/record"}},
+    "stringArray": {"type": "array", "items": {"type": "string"}},
+    "councilMemory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["positions", "changes_of_mind", "ideas_supported", "ideas_opposed", "unresolved_questions", "surprises", "important_evidence"],
+      "properties": {
+        "positions": {"$ref": "#/$defs/recordArray"},
+        "changes_of_mind": {"$ref": "#/$defs/recordArray"},
+        "ideas_supported": {"$ref": "#/$defs/recordArray"},
+        "ideas_opposed": {"$ref": "#/$defs/recordArray"},
+        "unresolved_questions": {"$ref": "#/$defs/recordArray"},
+        "surprises": {"$ref": "#/$defs/recordArray"},
+        "important_evidence": {"$ref": "#/$defs/recordArray"}
+      }
+    },
+    "debt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "decision", "unresolved_claim", "consequence", "mitigation", "status", "created_at"],
+      "properties": {
+        "id": {"type": "string"},
+        "decision": {"type": "string"},
+        "unresolved_claim": {"type": "string"},
+        "consequence": {"type": "string"},
+        "mitigation": {"type": "string"},
+        "review_trigger": {"type": ["string", "null"]},
+        "status": {"enum": ["open", "mitigated", "resolved", "accepted"]},
+        "created_at": {"type": "string", "format": "date-time"}
+      }
+    }
+  },
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "revision": {"type": "integer", "minimum": 1},
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "created", "updated"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^DC-[A-Z0-9-]+$"},
+        "name": {"type": "string", "minLength": 1},
+        "created": {"type": "string", "format": "date-time"},
+        "updated": {"type": "string", "format": "date-time"}
+      }
+    },
+    "challenge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["original_prompt", "proposed_solution", "current_problem_frame", "desired_outcome"],
+      "properties": {
+        "original_prompt": {"type": "string", "minLength": 1},
+        "proposed_solution": {"type": ["string", "null"]},
+        "current_problem_frame": {"type": ["string", "null"]},
+        "desired_outcome": {"type": ["string", "null"]}
+      }
+    },
+    "classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["archetypes", "complexity", "reversibility", "consequence_of_error", "solution_lock_in_risk", "operating_depth"],
+      "properties": {
+        "archetypes": {"type": "array", "items": {"enum": ["DIGITAL_PRODUCT", "AI_PRODUCT", "PHYSICAL_PRODUCT", "SERVICE", "EXPERIENCE", "BUSINESS_MODEL", "WORKFLOW", "ORGANIZATIONAL", "POLICY", "SOCIAL_SYSTEM", "HYBRID"]}, "uniqueItems": true},
+        "complexity": {"enum": ["LOW", "MEDIUM", "HIGH", "UNKNOWN"]},
+        "reversibility": {"enum": ["EASY", "MODERATE", "DIFFICULT", "UNKNOWN"]},
+        "consequence_of_error": {"enum": ["LOW", "MEDIUM", "HIGH", "UNKNOWN"]},
+        "solution_lock_in_risk": {"enum": ["LOW", "MEDIUM", "HIGH", "UNKNOWN"]},
+        "operating_depth": {"enum": ["QUICK_LOOK", "SPRINT", "STANDARD", "DEEP_DESIGN"]}
+      }
+    },
+    "journey": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["current_mode", "cycle", "completed_modes", "transitions"],
+      "properties": {
+        "current_mode": {"enum": ["INTAKE", "EMPATHIZE", "DEFINE", "IDEATE", "PROTOTYPE", "TEST", "BUILD"]},
+        "cycle": {"type": "integer", "minimum": 1},
+        "completed_modes": {"type": "array", "items": {"enum": ["INTAKE", "EMPATHIZE", "DEFINE", "IDEATE", "PROTOTYPE", "TEST", "BUILD"]}},
+        "transitions": {"$ref": "#/$defs/recordArray"}
+      }
+    },
+    "stakeholders": {"$ref": "#/$defs/recordArray"},
+    "evidence": {"type": "array", "items": {"$ref": "evidence.schema.json"}},
+    "assumptions": {"type": "array", "items": {"$ref": "assumption.schema.json"}},
+    "unknowns": {"$ref": "#/$defs/recordArray"},
+    "observations": {"$ref": "#/$defs/recordArray"},
+    "needs": {"$ref": "#/$defs/recordArray"},
+    "insights": {"type": "array", "items": {"$ref": "insight.schema.json"}},
+    "povs": {"type": "array", "items": {"$ref": "pov.schema.json"}},
+    "hmw_questions": {"$ref": "#/$defs/recordArray"},
+    "ideas": {"type": "array", "items": {"$ref": "idea.schema.json"}},
+    "concept_clusters": {"$ref": "#/$defs/recordArray"},
+    "outliers": {"$ref": "#/$defs/stringArray"},
+    "selected_concepts": {"$ref": "#/$defs/recordArray"},
+    "prototypes": {"type": "array", "items": {"$ref": "prototype.schema.json"}},
+    "experiments": {"type": "array", "items": {"$ref": "experiment.schema.json"}},
+    "inquiry_studies": {"type": "array", "items": {"$ref": "inquiry-study.schema.json"}},
+    "reality_packets": {"type": "array", "items": {"$ref": "reality-packet.schema.json"}},
+    "synthetic_personas": {"type": "array", "items": {"$ref": "synthetic-persona.schema.json"}},
+    "participants": {"type": "array", "items": {"$ref": "participant.schema.json"}},
+    "reality_checks": {"type": "array", "items": {"$ref": "reality-check.schema.json"}},
+    "decisions": {"$ref": "#/$defs/recordArray"},
+    "minority_reports": {"$ref": "#/$defs/recordArray"},
+    "design_debt": {"type": "array", "items": {"$ref": "#/$defs/debt"}},
+    "evidence_debt": {"type": "array", "items": {"$ref": "#/$defs/debt"}},
+    "build_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "assessed_at", "heuristics", "reasons", "unresolved_assumptions", "override"],
+      "properties": {
+        "status": {"enum": ["NOT_ASSESSED", "READY", "READY_WITH_KNOWN_RISK", "TEST_FIRST", "REFRAME_FIRST"]},
+        "assessed_at": {"type": ["string", "null"], "format": "date-time"},
+        "heuristics": {"type": "object"},
+        "reasons": {"type": "array", "items": {"type": "string"}},
+        "unresolved_assumptions": {"type": "array", "items": {"type": "string"}},
+        "override": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["active", "recorded_at", "note"],
+          "properties": {
+            "active": {"type": "boolean"},
+            "recorded_at": {"type": ["string", "null"], "format": "date-time"},
+            "note": {"type": ["string", "null"]}
+          }
+        }
+      }
+    },
+    "council_memory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["maya-chen", "leo-martinez", "priya-rao", "marcus-brooks", "elena-rossi", "theo-bennett", "samira-okafor", "jack-sullivan", "mei-tanaka", "rafael-alvarez"],
+      "properties": {
+        "maya-chen": {"$ref": "#/$defs/councilMemory"},
+        "leo-martinez": {"$ref": "#/$defs/councilMemory"},
+        "priya-rao": {"$ref": "#/$defs/councilMemory"},
+        "marcus-brooks": {"$ref": "#/$defs/councilMemory"},
+        "elena-rossi": {"$ref": "#/$defs/councilMemory"},
+        "theo-bennett": {"$ref": "#/$defs/councilMemory"},
+        "samira-okafor": {"$ref": "#/$defs/councilMemory"},
+        "jack-sullivan": {"$ref": "#/$defs/councilMemory"},
+        "mei-tanaka": {"$ref": "#/$defs/councilMemory"},
+        "rafael-alvarez": {"$ref": "#/$defs/councilMemory"}
+      }
+    },
+    "history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["revision", "at", "action", "details"],
+        "properties": {
+          "revision": {"type": "integer", "minimum": 1},
+          "at": {"type": "string", "format": "date-time"},
+          "action": {"type": "string"},
+          "details": {"type": "object"}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/conflict-policy.schema.json",
+  "title": "Research matching conflict policy",
+  "description": "Research-matching controls only; not legal conflict screening.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["mode", "enabled", "excluded_companies", "excluded_industries", "excluded_roles", "excluded_relationships", "strict_mode", "legal_screening_claimed"],
+  "properties": {
+    "mode": {"enum": ["NONE", "STANDARD", "STRICT"]},
+    "enabled": {"type": "boolean"},
+    "excluded_companies": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "excluded_industries": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "excluded_roles": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "excluded_relationships": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "strict_mode": {"type": "boolean"},
+    "legal_screening_claimed": {"const": false}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"mode": {"const": "NONE"}}, "required": ["mode"]},
+      "then": {"properties": {"enabled": {"const": false}, "strict_mode": {"const": false}}}
+    },
+    {
+      "if": {"properties": {"mode": {"const": "STRICT"}}, "required": ["mode"]},
+      "then": {"properties": {"enabled": {"const": true}, "strict_mode": {"const": true}}}
+    },
+    {
+      "if": {"properties": {"mode": {"const": "STANDARD"}}, "required": ["mode"]},
+      "then": {"properties": {"enabled": {"const": true}, "strict_mode": {"const": false}}}
+    }
+  ]
+}

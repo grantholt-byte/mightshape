@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/participant-source.schema.json",
+  "title": "Inquiry participant source selection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["provider", "provider_version", "status", "study_id", "configuration", "next_action"],
+  "properties": {
+    "provider": {"enum": ["SYNTHETIC", "BRING_YOUR_OWN", "EXCHANGE"]},
+    "provider_version": {"const": "1.0.0"},
+    "status": {
+      "enum": ["READY", "NEEDS_HOSTING", "NOT_CONFIGURED", "UNAVAILABLE", "FUTURE_FEATURE"]
+    },
+    "study_id": {"type": "string", "pattern": "^STUDY-[0-9]{3,}$"},
+    "configuration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "target_count": {"type": "integer", "minimum": 1, "maximum": 100},
+        "grounding_level": {"enum": ["FAST", "RESEARCHED", "DEEP"]},
+        "invite_url": {"type": ["string", "null"], "format": "uri"},
+        "exchange_connector": {"type": ["string", "null"]}
+      }
+    },
+    "next_action": {"type": "string", "minLength": 1},
+    "capabilities": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "limitations": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"provider": {"const": "SYNTHETIC"}}, "required": ["provider"]},
+      "then": {"properties": {"status": {"const": "READY"}}}
+    },
+    {
+      "if": {"properties": {"provider": {"const": "EXCHANGE"}}, "required": ["provider"]},
+      "then": {"properties": {"status": {"enum": ["NOT_CONFIGURED", "UNAVAILABLE", "FUTURE_FEATURE"]}}}
+    }
+  ]
+}

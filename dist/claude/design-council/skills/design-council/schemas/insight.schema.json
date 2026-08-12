@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/insight.schema.json",
+  "title": "Design Council insight",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "statement", "evidence_ids", "provenance", "status", "created_at"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^I-[0-9]{3,}$"},
+    "statement": {"type": "string", "minLength": 1},
+    "pattern_or_tension": {"type": "string"},
+    "opportunity": {"type": "string"},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "provenance": {"enum": ["RESEARCH_SUPPORTED_INFERENCE", "DESIGN_COUNCIL"]},
+    "status": {"enum": ["candidate", "active", "superseded", "contradicted"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "superseded_by": {"type": ["string", "null"]}
+  }
+}

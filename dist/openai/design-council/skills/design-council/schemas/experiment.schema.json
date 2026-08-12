@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/experiment.schema.json",
+  "title": "Design Council experiment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "prototype_id", "hypothesis_status", "behavior_observed", "new_evidence_ids", "new_unknowns", "surprises", "new_insight_ids", "assumptions_changed", "recommended_next_mode", "status"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^EXP-[0-9]{3,}$"},
+    "prototype_id": {"type": "string", "pattern": "^PROTO-[0-9]{3,}$"},
+    "hypothesis_status": {"enum": ["supported", "weakened", "falsified", "inconclusive"]},
+    "behavior_observed": {"type": "array", "items": {"type": "string"}},
+    "new_evidence_ids": {"type": "array", "items": {"type": "string"}},
+    "new_unknowns": {"type": "array", "items": {"type": "string"}},
+    "surprises": {"type": "array", "items": {"type": "string"}},
+    "new_insight_ids": {"type": "array", "items": {"type": "string"}},
+    "assumptions_changed": {"type": "array", "items": {"type": "string"}},
+    "limitations": {"type": "array", "items": {"type": "string"}},
+    "recommended_next_mode": {"enum": ["EMPATHIZE", "DEFINE", "IDEATE", "PROTOTYPE", "TEST", "BUILD"]},
+    "status": {"enum": ["planned", "running", "complete", "cancelled"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "completed_at": {"type": ["string", "null"], "format": "date-time"}
+  }
+}

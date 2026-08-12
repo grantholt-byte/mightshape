@@ -1,0 +1,47 @@
+{
+  "recorded_at": "2026-08-12",
+  "runtime": {
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "medium",
+    "judge": "separate structured-output model judge"
+  },
+  "acceptance_results": [
+    {
+      "case_id": "acceptance.family_scheduler",
+      "run_id": "20260812T214720Z",
+      "status": "PASS",
+      "criteria_passed": 10,
+      "criteria_total": 10,
+      "summary": "Maintained momentum through a reversible learning prototype, preserved evidence provenance and sealed-panel ordering, kept competing and minority positions visible, and deferred production infrastructure until direct learning exists."
+    },
+    {
+      "case_id": "acceptance.ed_nurse_inquiry",
+      "run_id": "20260812T220041Z",
+      "status": "PASS",
+      "criteria_passed": 10,
+      "criteria_total": 10,
+      "summary": "Grounded the unfamiliar domain before simulation, kept the synthetic practitioner deep but explicitly synthetic, preserved Solution Blackout, prepared local human validation, and kept the frame revisable under contradiction."
+    },
+    {
+      "case_id": "acceptance.council_humanity",
+      "run_id": "20260812T222324Z",
+      "status": "PASS",
+      "criteria_passed": 10,
+      "criteria_total": 10,
+      "summary": "Demonstrated ten differentiated attention patterns, sealed independent divergence, post-freeze anonymous cross-pollination and mutation, later convergence, knowledge limits, preserved dissent, and structured synthesis."
+    }
+  ],
+  "clean_context_openai": {
+    "explicit_invocation": "PASS",
+    "implicit_invocation": "PASS",
+    "inappropriate_trigger_avoidance": "PASS"
+  },
+  "claude_native_behavior": {
+    "status": "BLOCKED",
+    "reason": "The available Claude Code OAuth session had expired and could not be refreshed non-interactively. Strict package, marketplace, component-discovery, install, update, and uninstall checks passed; no native Claude behavioral pass is claimed."
+  },
+  "notes": [
+    "Raw local run logs are intentionally ignored because they contain machine paths and unrelated runtime diagnostics.",
+    "This summary records observed outcomes; deterministic reproduction commands are documented in evals/README.md and docs/validation-report.md."
+  ]
+}

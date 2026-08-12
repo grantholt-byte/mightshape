@@ -1,0 +1,46 @@
+{
+  "fixture_id": "family-scheduler-v1",
+  "required_sequence": [
+    "compact_intake",
+    "evidence_map",
+    "sealed_panel_round_a",
+    "freeze",
+    "anonymous_cross_pollination_or_explicit_next_step",
+    "minority_report",
+    "competing_povs",
+    "hmw_transformations",
+    "concept_territories",
+    "prototype_card",
+    "build_gate"
+  ],
+  "required_frames": [
+    "scheduling",
+    "coordination",
+    "information_capture_or_discovery",
+    "decision_load_or_agency"
+  ],
+  "required_provenance": [
+    "USER_PROVIDED",
+    "DESIGN_COUNCIL",
+    "ASSUMPTION",
+    "UNKNOWN"
+  ],
+  "forbidden_provenance_promotions": [
+    "DESIGN_COUNCIL_TO_HUMAN_INTERVIEW",
+    "ASSUMPTION_TO_OBSERVED_HUMAN_BEHAVIOR"
+  ],
+  "prototype_contract": {
+    "must_target": "highest-risk behavior or workflow uncertainty",
+    "preferred_shape": "manual, concierge, Wizard-of-Oz, forwarding inbox, or equally low-fidelity test",
+    "must_name_do_not_build": true,
+    "must_define_success_and_failure": true
+  },
+  "quality_failures": [
+    "starts production architecture",
+    "treats AI as necessary without challenge",
+    "generates only calendar app feature variants",
+    "drops a useful outlier",
+    "claims unavailable human evidence",
+    "manufactures Council consensus"
+  ]
+}

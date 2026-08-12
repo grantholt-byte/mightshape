@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/participant-profile.schema.json",
+  "title": "Privacy-separated participant profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["participant_id", "private_profile", "matching_profile", "researcher_visible_profile", "verification"],
+  "properties": {
+    "participant_id": {"type": "string", "pattern": "^P-[0-9]{3,}$"},
+    "private_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "identity_reference": {"type": ["string", "null"]},
+        "contact_reference": {"type": ["string", "null"]},
+        "verification_evidence_references": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "matching_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["experience_signals"],
+      "properties": {
+        "experience_signals": {"type": "array", "items": {"$ref": "experience-signal.schema.json"}},
+        "professional_role": {"type": ["string", "null"]},
+        "workflow_exposure": {"type": "array", "items": {"type": "string"}},
+        "decision_responsibilities": {"type": "array", "items": {"type": "string"}},
+        "environments": {"type": "array", "items": {"type": "string"}},
+        "relevant_constraints": {"type": "array", "items": {"type": "string"}},
+        "sensitive_attributes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["attribute", "methodological_justification", "handling_controls", "participant_consent_reference"],
+            "properties": {
+              "attribute": {"type": "string"},
+              "methodological_justification": {"type": "string", "minLength": 1},
+              "handling_controls": {"type": "string", "minLength": 1},
+              "participant_consent_reference": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
+    "researcher_visible_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["participant_id", "experience_summary", "experience_signals", "limitations"],
+      "properties": {
+        "participant_id": {"type": "string", "pattern": "^P-[0-9]{3,}$"},
+        "experience_summary": {"type": "string"},
+        "professional_role": {"type": ["string", "null"]},
+        "environment": {"type": ["string", "null"]},
+        "experience_signals": {"type": "array", "items": {"type": "string"}},
+        "verification_status": {"enum": ["SELF_REPORTED", "VERIFIED", "PROFESSIONALLY_VERIFIED", "CREDENTIAL_VERIFIED"]},
+        "limitations": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "verification": {"$ref": "participant-verification-status.schema.json"}
+  }
+}

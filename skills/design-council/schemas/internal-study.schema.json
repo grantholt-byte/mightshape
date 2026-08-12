@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/internal-study.schema.json",
+  "title": "Private internal research study definition",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "title", "research_goal", "topics_to_cover", "participant_source", "research_session", "project_exposure", "conflict_policy", "internal_context", "external_candidate", "consent_boundary", "created_at", "status"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^STUDY-[0-9]{3,}$"},
+    "title": {"type": "string", "minLength": 1},
+    "research_goal": {"type": "string", "minLength": 1},
+    "topics_to_cover": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "participant_source": {"$ref": "participant-source.schema.json"},
+    "research_session": {"$ref": "research-session-type.schema.json"},
+    "project_exposure": {"$ref": "project-exposure.schema.json"},
+    "conflict_policy": {"$ref": "conflict-policy.schema.json"},
+    "internal_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "full_challenge": {"type": ["string", "null"]},
+        "proposed_solution": {"type": ["string", "null"]},
+        "company_context": {"type": ["string", "null"]},
+        "hypotheses": {"type": "array", "items": {"type": "string"}},
+        "assumptions": {"type": "array", "items": {"type": "string"}},
+        "strategic_rationale": {"type": ["string", "null"]}
+      }
+    },
+    "external_candidate": {"type": "object"},
+    "consent_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["project_owner_method_learning_opt_in", "participant_content_consent_required", "owner_opt_in_grants_participant_consent"],
+      "properties": {
+        "project_owner_method_learning_opt_in": {"type": "boolean"},
+        "participant_content_consent_required": {"const": true},
+        "owner_opt_in_grants_participant_consent": {"const": false},
+        "participant_consent_version": {"type": ["string", "null"]}
+      }
+    },
+    "sensitive_terms": {"type": "array", "items": {"type": "string", "minLength": 2}, "uniqueItems": true},
+    "external_packet_ids": {"type": "array", "items": {"type": "string", "pattern": "^ESP-[0-9]{3,}$"}, "uniqueItems": true},
+    "created_at": {"type": "string", "format": "date-time"},
+    "status": {"enum": ["DRAFT", "READY_FOR_DISCLOSURE_REVIEW", "EXTERNAL_PACKET_APPROVED", "ACTIVE", "CLOSED"]}
+  }
+}

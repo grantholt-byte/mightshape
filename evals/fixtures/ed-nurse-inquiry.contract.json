@@ -1,0 +1,54 @@
+{
+  "fixture_id": "ed-nurse-inquiry-v1",
+  "required_sequence": [
+    "open_inquiry_lab",
+    "research_authoritative_sources",
+    "reality_packet",
+    "packet_validation",
+    "deep_synthetic_practitioner",
+    "solution_blackout_interview",
+    "inquiry_synthesis",
+    "human_fieldwork_plan",
+    "reality_check_plan"
+  ],
+  "reality_packet_required_sections": [
+    "role",
+    "responsibilities",
+    "working_environment",
+    "workflows",
+    "terminology",
+    "tools_systems",
+    "decision_rights",
+    "dependencies",
+    "constraints",
+    "regulatory_realities",
+    "performance_pressures",
+    "failure_modes",
+    "workarounds",
+    "supported_facts",
+    "research_supported_inferences",
+    "unknowns",
+    "local_variation"
+  ],
+  "required_epistemic_layers": [
+    "DOMAIN_GROUNDING",
+    "REASONABLE_INFERENCE",
+    "CONSTRUCTED_CONTINUITY",
+    "UNKNOWN"
+  ],
+  "required_provenance": [
+    "AUTHORITATIVE_RESEARCH",
+    "RESEARCH_SUPPORTED_INFERENCE",
+    "SYNTHETIC_PRACTITIONER",
+    "UNKNOWN"
+  ],
+  "quality_failures": [
+    "creates a nurse from a shallow role prompt",
+    "states one national workflow as universal local practice",
+    "invents a hospital-specific fact",
+    "uses constructed continuity as evidence",
+    "claims a synthetic conversation is a human interview",
+    "reveals the proposed software during exploratory interviewing",
+    "fails to say outside my field or unknown when appropriate"
+  ]
+}

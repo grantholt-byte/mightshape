@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/interview-guide.schema.json",
+  "title": "Inquiry Lab interview guide",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["research_goal", "topics_to_cover", "opening_prompts", "follow_up_prompts", "solution_blackout", "concept_reveal", "stop_conditions", "privacy_configuration"],
+  "properties": {
+    "research_goal": {"type": "string", "minLength": 1},
+    "topics_to_cover": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "opening_prompts": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "follow_up_prompts": {"type": "array", "items": {"type": "string"}},
+    "solution_blackout": {"type": "boolean"},
+    "concept_reveal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed", "condition", "concept"],
+      "properties": {
+        "allowed": {"type": "boolean"},
+        "condition": {"type": ["string", "null"]},
+        "concept": {"type": ["string", "null"]}
+      }
+    },
+    "stop_conditions": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "privacy_configuration": {"type": "object"}
+  }
+}

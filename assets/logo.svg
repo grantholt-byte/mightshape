@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="560" viewBox="0 0 1600 560" role="img" aria-labelledby="title desc">
+  <title id="title">Design Council</title>
+  <desc id="desc">Ten perspectives around an open center. Think wider. Frame better. Build what matters.</desc>
+  <rect width="1600" height="560" rx="48" fill="#F7F6FF"/>
+  <g transform="translate(76 62) scale(.82)">
+    <g fill="none" stroke="#6457FF" stroke-width="18" stroke-linecap="round">
+      <path d="M256 92 356 125 418 211 418 301 356 387 256 420 156 387 94 301 94 211 156 125Z" opacity=".18"/>
+    </g>
+    <g fill="#6457FF">
+      <circle cx="256" cy="92" r="22"/><circle cx="356" cy="125" r="22"/>
+      <circle cx="418" cy="211" r="22"/><circle cx="418" cy="301" r="22"/>
+      <circle cx="356" cy="387" r="22"/><circle cx="256" cy="420" r="22"/>
+      <circle cx="156" cy="387" r="22"/><circle cx="94" cy="301" r="22"/>
+      <circle cx="94" cy="211" r="22"/><circle cx="156" cy="125" r="22"/>
+    </g>
+    <path d="M256 174 329 216 329 300 256 342 183 300 183 216Z" fill="#FFFFFF" stroke="#171528" stroke-width="14"/>
+    <circle cx="256" cy="258" r="30" fill="#F7F6FF"/>
+  </g>
+  <text x="520" y="242" fill="#171528" font-family="Helvetica, Arial, sans-serif" font-size="96" font-weight="700">DESIGN COUNCIL</text>
+  <text x="526" y="326" fill="#6457FF" font-family="Helvetica, Arial, sans-serif" font-size="41" font-weight="600">Think wider. Frame better. Build what matters.</text>
+  <path d="M526 374h820" stroke="#171528" stroke-width="3" opacity=".12"/>
+  <text x="526" y="425" fill="#57536B" font-family="Helvetica, Arial, sans-serif" font-size="27" font-weight="500">UNDERSTAND  →  FRAME  →  DIVERGE  →  MAKE  →  LEARN</text>
+</svg>

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Design Council model evaluation result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["case_id", "status", "criterion_results", "summary"],
+  "properties": {
+    "case_id": {"type": "string"},
+    "status": {"enum": ["PASS", "FAIL", "ERROR", "SKIP"]},
+    "criterion_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["criterion", "passed", "evidence"],
+        "properties": {
+          "criterion": {"type": "string"},
+          "passed": {"type": "boolean"},
+          "evidence": {"type": "string"}
+        }
+      }
+    },
+    "summary": {"type": "string"}
+  }
+}

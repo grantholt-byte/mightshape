@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "design-council",
+  "version": "1.0.0",
+  "description": "The self-hosted marketplace for Design Council.",
+  "owner": {
+    "name": "Design Council Contributors"
+  },
+  "plugins": [
+    {
+      "name": "design-council",
+      "source": "./dist/claude/design-council",
+      "description": "Human-centered Design Thinking with a deeply modeled ten-person Council, evidence-safe inquiry, and research workflows.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Design Council Contributors"
+      },
+      "license": "MIT",
+      "category": "productivity",
+      "tags": [
+        "design-thinking",
+        "product-discovery",
+        "user-research",
+        "ideation",
+        "prototyping"
+      ],
+      "strict": true
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "platform": "openai",
+  "display_name": "OpenAI / Codex",
+  "package_root": "dist/openai/design-council",
+  "plugin_manifest": ".codex-plugin/plugin.json",
+  "skill_entrypoint": "skills/design-council/SKILL.md",
+  "explicit_invocation": "$design-council",
+  "shared_case_map": {
+    "source": "evals/cases",
+    "include_families": "all"
+  },
+  "prompt_mapping": {
+    "explicit": "prefix_explicit_invocation",
+    "implicit": "unchanged",
+    "avoid": "unchanged"
+  },
+  "required_paths": [
+    ".codex-plugin/plugin.json",
+    "skills/design-council/SKILL.md",
+    "hooks/hooks.json"
+  ],
+  "forbidden_paths": [
+    ".claude-plugin/plugin.json",
+    "agents/sealed-member.md"
+  ],
+  "text_assertions": [
+    {
+      "path": "README.md",
+      "must_contain": "$design-council"
+    },
+    {
+      "path": "skills/design-council/SKILL.md",
+      "must_contain": "common evidence packet → sealed responses → freeze"
+    }
+  ]
+}

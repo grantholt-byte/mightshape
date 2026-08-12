@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/disclosure-review.schema.json",
+  "title": "Disclosure Guard review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "study_id", "reviewed_at", "exposure_level", "original_sha256", "original_mutated", "findings", "sanitized_packet_id", "ip_exposure_assessment", "requires_user_decision", "disclaimer"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^DR-[0-9]{3,}$"},
+    "study_id": {"type": "string", "pattern": "^STUDY-[0-9]{3,}$"},
+    "reviewed_at": {"type": "string", "format": "date-time"},
+    "exposure_level": {"enum": ["LEVEL_0_PROBLEM_ONLY", "LEVEL_1_ABSTRACTED_CONCEPT", "LEVEL_2_PROTOTYPE_BLIND", "LEVEL_3_CONFIDENTIAL"]},
+    "original_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "original_mutated": {"const": false},
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "category", "recommendation", "reason"],
+        "properties": {
+          "path": {"type": "string"},
+          "category": {"enum": ["SPONSOR_IDENTITY", "PROJECT_CODENAME", "PRICING", "SOLUTION", "TECHNICAL_IP", "BUSINESS_STRATEGY", "CUSTOMER_IDENTITY", "CONFIDENTIAL_TERMINOLOGY", "COMPETITOR_REFERENCE", "DOCUMENT_METADATA", "PERSONAL_DATA", "SECRET", "RESEARCH_NECESSARY"]},
+          "recommendation": {"enum": ["REMOVE", "GENERALIZE", "RETAIN", "REQUIRES_USER_DECISION"]},
+          "reason": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "sanitized_packet_id": {"type": "string", "pattern": "^ESP-[0-9]{3,}$"},
+    "ip_exposure_assessment": {"$ref": "ip-exposure-assessment.schema.json"},
+    "requires_user_decision": {"type": "boolean"},
+    "disclaimer": {"type": "string", "minLength": 20}
+  }
+}

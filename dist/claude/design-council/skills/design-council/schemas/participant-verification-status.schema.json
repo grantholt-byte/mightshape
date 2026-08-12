@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/participant-verification-status.schema.json",
+  "title": "Participant verification status",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "verified_at", "verification_reference"],
+  "properties": {
+    "status": {"enum": ["SELF_REPORTED", "VERIFIED", "PROFESSIONALLY_VERIFIED", "CREDENTIAL_VERIFIED"]},
+    "verified_at": {"type": ["string", "null"], "format": "date-time"},
+    "verification_reference": {"type": ["string", "null"]},
+    "verified_by_provider": {"type": ["string", "null"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "SELF_REPORTED"}}, "required": ["status"]},
+      "then": {"properties": {"verified_at": {"type": "null"}, "verification_reference": {"type": "null"}}}
+    },
+    {
+      "if": {"properties": {"status": {"enum": ["VERIFIED", "PROFESSIONALLY_VERIFIED", "CREDENTIAL_VERIFIED"]}}, "required": ["status"]},
+      "then": {"properties": {"verified_at": {"type": "string", "format": "date-time"}, "verification_reference": {"type": "string", "minLength": 1}}}
+    }
+  ]
+}
