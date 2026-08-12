@@ -1,6 +1,6 @@
 # Design Council beta evaluator guide
 
-The current private beta is tagged `v0.9.0-beta.1`. Do not call it `1.0.0` or represent it
+The current private beta is tagged `v0.9.0-beta.2`. Do not call it `1.0.0` or represent it
 as a public marketplace release.
 
 ## Setup

@@ -18,7 +18,7 @@ Set `DC_CLAUDE_CLI` to an explicit executable path in controlled build
 environments.
 
 The installable package is `dist/claude/design-council/` and the deterministic archive is
-`dist/design-council-claude-0.9.0-beta.1.zip`.
+`dist/design-council-claude-0.9.0-beta.2.zip`.
 
 ## One-session sideload test
 
@@ -70,12 +70,15 @@ chooses to remove that project data.
 For a collaborator who has access to the private beta repository:
 
 ```bash
-claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.1
+gh auth setup-git
+CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
+  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.2
 claude plugin install design-council@design-council
 ```
 
-GitHub authentication must grant the collaborator read access. The local commands above
-remain the no-network development path.
+GitHub authentication must grant the collaborator read access. Claude Code otherwise
+prefers SSH for GitHub shorthand, so the environment setting above avoids requiring an SSH
+key. The local commands above remain the no-network development path.
 
 ## Troubleshooting
 

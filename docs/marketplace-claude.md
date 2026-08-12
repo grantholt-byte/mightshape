@@ -21,7 +21,9 @@ claude plugin install design-council@design-council --scope local
 After the owner creates and tags a GitHub repository, users can add it with:
 
 ```bash
-claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.1
+gh auth setup-git
+CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
+  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.2
 claude plugin install design-council@design-council
 ```
 
@@ -50,7 +52,7 @@ Do not promise or market official inclusion.
 
 ## Version and updates
 
-The plugin manifest and marketplace entry both use `0.9.0-beta.1`. Claude Code treats an explicit
+The plugin manifest and marketplace entry both use `0.9.0-beta.2`. Claude Code treats an explicit
 version as the update boundary, so every release must bump `VERSION` and regenerate both
 packages. `check_cross_platform_drift.py` rejects version mismatch.
 

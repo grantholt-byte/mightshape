@@ -13,7 +13,7 @@ make validate-openai
 ```
 
 The installable package is `dist/openai/design-council/` and the deterministic archive is
-`dist/design-council-openai-0.9.0-beta.1.zip`.
+`dist/design-council-openai-0.9.0-beta.2.zip`.
 
 ## Test from the repository marketplace
 
@@ -64,8 +64,8 @@ For a collaborator who has access to the private beta repository:
 ```bash
 gh auth setup-git
 git ls-remote https://github.com/grantholt-byte/design-council.git \
-  refs/tags/v0.9.0-beta.1
-codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.1 --json
+  --exit-code refs/tags/v0.9.0-beta.2
+codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.2 --json
 codex plugin list --marketplace design-council --available --json
 codex plugin add design-council@design-council --json
 codex plugin list --json

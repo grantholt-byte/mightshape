@@ -2,7 +2,7 @@
 
 **Validation date:** 2026-08-12
 
-**Release:** `v0.9.0-beta.1` private beta
+**Release:** `v0.9.0-beta.2` private beta
 
 **Scope:** validated private GitHub distribution; no public deployment or
 marketplace submission was performed.
@@ -96,7 +96,7 @@ telemetry remain intentionally unimplemented.
 ## Release boundary
 
 The source and deterministic packages are distributed only through the private
-GitHub beta tag `v0.9.0-beta.1`. Nothing was submitted, approved, or published
+GitHub beta tag `v0.9.0-beta.2`. Nothing was submitted, approved, or published
 to the OpenAI or Anthropic marketplaces, and no interview Site was deployed.
 Public publication still requires owner-controlled publisher identity, public
 policy/support URLs, authenticated platform checks, and the approval steps in

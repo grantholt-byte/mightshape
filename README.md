@@ -62,10 +62,14 @@ These repository demo images are composed from the live acceptance-session outpu
 Build both self-contained packages from the shared core:
 
 ```bash
-git clone --branch v0.9.0-beta.1 --depth 1 https://github.com/grantholt-byte/design-council.git
+gh auth setup-git
+git clone --branch v0.9.0-beta.2 --depth 1 https://github.com/grantholt-byte/design-council.git
 cd design-council
 python3 scripts/build_packages.py --clean
 ```
+
+The beta repository is private. A collaborator must be invited to it before the clone or
+marketplace commands can succeed.
 
 ### OpenAI / Codex
 
@@ -171,4 +175,4 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md
 
 ## Release status
 
-Version `0.9.0-beta.1` is the synchronized private beta. The tagged GitHub repository is private and has not been published to either marketplace. Public release still requires publisher identity, public support/privacy/terms URLs where applicable, a fresh release audit, and the platforms’ current review or catalog steps.
+Version `0.9.0-beta.2` is the synchronized private beta. The tagged GitHub repository is private and has not been published to either marketplace. Public release still requires publisher identity, public support/privacy/terms URLs where applicable, a fresh release audit, and the platforms’ current review or catalog steps.

@@ -2,6 +2,14 @@
 
 All notable changes use [Semantic Versioning](https://semver.org/).
 
+## [0.9.0-beta.2] — 2026-08-12
+
+### Fixed
+
+- Documented authenticated private-repository preflight for Codex installs.
+- Forced HTTPS for Claude Code marketplace installs when GitHub SSH keys are unavailable.
+- Clarified immutable-tag update behavior and private-beta access requirements.
+
 ## [0.9.0-beta.1] — 2026-08-12
 
 ### Added
