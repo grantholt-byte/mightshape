@@ -2,7 +2,7 @@
 
 **Validation date:** 2026-08-13
 
-**Release candidate:** `v0.9.0-beta.3`
+**Release candidate:** `v0.9.0-beta.4`
 
 **Scope:** private collaborator distribution only; no public deployment or marketplace submission.
 
@@ -15,7 +15,7 @@ machine paths and generated study content. Redacted, portable evidence is commit
 
 | Check | Observed result |
 |---|---|
-| Python unit suite | **PASS — 177 tests** |
+| Python unit suite | **PASS — 182 tests** |
 | Behavioral contracts | **PASS — 114 cases**, including 60 adversarial cases and 51 invariant families |
 | Adapter mapping | **PASS — 114 shared cases per adapter** |
 | OpenAI package | **PASS** with official plugin and skill validators |
@@ -184,6 +184,10 @@ counterbalancing, frozen hashes, schema enforcement, and quality-first verdict l
 benefit requires a complete realized design and a case-bootstrap interval clearing the configured
 minimum important uplift; token/latency diagnostics remain separate.
 
+Failure-path tests also require every planned candidate trajectory and blind judgment exactly once,
+validate saved judge payloads, recompute quality from those payloads, reject forged derived scores,
+and render quota/interrupted runs as `INCOMPLETE` without a completion claim.
+
 The live 60-call exploratory run was not started on 2026-08-13 because an earlier post-refinement
 single-turn A/B rerun showed that the local Codex account had reached its execution quota. Starting
 another study would only have produced failed calls. No longitudinal outcome is claimed. The test
@@ -210,8 +214,9 @@ OpenAI and Claude packages are generated from one canonical core at
 SHA-256 checksums live under `dist/`. Installation, update, uninstall, private-repository auth,
 and current public-publication paths are documented separately.
 
-The final `v0.9.0-beta.3` tag and fresh pinned-tag collaborator installs are release operations
-performed after this report and source freeze. Nothing has been submitted, approved, or
+The final `v0.9.0-beta.4` tag and fresh pinned-tag collaborator installs are release operations
+performed after this report and source freeze. The older `v0.9.0-beta.3` tag remains immutable;
+beta.4 supersedes it after benchmark failure-path hardening. Nothing has been submitted, approved, or
 published to either marketplace. Public publication remains gated on owner-controlled publisher
 identity, public policy/support URLs, independent evaluation, a fresh release audit, and each
 platform's current review/catalog process.

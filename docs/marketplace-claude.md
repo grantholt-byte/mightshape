@@ -28,9 +28,9 @@ gh auth status
 gh auth login --git-protocol https
 gh auth setup-git
 git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
-  refs/tags/v0.9.0-beta.3
+  refs/tags/v0.9.0-beta.4
 CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
-  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.3 --scope user
+  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.4 --scope user
 claude plugin install design-council@design-council --scope user
 ```
 
@@ -62,7 +62,7 @@ Do not promise or market official inclusion.
 
 ## Version and updates
 
-The plugin manifest and marketplace entry both use `0.9.0-beta.3`. Claude Code treats an explicit
+The plugin manifest and marketplace entry both use `0.9.0-beta.4`. Claude Code treats an explicit
 version as the update boundary, so every release must bump `VERSION` and regenerate both
 packages. `check_cross_platform_drift.py` rejects version mismatch.
 
@@ -75,7 +75,7 @@ claude plugin marketplace update design-council
 claude plugin update design-council@design-council --scope local
 ```
 
-For a hosted `user`-scope install pinned to `@v0.9.0-beta.3`, normal update commands cannot
+For a hosted `user`-scope install pinned to `@v0.9.0-beta.4`, normal update commands cannot
 move the marketplace to a different immutable tag. When a later beta is announced, set the
 variable below to that exact tag and re-create the installed marketplace boundary:
 
@@ -91,7 +91,7 @@ CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
 claude plugin install design-council@design-council --scope user
 ```
 
-The current pinned beta is exactly `v0.9.0-beta.3`; do not substitute a moving branch.
+The current pinned beta is exactly `v0.9.0-beta.4`; do not substitute a moving branch.
 
 ## Reviewer trust
 

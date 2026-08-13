@@ -13,7 +13,7 @@ make validate-openai
 ```
 
 The installable package is `dist/openai/design-council/` and the deterministic archive is
-`dist/design-council-openai-0.9.0-beta.3.zip`.
+`dist/design-council-openai-0.9.0-beta.4.zip`.
 
 ## Test from the local development marketplace
 
@@ -69,8 +69,8 @@ gh auth status
 gh auth login --git-protocol https
 gh auth setup-git
 git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
-  refs/tags/v0.9.0-beta.3
-codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.3 --json
+  refs/tags/v0.9.0-beta.4
+codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.4 --json
 codex plugin list --marketplace design-council --available --json
 codex plugin add design-council@design-council --json
 codex plugin list --json
@@ -78,7 +78,7 @@ codex plugin list --json
 
 The repository owner must add the installer as a collaborator, and the collaborator must
 accept the invitation. `gh auth status` must show that account, while `ls-remote` proves both
-private-repository access and availability of the exact `v0.9.0-beta.3` tag. Do not continue
+private-repository access and availability of the exact `v0.9.0-beta.4` tag. Do not continue
 if either check fails. This installs from the immutable beta tag rather than the moving
 `main` branch.
 

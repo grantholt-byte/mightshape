@@ -18,7 +18,7 @@ Set `DC_CLAUDE_CLI` to an explicit executable path in controlled build
 environments.
 
 The installable package is `dist/claude/design-council/` and the deterministic archive is
-`dist/design-council-claude-0.9.0-beta.3.zip`.
+`dist/design-council-claude-0.9.0-beta.4.zip`.
 
 ## One-session sideload test
 
@@ -77,22 +77,22 @@ gh auth status
 gh auth login --git-protocol https
 gh auth setup-git
 git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
-  refs/tags/v0.9.0-beta.3
+  refs/tags/v0.9.0-beta.4
 CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
-  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.3 --scope user
+  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.4 --scope user
 claude plugin install design-council@design-council --scope user
 ```
 
 The repository owner must add the installer as a collaborator, and the collaborator must
 accept the invitation. `gh auth status` must show that account, while `ls-remote` proves both
-private-repository access and availability of the exact `v0.9.0-beta.3` tag. Do not continue
+private-repository access and availability of the exact `v0.9.0-beta.4` tag. Do not continue
 if either check fails. Claude Code otherwise prefers SSH for GitHub shorthand, so the
 environment setting above avoids requiring an SSH key. The `local`-scope commands above
 remain the repository-specific, no-network development path.
 
 ### Move a hosted install to a later beta tag
 
-A GitHub marketplace added with `@v0.9.0-beta.3` is pinned to that immutable ref. A normal
+A GitHub marketplace added with `@v0.9.0-beta.4` is pinned to that immutable ref. A normal
 marketplace or plugin update does not move it to another tag. Set the variable below to the
 exact later beta tag announced by the owner, then remove and re-add the hosted `user`-scope
 installation:
@@ -109,7 +109,7 @@ CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
 claude plugin install design-council@design-council --scope user
 ```
 
-The current beta is `v0.9.0-beta.3`; do not change the installed tag until the owner announces
+The current beta is `v0.9.0-beta.4`; do not change the installed tag until the owner announces
 and pushes a later one.
 
 ## Troubleshooting

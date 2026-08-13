@@ -2,6 +2,27 @@
 
 All notable changes use [Semantic Versioning](https://semver.org/).
 
+## [0.9.0-beta.4] — 2026-08-13
+
+### Fixed
+
+- Longitudinal benchmark aggregation now refuses to report a complete design or efficacy
+  verdict unless every planned candidate trajectory and blind judgment is present exactly
+  once with the expected identity and repetition, and each saved judgment payload validates.
+- Blind quality is recomputed from validated judge payloads; forged or missing cached quality
+  fields cannot influence a result.
+- Incomplete and quota-failed longitudinal runs now render a safe `INCOMPLETE` report instead
+  of crashing or claiming that all trajectories completed.
+
+### Security
+
+- Preserved immutable beta tags: the benchmark hardening ships as a new beta rather than
+  rewriting the already shared `v0.9.0-beta.3` tag.
+
+### Breaking Changes
+
+- None.
+
 ## [0.9.0-beta.3] — 2026-08-13
 
 ### Added

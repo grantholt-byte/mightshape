@@ -36,7 +36,7 @@ the plugin. Do not add an unnecessary MCP server merely to alter the submission 
 - Tagline: **Think wider. Frame better. Build what matters.**
 - Subtitle: **Frame better before building**
 - Category: Productivity
-- Version: `0.9.0-beta.3`
+- Version: `0.9.0-beta.4`
 - Logo/icon: `assets/logo.png`, `assets/icon.png`
 - Starter prompts: three in `.codex-plugin/plugin.json`
 - Test material: `evals/cases/` and `docs/submission-openai-test-cases.md`

@@ -13,6 +13,7 @@ from evals.run_trajectory_benchmark import (
     DESIGN_THINKING_PROMPT_CONTROL,
     SCORE_DIMENSIONS,
     TrajectoryBenchmarkError,
+    _stderr_category,
     aggregate_results,
     build_judge_plan,
     build_pair_plan,
@@ -24,6 +25,7 @@ from evals.run_trajectory_benchmark import (
     prepare_codex_home,
     prepare_workspace,
     replay_prompt,
+    render_summary,
     resume_command,
     run_candidate_trajectory,
     stable_digest,
@@ -37,6 +39,69 @@ from evals.run_ab_benchmark import (
 REPO_ROOT = Path(__file__).resolve().parents[1]
 RUNNER = REPO_ROOT / "evals" / "run_trajectory_benchmark.py"
 SCHEMA = REPO_ROOT / "evals" / "schema" / "trajectory-judge.schema.json"
+
+
+def _complete_records(
+    pair_plan: list[dict], judge_plan: list[dict]
+) -> tuple[list[dict], list[dict]]:
+    generations: list[dict] = []
+    for pair in pair_plan:
+        for arm, tokens, wall_time in (
+            ("treatment", 3000, 30),
+            ("control", 1000, 10),
+        ):
+            generations.append(
+                {
+                    "pair_id": pair["pair_id"],
+                    "trajectory_id": pair["trajectory_id"],
+                    "repeat": pair["repeat"],
+                    "arm": arm,
+                    "status": "OK",
+                    "usage": {"total_tokens": tokens},
+                    "wall_time_seconds": wall_time,
+                }
+            )
+
+    judgments: list[dict] = []
+    for planned in judge_plan:
+        candidate_a_treatment = planned["label_a_arm"] == "treatment"
+        candidate_a_score = 5 if candidate_a_treatment else 4
+        candidate_b_score = 4 if candidate_a_treatment else 5
+        candidate_a_quality = candidate_a_score * 20
+        candidate_b_quality = candidate_b_score * 20
+        judgments.append(
+            {
+                **planned,
+                "status": "OK",
+                "candidate_a_quality": candidate_a_quality,
+                "candidate_b_quality": candidate_b_quality,
+                "treatment_quality": 100,
+                "control_quality": 80,
+                "mapped_winner": "TREATMENT",
+                "judgment": {
+                    "trajectory_id": planned["trajectory_id"],
+                    "comparison_id": planned["comparison_id"],
+                    "candidate_a": {
+                        "scores": {
+                            dimension: candidate_a_score for dimension in SCORE_DIMENSIONS
+                        },
+                        "strengths": [],
+                        "weaknesses": [],
+                    },
+                    "candidate_b": {
+                        "scores": {
+                            dimension: candidate_b_score for dimension in SCORE_DIMENSIONS
+                        },
+                        "strengths": [],
+                        "weaknesses": [],
+                    },
+                    "winner": "A" if candidate_a_treatment else "B",
+                    "confidence": 0.8,
+                    "rationale": "The treatment trajectory adapts better.",
+                },
+            }
+        )
+    return generations, judgments
 
 
 class TrajectoryBenchmarkTests(unittest.TestCase):
@@ -315,57 +380,12 @@ class TrajectoryBenchmarkTests(unittest.TestCase):
     def test_effectiveness_verdict_is_quality_based_not_token_gated(self) -> None:
         trajectories = load_trajectories()[:2]
         plan = build_pair_plan(trajectories, repeats=1, seed=4)
-        generations = []
-        judgments = []
-        for pair in plan:
-            generations.extend(
-                [
-                    {
-                        "pair_id": pair["pair_id"],
-                        "trajectory_id": pair["trajectory_id"],
-                        "arm": "treatment",
-                        "status": "OK",
-                        "usage": {"total_tokens": 3000},
-                        "wall_time_seconds": 30,
-                    },
-                    {
-                        "pair_id": pair["pair_id"],
-                        "trajectory_id": pair["trajectory_id"],
-                        "arm": "control",
-                        "status": "OK",
-                        "usage": {"total_tokens": 1000},
-                        "wall_time_seconds": 10,
-                    },
-                ]
-            )
-            judgment = {
-                "candidate_a": {
-                    "scores": {dimension: 5 for dimension in SCORE_DIMENSIONS},
-                    "strengths": [],
-                    "weaknesses": [],
-                },
-                "candidate_b": {
-                    "scores": {dimension: 4 for dimension in SCORE_DIMENSIONS},
-                    "strengths": [],
-                    "weaknesses": [],
-                },
-                "winner": "A",
-            }
-            judgments.append(
-                {
-                    "pair_id": pair["pair_id"],
-                    "trajectory_id": pair["trajectory_id"],
-                    "status": "OK",
-                    "label_a_arm": "treatment",
-                    "label_b_arm": "control",
-                    "treatment_quality": 100,
-                    "control_quality": 80,
-                    "judgment": judgment,
-                }
-            )
+        judge_plan = build_judge_plan(plan, repetitions=1, seed=4)
+        generations, judgments = _complete_records(plan, judge_plan)
         summary = aggregate_results(
             trajectories=trajectories,
             pair_plan=plan,
+            judge_plan=judge_plan,
             generations=generations,
             judgments=judgments,
             tie_margin=2,
@@ -383,6 +403,285 @@ class TrajectoryBenchmarkTests(unittest.TestCase):
         self.assertTrue(summary["completion"]["realized_design_complete"])
         self.assertEqual(summary["resource_diagnostics"]["treatment_control_token_ratio"], 3)
         self.assertIn("not a quality gate", summary["resource_diagnostics"]["interpretation"])
+        self.assertTrue(summary["completion"]["judgment_plan_complete"])
+
+    def test_judgment_plan_requires_every_exact_comparison_and_repetition(self) -> None:
+        trajectories = load_trajectories()[:2]
+        pair_plan = build_pair_plan(trajectories, repeats=1, seed=4)
+        judge_plan = build_judge_plan(pair_plan, repetitions=2, seed=4)
+        generations, complete_judgments = _complete_records(pair_plan, judge_plan)
+
+        variants: dict[str, list[dict]] = {
+            "missing_repetition": [
+                record for record in complete_judgments if record["judge_repeat"] == 1
+            ],
+            "duplicate_comparison": json.loads(json.dumps(complete_judgments)),
+            "unexpected_comparison": json.loads(json.dumps(complete_judgments)),
+            "mismatched_repetition": json.loads(json.dumps(complete_judgments)),
+            "mismatched_repetition_type": json.loads(json.dumps(complete_judgments)),
+        }
+        variants["duplicate_comparison"][-1] = json.loads(
+            json.dumps(variants["duplicate_comparison"][0])
+        )
+        variants["unexpected_comparison"][-1]["comparison_id"] = "unplanned.r99.j99"
+        variants["mismatched_repetition"][-1]["judge_repeat"] = 99
+        variants["mismatched_repetition_type"][-1]["judge_repeat"] = float(
+            variants["mismatched_repetition_type"][-1]["judge_repeat"]
+        )
+
+        summaries: dict[str, dict] = {}
+        for name, judgments in variants.items():
+            with self.subTest(name=name):
+                summary = aggregate_results(
+                    trajectories=trajectories,
+                    pair_plan=pair_plan,
+                    judge_plan=judge_plan,
+                    generations=generations,
+                    judgments=judgments,
+                    tie_margin=2,
+                    minimum_important_uplift=3,
+                    bootstrap_samples=100,
+                    seed=4,
+                    control_mode="design-thinking-prompt",
+                )
+                summaries[name] = summary
+                self.assertEqual(summary["effectiveness"]["verdict"], "INCOMPLETE")
+                self.assertFalse(summary["completion"]["realized_design_complete"])
+                self.assertFalse(summary["completion"]["judgment_plan_complete"])
+
+        self.assertEqual(
+            len(summaries["missing_repetition"]["completion"]["missing_comparison_ids"]),
+            len(pair_plan),
+        )
+        self.assertTrue(
+            summaries["duplicate_comparison"]["completion"][
+                "duplicate_recorded_comparison_ids"
+            ]
+        )
+        self.assertEqual(
+            summaries["unexpected_comparison"]["completion"]["unexpected_comparison_ids"],
+            ["unplanned.r99.j99"],
+        )
+        self.assertEqual(
+            summaries["mismatched_repetition"]["completion"]["mismatched_comparisons"][
+                0
+            ]["fields"],
+            ["judge_repeat"],
+        )
+        self.assertEqual(
+            summaries["mismatched_repetition_type"]["completion"][
+                "mismatched_comparisons"
+            ][0]["fields"],
+            ["judge_repeat"],
+        )
+
+    def test_generation_plan_requires_every_exact_pair_arm_and_metadata(self) -> None:
+        trajectories = load_trajectories()[:2]
+        pair_plan = build_pair_plan(trajectories, repeats=1, seed=4)
+        judge_plan = build_judge_plan(pair_plan, repetitions=2, seed=4)
+        complete_generations, judgments = _complete_records(pair_plan, judge_plan)
+
+        variants: dict[str, list[dict]] = {
+            "missing_generation": json.loads(json.dumps(complete_generations[:-1])),
+            "duplicate_generation": json.loads(json.dumps(complete_generations)),
+            "unexpected_generation": json.loads(json.dumps(complete_generations)),
+            "mismatched_metadata": json.loads(json.dumps(complete_generations)),
+            "mismatched_metadata_type": json.loads(json.dumps(complete_generations)),
+        }
+        variants["duplicate_generation"][-1] = json.loads(
+            json.dumps(variants["duplicate_generation"][0])
+        )
+        unexpected = json.loads(json.dumps(complete_generations[0]))
+        unexpected.update(
+            {
+                "pair_id": "unplanned.r99",
+                "trajectory_id": "unplanned",
+                "repeat": 99,
+                "usage": {"total_tokens": 999_999},
+            }
+        )
+        variants["unexpected_generation"].append(unexpected)
+        variants["mismatched_metadata"][-1]["repeat"] = 99
+        variants["mismatched_metadata_type"][-1]["repeat"] = float(
+            variants["mismatched_metadata_type"][-1]["repeat"]
+        )
+
+        summaries: dict[str, dict] = {}
+        for name, generations in variants.items():
+            with self.subTest(name=name):
+                summary = aggregate_results(
+                    trajectories=trajectories,
+                    pair_plan=pair_plan,
+                    judge_plan=judge_plan,
+                    generations=generations,
+                    judgments=judgments,
+                    tie_margin=2,
+                    minimum_important_uplift=3,
+                    bootstrap_samples=100,
+                    seed=4,
+                    control_mode="design-thinking-prompt",
+                )
+                summaries[name] = summary
+                self.assertEqual(summary["effectiveness"]["verdict"], "INCOMPLETE")
+                self.assertFalse(summary["completion"]["realized_design_complete"])
+                self.assertFalse(summary["completion"]["generation_plan_complete"])
+                self.assertTrue(summary["completion"]["judgment_plan_complete"])
+
+        self.assertEqual(
+            len(summaries["missing_generation"]["completion"]["missing_generation_keys"]),
+            1,
+        )
+        self.assertTrue(
+            summaries["duplicate_generation"]["completion"][
+                "duplicate_recorded_generation_keys"
+            ]
+        )
+        self.assertEqual(
+            summaries["unexpected_generation"]["completion"]["unexpected_generation_keys"],
+            [{"pair_id": "unplanned.r99", "arm": "treatment"}],
+        )
+        self.assertEqual(
+            summaries["mismatched_metadata"]["completion"]["mismatched_generations"][0][
+                "fields"
+            ],
+            ["repeat"],
+        )
+        self.assertEqual(
+            summaries["mismatched_metadata_type"]["completion"][
+                "mismatched_generations"
+            ][0]["fields"],
+            ["repeat"],
+        )
+        self.assertEqual(
+            summaries["unexpected_generation"]["resource_diagnostics"][
+                "treatment_control_token_ratio"
+            ],
+            3,
+        )
+
+    def test_saved_judgment_payloads_and_derived_values_must_be_authentic(self) -> None:
+        trajectories = load_trajectories()[:2]
+        pair_plan = build_pair_plan(trajectories, repeats=1, seed=4)
+        judge_plan = build_judge_plan(pair_plan, repetitions=2, seed=4)
+        generations, complete_judgments = _complete_records(pair_plan, judge_plan)
+
+        variants = {
+            name: json.loads(json.dumps(complete_judgments))
+            for name in (
+                "missing_payload",
+                "invalid_payload",
+                "forged_derived_value",
+                "missing_derived_value",
+            )
+        }
+        variants["missing_payload"][-1]["judgment"] = None
+        variants["missing_payload"][-1]["treatment_quality"] = 999
+        variants["invalid_payload"][-1]["judgment"]["candidate_a"]["scores"][
+            SCORE_DIMENSIONS[0]
+        ] = 6
+        variants["forged_derived_value"][-1]["treatment_quality"] = 999
+        variants["forged_derived_value"][-1]["mapped_winner"] = "CONTROL"
+        variants["missing_derived_value"][-1].pop("candidate_a_quality")
+
+        summaries: dict[str, dict] = {}
+        for name, judgments in variants.items():
+            with self.subTest(name=name):
+                summary = aggregate_results(
+                    trajectories=trajectories,
+                    pair_plan=pair_plan,
+                    judge_plan=judge_plan,
+                    generations=generations,
+                    judgments=judgments,
+                    tie_margin=2,
+                    minimum_important_uplift=3,
+                    bootstrap_samples=100,
+                    seed=4,
+                    control_mode="design-thinking-prompt",
+                )
+                summaries[name] = summary
+                self.assertEqual(summary["effectiveness"]["verdict"], "INCOMPLETE")
+                self.assertFalse(summary["completion"]["realized_design_complete"])
+                self.assertFalse(summary["completion"]["judgment_plan_complete"])
+                self.assertEqual(summary["effectiveness"]["treatment_quality"], 100)
+                self.assertEqual(summary["effectiveness"]["control_quality"], 80)
+
+        for name in ("missing_payload", "invalid_payload"):
+            self.assertTrue(
+                summaries[name]["completion"]["invalid_judgment_payloads"]
+            )
+        self.assertIn(
+            "treatment_quality",
+            summaries["forged_derived_value"]["completion"][
+                "invalid_judgment_derived_fields"
+            ][0]["fields"],
+        )
+        self.assertIn(
+            "mapped_winner",
+            summaries["forged_derived_value"]["completion"][
+                "invalid_judgment_derived_fields"
+            ][0]["fields"],
+        )
+        self.assertIn(
+            "candidate_a_quality",
+            summaries["missing_derived_value"]["completion"][
+                "invalid_judgment_derived_fields"
+            ][0]["fields"],
+        )
+
+    def test_incomplete_run_summary_is_none_safe_and_does_not_claim_completion(self) -> None:
+        trajectories = load_trajectories()[:2]
+        pair_plan = build_pair_plan(trajectories, repeats=1, seed=4)
+        judge_plan = build_judge_plan(pair_plan, repetitions=2, seed=4)
+        generations = [
+            {
+                "pair_id": pair["pair_id"],
+                "trajectory_id": pair["trajectory_id"],
+                "repeat": pair["repeat"],
+                "arm": arm,
+                "status": "ERROR",
+                "usage": {},
+                "wall_time_seconds": 0.1,
+            }
+            for pair in pair_plan
+            for arm in ("treatment", "control")
+        ]
+        summary = aggregate_results(
+            trajectories=trajectories,
+            pair_plan=pair_plan,
+            judge_plan=judge_plan,
+            generations=generations,
+            judgments=[],
+            tie_margin=2,
+            minimum_important_uplift=3,
+            bootstrap_samples=100,
+            seed=4,
+            control_mode="design-thinking-prompt",
+        )
+        report = render_summary(
+            summary,
+            {
+                "run_id": "quota-failure",
+                "session_mode": "persisted",
+                "control_mode": "design-thinking-prompt",
+                "prompt_only_control_sha256": "a" * 64,
+                "candidate_model": "candidate",
+                "candidate_effort": "medium",
+                "judge_model": "judge",
+                "judge_effort": "medium",
+                "corpus_sha256": "b" * 64,
+                "intervention_snapshot": {"sha256": "c" * 64},
+            },
+        )
+        self.assertEqual(summary["effectiveness"]["verdict"], "INCOMPLETE")
+        self.assertIn("unavailable treatment vs unavailable control", report)
+        self.assertIn("Run incomplete", report)
+        self.assertIn("planned candidate trajectories", report)
+        self.assertIn("planned blind judgments", report)
+        self.assertNotIn("All planned candidate trajectories", report)
+
+    def test_quota_and_rate_limits_receive_content_free_categories(self) -> None:
+        self.assertEqual(_stderr_category("Execution quota reached"), "QUOTA_DIAGNOSTIC")
+        self.assertEqual(_stderr_category("HTTP 429: too many requests"), "RATE_LIMIT_DIAGNOSTIC")
 
     def test_cli_is_opt_in_and_dry_run_makes_no_results(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

@@ -82,16 +82,16 @@ gh auth status
 gh auth login --git-protocol https
 gh auth setup-git
 git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
-  refs/tags/v0.9.0-beta.3
+  refs/tags/v0.9.0-beta.4
 ```
 
 Do not continue if `ls-remote` fails: the invitation may still need to be accepted, the
-GitHub account may be wrong, or the `v0.9.0-beta.3` tag may not be available yet.
+GitHub account may be wrong, or the `v0.9.0-beta.4` tag may not be available yet.
 
 ### OpenAI / Codex
 
 ```bash
-codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.3 --json
+codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.4 --json
 codex plugin add design-council@design-council --json
 ```
 
@@ -101,7 +101,7 @@ Start a fresh context and say `$design-council`, “Meet the Council,” or anot
 
 ```bash
 CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
-  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.3 --scope user
+  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.4 --scope user
 claude plugin install design-council@design-council --scope user
 ```
 
@@ -236,4 +236,4 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md
 
 ## Release status
 
-Version `0.9.0-beta.3` is the synchronized private beta. The tagged GitHub repository is private and has not been published to either marketplace. Public release still requires publisher identity, public support/privacy/terms URLs where applicable, a fresh release audit, and the platforms’ current review or catalog steps.
+Version `0.9.0-beta.4` is the synchronized private beta. The tagged GitHub repository is private and has not been published to either marketplace. Public release still requires publisher identity, public support/privacy/terms URLs where applicable, a fresh release audit, and the platforms’ current review or catalog steps.

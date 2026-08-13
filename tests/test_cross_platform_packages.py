@@ -107,7 +107,8 @@ class CrossPlatformPackageTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             temporary_dist = Path(temporary) / "dist"
             temporary_dist.mkdir()
-            duplicate = temporary_dist / "design-council-claude-0.9.0-beta.3 2.zip"
+            current_version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+            duplicate = temporary_dist / f"design-council-claude-{current_version} 2.zip"
             duplicate.write_bytes(b"user-owned duplicate")
             unrelated = temporary_dist / "research-notes.txt"
             unrelated.write_text("preserve me", encoding="utf-8")

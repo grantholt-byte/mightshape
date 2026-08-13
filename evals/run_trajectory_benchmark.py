@@ -32,7 +32,7 @@ import sys
 import tempfile
 import time
 import uuid
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable, Sequence
@@ -553,6 +553,10 @@ def _stderr_category(stderr: str) -> str | None:
     lowered = stderr.lower()
     if not stderr.strip():
         return None
+    if "quota" in lowered or "usage limit" in lowered or "limit reached" in lowered:
+        return "QUOTA_DIAGNOSTIC"
+    if "rate limit" in lowered or "too many requests" in lowered or "429" in lowered:
+        return "RATE_LIMIT_DIAGNOSTIC"
     if "auth" in lowered or "login" in lowered:
         return "AUTH_DIAGNOSTIC"
     if "network" in lowered or "connect" in lowered or "timeout" in lowered:
@@ -875,10 +879,265 @@ def _ratio(numerator: float | None, denominator: float | None) -> float | None:
     return round(numerator / denominator, 6)
 
 
+def _generation_plan_integrity(
+    pair_plan: Sequence[dict[str, Any]], generations: Sequence[dict[str, Any]]
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    """Require one exact generation record for every planned pair and arm."""
+
+    expected_rows = [
+        {
+            "pair_id": pair.get("pair_id"),
+            "arm": arm,
+            "trajectory_id": pair.get("trajectory_id"),
+            "repeat": pair.get("repeat"),
+        }
+        for pair in pair_plan
+        for arm in ARMS
+    ]
+
+    def identity(row: dict[str, Any]) -> tuple[str, str] | None:
+        pair_id = row.get("pair_id")
+        arm = row.get("arm")
+        if not isinstance(pair_id, str) or not pair_id or not isinstance(arm, str) or not arm:
+            return None
+        return pair_id, arm
+
+    def public_keys(keys: Iterable[tuple[str, str]]) -> list[dict[str, str]]:
+        return [
+            {"pair_id": pair_id, "arm": arm}
+            for pair_id, arm in sorted(keys)
+        ]
+
+    expected_keys = [key for row in expected_rows if (key := identity(row)) is not None]
+    actual_keys = [key for row in generations if (key := identity(row)) is not None]
+    expected_counts = Counter(expected_keys)
+    actual_counts = Counter(actual_keys)
+    invalid_expected_keys = len(expected_rows) - len(expected_keys)
+    invalid_actual_keys = len(generations) - len(actual_keys)
+    duplicate_expected = [key for key, count in expected_counts.items() if count > 1]
+    duplicate_actual = [key for key, count in actual_counts.items() if count > 1]
+    missing = list((expected_counts - actual_counts).elements())
+    unexpected = list((actual_counts - expected_counts).elements())
+
+    expected_by_key = {
+        key: row
+        for row in expected_rows
+        if (key := identity(row)) is not None and expected_counts[key] == 1
+    }
+    actual_by_key = {
+        key: row
+        for row in generations
+        if (key := identity(row)) is not None and actual_counts[key] == 1
+    }
+    mismatched: list[dict[str, Any]] = []
+    valid_records: list[dict[str, Any]] = []
+    for pair_id, arm in sorted(expected_by_key.keys() & actual_by_key.keys()):
+        expected = expected_by_key[(pair_id, arm)]
+        actual = actual_by_key[(pair_id, arm)]
+        fields = [
+            field
+            for field in ("trajectory_id", "repeat")
+            if type(actual.get(field)) is not type(expected.get(field))
+            or actual.get(field) != expected.get(field)
+        ]
+        if fields:
+            mismatched.append({"pair_id": pair_id, "arm": arm, "fields": fields})
+        else:
+            valid_records.append(actual)
+
+    record_set_exact = (
+        invalid_expected_keys == 0
+        and invalid_actual_keys == 0
+        and not duplicate_expected
+        and not duplicate_actual
+        and not missing
+        and not unexpected
+        and not mismatched
+        and len(generations) == len(expected_rows)
+    )
+    successful = sum(record.get("status") == "OK" for record in valid_records)
+    plan_complete = record_set_exact and successful == len(expected_rows)
+    return (
+        {
+            "planned_generations": len(expected_rows),
+            "recorded_generations": len(generations),
+            "successful_planned_generations": successful,
+            "generation_record_set_exact": record_set_exact,
+            "generation_plan_complete": plan_complete,
+            "invalid_planned_generation_key_count": invalid_expected_keys,
+            "invalid_recorded_generation_key_count": invalid_actual_keys,
+            "duplicate_planned_generation_keys": public_keys(duplicate_expected),
+            "duplicate_recorded_generation_keys": public_keys(duplicate_actual),
+            "missing_generation_keys": public_keys(missing),
+            "unexpected_generation_keys": public_keys(unexpected),
+            "mismatched_generations": mismatched,
+        },
+        valid_records,
+    )
+
+
+def _judgment_plan_integrity(
+    judge_plan: Sequence[dict[str, Any]], judgments: Sequence[dict[str, Any]]
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    """Require one structurally exact result for every planned blind comparison."""
+
+    identity_fields = (
+        "pair_id",
+        "trajectory_id",
+        "judge_repeat",
+        "label_a_arm",
+        "label_b_arm",
+    )
+    expected_ids = [
+        item.get("comparison_id")
+        for item in judge_plan
+        if isinstance(item.get("comparison_id"), str) and item["comparison_id"]
+    ]
+    actual_ids = [
+        item.get("comparison_id")
+        for item in judgments
+        if isinstance(item.get("comparison_id"), str) and item["comparison_id"]
+    ]
+    expected_counts = Counter(expected_ids)
+    actual_counts = Counter(actual_ids)
+    invalid_expected_ids = len(judge_plan) - len(expected_ids)
+    invalid_actual_ids = len(judgments) - len(actual_ids)
+    duplicate_expected = sorted(
+        comparison_id for comparison_id, count in expected_counts.items() if count > 1
+    )
+    duplicate_actual = sorted(
+        comparison_id for comparison_id, count in actual_counts.items() if count > 1
+    )
+    missing = sorted((expected_counts - actual_counts).elements())
+    unexpected = sorted((actual_counts - expected_counts).elements())
+
+    expected_by_id = {
+        item["comparison_id"]: item
+        for item in judge_plan
+        if isinstance(item.get("comparison_id"), str)
+        and expected_counts[item["comparison_id"]] == 1
+    }
+    actual_by_id = {
+        item["comparison_id"]: item
+        for item in judgments
+        if isinstance(item.get("comparison_id"), str)
+        and actual_counts[item["comparison_id"]] == 1
+    }
+    mismatched: list[dict[str, Any]] = []
+    structurally_valid: list[tuple[dict[str, Any], dict[str, Any]]] = []
+    for comparison_id in sorted(expected_by_id.keys() & actual_by_id.keys()):
+        expected = expected_by_id[comparison_id]
+        actual = actual_by_id[comparison_id]
+        fields = [
+            field
+            for field in identity_fields
+            if type(actual.get(field)) is not type(expected.get(field))
+            or actual.get(field) != expected.get(field)
+        ]
+        if fields:
+            mismatched.append({"comparison_id": comparison_id, "fields": fields})
+        else:
+            structurally_valid.append((expected, actual))
+
+    record_set_exact = (
+        invalid_expected_ids == 0
+        and invalid_actual_ids == 0
+        and not duplicate_expected
+        and not duplicate_actual
+        and not missing
+        and not unexpected
+        and not mismatched
+        and len(judgments) == len(judge_plan)
+    )
+    invalid_payloads: list[dict[str, str]] = []
+    invalid_derived_fields: list[dict[str, Any]] = []
+    valid_records: list[dict[str, Any]] = []
+
+    def derived_value_matches(actual_value: Any, expected_value: Any) -> bool:
+        if isinstance(expected_value, (int, float)) and not isinstance(
+            expected_value, bool
+        ):
+            return (
+                isinstance(actual_value, (int, float))
+                and not isinstance(actual_value, bool)
+                and actual_value == expected_value
+            )
+        return (
+            type(actual_value) is type(expected_value)
+            and actual_value == expected_value
+        )
+
+    for expected, actual in structurally_valid:
+        comparison_id = expected["comparison_id"]
+        payload = actual.get("judgment")
+        payload_error = validate_judgment(
+            payload, expected["trajectory_id"], comparison_id
+        )
+        if payload_error:
+            invalid_payloads.append(
+                {"comparison_id": comparison_id, "error": payload_error}
+            )
+            continue
+        candidate_a_quality = candidate_quality(payload["candidate_a"])
+        candidate_b_quality = candidate_quality(payload["candidate_b"])
+        computed = {
+            "candidate_a_quality": candidate_a_quality,
+            "candidate_b_quality": candidate_b_quality,
+            f"{expected['label_a_arm']}_quality": candidate_a_quality,
+            f"{expected['label_b_arm']}_quality": candidate_b_quality,
+            "mapped_winner": (
+                expected["label_a_arm"]
+                if payload["winner"] == "A"
+                else expected["label_b_arm"]
+                if payload["winner"] == "B"
+                else "TIE"
+            ).upper(),
+        }
+        forged_fields = [
+            field
+            for field, value in computed.items()
+            if not derived_value_matches(actual.get(field), value)
+        ]
+        if forged_fields:
+            invalid_derived_fields.append(
+                {"comparison_id": comparison_id, "fields": forged_fields}
+            )
+            continue
+        valid_records.append({**actual, **computed})
+
+    successful = sum(record.get("status") == "OK" for record in valid_records)
+    plan_complete = (
+        record_set_exact
+        and not invalid_payloads
+        and not invalid_derived_fields
+        and successful == len(judge_plan)
+    )
+    return (
+        {
+            "planned_judgments": len(judge_plan),
+            "recorded_judgments": len(judgments),
+            "successful_planned_judgments": successful,
+            "judgment_record_set_exact": record_set_exact,
+            "judgment_plan_complete": plan_complete,
+            "invalid_planned_comparison_id_count": invalid_expected_ids,
+            "invalid_recorded_comparison_id_count": invalid_actual_ids,
+            "duplicate_planned_comparison_ids": duplicate_expected,
+            "duplicate_recorded_comparison_ids": duplicate_actual,
+            "missing_comparison_ids": missing,
+            "unexpected_comparison_ids": unexpected,
+            "mismatched_comparisons": mismatched,
+            "invalid_judgment_payloads": invalid_payloads,
+            "invalid_judgment_derived_fields": invalid_derived_fields,
+        },
+        valid_records,
+    )
+
+
 def aggregate_results(
     *,
     trajectories: Sequence[dict[str, Any]],
     pair_plan: Sequence[dict[str, Any]],
+    judge_plan: Sequence[dict[str, Any]],
     generations: Sequence[dict[str, Any]],
     judgments: Sequence[dict[str, Any]],
     tie_margin: float,
@@ -889,15 +1148,18 @@ def aggregate_results(
 ) -> dict[str, Any]:
     """Aggregate by pair then trajectory; token use never vetoes quality uplift."""
 
+    generation_integrity, planned_generations = _generation_plan_integrity(
+        pair_plan, generations
+    )
+    judgment_integrity, planned_judgments = _judgment_plan_integrity(judge_plan, judgments)
     quality_by_pair_arm: dict[tuple[str, str], list[float]] = defaultdict(list)
     dimension_by_arm: dict[tuple[str, str], list[float]] = defaultdict(list)
-    for record in judgments:
+    for record in planned_judgments:
         if record.get("status") != "OK":
             continue
         for arm in ARMS:
-            quality = record.get(f"{arm}_quality")
-            if isinstance(quality, (int, float)):
-                quality_by_pair_arm[(record["pair_id"], arm)].append(float(quality))
+            quality = record[f"{arm}_quality"]
+            quality_by_pair_arm[(record["pair_id"], arm)].append(float(quality))
             label = "candidate_a" if record.get("label_a_arm") == arm else "candidate_b"
             candidate = record.get("judgment", {}).get(label, {})
             scores = candidate.get("scores") if isinstance(candidate, dict) else None
@@ -952,10 +1214,8 @@ def aggregate_results(
     quality_interval = paired_bootstrap_ci(case_deltas, bootstrap_samples, seed)
     realized_complete = (
         len(case_rows) == len(trajectories)
-        and len(generations) == len(pair_plan) * len(ARMS)
-        and all(record.get("status") == "OK" for record in generations)
-        and bool(judgments)
-        and all(record.get("status") == "OK" for record in judgments)
+        and generation_integrity["generation_plan_complete"]
+        and judgment_integrity["judgment_plan_complete"]
         and len(pair_quality) == len(pair_plan) * len(ARMS)
     )
     if quality_delta is None or quality_interval is None or not realized_complete:
@@ -971,7 +1231,9 @@ def aggregate_results(
     else:
         verdict = "INCONCLUSIVE"
 
-    completed_generations = [record for record in generations if record.get("status") == "OK"]
+    completed_generations = [
+        record for record in planned_generations if record.get("status") == "OK"
+    ]
     resource_by_arm: dict[str, dict[str, Any]] = {}
     for arm in ARMS:
         rows = [record for record in completed_generations if record.get("arm") == arm]
@@ -1048,6 +1310,8 @@ def aggregate_results(
             "realized_design_complete": realized_complete,
             "generation_failures": sum(record.get("status") != "OK" for record in generations),
             "judgment_failures": sum(record.get("status") != "OK" for record in judgments),
+            **generation_integrity,
+            **judgment_integrity,
         },
         "warnings": [
             "Blind model judgments are subjective measurement aids, not ground truth.",
@@ -1079,13 +1343,23 @@ def _write_jsonl(path: Path, records: Iterable[dict[str, Any]]) -> None:
 def render_summary(summary: dict[str, Any], manifest: dict[str, Any]) -> str:
     effect = summary["effectiveness"]
     resources = summary["resource_diagnostics"]
+    completion = summary["completion"]
+
+    def metric(value: Any, *, signed: bool = False) -> str:
+        if value is None:
+            return "unavailable"
+        if signed and isinstance(value, (int, float)) and not isinstance(value, bool):
+            return f"{value:+}"
+        return str(value)
+
     lines = [
         "# Design Council longitudinal A/B benchmark",
         "",
         f"**Effectiveness verdict:** `{effect['verdict']}`",
         "",
-        f"Blind trajectory quality: {effect['treatment_quality']} treatment vs "
-        f"{effect['control_quality']} control ({effect['quality_uplift_points']:+} points).",
+        f"Blind trajectory quality: {metric(effect['treatment_quality'])} treatment vs "
+        f"{metric(effect['control_quality'])} control "
+        f"({metric(effect['quality_uplift_points'], signed=True)} points).",
         f"Cases: {effect['wins']} wins / {effect['ties']} ties / {effect['losses']} losses.",
         f"Control comparator: `{manifest['control_mode']}`.",
         f"Estimand: {effect['primary_estimand']}.",
@@ -1097,16 +1371,27 @@ def render_summary(summary: dict[str, Any], manifest: dict[str, Any]) -> str:
     ]
     for row in effect["dimensions"]:
         lines.append(
-            f"- {row['dimension']}: {row['treatment_mean']} vs {row['control_mean']} "
-            f"(delta {row['delta']})"
+            f"- {row['dimension']}: {metric(row['treatment_mean'])} vs "
+            f"{metric(row['control_mean'])} (delta {metric(row['delta'], signed=True)})"
         )
+    completion_note = (
+        "- All planned candidate trajectories and blind judgments completed before reporting."
+        if completion["realized_design_complete"]
+        else (
+            "- Run incomplete: "
+            f"{completion['successful_planned_generations']}/{completion['planned_generations']} "
+            "planned candidate trajectories and "
+            f"{completion['successful_planned_judgments']}/{completion['planned_judgments']} "
+            "planned blind judgments completed with exact plan metadata and valid payloads."
+        )
+    )
     lines.extend(
         [
             "",
             "## Resource diagnostics",
             "",
-            f"- Treatment/control generation-token ratio: {resources['treatment_control_token_ratio']}",
-            f"- Treatment/control wall-time ratio: {resources['treatment_control_wall_time_ratio']}",
+            f"- Treatment/control generation-token ratio: {metric(resources['treatment_control_token_ratio'])}",
+            f"- Treatment/control wall-time ratio: {metric(resources['treatment_control_wall_time_ratio'])}",
             "- Judge usage is benchmark overhead and excluded from arm resource totals.",
             "",
             "## Reproducibility",
@@ -1119,7 +1404,7 @@ def render_summary(summary: dict[str, Any], manifest: dict[str, Any]) -> str:
             f"- Judge: `{manifest['judge_model']}` / `{manifest['judge_effort']}`",
             f"- Corpus SHA-256: `{manifest['corpus_sha256']}`",
             f"- Skill SHA-256: `{manifest['intervention_snapshot']['sha256']}`",
-            "- All candidate trajectories completed before blind judging began.",
+            completion_note,
             "- Persisted mode resumes an explicit verified thread ID; it never uses `--last`.",
             "- Raw stdout, stderr, event streams, environment variables, and credentials are not saved.",
             "",
@@ -1439,6 +1724,7 @@ def main(argv: list[str] | None = None) -> int:
     summary = aggregate_results(
         trajectories=trajectories,
         pair_plan=pair_plan,
+        judge_plan=judge_plan,
         generations=generations,
         judgments=judgments,
         tie_margin=args.tie_margin,
@@ -1463,7 +1749,7 @@ def main(argv: list[str] | None = None) -> int:
         f"{summary['effectiveness']['quality_uplift_points']} points; "
         f"tokens reported separately at {summary['resource_diagnostics']['treatment_control_token_ratio']}x"
     )
-    return 0 if summary["completion"]["generation_failures"] == 0 and summary["completion"]["judgment_failures"] == 0 else 1
+    return 0 if summary["completion"]["realized_design_complete"] else 1
 
 
 if __name__ == "__main__":
