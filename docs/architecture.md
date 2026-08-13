@@ -12,7 +12,7 @@ Design Council has one canonical product core under `skills/design-council/`:
 - `SKILL.md`: the shared routing constitution whose skill metadata exposes the primary
   `design-think` entry point.
 
-`skills/design-council-legacy/` is the intentionally thin beta-compatibility adapter. It
+`skills/design-council-legacy/` is the intentionally thin pre-`design-think` compatibility adapter. It
 delegates to the canonical constitution and does not duplicate Human Models, methodology,
 state, or policy.
 
@@ -44,7 +44,7 @@ synchronizes versions.
 |---|---|---|
 | Manifest | `.codex-plugin/plugin.json` | `.claude-plugin/plugin.json` |
 | Primary explicit invocation | `$design-think` or `/skills`; ChatGPT uses `@design-think` | `/design-council:design-think` |
-| Optional short form / beta compatibility | Legacy `$design-council` | Standalone skill only: `/design-think`; legacy plugin skill: `/design-council:design-council` |
+| Optional short form / compatibility | Legacy `$design-council` | Explicit-only standalone alias `/design-think` delegates to the installed plugin; legacy plugin skill: `/design-council:design-council` |
 | Independent workers | Native Codex subagents; isolated `codex exec` fallback | Fresh Agent workers via `design-council:sealed-member` |
 | Optional state recovery | Trust-gated SessionStart hook | Skill reads canonical state on activation |
 | Hosted companion | ChatGPT Sites-compatible | Can develop the app; cannot claim a Sites deploy |
@@ -53,6 +53,10 @@ These differences affect mechanics only. Council identities, evidence provenance
 methods, memory, Minority Report, Inquiry Lab, debt, and Build Gate are byte-identical.
 OpenAI's plugin contract does not permit an arbitrary `/design-think` alias; deprecated
 custom prompts would invoke under `/prompts:` and are intentionally not shipped.
+Claude's plugin namespace is mandatory, so `platforms/claude/standalone-alias/design-think/`
+provides an optional explicit-only personal/project command that delegates to the installed
+`design-council:design-think` skill. It contains no product core and cannot silently replace a
+missing plugin.
 
 ## Portable state
 

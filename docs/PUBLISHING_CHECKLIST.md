@@ -63,10 +63,10 @@ Nothing in this file authorizes publication. Check items only with inspectable e
 - [ ] Local marketplace add/install/details/update/uninstall/remove tested.
 - [ ] Explicit, implicit, sealed Agent, and negative-routing behavior tested.
 - [ ] Public GitHub repository and release tag exist; `<owner>/<repo>` docs updated.
-- [ ] Community-catalog form, validation, and safety-review requirements rechecked.
+- [ ] Community directory form, public-repository/ZIP, validation, and safety-review requirements rechecked.
 - [ ] Anthropic Software Directory Policy and Terms reviewed and accepted by the authorized
   publisher; rights and privacy representations are accurate.
-- [ ] Public copy distinguishes `claude-community` from curated official marketplace.
+- [ ] Public copy distinguishes a community directory listing from the separate Anthropic Verified badge.
 
 ## Release artifacts
 

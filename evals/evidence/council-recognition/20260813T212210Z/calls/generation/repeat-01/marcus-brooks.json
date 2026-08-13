@@ -1,0 +1,36 @@
+{
+  "call": {
+    "activity": {
+      "agent_messages": 1,
+      "command_executions": 0,
+      "completed_items": 1,
+      "tool_calls": 0
+    },
+    "event_count": 4,
+    "returncode": 0,
+    "status": "OK",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "be253c8ef708c49f7b3c2a016e97f8c00fd59f1740af19f0bbea7e0481e62470",
+    "timed_out": false,
+    "usage": {
+      "cached_input_tokens": 0,
+      "input_tokens": 15708,
+      "output_tokens": 303,
+      "reasoning_output_tokens": 62,
+      "total_tokens": 16011,
+      "uncached_input_tokens": 15708
+    },
+    "wall_time_seconds": 18.795894,
+    "warnings": []
+  },
+  "parsed": {
+    "leakage_findings": [],
+    "response": "The dashboard is premature. The first thing to settle is where the promise breaks: who learns of a change, when they learn it, what they think it means, and who is authorized to act. The anecdotes may point to four different failures, and combining them would produce a tidy screen with the same confusion underneath.\n\nProtect the uncertainty about the primary user. The person entering a change, the person rearranging work, and the person absorbing the consequence may need different things. Also test whether the current workaround is carrying useful judgment that a standardized tool would erase.\n\nQuestions: How often does this happen? Who waits, repeats work, or makes an exception? When nobody responds, whose day gets worse? What decision actually needs an owner?\n\nFor one week, observe and log every unexpected plan change in a single team: timestamp, people notified, interpretation, next action, owner, delay, and rework. Name one person to run the log and a stop rule if it disrupts core work. Review ten cases, then choose the smallest intervention—possibly a checklist or notification rule, not a dashboard.",
+    "word_count": 180
+  },
+  "prompt_sha256": "de833b9e3561109077ff66ca497f51607c0d75bc9cb34d6bf7b6a42415590bfb",
+  "repeat": 1,
+  "response_sha256": "c162c16614a5345f78d186397c97b9db00a620c649b9e61b453617f8de938712",
+  "source_profile": "Marcus Brooks",
+  "source_slug": "marcus-brooks"
+}

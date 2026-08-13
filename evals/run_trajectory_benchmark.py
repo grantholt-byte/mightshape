@@ -79,6 +79,25 @@ SESSION_MODES = ("persisted", "transcript-replay")
 CORPUS_KINDS = ("efficacy", "product-conformance")
 DEFAULT_MINIMUM_IMPORTANT_UPLIFT = 3.0
 REPRO_CACHE_DIRS = {"__pycache__", ".mypy_cache", ".pytest_cache", ".ruff_cache"}
+COMPLETED_ITEM_TYPE_CATEGORIES = (
+    "agent_message",
+    "reasoning",
+    "command_execution",
+    "file_change",
+    "mcp_tool_call",
+    "tool_call",
+    "web_search",
+    "plan_update",
+    "todo_list",
+    "other",
+)
+TOOL_ITEM_TYPES = {
+    "command_execution",
+    "file_change",
+    "mcp_tool_call",
+    "tool_call",
+    "web_search",
+}
 
 
 class TrajectoryBenchmarkError(RuntimeError):
@@ -445,17 +464,45 @@ def usage_from_events(events: Sequence[dict[str, Any]]) -> tuple[dict[str, int] 
     return values, warnings
 
 
-def activity_from_events(events: Sequence[dict[str, Any]]) -> dict[str, int]:
-    items = [
-        event["item"]
-        for event in events
-        if event.get("type") == "item.completed" and isinstance(event.get("item"), dict)
-    ]
-    tool_types = {"command_execution", "mcp_tool_call", "tool_call", "file_change"}
+def activity_from_events(events: Sequence[dict[str, Any]]) -> dict[str, Any]:
+    """Summarize completed runtime activity without retaining event content.
+
+    Item IDs are used only transiently to avoid double counting duplicate
+    completion events. The returned value contains fixed, content-free type
+    buckets and integer counts: never IDs, commands, queries, URLs, messages,
+    reasoning text, or raw events. Unrecognized/malformed types are collapsed
+    into ``other`` rather than copied into report keys.
+    """
+
+    completed_item_types: list[str] = []
+    seen: set[tuple[str, str | int]] = set()
+    known_types = set(COMPLETED_ITEM_TYPE_CATEGORIES) - {"other"}
+    for index, event in enumerate(events):
+        if event.get("type") != "item.completed" or not isinstance(event.get("item"), dict):
+            continue
+        item = event["item"]
+        raw_type = item.get("type")
+        item_type = raw_type if isinstance(raw_type, str) and raw_type in known_types else "other"
+        raw_id = item.get("id")
+        identity = (
+            ("id", raw_id)
+            if isinstance(raw_id, str) and raw_id
+            else ("event", index)
+        )
+        if identity in seen:
+            continue
+        seen.add(identity)
+        completed_item_types.append(item_type)
+
+    item_type_counts = {item_type: 0 for item_type in COMPLETED_ITEM_TYPE_CATEGORIES}
+    for item_type in completed_item_types:
+        item_type_counts[item_type] += 1
+
     return {
-        "completed_items": len(items),
-        "tool_calls": sum(item.get("type") in tool_types for item in items),
-        "agent_messages": sum(item.get("type") == "agent_message" for item in items),
+        "completed_items": len(completed_item_types),
+        "tool_calls": sum(item_type in TOOL_ITEM_TYPES for item_type in completed_item_types),
+        "agent_messages": item_type_counts["agent_message"],
+        "completed_item_type_counts": item_type_counts,
     }
 
 
@@ -668,6 +715,43 @@ def _sum_usage(turns: Iterable[dict[str, Any]]) -> dict[str, int]:
     return totals
 
 
+def _sum_activity(turns: Iterable[dict[str, Any]]) -> dict[str, Any]:
+    """Aggregate content-free turn telemetry into a trajectory-level record."""
+
+    totals = {"completed_items": 0, "tool_calls": 0, "agent_messages": 0}
+    item_type_counts = {item_type: 0 for item_type in COMPLETED_ITEM_TYPE_CATEGORIES}
+    for turn in turns:
+        activity = turn.get("activity")
+        if not isinstance(activity, dict):
+            continue
+        for key in totals:
+            value = activity.get(key)
+            if isinstance(value, int) and not isinstance(value, bool) and value >= 0:
+                totals[key] += value
+        counts = activity.get("completed_item_type_counts")
+        if isinstance(counts, dict):
+            for item_type in item_type_counts:
+                value = counts.get(item_type)
+                if isinstance(value, int) and not isinstance(value, bool) and value >= 0:
+                    item_type_counts[item_type] += value
+        else:
+            # Compatibility for older/mocked activity shapes. Do not invent a
+            # specific runtime type for items that were only coarsely counted.
+            completed = activity.get("completed_items")
+            messages = activity.get("agent_messages")
+            if isinstance(completed, int) and not isinstance(completed, bool) and completed >= 0:
+                safe_messages = (
+                    messages
+                    if isinstance(messages, int)
+                    and not isinstance(messages, bool)
+                    and 0 <= messages <= completed
+                    else 0
+                )
+                item_type_counts["agent_message"] += safe_messages
+                item_type_counts["other"] += completed - safe_messages
+    return {**totals, "completed_item_type_counts": item_type_counts}
+
+
 def run_candidate_trajectory(
     *,
     codex: str,
@@ -801,6 +885,7 @@ def run_candidate_trajectory(
         "thread_id_sha256": stable_digest(thread_id) if thread_id else None,
         "turns": records,
         "usage": _sum_usage(records),
+        "activity": _sum_activity(records),
         "wall_time_seconds": round(time.perf_counter() - started, 6),
     }
 
@@ -1734,6 +1819,10 @@ def main(argv: list[str] | None = None) -> int:
             "environment_or_credentials_saved": False,
             "raw_stdout_stderr_or_event_streams_saved": False,
             "saved_content": "fixed corpus, assistant responses, structured usage/activity, and blind judgments",
+            "activity_telemetry": (
+                "deduplicated completed-item counts in fixed content-free type buckets only; "
+                "no item IDs, commands, queries, URLs, messages, reasoning text, or raw events"
+            ),
         },
         "codex_version": _command_text([codex, "--version"]),
         "python": f"{platform.python_implementation()} {platform.python_version()}",

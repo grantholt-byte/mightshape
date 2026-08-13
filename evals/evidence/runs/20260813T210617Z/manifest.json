@@ -1,0 +1,388 @@
+{
+  "all_generations_complete_before_judging": true,
+  "bootstrap_samples": 10000,
+  "candidate_effort": "medium",
+  "candidate_isolation": {
+    "codex_home": "fresh authentication-only directory",
+    "os_home": "fresh empty directory",
+    "sandbox": "read-only",
+    "treatment_difference": "repository-local Design Council skill with raw turns and the declared treatment invocation mode versus no skill with the frozen Design Thinking prompt on every turn",
+    "user_config_and_rules": "ignored",
+    "workspace": "fresh opaque directory"
+  },
+  "candidate_model": "gpt-5.6-sol",
+  "case_ids": [
+    "family_scheduler_evidence_reframe",
+    "career_pathway_autonomy_reframe",
+    "clinic_handoff_workflow_reframe",
+    "live_product_retention_reframe",
+    "novice_facilitated_ideation"
+  ],
+  "codex_version": "codex-cli 0.146.1",
+  "control_mode": "design-thinking-prompt",
+  "corpus_kind": "efficacy",
+  "corpus_sha256": "8c8fbe4f6a1e10baa92f267b2570e06e4009a754ddefad96b29112565aab75fd",
+  "created_at": "2026-08-13T21:06:18.075955+00:00",
+  "intervention_snapshot": {
+    "file_count": 108,
+    "frozen_before_first_model_call": true,
+    "sha256": "e29ddf931204cdf560fd03b300dd04d478422f67ae3aba6e2d976b61313cc975"
+  },
+  "judge_effort": "medium",
+  "judge_model": "gpt-5.6-terra",
+  "judge_plan": [
+    {
+      "comparison_id": "family_scheduler_evidence_reframe.r01.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "family_scheduler_evidence_reframe.r01",
+      "trajectory_id": "family_scheduler_evidence_reframe"
+    },
+    {
+      "comparison_id": "family_scheduler_evidence_reframe.r01.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "family_scheduler_evidence_reframe.r01",
+      "trajectory_id": "family_scheduler_evidence_reframe"
+    },
+    {
+      "comparison_id": "family_scheduler_evidence_reframe.r02.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "family_scheduler_evidence_reframe.r02",
+      "trajectory_id": "family_scheduler_evidence_reframe"
+    },
+    {
+      "comparison_id": "family_scheduler_evidence_reframe.r02.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "family_scheduler_evidence_reframe.r02",
+      "trajectory_id": "family_scheduler_evidence_reframe"
+    },
+    {
+      "comparison_id": "career_pathway_autonomy_reframe.r01.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "career_pathway_autonomy_reframe.r01",
+      "trajectory_id": "career_pathway_autonomy_reframe"
+    },
+    {
+      "comparison_id": "career_pathway_autonomy_reframe.r01.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "career_pathway_autonomy_reframe.r01",
+      "trajectory_id": "career_pathway_autonomy_reframe"
+    },
+    {
+      "comparison_id": "career_pathway_autonomy_reframe.r02.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "career_pathway_autonomy_reframe.r02",
+      "trajectory_id": "career_pathway_autonomy_reframe"
+    },
+    {
+      "comparison_id": "career_pathway_autonomy_reframe.r02.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "career_pathway_autonomy_reframe.r02",
+      "trajectory_id": "career_pathway_autonomy_reframe"
+    },
+    {
+      "comparison_id": "clinic_handoff_workflow_reframe.r01.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "clinic_handoff_workflow_reframe.r01",
+      "trajectory_id": "clinic_handoff_workflow_reframe"
+    },
+    {
+      "comparison_id": "clinic_handoff_workflow_reframe.r01.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "clinic_handoff_workflow_reframe.r01",
+      "trajectory_id": "clinic_handoff_workflow_reframe"
+    },
+    {
+      "comparison_id": "clinic_handoff_workflow_reframe.r02.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "clinic_handoff_workflow_reframe.r02",
+      "trajectory_id": "clinic_handoff_workflow_reframe"
+    },
+    {
+      "comparison_id": "clinic_handoff_workflow_reframe.r02.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "clinic_handoff_workflow_reframe.r02",
+      "trajectory_id": "clinic_handoff_workflow_reframe"
+    },
+    {
+      "comparison_id": "live_product_retention_reframe.r01.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "live_product_retention_reframe.r01",
+      "trajectory_id": "live_product_retention_reframe"
+    },
+    {
+      "comparison_id": "live_product_retention_reframe.r01.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "live_product_retention_reframe.r01",
+      "trajectory_id": "live_product_retention_reframe"
+    },
+    {
+      "comparison_id": "live_product_retention_reframe.r02.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "live_product_retention_reframe.r02",
+      "trajectory_id": "live_product_retention_reframe"
+    },
+    {
+      "comparison_id": "live_product_retention_reframe.r02.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "live_product_retention_reframe.r02",
+      "trajectory_id": "live_product_retention_reframe"
+    },
+    {
+      "comparison_id": "novice_facilitated_ideation.r01.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "novice_facilitated_ideation.r01",
+      "trajectory_id": "novice_facilitated_ideation"
+    },
+    {
+      "comparison_id": "novice_facilitated_ideation.r01.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "novice_facilitated_ideation.r01",
+      "trajectory_id": "novice_facilitated_ideation"
+    },
+    {
+      "comparison_id": "novice_facilitated_ideation.r02.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "novice_facilitated_ideation.r02",
+      "trajectory_id": "novice_facilitated_ideation"
+    },
+    {
+      "comparison_id": "novice_facilitated_ideation.r02.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "novice_facilitated_ideation.r02",
+      "trajectory_id": "novice_facilitated_ideation"
+    }
+  ],
+  "judge_repetitions": 2,
+  "judge_schema_sha256": "4e7a934be7627ea80c9a63eb769562798552aedc0696dcd53403d9b20509fbe2",
+  "minimum_important_uplift_points": 3.0,
+  "pair_plan": [
+    {
+      "arm_order": [
+        "control",
+        "treatment"
+      ],
+      "pair_id": "family_scheduler_evidence_reframe.r01",
+      "pair_index": 0,
+      "repeat": 1,
+      "trajectory_id": "family_scheduler_evidence_reframe",
+      "turn_sha256": [
+        "41731a61f3693294770cfaabc24efa72489fc86bd3d20bb8fdd85d59116e1778",
+        "8df0010505a0920a1630d57f1b97628365d5d364a6d689fbba5bec5852d58372",
+        "0193e32a9ab1e352d87c5a64b00298325b3d6b491b6e71be1ad503521f77c8b7",
+        "c247427386f8a6b471f6191b4bf4a2ab4a30defc13ec3e4cb569037e1115d819"
+      ]
+    },
+    {
+      "arm_order": [
+        "treatment",
+        "control"
+      ],
+      "pair_id": "family_scheduler_evidence_reframe.r02",
+      "pair_index": 1,
+      "repeat": 2,
+      "trajectory_id": "family_scheduler_evidence_reframe",
+      "turn_sha256": [
+        "41731a61f3693294770cfaabc24efa72489fc86bd3d20bb8fdd85d59116e1778",
+        "8df0010505a0920a1630d57f1b97628365d5d364a6d689fbba5bec5852d58372",
+        "0193e32a9ab1e352d87c5a64b00298325b3d6b491b6e71be1ad503521f77c8b7",
+        "c247427386f8a6b471f6191b4bf4a2ab4a30defc13ec3e4cb569037e1115d819"
+      ]
+    },
+    {
+      "arm_order": [
+        "treatment",
+        "control"
+      ],
+      "pair_id": "career_pathway_autonomy_reframe.r01",
+      "pair_index": 2,
+      "repeat": 1,
+      "trajectory_id": "career_pathway_autonomy_reframe",
+      "turn_sha256": [
+        "bd1e7e1cda7590cb10e5a1976ecdaade5fddac7f30305bd8e749f72f729cf9dd",
+        "a8556e31d9f80d401f3a6253130b7c9d841f3dc5e0d53f92f7df0a3b3a924810",
+        "70dbf8e8222f21f231897817392016155d0ff2ce8a1cb4d8b85e261e44853ac4",
+        "44993178df5faf93ba8421fd9a42c809b002105aded0822ebe9c7e2b3fa30b87"
+      ]
+    },
+    {
+      "arm_order": [
+        "control",
+        "treatment"
+      ],
+      "pair_id": "career_pathway_autonomy_reframe.r02",
+      "pair_index": 3,
+      "repeat": 2,
+      "trajectory_id": "career_pathway_autonomy_reframe",
+      "turn_sha256": [
+        "bd1e7e1cda7590cb10e5a1976ecdaade5fddac7f30305bd8e749f72f729cf9dd",
+        "a8556e31d9f80d401f3a6253130b7c9d841f3dc5e0d53f92f7df0a3b3a924810",
+        "70dbf8e8222f21f231897817392016155d0ff2ce8a1cb4d8b85e261e44853ac4",
+        "44993178df5faf93ba8421fd9a42c809b002105aded0822ebe9c7e2b3fa30b87"
+      ]
+    },
+    {
+      "arm_order": [
+        "control",
+        "treatment"
+      ],
+      "pair_id": "clinic_handoff_workflow_reframe.r01",
+      "pair_index": 4,
+      "repeat": 1,
+      "trajectory_id": "clinic_handoff_workflow_reframe",
+      "turn_sha256": [
+        "ae0cb2a1685f0e75d1a3c9d989fd1cccea206e9d633617bd901d8f0c814f4705",
+        "840f85651c4f8ccbb41f3e1a65760bf8198891000b78af9201b44a55ecafd987",
+        "e71acc3175d85758c741eaa7213f66904351dd8d61268e30af39c0b96d29021b",
+        "0cb09ee95f1edc8d1e9ce725f50cece2b0734aab704fec90c358b78795192bf3"
+      ]
+    },
+    {
+      "arm_order": [
+        "treatment",
+        "control"
+      ],
+      "pair_id": "clinic_handoff_workflow_reframe.r02",
+      "pair_index": 5,
+      "repeat": 2,
+      "trajectory_id": "clinic_handoff_workflow_reframe",
+      "turn_sha256": [
+        "ae0cb2a1685f0e75d1a3c9d989fd1cccea206e9d633617bd901d8f0c814f4705",
+        "840f85651c4f8ccbb41f3e1a65760bf8198891000b78af9201b44a55ecafd987",
+        "e71acc3175d85758c741eaa7213f66904351dd8d61268e30af39c0b96d29021b",
+        "0cb09ee95f1edc8d1e9ce725f50cece2b0734aab704fec90c358b78795192bf3"
+      ]
+    },
+    {
+      "arm_order": [
+        "treatment",
+        "control"
+      ],
+      "pair_id": "live_product_retention_reframe.r01",
+      "pair_index": 6,
+      "repeat": 1,
+      "trajectory_id": "live_product_retention_reframe",
+      "turn_sha256": [
+        "ce45bdb7c51ba83a21d44b427a7dad49c0c6cc2948e538feed6d9c44bd5c80ca",
+        "5b35f531ae0ac31265631f47e646e234ab6a363bec3837110f0a318e733b8c6d",
+        "b60b2b9793bf34d8c527f877be8df75a29a70d081cc6b63809cd415e36e867f1",
+        "f60a3f4f6a9341bcd12afa3b2d05db1aa73661fac7c42175c74670410f5ae0cf"
+      ]
+    },
+    {
+      "arm_order": [
+        "control",
+        "treatment"
+      ],
+      "pair_id": "live_product_retention_reframe.r02",
+      "pair_index": 7,
+      "repeat": 2,
+      "trajectory_id": "live_product_retention_reframe",
+      "turn_sha256": [
+        "ce45bdb7c51ba83a21d44b427a7dad49c0c6cc2948e538feed6d9c44bd5c80ca",
+        "5b35f531ae0ac31265631f47e646e234ab6a363bec3837110f0a318e733b8c6d",
+        "b60b2b9793bf34d8c527f877be8df75a29a70d081cc6b63809cd415e36e867f1",
+        "f60a3f4f6a9341bcd12afa3b2d05db1aa73661fac7c42175c74670410f5ae0cf"
+      ]
+    },
+    {
+      "arm_order": [
+        "control",
+        "treatment"
+      ],
+      "pair_id": "novice_facilitated_ideation.r01",
+      "pair_index": 8,
+      "repeat": 1,
+      "trajectory_id": "novice_facilitated_ideation",
+      "turn_sha256": [
+        "84d9a0c7b45db14d23b23d51f4293a88ff80699ccf27e8fca1198c6b76ac1895",
+        "be30d8cc2a1f10093c4edd63ec7646e16a67cfbf4ca02e1ddb2b6caca9a41d57",
+        "b4733f5e11a7f5fc4a43198cfae5a10719a01a72a325c262fa4e900a35a25543",
+        "f0110073731a2d97c334b759cb552f072d81bcd481cf45052a68eaf36dde3cac"
+      ]
+    },
+    {
+      "arm_order": [
+        "treatment",
+        "control"
+      ],
+      "pair_id": "novice_facilitated_ideation.r02",
+      "pair_index": 9,
+      "repeat": 2,
+      "trajectory_id": "novice_facilitated_ideation",
+      "turn_sha256": [
+        "84d9a0c7b45db14d23b23d51f4293a88ff80699ccf27e8fca1198c6b76ac1895",
+        "be30d8cc2a1f10093c4edd63ec7646e16a67cfbf4ca02e1ddb2b6caca9a41d57",
+        "b4733f5e11a7f5fc4a43198cfae5a10719a01a72a325c262fa4e900a35a25543",
+        "f0110073731a2d97c334b759cb552f072d81bcd481cf45052a68eaf36dde3cac"
+      ]
+    }
+  ],
+  "planned_candidate_turn_calls": 80,
+  "planned_judge_calls": 20,
+  "primary_estimand": "within-model quality uplift from deliberate Design Council invocation on turn one over a no-skill trajectory receiving the frozen Design Thinking prompt on every user turn",
+  "privacy": {
+    "environment_or_credentials_saved": false,
+    "raw_stdout_stderr_or_event_streams_saved": false,
+    "saved_content": "fixed corpus, assistant responses, structured usage/activity, and blind judgments"
+  },
+  "prompt_only_control_sha256": "ad1b7fee598bafda3095c38fcb068686ecf369506cbeca85e7ddadeb715a40f8",
+  "python": "CPython 3.11.3",
+  "raw_turn_identity_control": "each arm starts from the same four raw corpus turns and SHA-256 list; in prompt-only mode the frozen method instruction is appended to every control turn and recorded separately; explicit treatment adds only $design-think before the first raw turn",
+  "repeats": 2,
+  "reproducibility": {
+    "design_council_version": "0.9.0-beta.6",
+    "git": {
+      "commit": "f88cb2ec3ee0f4bba3a2428e12572b58c7093bcd",
+      "dirty": false,
+      "status_available": true
+    }
+  },
+  "run_id": "20260813T210617Z",
+  "runner_sha256": "bdfb475f7780d4a64310ab6e0153d09585185986f4e925cd85beba5971fbff2d",
+  "schema_version": "1.0.0",
+  "seed": 20260813,
+  "session_fidelity": "real Codex session persisted from turn one and resumed by explicit thread ID",
+  "session_mode": "persisted",
+  "tie_margin_points": 2.0,
+  "treatment_invocation": "explicit-first-turn"
+}

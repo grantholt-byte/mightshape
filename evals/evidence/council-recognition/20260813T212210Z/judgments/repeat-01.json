@@ -1,0 +1,477 @@
+{
+  "freeze": {
+    "all_generation_calls_completed_before_judge": true,
+    "artifact_count": 10,
+    "artifacts": [
+      {
+        "artifact_id": "A-01-01",
+        "response": "The dashboard is premature. The first thing to settle is where the promise breaks: who learns of a change, when they learn it, what they think it means, and who is authorized to act. The anecdotes may point to four different failures, and combining them would produce a tidy screen with the same confusion underneath.\n\nProtect the uncertainty about the primary user. The person entering a change, the person rearranging work, and the person absorbing the consequence may need different things. Also test whether the current workaround is carrying useful judgment that a standardized tool would erase.\n\nQuestions: How often does this happen? Who waits, repeats work, or makes an exception? When nobody responds, whose day gets worse? What decision actually needs an owner?\n\nFor one week, observe and log every unexpected plan change in a single team: timestamp, people notified, interpretation, next action, owner, delay, and rework. Name one person to run the log and a stop rule if it disrupts core work. Review ten cases, then choose the smallest intervention—possibly a checklist or notification rule, not a dashboard."
+      },
+      {
+        "artifact_id": "A-01-02",
+        "response": "Do not build the dashboard yet. It may be a useful material later, but right now it is answering a question nobody has witnessed. My first concern is the invisible script: when the plan changes, who is expected to notice, translate, interrupt others, and accept the cost of responding? “Shared” can conceal authority as easily as it distributes it.\n\nProtect the uncertainty about where the breakdown occurs—and whether different people experience different breakdowns. Hypotheses: the cue is missed; the change is seen but ambiguous; people understand it but cannot safely challenge it; or ownership disappears between roles.\n\nNext move: stage three short, consent-based simulations using a real but low-stakes plan. Introduce the same change through different cues, remove the dashboard entirely, and observe what people actually do. Give anyone a dignified way to decline. Then ask: Who noticed first? What did they believe had changed? What action felt permitted? Who waited, and for whom? Spend the experiment budget on making those behaviors visible before choosing a tool."
+      },
+      {
+        "artifact_id": "A-01-03",
+        "response": "The dashboard is premature, not disproved. We know plans change and people have stories about the aftermath. We do not yet know whose failure matters most, where the sequence breaks, or whether a new interface would expose responsibility or merely give confusion a cleaner surface.\n\nI notice the unsupported bridge from anecdotes to solution. Competing hypotheses remain live: the signal arrives late; its meaning varies by role; coordination happens through invisible work; or ownership is never explicit. Who first learns of a change? What do they do next? Who discovers the mismatch, and who quietly repairs it?\n\nProtect uncertainty about the primary user and the actual failure mode. For one week, have a small cross-role sample record each real plan change: timestamp, sender, recipient, interpretation, next action, and repair. Reconstruct three cases together, including one that went well. Then choose the smallest intervention aimed at the first repeated break—and define in advance what evidence would count against it."
+      },
+      {
+        "artifact_id": "A-01-04",
+        "response": "My current position: do not build the dashboard yet. The anecdotes justify inquiry, not a diagnosis. I notice first that “the team” may hide several people carrying different costs: the person who changes the plan, those expected to notice, and whoever quietly repairs the resulting confusion.\n\nThe leading hypotheses are a broken signal, an unclear meaning, a weak handoff, or missing ownership; more than one may be true. Protect the uncertainty about whose experience matters most and under what conditions, especially exceptions and people who cannot remain continuously connected.\n\nWho first learns of a change? Who must act next? What happens when they do not see it, disagree with it, or cannot respond? Where does the recovery work land?\n\nRecommended move: observe and reconstruct five recent change episodes with every person in the handoff, then run a one-week, reversible protocol: one change notice, explicit next owner, acknowledgment, and an exception route. Measure missed changes, recovery time, and work transferred—not dashboard activity."
+      },
+      {
+        "artifact_id": "A-01-05",
+        "response": "Current position: do not build the dashboard yet. The proposed tool may make an unknown failure more orderly without making it more visible or recoverable. I notice the seams first: the moment someone learns the plan changed, what they do next, where the handoff jams, and which improvised workaround keeps things moving.\n\nMy leading hypothesis is that several failures are being bundled together, with ownership becoming ambiguous after interpretation rather than at notification. That is only a hypothesis; I would protect uncertainty about the primary user and resist letting the most vivid anecdote define the problem.\n\nQuestions: Who first feels the consequence? What must they understand or do within ten minutes? How do they currently signal completion, confusion, or refusal?\n\nRecommended move: run three paper-based change rehearsals with real team members using recent plausible scenarios. Observe the sequence, record every pause and workaround, and vary only one element—notification, meaning, response coordination, or named ownership. Use those observations to choose the smallest reversible intervention."
+      },
+      {
+        "artifact_id": "A-01-06",
+        "response": "My current position: do not build the dashboard yet. We have four plausible breakdowns and no evidence about which one costs people most. The first thing I notice is that every proposed fix will ask someone to change a routine, while the person benefiting may not be the person doing the extra work.\n\nI’d protect uncertainty about both the primary user and the quiet veto: who receives the change, who gets blamed if it is missed, and who must chase the next action? A dashboard could make information visible and still leave ownership pleasantly blurry.\n\nHypothesis: the real failure occurs at the handoff, when people privately interpret a change but assume someone else will coordinate it. Maybe—but what actually happens after the message arrives?\n\nNext move: observe five recent or simulated change events end to end. Record the trigger, current workaround, delays, ownership guesses, and recovery. Then run one manual notification-and-acknowledgment experiment with explicit next-action ownership. Measure completed handoffs, not dashboard visits."
+      },
+      {
+        "artifact_id": "A-01-07",
+        "response": "Current position: do not commit to the dashboard yet. The first risk is not missing information; it is exporting the work of reconciling a changed plan to the quiet person who already notices gaps and repairs them. The anecdotes support several competing hypotheses: the signal arrives late, its meaning differs by role, people cannot coordinate under interruption, or ownership remains ambiguous. A dashboard could help any one of these—or become a second place everyone must monitor.\n\nProtect uncertainty about both the primary user and the actual failure point. Do not collapse them into “visibility” because that is easy to build.\n\nRecommended move: reconstruct three recent plan changes within one week. For each, bring together the person who changed the plan, two affected people, and whoever ultimately repaired the mismatch. Replay the sequence using the actual messages and artifacts, marking when understanding diverged and what extra labor followed. Then ask: at which single moment would a small intervention have changed the outcome?"
+      },
+      {
+        "artifact_id": "A-01-08",
+        "response": "Current position: do not build the dashboard yet. The proposal may make change more visible while leaving meaning, authority, and recovery untouched—a bright sign pointing to a locked door.\n\nMy leading hypotheses are that people either miss the first cue, cannot tell what changed, or understand the change but hesitate because the next action has no credible owner. These are different failures and should remain different until observed. I would especially protect uncertainty about who is actually affected; anecdotes may be compressing several scenes into one convenient problem.\n\nQuestions: What arrives first when a plan changes? What do people do in the next five minutes? Where does confidence collapse? Who quietly repairs the situation now?\n\nRecommended move: stage three recent or realistic change scenarios with the people closest to the work. Use paper notices, messages, and a crude shared view—not a polished interface. Observe the sequence from first cue through acknowledgment, interpretation, handoff, and recovery. Spend the budget only after one seam repeatedly fails."
+      },
+      {
+        "artifact_id": "A-01-09",
+        "response": "Current position: do not approve the dashboard yet, but do not spend six weeks debating four plausible mechanisms. The anecdotes establish that failures may occur; they establish neither frequency nor which failure matters most.\n\nI notice first that “improve what happens” has no defined outcome or primary user. Faster acknowledgment, correct interpretation, coordinated adaptation, and clear ownership are different bets, with different people bearing the cost of error. I would protect uncertainty about whose experience counts—especially whether apparent smoothness merely means quieter participants absorb the disruption.\n\nQuestions: What observable sequence follows a real plan change? Who notices last, who repairs the gap, and what consequence would justify intervention?\n\nRecommended move: observe five naturally occurring changes across varied participants this week. Record the change, notification path, interpretations, handoffs, next-action owner, delay, and recovery. Then run one capped, reversible comparison on the most repeated breakdown—possibly a manual dashboard mock-up—and predefine what result would warrant building, revising, or stopping."
+      },
+      {
+        "artifact_id": "A-01-10",
+        "response": "Current position: do not approve the dashboard yet. It may make a change visible while leaving interpretation, authority, and exception handling exactly as ambiguous as before—only more official-looking.\n\nThe first thing I notice is that “the plan changed” has no defined source, recipient, or next-action owner. I would protect uncertainty about which failure matters, and whether the informal workarounds contain useful judgment that formalization would erase.\n\nHypotheses: changes are missed; changes are seen but understood differently; the response depends on context; or everyone waits because ownership is unclear. These need separate tests.\n\nQuestions: Who first knows? Who is affected? What happens when accounts conflict or the responsible person is unavailable? How is recovery recognized?\n\nRecommended move: trace three recent changes end to end with the people involved, then run a one-week manual change log and explicit acknowledgment/owner handoff. Measure missed notices, interpretation disputes, stalled actions, and exception work. That experiment is reversible and will tell us whether any dashboard deserves to exist."
+      }
+    ],
+    "sha256": "85e231c3bf37eb8452533f5b6ec9c23b6b62ece2b50b1e2a672c5ef24f3709b1"
+  },
+  "identity_by_profile_id": {
+    "P-01-01": "Jack Sullivan",
+    "P-01-02": "Elena Rossi",
+    "P-01-03": "Samira Okafor",
+    "P-01-04": "Theo Bennett",
+    "P-01-05": "Rafael Alvarez",
+    "P-01-06": "Leo Martinez",
+    "P-01-07": "Priya Rao",
+    "P-01-08": "Mei Tanaka",
+    "P-01-09": "Maya Chen",
+    "P-01-10": "Marcus Brooks"
+  },
+  "judge_call": {
+    "activity": {
+      "agent_messages": 1,
+      "command_executions": 0,
+      "completed_items": 1,
+      "tool_calls": 0
+    },
+    "event_count": 4,
+    "returncode": 0,
+    "status": "OK",
+    "stderr_sha256": "92ad23c63e8533be551fd7570e08a7952f0ac42feead650d627d288bf54dfbeb",
+    "stdout_sha256": "5149944780ff0d4b9b584bcd819f35c4c195ff589545db8af1c6f905eae12f2a",
+    "timed_out": false,
+    "usage": {
+      "cached_input_tokens": 0,
+      "input_tokens": 20872,
+      "output_tokens": 1661,
+      "reasoning_output_tokens": 1161,
+      "total_tokens": 22533,
+      "uncached_input_tokens": 20872
+    },
+    "wall_time_seconds": 35.779869,
+    "warnings": [
+      "runtime emitted plugin/MCP/auth diagnostics outside the isolated project; inspect the saved stderr artifact"
+    ]
+  },
+  "judge_prompt_sha256": "87cf6ed7f3e4f54f227040e77c6e475bf9af9d71f80706de76e6efc373ac233c",
+  "judge_response_sha256": "47d41e9d5c217b4c1f165f7c9f09b582a63dd77a6534c67a200792a2ecdbccfa",
+  "judgment": {
+    "assignments": [
+      {
+        "artifact_id": "A-01-01",
+        "assigned_profile_id": "P-01-10",
+        "confidence": 0.77,
+        "observable_cues": [
+          "ownership and timing questions",
+          "operational log with stop rule",
+          "practical alternative to dashboard"
+        ]
+      },
+      {
+        "artifact_id": "A-01-02",
+        "assigned_profile_id": "P-01-05",
+        "confidence": 0.7,
+        "observable_cues": [
+          "invisible script framing",
+          "staged simulations",
+          "consent and permitted-action focus"
+        ]
+      },
+      {
+        "artifact_id": "A-01-03",
+        "assigned_profile_id": "P-01-04",
+        "confidence": 0.95,
+        "observable_cues": [
+          "unsupported bridge",
+          "competing hypotheses",
+          "inspectable reconstruction and disconfirming evidence"
+        ]
+      },
+      {
+        "artifact_id": "A-01-04",
+        "assigned_profile_id": "P-01-03",
+        "confidence": 0.82,
+        "observable_cues": [
+          "different costs across actors",
+          "access-condition concern",
+          "recovery work and handoffs"
+        ]
+      },
+      {
+        "artifact_id": "A-01-05",
+        "assigned_profile_id": "P-01-06",
+        "confidence": 0.91,
+        "observable_cues": [
+          "seams and workarounds",
+          "paper-based rehearsal",
+          "hands-on variation of one element"
+        ]
+      },
+      {
+        "artifact_id": "A-01-06",
+        "assigned_profile_id": "P-01-01",
+        "confidence": 0.9,
+        "observable_cues": [
+          "routine-change burden",
+          "beneficiary versus worker distinction",
+          "quiet veto"
+        ]
+      },
+      {
+        "artifact_id": "A-01-07",
+        "assigned_profile_id": "P-01-09",
+        "confidence": 0.91,
+        "observable_cues": [
+          "quiet repair labor",
+          "human consequence under interruption",
+          "replay of concrete episodes"
+        ]
+      },
+      {
+        "artifact_id": "A-01-08",
+        "assigned_profile_id": "P-01-02",
+        "confidence": 0.94,
+        "observable_cues": [
+          "sensory metaphor",
+          "sequence-focused questions",
+          "lyrical contrast with grounded critique"
+        ]
+      },
+      {
+        "artifact_id": "A-01-09",
+        "assigned_profile_id": "P-01-07",
+        "confidence": 0.92,
+        "observable_cues": [
+          "defined outcomes and frequency",
+          "separate measurable bets",
+          "predefined decision thresholds"
+        ]
+      },
+      {
+        "artifact_id": "A-01-10",
+        "assigned_profile_id": "P-01-08",
+        "confidence": 0.89,
+        "observable_cues": [
+          "source-recipient-owner decomposition",
+          "exception-path focus",
+          "reversible trace and manual protocol"
+        ]
+      }
+    ],
+    "overall_notes": "Assignments use observable communication and reasoning cues only; several artifacts share a deliberately similar evidence-first position."
+  },
+  "profile_card_order": [
+    "P-01-01",
+    "P-01-02",
+    "P-01-03",
+    "P-01-04",
+    "P-01-05",
+    "P-01-06",
+    "P-01-07",
+    "P-01-08",
+    "P-01-09",
+    "P-01-10"
+  ],
+  "repeat": 1,
+  "score": {
+    "assignments": [
+      {
+        "artifact_id": "A-01-01",
+        "assigned_identity": "Marcus Brooks",
+        "assigned_profile_id": "P-01-10",
+        "confidence": 0.77,
+        "correct": true,
+        "observable_cues": [
+          "ownership and timing questions",
+          "operational log with stop rule",
+          "practical alternative to dashboard"
+        ],
+        "source_profile": "Marcus Brooks"
+      },
+      {
+        "artifact_id": "A-01-02",
+        "assigned_identity": "Rafael Alvarez",
+        "assigned_profile_id": "P-01-05",
+        "confidence": 0.7,
+        "correct": true,
+        "observable_cues": [
+          "invisible script framing",
+          "staged simulations",
+          "consent and permitted-action focus"
+        ],
+        "source_profile": "Rafael Alvarez"
+      },
+      {
+        "artifact_id": "A-01-03",
+        "assigned_identity": "Theo Bennett",
+        "assigned_profile_id": "P-01-04",
+        "confidence": 0.95,
+        "correct": true,
+        "observable_cues": [
+          "unsupported bridge",
+          "competing hypotheses",
+          "inspectable reconstruction and disconfirming evidence"
+        ],
+        "source_profile": "Theo Bennett"
+      },
+      {
+        "artifact_id": "A-01-04",
+        "assigned_identity": "Samira Okafor",
+        "assigned_profile_id": "P-01-03",
+        "confidence": 0.82,
+        "correct": true,
+        "observable_cues": [
+          "different costs across actors",
+          "access-condition concern",
+          "recovery work and handoffs"
+        ],
+        "source_profile": "Samira Okafor"
+      },
+      {
+        "artifact_id": "A-01-05",
+        "assigned_identity": "Leo Martinez",
+        "assigned_profile_id": "P-01-06",
+        "confidence": 0.91,
+        "correct": true,
+        "observable_cues": [
+          "seams and workarounds",
+          "paper-based rehearsal",
+          "hands-on variation of one element"
+        ],
+        "source_profile": "Leo Martinez"
+      },
+      {
+        "artifact_id": "A-01-06",
+        "assigned_identity": "Jack Sullivan",
+        "assigned_profile_id": "P-01-01",
+        "confidence": 0.9,
+        "correct": true,
+        "observable_cues": [
+          "routine-change burden",
+          "beneficiary versus worker distinction",
+          "quiet veto"
+        ],
+        "source_profile": "Jack Sullivan"
+      },
+      {
+        "artifact_id": "A-01-07",
+        "assigned_identity": "Maya Chen",
+        "assigned_profile_id": "P-01-09",
+        "confidence": 0.91,
+        "correct": true,
+        "observable_cues": [
+          "quiet repair labor",
+          "human consequence under interruption",
+          "replay of concrete episodes"
+        ],
+        "source_profile": "Maya Chen"
+      },
+      {
+        "artifact_id": "A-01-08",
+        "assigned_identity": "Elena Rossi",
+        "assigned_profile_id": "P-01-02",
+        "confidence": 0.94,
+        "correct": true,
+        "observable_cues": [
+          "sensory metaphor",
+          "sequence-focused questions",
+          "lyrical contrast with grounded critique"
+        ],
+        "source_profile": "Elena Rossi"
+      },
+      {
+        "artifact_id": "A-01-09",
+        "assigned_identity": "Priya Rao",
+        "assigned_profile_id": "P-01-07",
+        "confidence": 0.92,
+        "correct": true,
+        "observable_cues": [
+          "defined outcomes and frequency",
+          "separate measurable bets",
+          "predefined decision thresholds"
+        ],
+        "source_profile": "Priya Rao"
+      },
+      {
+        "artifact_id": "A-01-10",
+        "assigned_identity": "Mei Tanaka",
+        "assigned_profile_id": "P-01-08",
+        "confidence": 0.89,
+        "correct": true,
+        "observable_cues": [
+          "source-recipient-owner decomposition",
+          "exception-path focus",
+          "reversible trace and manual protocol"
+        ],
+        "source_profile": "Mei Tanaka"
+      }
+    ],
+    "confusion_matrix": {
+      "Elena Rossi": {
+        "Elena Rossi": 1,
+        "Jack Sullivan": 0,
+        "Leo Martinez": 0,
+        "Marcus Brooks": 0,
+        "Maya Chen": 0,
+        "Mei Tanaka": 0,
+        "Priya Rao": 0,
+        "Rafael Alvarez": 0,
+        "Samira Okafor": 0,
+        "Theo Bennett": 0
+      },
+      "Jack Sullivan": {
+        "Elena Rossi": 0,
+        "Jack Sullivan": 1,
+        "Leo Martinez": 0,
+        "Marcus Brooks": 0,
+        "Maya Chen": 0,
+        "Mei Tanaka": 0,
+        "Priya Rao": 0,
+        "Rafael Alvarez": 0,
+        "Samira Okafor": 0,
+        "Theo Bennett": 0
+      },
+      "Leo Martinez": {
+        "Elena Rossi": 0,
+        "Jack Sullivan": 0,
+        "Leo Martinez": 1,
+        "Marcus Brooks": 0,
+        "Maya Chen": 0,
+        "Mei Tanaka": 0,
+        "Priya Rao": 0,
+        "Rafael Alvarez": 0,
+        "Samira Okafor": 0,
+        "Theo Bennett": 0
+      },
+      "Marcus Brooks": {
+        "Elena Rossi": 0,
+        "Jack Sullivan": 0,
+        "Leo Martinez": 0,
+        "Marcus Brooks": 1,
+        "Maya Chen": 0,
+        "Mei Tanaka": 0,
+        "Priya Rao": 0,
+        "Rafael Alvarez": 0,
+        "Samira Okafor": 0,
+        "Theo Bennett": 0
+      },
+      "Maya Chen": {
+        "Elena Rossi": 0,
+        "Jack Sullivan": 0,
+        "Leo Martinez": 0,
+        "Marcus Brooks": 0,
+        "Maya Chen": 1,
+        "Mei Tanaka": 0,
+        "Priya Rao": 0,
+        "Rafael Alvarez": 0,
+        "Samira Okafor": 0,
+        "Theo Bennett": 0
+      },
+      "Mei Tanaka": {
+        "Elena Rossi": 0,
+        "Jack Sullivan": 0,
+        "Leo Martinez": 0,
+        "Marcus Brooks": 0,
+        "Maya Chen": 0,
+        "Mei Tanaka": 1,
+        "Priya Rao": 0,
+        "Rafael Alvarez": 0,
+        "Samira Okafor": 0,
+        "Theo Bennett": 0
+      },
+      "Priya Rao": {
+        "Elena Rossi": 0,
+        "Jack Sullivan": 0,
+        "Leo Martinez": 0,
+        "Marcus Brooks": 0,
+        "Maya Chen": 0,
+        "Mei Tanaka": 0,
+        "Priya Rao": 1,
+        "Rafael Alvarez": 0,
+        "Samira Okafor": 0,
+        "Theo Bennett": 0
+      },
+      "Rafael Alvarez": {
+        "Elena Rossi": 0,
+        "Jack Sullivan": 0,
+        "Leo Martinez": 0,
+        "Marcus Brooks": 0,
+        "Maya Chen": 0,
+        "Mei Tanaka": 0,
+        "Priya Rao": 0,
+        "Rafael Alvarez": 1,
+        "Samira Okafor": 0,
+        "Theo Bennett": 0
+      },
+      "Samira Okafor": {
+        "Elena Rossi": 0,
+        "Jack Sullivan": 0,
+        "Leo Martinez": 0,
+        "Marcus Brooks": 0,
+        "Maya Chen": 0,
+        "Mei Tanaka": 0,
+        "Priya Rao": 0,
+        "Rafael Alvarez": 0,
+        "Samira Okafor": 1,
+        "Theo Bennett": 0
+      },
+      "Theo Bennett": {
+        "Elena Rossi": 0,
+        "Jack Sullivan": 0,
+        "Leo Martinez": 0,
+        "Marcus Brooks": 0,
+        "Maya Chen": 0,
+        "Mei Tanaka": 0,
+        "Priya Rao": 0,
+        "Rafael Alvarez": 0,
+        "Samira Okafor": 0,
+        "Theo Bennett": 1
+      }
+    },
+    "correct": 10,
+    "total": 10
+  },
+  "source_by_artifact": {
+    "A-01-01": "Marcus Brooks",
+    "A-01-02": "Rafael Alvarez",
+    "A-01-03": "Theo Bennett",
+    "A-01-04": "Samira Okafor",
+    "A-01-05": "Leo Martinez",
+    "A-01-06": "Jack Sullivan",
+    "A-01-07": "Maya Chen",
+    "A-01-08": "Elena Rossi",
+    "A-01-09": "Priya Rao",
+    "A-01-10": "Mei Tanaka"
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "candidate_effort": "medium",
+  "candidate_model": "gpt-5.6-sol",
+  "claim_boundary": "Results compare generated artifacts with their fictional source-profile labels. They are not human ground truth or human evidence.",
+  "completed_at": "2026-08-13T21:23:42.643111+00:00",
+  "completed_generation_calls": 10,
+  "completed_judge_calls": 1,
+  "created_at": "2026-08-13T21:22:10.322141+00:00",
+  "design_council_version": "0.9.0-beta.6",
+  "exact_prompt_locations": {
+    "generation": "prompts/generation/",
+    "judge": "prompts/judge/"
+  },
+  "execution_controls": {
+    "all_ten_validated_before_freeze": true,
+    "identical_common_packet": true,
+    "judge_started_only_after_freeze": true,
+    "no_sibling_output_in_candidate_prompt": true,
+    "one_fresh_ephemeral_process_and_workspace_per_candidate": true,
+    "one_to_one_assignment": true,
+    "source_mapping_withheld_from_judge_prompt": true,
+    "tool_use_invalidates_call": true
+  },
+  "git": {
+    "commit": "f88cb2ec3ee0f4bba3a2428e12572b58c7093bcd",
+    "dirty": false,
+    "status_available": true
+  },
+  "judge_effort": "medium",
+  "judge_model": "gpt-5.6-terra",
+  "planned_model_calls": 11,
+  "repeats": 1,
+  "run_id": "20260813T212210Z",
+  "runtime": {
+    "codex_version": "codex-cli 0.146.1",
+    "platform": "macOS-15.7.7-x86_64-i386-64bit",
+    "python_implementation": "CPython",
+    "python_version": "3.11.3"
+  },
+  "schema_version": "1.0.0",
+  "seed": 20260813,
+  "source_hashes": {
+    "candidate_schema_sha256": "8aa7f48da54aba919d14015d3e6e77cd67209da0debfc47607ec64ab936bf962",
+    "challenge_sha256": "65176caa5d0c0e5566f202a0b6415563a3e1a3ab05702d5ee93c0b5273d04cb0",
+    "generator_instruction_sha256": "367b360ca1922d8aae4265d8cf2ae14d11c5267b8125ab9fc67c0d0c80c40c6b",
+    "judge_instruction_sha256": "ec1fd7996efe4ed6aaaee8fdf4ca456741ea9095b65b1fbfe2a57542fe70fa06",
+    "judge_schema_sha256": "a5ce391210054c13095b7dd7758d963fe3c2e03772e7da31d0198327599eef12",
+    "profiles": [
+      {
+        "canonical_sha256": "2632f6ad55c7d934c5b100f385701fbc677d54d5e3c98cb572623466de5af393",
+        "identity": "Maya Chen",
+        "judge_projection_sha256": "05902863827b7bd9b407593e0888e69d97620f61340ead0363b276751d08c0b2",
+        "path": "skills/design-council/references/council-maya-chen.md",
+        "sealed_projection_sha256": "e5ab7d89500fc38ffc92cecebf213c8bb7d4f571dee383e8bdef08e29d812487"
+      },
+      {
+        "canonical_sha256": "5037566f8c85211527f007eab400f4026f70a917df2bf37e91d12e5ba0a6ccff",
+        "identity": "Leo Martinez",
+        "judge_projection_sha256": "cfc3b47ce8d1a6da0237f61e37ae50a30345d0bbe37808ba78cb6dd323414c35",
+        "path": "skills/design-council/references/council-leo-martinez.md",
+        "sealed_projection_sha256": "112b9eb1106794a1d914b351e92d0ab346fdd1ff949ee17b9a96a97cc49e70e6"
+      },
+      {
+        "canonical_sha256": "cf57bdf1d17aa83ab97a42c22fd64333f66e018a87e139d72376ad33accb4442",
+        "identity": "Priya Rao",
+        "judge_projection_sha256": "43f5e211785dc57374457732872583400cb995f80c18d4e81f072d1f37c73703",
+        "path": "skills/design-council/references/council-priya-rao.md",
+        "sealed_projection_sha256": "667ea45698771c76793f154261407bab60b615fd1b8dac8f4247202fb9a92e4d"
+      },
+      {
+        "canonical_sha256": "b046c2c26bf4f16991ee754d4f1e189415591e88488616681e947d48c8a03f68",
+        "identity": "Marcus Brooks",
+        "judge_projection_sha256": "fd7154cc526b359cbd88ffecc9afbf71962361c6b85ef071ac66012752d595b1",
+        "path": "skills/design-council/references/council-marcus-brooks.md",
+        "sealed_projection_sha256": "56b01c2dbb953b4e1e3889e8e1d8cb50129f5e6276964529bd548902a5e5d6c4"
+      },
+      {
+        "canonical_sha256": "c67be2d9ac2438ae2dc59b14a4374b20f309554bad0d9112eb7b279ade9ea9da",
+        "identity": "Elena Rossi",
+        "judge_projection_sha256": "7c27bb7dae24e65e14ded96c3edcdd98d894b18a36bf975f3410604ba94496f1",
+        "path": "skills/design-council/references/council-elena-rossi.md",
+        "sealed_projection_sha256": "cb2b3692e660225a008a273b700c202cf2c288ac78742e9202e4e596e0b984ad"
+      },
+      {
+        "canonical_sha256": "f8f208009268c2f66bd6c25b106245fcb6f169660460f61fd9bdff8df328360e",
+        "identity": "Theo Bennett",
+        "judge_projection_sha256": "49fa85e9d1c6879ea0570df4e7a9e6f1ada54fb8807eb62206fc58b952178f25",
+        "path": "skills/design-council/references/council-theo-bennett.md",
+        "sealed_projection_sha256": "7000f5668a7970deac1fac255f27e40d5950bfb7febe0544bceffd69fad6e92e"
+      },
+      {
+        "canonical_sha256": "876da3732cac67cbf2bb271863c1cdffff5e382ed68c92ac9877d169e61fb732",
+        "identity": "Samira Okafor",
+        "judge_projection_sha256": "70d87032913da10e47dc353c8ff422c679d4283b90009e29a458753e7f9099a1",
+        "path": "skills/design-council/references/council-samira-okafor.md",
+        "sealed_projection_sha256": "b2a642443da3ec232241e351e57afa27f0222efe00be9ada9302577dcc19d2f3"
+      },
+      {
+        "canonical_sha256": "bbe48ea51c3dbedf3557ed8d5af4c46c90fb99825ae7c119f43d50cf9f850e85",
+        "identity": "Jack Sullivan",
+        "judge_projection_sha256": "e517cbf5ef41858965e2a57d6ca37eccddb674042de05ae38db946414ba0c786",
+        "path": "skills/design-council/references/council-jack-sullivan.md",
+        "sealed_projection_sha256": "d3f08d099c9d8f6f8ab84b2d61ae37e71e65a24b560b4606d0b80aec2a0a2ea4"
+      },
+      {
+        "canonical_sha256": "075fe37dbe39bd1792c919f5c068f00c8c1cc5e59f043c6dce817887335d131e",
+        "identity": "Mei Tanaka",
+        "judge_projection_sha256": "3a96f70823c8eae16ee860e5129d0938de4a745e75f66b916bb9c3aed1aec31d",
+        "path": "skills/design-council/references/council-mei-tanaka.md",
+        "sealed_projection_sha256": "1999cb35eb66ced69a266c607da80f892c0ced8b3f2e7090dbd780607fe4e0fe"
+      },
+      {
+        "canonical_sha256": "51d83c1b78caeaa3e7c3d3a7d79a262a9ba9e89bb6e90078138016e7c469fc01",
+        "identity": "Rafael Alvarez",
+        "judge_projection_sha256": "c599600c1e3491de6fd94910939651664507d9aa828d813a23569dabfffe0c57",
+        "path": "skills/design-council/references/council-rafael-alvarez.md",
+        "sealed_projection_sha256": "9bad399c584db588ed8b4d919b7c4bdd784258d6a1ee1d7846d1320bb05558b0"
+      }
+    ],
+    "runner_sha256": "af66edf4ace880913d76877191759d08ec031887b9b57033a26bffa6817396ba"
+  },
+  "status": "COMPLETE",
+  "timeout_seconds": 900,
+  "workers": 4
+}

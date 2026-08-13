@@ -14,6 +14,7 @@ from evals.run_trajectory_benchmark import (
     SCORE_DIMENSIONS,
     TrajectoryBenchmarkError,
     _stderr_category,
+    activity_from_events,
     aggregate_results,
     build_judge_plan,
     build_pair_plan,
@@ -29,6 +30,7 @@ from evals.run_trajectory_benchmark import (
     render_summary,
     resume_command,
     run_candidate_trajectory,
+    run_codex_call,
     stable_digest,
     validate_judgment,
 )
@@ -204,6 +206,131 @@ class TrajectoryBenchmarkTests(unittest.TestCase):
         self.assertIsNone(extract_thread_id([{"type": "thread.started", "thread_id": "latest"}]))
         self.assertIsNone(extract_thread_id([{"type": "turn.completed"}]))
 
+    def test_activity_reports_deduplicated_content_free_completed_item_types(self) -> None:
+        events = [
+            {
+                "type": "item.started",
+                "item": {"id": "cmd-1", "type": "command_execution", "command": "private"},
+            },
+            {
+                "type": "item.completed",
+                "item": {"id": "cmd-1", "type": "command_execution", "command": "private"},
+            },
+            {
+                "type": "item.completed",
+                "item": {"id": "cmd-1", "type": "command_execution", "command": "private"},
+            },
+            {
+                "type": "item.completed",
+                "item": {
+                    "id": "search-1",
+                    "type": "web_search",
+                    "query": "private research question",
+                    "url": "https://sensitive.invalid/result",
+                },
+            },
+            {
+                "type": "item.completed",
+                "item": {"id": "message-1", "type": "agent_message", "text": "private answer"},
+            },
+            {
+                "type": "item.completed",
+                "item": {"id": "reasoning-1", "type": "reasoning", "text": "private thought"},
+            },
+            {
+                "type": "item.completed",
+                "item": {"id": "future-1", "type": "private_project_codename"},
+            },
+            {"type": "item.completed", "item": {"id": "missing-type"}},
+        ]
+
+        activity = activity_from_events(events)
+
+        self.assertEqual(activity["completed_items"], 6)
+        self.assertEqual(activity["tool_calls"], 2)
+        self.assertEqual(activity["agent_messages"], 1)
+        self.assertEqual(
+            activity["completed_item_type_counts"],
+            {
+                "agent_message": 1,
+                "reasoning": 1,
+                "command_execution": 1,
+                "file_change": 0,
+                "mcp_tool_call": 0,
+                "tool_call": 0,
+                "web_search": 1,
+                "plan_update": 0,
+                "todo_list": 0,
+                "other": 2,
+            },
+        )
+        self.assertEqual(
+            sum(activity["completed_item_type_counts"].values()),
+            activity["completed_items"],
+        )
+        serialized = json.dumps(activity)
+        self.assertNotIn("private research question", serialized)
+        self.assertNotIn("sensitive.invalid", serialized)
+        self.assertNotIn("private_project_codename", serialized)
+
+    def test_codex_call_does_not_retain_raw_event_content(self) -> None:
+        identifier = "12345678-1234-1234-1234-123456789abc"
+        secret = "sensitive-query-must-not-be-saved"
+        events = [
+            {"type": "thread.started", "thread_id": identifier},
+            {
+                "type": "item.completed",
+                "item": {
+                    "id": "search-sensitive-id",
+                    "type": "web_search",
+                    "query": secret,
+                    "url": "https://sensitive.invalid/private",
+                },
+            },
+            {"type": "item.completed", "item": {"id": "msg-1", "type": "agent_message"}},
+            {
+                "type": "turn.completed",
+                "usage": {
+                    "input_tokens": 10,
+                    "cached_input_tokens": 3,
+                    "output_tokens": 5,
+                    "reasoning_output_tokens": 1,
+                },
+            },
+        ]
+        completed = subprocess.CompletedProcess(
+            ["codex"],
+            0,
+            "\n".join(json.dumps(event) for event in events),
+            "",
+        )
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            response_path = root / "response.md"
+            response_path.write_text("safe final response", encoding="utf-8")
+            with patch(
+                "evals.run_trajectory_benchmark.subprocess.run",
+                return_value=completed,
+            ):
+                result = run_codex_call(
+                    command=["codex", "exec"],
+                    workdir=root,
+                    environment={"PATH": "/bin"},
+                    response_path=response_path,
+                    timeout_seconds=5,
+                )
+
+        self.assertEqual(result["status"], "OK")
+        self.assertEqual(result["activity"]["completed_item_type_counts"]["web_search"], 1)
+        self.assertNotIn("stdout", result)
+        self.assertNotIn("stderr", result)
+        self.assertNotIn("events", result)
+        serialized = json.dumps(result)
+        self.assertNotIn(secret, serialized)
+        self.assertNotIn("search-sensitive-id", serialized)
+        self.assertNotIn("sensitive.invalid", serialized)
+
     def test_real_session_runner_resumes_explicit_verified_thread(self) -> None:
         trajectory = load_trajectories()[0]
         identifier = "12345678-1234-1234-1234-123456789abc"
@@ -228,8 +355,19 @@ class TrajectoryBenchmarkTests(unittest.TestCase):
                 },
                 "response": f"assistant turn {turn}",
                 "thread_id": identifier,
-                "event_count": 3,
-                "activity": {"completed_items": 1, "tool_calls": 0, "agent_messages": 1},
+                "event_count": 4,
+                "activity": activity_from_events(
+                    [
+                        {
+                            "type": "item.completed",
+                            "item": {"id": f"search-{turn}", "type": "web_search"},
+                        },
+                        {
+                            "type": "item.completed",
+                            "item": {"id": f"message-{turn}", "type": "agent_message"},
+                        },
+                    ]
+                ),
                 "warnings": [],
                 "stderr_category": None,
             }
@@ -257,6 +395,14 @@ class TrajectoryBenchmarkTests(unittest.TestCase):
         self.assertEqual(result["status"], "OK")
         self.assertEqual(result["session_fidelity"], "PERSISTED_CODEX_THREAD_VERIFIED_BY_ID")
         self.assertEqual(len(observed_commands), 4)
+        self.assertEqual(result["activity"]["completed_items"], 8)
+        self.assertEqual(result["activity"]["tool_calls"], 4)
+        self.assertEqual(result["activity"]["completed_item_type_counts"]["agent_message"], 4)
+        self.assertEqual(result["activity"]["completed_item_type_counts"]["web_search"], 4)
+        self.assertEqual(
+            sum(result["activity"]["completed_item_type_counts"].values()),
+            result["activity"]["completed_items"],
+        )
         self.assertEqual(observed_commands[0][:2], ["codex", "exec"])
         for command in observed_commands[1:]:
             self.assertEqual(command[:3], ["codex", "exec", "resume"])

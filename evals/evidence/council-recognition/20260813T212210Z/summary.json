@@ -1,0 +1,152 @@
+{
+  "accuracy": 1.0,
+  "chance_baseline": {
+    "assignment_constraint": "one-to-one permutation within each ten-artifact repeat",
+    "expected_accuracy": 0.1,
+    "expected_correct_per_repeat": 1.0,
+    "interpretation": "descriptive random-permutation reference only; not a human-study p-value",
+    "observed_correct": 10,
+    "random_permutation_tail_probability_at_least_observed": 2.755731922398589e-07
+  },
+  "confusion_matrix": {
+    "Elena Rossi": {
+      "Elena Rossi": 1,
+      "Jack Sullivan": 0,
+      "Leo Martinez": 0,
+      "Marcus Brooks": 0,
+      "Maya Chen": 0,
+      "Mei Tanaka": 0,
+      "Priya Rao": 0,
+      "Rafael Alvarez": 0,
+      "Samira Okafor": 0,
+      "Theo Bennett": 0
+    },
+    "Jack Sullivan": {
+      "Elena Rossi": 0,
+      "Jack Sullivan": 1,
+      "Leo Martinez": 0,
+      "Marcus Brooks": 0,
+      "Maya Chen": 0,
+      "Mei Tanaka": 0,
+      "Priya Rao": 0,
+      "Rafael Alvarez": 0,
+      "Samira Okafor": 0,
+      "Theo Bennett": 0
+    },
+    "Leo Martinez": {
+      "Elena Rossi": 0,
+      "Jack Sullivan": 0,
+      "Leo Martinez": 1,
+      "Marcus Brooks": 0,
+      "Maya Chen": 0,
+      "Mei Tanaka": 0,
+      "Priya Rao": 0,
+      "Rafael Alvarez": 0,
+      "Samira Okafor": 0,
+      "Theo Bennett": 0
+    },
+    "Marcus Brooks": {
+      "Elena Rossi": 0,
+      "Jack Sullivan": 0,
+      "Leo Martinez": 0,
+      "Marcus Brooks": 1,
+      "Maya Chen": 0,
+      "Mei Tanaka": 0,
+      "Priya Rao": 0,
+      "Rafael Alvarez": 0,
+      "Samira Okafor": 0,
+      "Theo Bennett": 0
+    },
+    "Maya Chen": {
+      "Elena Rossi": 0,
+      "Jack Sullivan": 0,
+      "Leo Martinez": 0,
+      "Marcus Brooks": 0,
+      "Maya Chen": 1,
+      "Mei Tanaka": 0,
+      "Priya Rao": 0,
+      "Rafael Alvarez": 0,
+      "Samira Okafor": 0,
+      "Theo Bennett": 0
+    },
+    "Mei Tanaka": {
+      "Elena Rossi": 0,
+      "Jack Sullivan": 0,
+      "Leo Martinez": 0,
+      "Marcus Brooks": 0,
+      "Maya Chen": 0,
+      "Mei Tanaka": 1,
+      "Priya Rao": 0,
+      "Rafael Alvarez": 0,
+      "Samira Okafor": 0,
+      "Theo Bennett": 0
+    },
+    "Priya Rao": {
+      "Elena Rossi": 0,
+      "Jack Sullivan": 0,
+      "Leo Martinez": 0,
+      "Marcus Brooks": 0,
+      "Maya Chen": 0,
+      "Mei Tanaka": 0,
+      "Priya Rao": 1,
+      "Rafael Alvarez": 0,
+      "Samira Okafor": 0,
+      "Theo Bennett": 0
+    },
+    "Rafael Alvarez": {
+      "Elena Rossi": 0,
+      "Jack Sullivan": 0,
+      "Leo Martinez": 0,
+      "Marcus Brooks": 0,
+      "Maya Chen": 0,
+      "Mei Tanaka": 0,
+      "Priya Rao": 0,
+      "Rafael Alvarez": 1,
+      "Samira Okafor": 0,
+      "Theo Bennett": 0
+    },
+    "Samira Okafor": {
+      "Elena Rossi": 0,
+      "Jack Sullivan": 0,
+      "Leo Martinez": 0,
+      "Marcus Brooks": 0,
+      "Maya Chen": 0,
+      "Mei Tanaka": 0,
+      "Priya Rao": 0,
+      "Rafael Alvarez": 0,
+      "Samira Okafor": 1,
+      "Theo Bennett": 0
+    },
+    "Theo Bennett": {
+      "Elena Rossi": 0,
+      "Jack Sullivan": 0,
+      "Leo Martinez": 0,
+      "Marcus Brooks": 0,
+      "Maya Chen": 0,
+      "Mei Tanaka": 0,
+      "Priya Rao": 0,
+      "Rafael Alvarez": 0,
+      "Samira Okafor": 0,
+      "Theo Bennett": 1
+    }
+  },
+  "correct_assignments": 10,
+  "limitations": [
+    "Candidates and evaluator are models, not human raters.",
+    "Source labels identify which fictional profile generated an artifact; they are not human ground truth.",
+    "A one-to-one assignment constraint changes the chance distribution and can propagate one mistaken match.",
+    "One neutral challenge does not establish identity consistency across contexts.",
+    "Candidate and evaluator model-family effects may influence the result."
+  ],
+  "repeats": [
+    {
+      "correct": 10,
+      "repeat": 1,
+      "total": 10
+    }
+  ],
+  "schema_version": "1.0.0",
+  "status": "COMPLETE",
+  "study_scope": "model-based traceability to canonical fictional Council source profiles; not human ground truth",
+  "total_assignments": 10
+}

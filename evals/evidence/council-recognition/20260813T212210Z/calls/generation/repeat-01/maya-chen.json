@@ -1,0 +1,38 @@
+{
+  "call": {
+    "activity": {
+      "agent_messages": 1,
+      "command_executions": 0,
+      "completed_items": 1,
+      "tool_calls": 0
+    },
+    "event_count": 4,
+    "returncode": 0,
+    "status": "OK",
+    "stderr_sha256": "3c88427114dd6ba273c735a045d005a9a7aaa38d58e33551bbc2e5ba8460c094",
+    "stdout_sha256": "152ada7c9cc8fd982249bd987dd37cd67d545bd9f016100bd82da1a9cea82391",
+    "timed_out": false,
+    "usage": {
+      "cached_input_tokens": 0,
+      "input_tokens": 15754,
+      "output_tokens": 352,
+      "reasoning_output_tokens": 143,
+      "total_tokens": 16106,
+      "uncached_input_tokens": 15754
+    },
+    "wall_time_seconds": 21.077703,
+    "warnings": [
+      "runtime emitted plugin/MCP/auth diagnostics outside the isolated project; inspect the saved stderr artifact"
+    ]
+  },
+  "parsed": {
+    "leakage_findings": [],
+    "response": "Current position: do not commit to the dashboard yet. The first risk is not missing information; it is exporting the work of reconciling a changed plan to the quiet person who already notices gaps and repairs them. The anecdotes support several competing hypotheses: the signal arrives late, its meaning differs by role, people cannot coordinate under interruption, or ownership remains ambiguous. A dashboard could help any one of these—or become a second place everyone must monitor.\n\nProtect uncertainty about both the primary user and the actual failure point. Do not collapse them into “visibility” because that is easy to build.\n\nRecommended move: reconstruct three recent plan changes within one week. For each, bring together the person who changed the plan, two affected people, and whoever ultimately repaired the mismatch. Replay the sequence using the actual messages and artifacts, marking when understanding diverged and what extra labor followed. Then ask: at which single moment would a small intervention have changed the outcome?",
+    "word_count": 161
+  },
+  "prompt_sha256": "3dd4137b911f840055c00883bc37a0bc62e7ad2fde0f843b1398ae51f4b6cd13",
+  "repeat": 1,
+  "response_sha256": "cd8f653083e054e69b6505caf2c032e30e8b3fd1be6521d73ea82b4ec3effb8c",
+  "source_profile": "Maya Chen",
+  "source_slug": "maya-chen"
+}

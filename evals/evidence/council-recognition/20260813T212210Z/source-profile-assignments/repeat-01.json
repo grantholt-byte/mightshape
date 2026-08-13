@@ -1,0 +1,27 @@
+{
+  "identity_by_profile_id": {
+    "P-01-01": "Jack Sullivan",
+    "P-01-02": "Elena Rossi",
+    "P-01-03": "Samira Okafor",
+    "P-01-04": "Theo Bennett",
+    "P-01-05": "Rafael Alvarez",
+    "P-01-06": "Leo Martinez",
+    "P-01-07": "Priya Rao",
+    "P-01-08": "Mei Tanaka",
+    "P-01-09": "Maya Chen",
+    "P-01-10": "Marcus Brooks"
+  },
+  "source_by_artifact": {
+    "A-01-01": "Marcus Brooks",
+    "A-01-02": "Rafael Alvarez",
+    "A-01-03": "Theo Bennett",
+    "A-01-04": "Samira Okafor",
+    "A-01-05": "Leo Martinez",
+    "A-01-06": "Jack Sullivan",
+    "A-01-07": "Maya Chen",
+    "A-01-08": "Elena Rossi",
+    "A-01-09": "Priya Rao",
+    "A-01-10": "Mei Tanaka"
+  },
+  "written_after_blind_evaluator_completed": true
+}

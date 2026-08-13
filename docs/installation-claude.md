@@ -18,7 +18,7 @@ Set `DC_CLAUDE_CLI` to an explicit executable path in controlled build
 environments.
 
 The installable package is `dist/claude/design-council/` and the deterministic archive is
-`dist/design-council-claude-0.9.0-beta.6.zip` after the beta.6 build completes.
+`dist/design-council-claude-0.9.0-beta.7.zip` after the beta.7 build completes.
 
 ## Invoke Design Council
 
@@ -29,9 +29,45 @@ Marketplace and `--plugin-dir` installs use Claude's mandatory plugin namespace:
 ```
 
 Natural-language activation also remains available. Exact `/design-think` is possible only
-through a separate standalone `.claude/skills` installation; it is not an alias that a
-marketplace plugin can register. Legacy `/design-council:design-council` remains available
-throughout this beta.
+through a separately installed delegating skill outside the plugin namespace; a marketplace
+plugin cannot register that unnamespaced command itself. Legacy
+`/design-council:design-council` remains available throughout this beta.
+
+### Optional exact `/design-think` command
+
+Claude namespaces every skill shipped by a plugin. If the shorter spelling matters, keep the
+plugin installed and add the shipped explicit-only alias from the same pinned source checkout:
+
+```bash
+cd /absolute/path/to/design-council
+python3 scripts/install_claude_alias.py --scope user
+```
+
+Then invoke:
+
+```text
+/design-think
+```
+
+The alias contains no duplicate methodology. It passes arguments to
+`/design-council:design-think`, so the installed plugin remains the source of Human Models,
+references, scripts, project memory, and sealed-round behavior. The installer is idempotent and
+refuses to overwrite an existing personal skill unless the user reviews it and explicitly adds
+`--force`. Use `--scope project --project-root /absolute/project/path` instead for a shared
+project skill. Because the alias is explicit-only, it does not compete with the plugin's natural
+language activation. It relies on Claude's Skill tool to delegate: if that tool is denied, a
+higher-priority `design-think` skill shadows it, or the plugin is disabled, use the native
+`/design-council:design-think` command instead.
+
+Remove only an unmodified copy installed from this checkout with:
+
+```bash
+python3 scripts/install_claude_alias.py --scope user --uninstall
+```
+
+For project scope, add `--scope project --project-root /absolute/project/path`. The uninstaller
+fails closed if the skill has changed and preserves every sibling file; review a modified alias
+before removing it manually.
 
 ## One-session sideload test
 
@@ -90,22 +126,22 @@ gh auth status
 gh auth login --git-protocol https
 gh auth setup-git
 git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
-  refs/tags/v0.9.0-beta.6
+  refs/tags/v0.9.0-beta.7
 CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
-  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.6 --scope user
+  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.7 --scope user
 claude plugin install design-council@design-council --scope user
 ```
 
 The repository owner must add the installer as a collaborator, and the collaborator must
 accept the invitation. `gh auth status` must show that account, while `ls-remote` proves both
-private-repository access and availability of the exact `v0.9.0-beta.6` tag. Do not continue
+private-repository access and availability of the exact `v0.9.0-beta.7` tag. Do not continue
 if either check fails. Claude Code otherwise prefers SSH for GitHub shorthand, so the
 environment setting above avoids requiring an SSH key. The `local`-scope commands above
 remain the repository-specific, no-network development path.
 
 ### Move a hosted install to a later beta tag
 
-A GitHub marketplace added with `@v0.9.0-beta.6` is pinned to that immutable ref. A normal
+A GitHub marketplace added with `@v0.9.0-beta.7` is pinned to that immutable ref. A normal
 marketplace or plugin update does not move it to another tag. Set the variable below to the
 exact later beta tag announced by the owner, then remove and re-add the hosted `user`-scope
 installation:
@@ -122,16 +158,17 @@ CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
 claude plugin install design-council@design-council --scope user
 ```
 
-The beta.6 package and current strict Claude validator pass. Model-backed benchmark reruns, the
-immutable tag, and a fresh collaborator install remain pending. Do not use the beta.6 GitHub
-commands until the owner confirms that `v0.9.0-beta.6` has been pushed. After that confirmation,
-`v0.9.0-beta.6` is the pinned beta; do not substitute a moving branch.
+The beta.7 package and current strict Claude validator must pass before tagging. The model-backed
+release-gate rerun, immutable tag, and a fresh collaborator install remain pending. Do not use the
+beta.7 GitHub commands until the owner confirms that `v0.9.0-beta.7` has been pushed. After that
+confirmation, `v0.9.0-beta.7` is the pinned beta; do not substitute a moving branch.
 
 ## Troubleshooting
 
 - Run `claude --version`; update if `plugin` commands are unavailable.
 - Use `/design-council:design-think` for every plugin or marketplace install. Exact
-  `/design-think` belongs only to a separately installed standalone skill.
+  `/design-think` requires the optional explicit-only alias above and still delegates to the
+  installed plugin.
 - Validate both the plugin directory and marketplace root with `--strict`.
 - Inspect `/plugin` → Errors or `claude plugin details` for component load failures.
 - Rebuild `dist/`; do not edit generated package files.

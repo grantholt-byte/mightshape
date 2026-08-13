@@ -29,11 +29,18 @@ Make signals behavioral and interpretable. “Users like it” is rarely enough.
 
 Keep participant counts and signal denominators consistent. Use a quantitative threshold only when it comes from supplied evidence, a baseline, or an explicit risk tolerance; otherwise identify it as a proposed heuristic to calibrate. For each plausible outcome, state the conditional next move (`if supported`, `if weakened/falsified`, `if inconclusive`) and which competing problem frame it strengthens or weakens.
 
+When a new hard constraint changes time, access, privacy, staffing, or integration, supersede every incompatible earlier scope item before designing the next test. Translate the constraint into feasible capacity; do not carry forward an earlier participant count, case count, duration, or infrastructure plan by inertia.
+
 Do not let convergence erase the alternatives the experiment must discriminate. Before choosing
 the final test, list the incumbent and live mechanism alternatives. Use the same realistic trigger
 or disruption across the smallest comparison that could change the build decision. If one mechanism
 is tested alone, state why a comparison adds no decision value and what result would reopen the
 alternatives.
+
+For shared-work and coordination concepts, distinguish accountable ownership from contribution.
+Include cases for legitimate parallel work, stale ownership or status, failed transfer recovery,
+false duplicate warnings, and complete work falsely blocked as incomplete. A mechanism that prevents
+all parallel action or blocks valid work has not solved coordination.
 
 ## Choose the cheapest faithful form
 

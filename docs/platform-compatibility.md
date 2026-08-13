@@ -6,7 +6,7 @@ Researched and tested through 2026-08-13 with `codex-cli 0.146.1` and current pr
 
 - V1 is a skills-first plugin: `.codex-plugin/plugin.json` distributes the canonical
   `skills/design-council/` core whose metadata exposes `design-think`, a thin
-  `skills/design-council-legacy/` beta-compatibility alias, and the optional hook. This is the
+  `skills/design-council-legacy/` pre-short-name compatibility alias, and the optional hook. This is the
   documented minimal package shape.
 - The canonical `SKILL.md` is the router/constitution; details live in references, schemas,
   scripts, and reusable assets. The short entry skill delegates to that same constitution—it
@@ -20,10 +20,10 @@ Researched and tested through 2026-08-13 with `codex-cli 0.146.1` and current pr
 OpenAI plugins cannot register arbitrary slash commands, so `/design-think` is not presented as
 a Codex or ChatGPT invocation. Deprecated local custom prompts would appear under
 `/prompts:design-think`, are not plugin-distributed, and are not shipped. Legacy
-`$design-council` remains available throughout this beta. Claude Code 2.1.216 or later can use
-the requested `/design-think` only when the skill is installed standalone; marketplace plugins
-must use `/design-council:design-think`, with `/design-council:design-council` retained for beta
-compatibility.
+`$design-council` remains available throughout this beta. Current Claude Code can use
+the requested `/design-think` through the shipped explicit-only standalone alias, which delegates
+to the installed plugin. Marketplace plugin skills themselves remain namespaced and use
+`/design-council:design-think`; `/design-council:design-council` retains old-name compatibility.
 
 Primary docs: [plugin architecture](https://developers.openai.com/plugins/concepts/plugins),
 [build plugins](https://developers.openai.com/plugins/build/plugins),

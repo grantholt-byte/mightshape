@@ -6,9 +6,11 @@ and methodology above remain unchanged.
 
 - Marketplace and `--plugin-dir` installs invoke the primary skill as
   `/design-council:design-think`. Claude plugin skills are always namespaced.
-  The exact `/design-think` spelling is available only when the canonical skill
-  is installed separately as a standalone `.claude/skills` skill; it is not a
-  plugin alias. Legacy `/design-council:design-council` remains available
+  The exact `/design-think` spelling is available through the optional
+  explicit-only delegating alias outside the plugin namespace, which asks Claude to invoke the installed
+  `design-council:design-think` skill; it is not a native plugin alias. If Skill
+  invocation is denied or the plugin is unavailable, fail visibly rather than
+  substituting a partial workflow. Legacy `/design-council:design-council` remains available
   throughout this beta. Natural-language auto-discovery remains available
   through the skill description.
 - For consequential Round A work, spawn separate fresh-context Agent workers,

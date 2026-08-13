@@ -1,0 +1,31 @@
+{
+  "benchmark_kind": "trajectory",
+  "complete_realized_design": true,
+  "excluded": [
+    "raw stdout and stderr",
+    "runtime event streams",
+    "environment variables and credentials",
+    "copied intervention tree; use the clean Git commit and recorded tree hash"
+  ],
+  "retained": [
+    "frozen run manifest",
+    "assistant generations and turn-level usage",
+    "blinded candidate pairs",
+    "structured blind judgments",
+    "machine-readable and human-readable summaries"
+  ],
+  "run_id": "20260813T210617Z",
+  "schema_version": "1.0.0",
+  "source_artifact_sha256": {
+    "blinded-pairs.jsonl": "b82416a19ccdaa2245e50f318ca1542ed1c4042efeeb5a63861ef9e9ab29e18a",
+    "generations.jsonl": "8ec839e7e409e10b9c6c48d51dc8e74e899bc816b2690bf8b5bd64dca1482835",
+    "judgments.jsonl": "0b6aeb69400c887295c0ce57cba038b42c30cb6e01a110bbfd6992bafe3a1e0d",
+    "manifest.json": "cbbc0ea446cf231acbaf0d40f8479e3ceb5d19adf33e19b52f56bc5a79233053",
+    "summary.json": "8a12786e322187b946129af8a7669f071b83256db3920ed34951f3740e38a0dd",
+    "summary.md": "55ceeb5d84dff540d5606e676b10cd0a0c6002b430ae70488f90cf4c623f5058"
+  },
+  "v1_trajectory_gate": {
+    "reason": "not requested",
+    "verified": false
+  }
+}

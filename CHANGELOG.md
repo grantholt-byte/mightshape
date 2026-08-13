@@ -2,6 +2,50 @@
 
 All notable changes use [Semantic Versioning](https://semver.org/).
 
+## [0.9.0-beta.7] — 2026-08-13
+
+### Added
+
+- Added an optional exact `/design-think` Claude alias that delegates to the installed,
+  namespaced plugin without duplicating methodology; its installer is atomic, idempotent, and
+  removes only an unmodified shipped alias.
+- Added five cross-platform adversarial contracts for observational-unit fidelity, constraint
+  supersession, coordination counterexamples, local-versus-general causal evidence, and explicit
+  evidence-change history.
+- Added content-free benchmark activity telemetry with fixed completed-item type counts, including
+  web research, while retaining no queries, URLs, commands, messages, reasoning, or raw events.
+- Added frozen evidence bundles for the post-refinement one-shot comparison, the all-ten Council
+  recognition exercise, and the first preregistered beta.6 trajectory-gate attempt.
+
+### Changed
+
+- Evidence synthesis now preserves units and cardinality exactly: event counts never become case or
+  participant ratios, and unstated denominators or co-occurrence remain unknown.
+- Prototype planning now retires incompatible scope when hard constraints arrive, translates time
+  and access into feasible capacity, and tests legitimate shared work, stale state, false duplicate
+  warnings, false blocking, and transfer recovery in coordination concepts.
+- Evidence-driven reframing now records a compact prior-claim/status/evidence/implication ledger.
+- Regulated-domain grounding now imports only a compact cited claim ledger into the persistent
+  design thread and never treats generic authoritative guidance as proof of a local causal mechanism.
+- Claude publication guidance now reflects the current community-directory submission route and
+  distinguishes it from the separately reviewed Anthropic Verified badge.
+
+### Fixed
+
+- Corrected brittle deterministic model-eval matchers after the corresponding live responses
+  passed independent semantic review.
+- Extended release-version parity checks across source and generated manifests, the nested Claude
+  marketplace entry, and the interview package and lockfile.
+
+### Security
+
+- The optional Claude alias uninstaller fails closed on modified or foreign skills and preserves
+  sibling files.
+
+### Breaking Changes
+
+- None. Native platform invocations and legacy compatibility aliases remain supported.
+
 ## [0.9.0-beta.6] — 2026-08-13
 
 ### Added

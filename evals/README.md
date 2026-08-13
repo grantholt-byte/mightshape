@@ -101,6 +101,13 @@ metadata, judgments, manifest, accuracy, and the confusion matrix. Run this
 from a clean commit for release evidence; the manifest records commit and dirty
 status. Normal CI remains offline.
 
+The clean beta.6 run `20260813T212210Z` completed all 11 calls with zero leakage findings and
+10/10 correct source-profile assignments under the forced one-to-one mapping. That is narrow
+model-based traceability on one neutral challenge, not human recognition or cross-context proof.
+It used 182,930 total candidate-plus-evaluator tokens and ran against clean commit `f88cb2e`.
+The frozen content-safe run is in
+[`evidence/council-recognition/20260813T212210Z`](evidence/council-recognition/20260813T212210Z/summary.md).
+
 ## Paired plugin-versus-baseline benchmark
 
 `run_ab_benchmark.py` measures whether Design Council produces a practically meaningful
@@ -207,6 +214,14 @@ not blended with, the separate raw-prompt comparison, where Design Council estab
 meaningful benefit. Redacted evidence is committed in
 [`ab-benchmark-strong-prompt-beta3.json`](evidence/ab-benchmark-strong-prompt-beta3.json) and
 [`ab-benchmark-beta3.json`](evidence/ab-benchmark-beta3.json).
+
+The clean post-refinement beta.6 rerun (`20260813T210644Z`) completed all 24 generation pairs and
+48 blind judgments. Design Council scored **95.54** versus **92.98**: **+2.56 points**, 95%
+case-bootstrap CI **[0.42, 4.82]**, with 7 wins, 2 ties, and 3 losses. Generation-token use was
+**1.523×** control, down from 2.15× in the beta3 strong-comparator run. The correct verdict is
+`DIRECTIONAL_BENEFIT_NOT_YET_ESTABLISHED_AS_MEANINGFUL`, because the interval does not clear the
+preregistered +3-point practical threshold. Complete content-safe artifacts and hashes are in
+[`evidence/runs/20260813T210644Z`](evidence/runs/20260813T210644Z).
 
 The strong-prompt result makes the next validation step explicit: use held-out prompts and blind
 human raters, and measure scripted multi-turn trajectories where persistent framing, evidence
@@ -336,6 +351,20 @@ trajectories, blinded pairs, judgments, summaries, hashes, and frozen-commit met
 in [`evidence/runs/20260813T191419Z`](evidence/runs/20260813T191419Z); raw process streams and
 credentials are excluded.
 
+The first fully preregistered five-trajectory, explicitly invoked attempt ran from clean beta.6
+commit `f88cb2e` as `20260813T210617Z`. All 20 candidate arms and 20 blind judgments completed
+without retry, skip, timeout, or malformed output. Design Council scored **96.875** versus
+**91.375**, a **+5.5-point** advantage with 4 wins, 0 ties, and 1 loss. The 10,000-sample
+case-bootstrap interval was **[0.25, 11.625]** and the candidate-token ratio was **1.594817×**.
+The shipped content-safe bundle reproduces an independent verifier result of **42/44** when
+exported-bundle mode is explicitly allowed. The two failed checks are the interval threshold and
+the required meaningful-benefit verdict; default raw-run mode additionally reports the expected
+missing raw intervention snapshot. The release gate therefore correctly failed because the
+interval's lower bound did not clear +3 and the verdict remained
+`TREATMENT_ADVANTAGE_DETECTED_BELOW_IMPORTANCE_THRESHOLD`. Its content-safe artifacts are in
+[`evidence/runs/20260813T210617Z`](evidence/runs/20260813T210617Z); no passing
+`v1-trajectory-gate.json` exists.
+
 Verify a newly completed raw run against the committed fail-closed V1 policy, then export it:
 
 ```sh
@@ -352,11 +381,14 @@ missing usage, incomplete records, forged summaries, and a non-meaningful verdic
 immutable and writes checksummed artifacts beneath `evals/evidence/runs/<run-id>`; with
 `--require-v1-gate` it includes the signed-by-hash gate report.
 
-That run diagnosed early convergence on one clinic-ownership mechanism and an over-elaborate
-family study. The release candidate now preserves live mechanism alternatives through experiment
-choice and applies a final proportionality pass. The five-neutral-trajectory, explicitly invoked
-comparison must be rerun from a new clean commit. Afterward, add held-out trajectories and
-independent human review before making a public efficacy claim.
+The beta.6 attempt isolated one stochastic clinic regression rather than a framing failure: an
+event count became an unsupported case ratio, hard constraints did not fully retire earlier pilot
+scope, and legitimate shared work and false blocking were under-tested. Beta.7 adds general
+invariants and adversarial cases for those behaviors, scopes authoritative research to decision-
+changing boundaries, and records only privacy-safe completed runtime item-type counts so future
+context spikes are diagnosable. The unchanged comparison must now be rerun from the clean beta.7
+freeze. Afterward, add held-out trajectories and independent human review before making a public
+efficacy claim.
 
 Use [`human-rating-guide.md`](benchmark/human-rating-guide.md) and
 [`human-paired-rating.schema.json`](schema/human-paired-rating.schema.json) for blind human review.
@@ -462,7 +494,8 @@ corpus in `cases/` to each generated package. Explicit cases receive the native
 primary invocation (`$design-think` for Codex or `/design-council:design-think`
 for the Claude plugin); implicit and avoid-routing prompts remain byte-for-byte
 unchanged. ChatGPT uses `@design-think`. Exact Claude `/design-think` is only a
-standalone-skill invocation. Legacy `$design-council` and
+separately installed explicit-only delegating alias; the plugin itself remains namespaced.
+Legacy `$design-council` and
 `/design-council:design-council` remain beta compatibility checks rather than the
 primary adapter mapping. The platform directories do not copy cases or fixtures.
 

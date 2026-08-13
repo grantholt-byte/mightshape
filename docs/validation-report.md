@@ -2,7 +2,7 @@
 
 **Validation date:** 2026-08-13
 
-**Release candidate:** `v0.9.0-beta.6`
+**Release candidate:** `v0.9.0-beta.7`
 
 **Scope:** private collaborator distribution only; no public deployment or marketplace submission.
 
@@ -11,18 +11,21 @@ human evidence. Raw runtime streams remain locally ignored. Content-safe audit b
 the frozen manifest, assistant outputs, blinded pairs, structured judgments, summaries, and hashes
 under [`evals/evidence/`](../evals/evidence/), without environment variables or credentials.
 
-> **Current status:** beta.6 deterministic validation and both current platform validators
-> pass. Model-backed benchmark reruns, immutable tag creation, and fresh collaborator-install
-> tests remain pending. Pre-beta.6 model evidence below is retained as the current comparison
-> boundary and is not silently promoted to evidence about this release candidate.
+> **Current status:** the beta.6 preregistered trajectory attempt was positive but failed the
+> fixed uncertainty threshold, so V1 correctly remains beta. Beta.7 contains bounded general
+> fixes plus five locally observed live-judged regression cases; those targeted run artifacts are
+> intentionally unshipped and are not release evidence. Its full deterministic release check and
+> both current platform validators pass; the unchanged preregistered rerun remains pending. Immutable
+> tag creation and fresh collaborator-install tests follow only after that gate. Earlier evidence
+> remains historical and is not silently promoted to beta.7 evidence.
 
 ## Latest completed deterministic product and package checks
 
 | Check | Observed result |
 |---|---|
-| Python unit suite | **PASS — 263 tests** |
-| Behavioral contracts | **PASS — 126 cases**, including 69 adversarial cases and 52 invariant families |
-| Adapter mapping | **PASS — 126 shared cases per adapter** |
+| Python unit suite | **PASS — 274 tests** |
+| Behavioral contracts | **PASS — 131 cases**, including 73 adversarial cases and 52 invariant families |
+| Adapter mapping | **PASS — 131 shared cases per adapter** |
 | OpenAI package | **PASS** with bundled plugin/skill authoring validators and local portal-rule checks; portal upload validation remains manual |
 | Claude package | **PASS** with the current strict plugin validator used by `make release-check` |
 | Shared-core drift | **PASS — 106 shared files**, including 10 byte-identical Council Human Models |
@@ -90,6 +93,25 @@ clean-context proof: unlike the paired A/B runner, it can inherit host runtime c
   removal, no Round-A streaming, minority preservation, project-memory supersession, and
   per-member evidence-driven changes of mind.
 - Council conclusion artifacts never claim hidden chain-of-thought or human evidence.
+
+### Focused all-ten recognition run
+
+A clean beta.6 run generated ten isolated, name-screened Council artifacts from the same neutral
+challenge and froze the complete set before one blind evaluator received anonymous behavioral
+reference cards. All **11/11 model calls** completed, the leakage screen found **0/10** violations,
+and the evaluator made **10/10 correct source-profile assignments** under a forced one-to-one
+mapping. The descriptive random-permutation expectation is 10% accuracy; the exact probability of
+all ten matches under that reference process is `2.76e-7`.
+
+This is evidence that the artifacts were traceable to the ten canonical fictional profiles on one
+neutral challenge. It is **not** human recognition evidence, a human-study p-value, cross-context
+identity consistency, or human ground truth. Candidates used `gpt-5.6-sol` at medium effort and
+the evaluator used `gpt-5.6-terra` at medium effort on clean commit `f88cb2e`; the run consumed
+**182,930 total tokens** and took **92.32 seconds** end to end. The reproducible harness and its
+narrow claim boundary are documented in [`evals/README.md`](../evals/README.md); the frozen
+prompts, screened artifacts, source assignments, judgment, call metadata, and manifest are in the
+[`20260813T212210Z evidence bundle`](../evals/evidence/council-recognition/20260813T212210Z/summary.md),
+with a complete `SHA256SUMS` ledger for the retained files.
 
 ## Plugin-versus-baseline effectiveness
 
@@ -173,6 +195,33 @@ boundary was structurally verified, but this host had no authenticated Claude ru
 Claude behavioral efficacy claim is made. Exact strong-comparator evidence is in
 [`ab-benchmark-strong-prompt-beta3.json`](../evals/evidence/ab-benchmark-strong-prompt-beta3.json).
 
+### Post-refinement beta.6 one-shot comparator
+
+The same complete 12-case design was rerun from clean commit `f88cb2e` after the efficacy,
+facilitation, routing, and proportionality refinements. Design Council scored **95.54** versus
+**92.98** for the frozen competent prompt-only control: **+2.56 points**, with 95% case-bootstrap
+CI **[0.42, 4.82]**, 7 wins, 2 ties, and 3 losses. Blind votes were 37 treatment to 11 control.
+
+Generation-token use fell from the beta3 2.15× ratio to **1.523×** control: 23,406 versus 15,371
+mean tokens per case run. Visible length was slightly lower than control (648 versus 654 words),
+so the premium came from loaded context, reasoning, and a small number of tool-backed artifacts,
+not longer prose. The configured 1.50× optimization target was narrowly missed; that remains a
+resource diagnostic rather than an outcome veto.
+
+The honest verdict is
+`DIRECTIONAL_BENEFIT_NOT_YET_ESTABLISHED_AS_MEANINGFUL`: the point estimate is positive, but the
+interval does not clear the preregistered +3-point practical threshold. The run therefore does
+not establish meaningful one-shot benefit, but it also does not establish a meaningful control
+advantage—the secondary V1 gate condition is satisfied. Diagnostic gains were strongest in
+methodological rigor (+10.00), evidence calibration (+3.75), and appropriate scope (+8.57);
+actionability (-2.08) and structured divergence/synthesis (-0.24) remain refinement targets.
+More than 20% of multiply judged pairs changed winner across counterbalanced presentations, so
+small per-case differences must not be overinterpreted.
+
+The complete content-safe evidence bundle—including frozen manifests, assistant outputs, blinded
+pairs, judgments, summaries, and hashes—is stored at
+[`evals/evidence/runs/20260813T210644Z`](../evals/evidence/runs/20260813T210644Z).
+
 ### Longitudinal value harness
 
 A new persisted-session paired harness now tests the value proposition that a one-shot comparison
@@ -204,11 +253,31 @@ assistant trajectories, blinded pairs, judgments, summaries, hashes, and frozen-
 are committed under
 [`evals/evidence/runs/20260813T191419Z`](../evals/evidence/runs/20260813T191419Z).
 
-The result identified two bounded changes: preserve live mechanism alternatives through final
-experiment choice and remove study operations that do not add discrimination, realism, safety,
-or decision value. The five-neutral-trajectory, explicitly invoked release comparison and
-post-refinement one-shot strong comparator remain pending. Held-out trajectories and blind human
-ratings are still required before a public outcome claim.
+The first fully preregistered five-trajectory attempt then ran from exact clean beta.6 commit
+`f88cb2e`. All **20/20 candidate arms** and **20/20 blind judgments** completed without failures,
+retries, skips, or timeouts. Design Council scored **96.875** versus **91.375**, a **+5.5-point**
+advantage with 4 wins, 0 ties, and 1 loss. Candidate tokens were **2,559,903** versus **1,605,139**
+(**1.594817×**); visible treatment output was only modestly longer, so input/context dominated the
+premium. The 10,000-sample case-bootstrap interval was **[0.25, 11.625]**. Because its lower bound
+did not clear +3, the verdict remained
+`TREATMENT_ADVANTAGE_DETECTED_BELOW_IMPORTANCE_THRESHOLD`; the shipped content-safe bundle
+reproduces an independent verifier failure of **42/44** when exported-bundle mode is explicitly
+allowed (the two failed checks are the verdict and interval threshold). Default raw-run mode also
+fails the expected missing-snapshot check. No V1 receipt was created. The complete immutable evidence is in
+[`evals/evidence/runs/20260813T210617Z`](../evals/evidence/runs/20260813T210617Z).
+
+Four trajectories won; the clinic handoff case lost **−3.125**. Forensics showed a precise,
+generalizable defect rather than failure to reframe: one repeat converted duplicated-task events
+into unsupported walkthrough ratios, carried obsolete scope after hard constraints, and omitted
+legitimate parallel work and false-blocking counterexamples. Beta.7 now preserves observational
+units/cardinality, explicitly supersedes incompatible scope, distinguishes accountable ownership
+from contribution, tracks evidence-driven frame changes, and keeps generic authority separate from
+local causal evidence. In a local authenticated regression run, five focused live model responses
+passed independent semantic judgment and their saved responses passed corrected deterministic
+matchers. Those gitignored artifacts are a development diagnostic, not shipped release evidence.
+The unchanged primary gate must now rerun
+from a new clean beta.7 commit. Held-out trajectories and blind human ratings remain required before
+a broad public outcome claim.
 
 ## Interview companion and Exchange boundary
 
@@ -229,8 +298,8 @@ OpenAI and Claude packages are generated from one canonical core at
 SHA-256 checksums live under `dist/`. Installation, update, uninstall, private-repository auth,
 and current public-publication paths are documented separately.
 
-The `v0.9.0-beta.6` tag and fresh pinned-tag collaborator installs must occur only after its
-pending benchmark review. Existing beta tags remain immutable. Nothing has been
+The `v0.9.0-beta.7` tag and fresh pinned-tag collaborator installs must occur only after the
+pending primary trajectory-gate rerun and a final clean-commit release verification. Existing beta tags remain immutable. Nothing has been
 submitted, approved, or published to either marketplace. Public publication remains gated on
 owner-controlled publisher identity, public policy/support URLs, independent evaluation, a fresh
 release audit, and each platform's current review/catalog process.

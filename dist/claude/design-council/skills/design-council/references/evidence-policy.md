@@ -80,6 +80,8 @@ Examples:
 6. Check source independence. Multiple summaries of one source count as one source.
 7. When synthetic and human findings disagree, create a Reality Check; treat the disagreement as useful learning.
 8. Do not quote a synthetic participant in a layout that could be mistaken for a real participant. Mark the card and every excerpt.
+9. Preserve the observational unit and cardinality supplied by the source. Counts of events, tasks, excerpts, cases, participants, and studies are not interchangeable. A narrative qualifier such as “usually” is not an `n/N`; if a denominator, co-occurrence, or record-level distribution is absent, record it as `UNKNOWN`.
+10. When evidence changes a frame, append a compact change ledger: prior claim, `STRENGTHENED | WEAKENED | FALSIFIED | RETAINED`, traceable evidence IDs, and design implication. Never rewrite the earlier claim as though the team had always held the new position.
 
 ## Design Debt and Evidence Debt
 

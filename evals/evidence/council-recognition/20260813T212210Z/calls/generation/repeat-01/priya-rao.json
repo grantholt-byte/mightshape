@@ -1,0 +1,38 @@
+{
+  "call": {
+    "activity": {
+      "agent_messages": 1,
+      "command_executions": 0,
+      "completed_items": 1,
+      "tool_calls": 0
+    },
+    "event_count": 4,
+    "returncode": 0,
+    "status": "OK",
+    "stderr_sha256": "511a73265aedf2e78991eb0cd6d4d3b54bb25d74ccba8d8b10cae2fdf2a25c5f",
+    "stdout_sha256": "1d0c820940f265deaaa72173a567cb5927e64265c0f177eaeb0857d517456deb",
+    "timed_out": false,
+    "usage": {
+      "cached_input_tokens": 0,
+      "input_tokens": 15583,
+      "output_tokens": 260,
+      "reasoning_output_tokens": 38,
+      "total_tokens": 15843,
+      "uncached_input_tokens": 15583
+    },
+    "wall_time_seconds": 16.817656,
+    "warnings": [
+      "runtime emitted plugin/MCP/auth diagnostics outside the isolated project; inspect the saved stderr artifact"
+    ]
+  },
+  "parsed": {
+    "leakage_findings": [],
+    "response": "Current position: do not approve the dashboard yet, but do not spend six weeks debating four plausible mechanisms. The anecdotes establish that failures may occur; they establish neither frequency nor which failure matters most.\n\nI notice first that “improve what happens” has no defined outcome or primary user. Faster acknowledgment, correct interpretation, coordinated adaptation, and clear ownership are different bets, with different people bearing the cost of error. I would protect uncertainty about whose experience counts—especially whether apparent smoothness merely means quieter participants absorb the disruption.\n\nQuestions: What observable sequence follows a real plan change? Who notices last, who repairs the gap, and what consequence would justify intervention?\n\nRecommended move: observe five naturally occurring changes across varied participants this week. Record the change, notification path, interpretations, handoffs, next-action owner, delay, and recovery. Then run one capped, reversible comparison on the most repeated breakdown—possibly a manual dashboard mock-up—and predefine what result would warrant building, revising, or stopping.",
+    "word_count": 156
+  },
+  "prompt_sha256": "39fff0bb843827506fae93ae4781e244bb5fd1142eb40ab2c0ac8607ebd66394",
+  "repeat": 1,
+  "response_sha256": "d64e55e88fc70666f3205dbebff4c4dbc52b5661969ab349bf7fbeb163cb39c4",
+  "source_profile": "Priya Rao",
+  "source_slug": "priya-rao"
+}

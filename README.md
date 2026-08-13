@@ -82,16 +82,16 @@ gh auth status
 gh auth login --git-protocol https
 gh auth setup-git
 git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
-  refs/tags/v0.9.0-beta.6
+  refs/tags/v0.9.0-beta.7
 ```
 
 Do not continue if `ls-remote` fails: the invitation may still need to be accepted, the
-GitHub account may be wrong, or the `v0.9.0-beta.6` tag may not be available yet.
+GitHub account may be wrong, or the `v0.9.0-beta.7` tag may not be available yet.
 
 ### OpenAI / Codex
 
 ```bash
-codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.6 --json
+codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.7 --json
 codex plugin add design-council@design-council --json
 ```
 
@@ -106,14 +106,15 @@ clean-context tests, and troubleshooting.
 
 ```bash
 CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
-  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.6 --scope user
+  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.7 --scope user
 claude plugin install design-council@design-council --scope user
 ```
 
 Invoke `/design-council:design-think`. Claude plugin skills are always namespaced. The exact
-`/design-think` spelling is available only through an optional standalone skill install, not
-through a marketplace plugin. Legacy `/design-council:design-council` remains available during
-the beta. See
+`/design-think` spelling is available through an optional explicit-only personal alias that
+delegates to the installed plugin; from a pinned source checkout run
+`python3 scripts/install_claude_alias.py --scope user`. Legacy
+`/design-council:design-council` remains available during the beta. See
 [Claude installation](docs/installation-claude.md) for sideloading, update, uninstall, and
 troubleshooting.
 
@@ -217,6 +218,16 @@ Two frozen pre-refinement beta3 comparisons answer different questions:
   This run therefore does not establish incremental single-turn value beyond careful prompt
   engineering.
 
+The clean post-refinement beta.6 one-shot rerun materially improved that stronger comparison:
+Design Council scored **95.54** versus **92.98**, or **+2.56 points** (95% case-bootstrap CI
+**0.42–4.82**; 7 wins, 2 ties, 3 losses), while reducing the token ratio from 2.15× to
+**1.523×**. Its preregistered verdict remains
+**`DIRECTIONAL_BENEFIT_NOT_YET_ESTABLISHED_AS_MEANINGFUL`** because the interval does not clear
+the +3-point practical threshold. This supports a positive direction and establishes no
+meaningful control advantage in this run; it does not yet prove a meaningful one-shot benefit.
+The [complete beta.6 evidence bundle](evals/evidence/runs/20260813T210644Z/summary.md) preserves
+assistant outputs, blinded pairs, judgments, manifests, and hashes.
+
 A later clean beta.5 persisted-session study against that competent prompt found a directional
 longitudinal advantage: **98.33** versus **94.17**, or **+4.17 points** (95% case-bootstrap CI
 **[0.63, 6.88]**; 2 wins, 1 tie, 0 losses) at **1.64×** generation tokens. Because the lower
@@ -226,12 +237,26 @@ complete frozen outputs and judgments are in the
 [auditable evidence bundle](evals/evidence/runs/20260813T191419Z/summary.md). Its diagnosed
 regressions informed a broader five-trajectory, explicitly invoked release comparison.
 
-Token use is an optimization target, not an outcome-value veto; the stronger comparator's
-quality result would remain inconclusive regardless of token ratio. These are exploratory
-internal Codex studies, not native Claude evidence, monetary ROI, or a universal efficacy claim.
-The expanded release trajectory comparison, held-out external prompts, and blind human review are the next tests
-for the plugin's intended advantages in persistent reframing, structured divergence, and rapid
-evidence-driven iteration. See the [raw-prompt evidence](evals/evidence/ab-benchmark-beta3.json),
+The first preregistered five-trajectory release-gate attempt ran from clean beta.6 commit
+`f88cb2e`: Design Council scored **96.88** versus **91.38**, or **+5.50 points**, with 4 wins,
+0 ties, and 1 loss at **1.595×** candidate tokens. Its 95% case-bootstrap interval was
+**[0.25, 11.63]**, so the lower bound did not clear the fixed +3-point release threshold. The
+verdict is **`TREATMENT_ADVANTAGE_DETECTED_BELOW_IMPORTANCE_THRESHOLD`** and V1 remains beta.
+The result exposed one bounded clinic-workflow regression: a stochastic treatment repeat changed
+event counts into unsupported case ratios, retained obsolete pilot scope, and omitted legitimate
+parallel work/false-blocking cases. Beta.7 corrects those general behaviors and will rerun the
+unchanged gate. The complete failed-gate evidence remains available in the
+[beta.6 trajectory bundle](evals/evidence/runs/20260813T210617Z/summary.md); it is not discarded
+or relabeled as success.
+
+Token use is an optimization target, not an outcome-value veto. These are exploratory internal
+Codex studies, not native Claude evidence, monetary ROI, or a universal efficacy claim. A focused
+beta.6 name-blind model evaluator matched **10/10** independently generated, leakage-screened
+Council artifacts to their canonical fictional profiles; that establishes narrow model-based
+traceability on one challenge, not human recognizability or cross-context identity consistency.
+The preregistered persisted-trajectory rerun remains the V1 efficacy gate; held-out external
+prompts and blind human review remain necessary for broader claims. See the
+[raw-prompt evidence](evals/evidence/ab-benchmark-beta3.json),
 [strong-prompt evidence](evals/evidence/ab-benchmark-strong-prompt-beta3.json), and
 [eval guide](evals/README.md).
 
@@ -260,8 +285,8 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md
 
 ## Release status
 
-Version `0.9.0-beta.6` is the current private-beta release candidate. Its final release-gate
-validation, model-backed benchmark reruns, immutable tag, and fresh collaborator-install checks
+Version `0.9.0-beta.7` is the current private-beta release candidate. Its final release-gate
+rerun, immutable tag, and fresh collaborator-install checks
 remain pending; do not treat it as a completed release until those gates pass. The GitHub repository
 is private and has not been published to either marketplace. Public release still requires
 publisher identity, public support/privacy/terms URLs where applicable, a fresh release audit,

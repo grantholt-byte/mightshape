@@ -20,6 +20,11 @@ Use comparison when it reveals a meaningful tradeoff or distinguishes live mecha
 same realistic trigger where practical, observe behavior rather than preference voting, and keep
 the comparison to the fewest alternatives that could change the next decision.
 
+For coordination tests, deliberately include both true conflicts and legitimate shared work. Observe
+false duplicate warnings, false blocking, stale-state recovery, and whether one accountable owner can
+coexist with visible contributors; do not award success merely because the design suppresses all
+parallel activity.
+
 ## Observe and capture
 
 Record:

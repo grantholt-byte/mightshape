@@ -1,0 +1,1663 @@
+{
+  "analysis_unit": "case (repeats are averaged within case)",
+  "case_results": [
+    {
+      "case_id": "family_scheduler",
+      "control_mean_response_words": 518.0,
+      "control_mean_tokens": 14313.0,
+      "control_mean_tool_calls": 0.0,
+      "control_mean_wall_time_seconds": 33.871439,
+      "control_quality": 92.142857,
+      "domain": "AI product / household coordination",
+      "marginal_quality_points_per_1k_additional_tokens": -0.450653,
+      "quality_cost_quadrant": "CONTROL_DOMINATES",
+      "quality_delta": -2.142857,
+      "result": "LOSS",
+      "title": "Ambiguous AI family scheduler",
+      "token_overhead": 4755.0,
+      "token_ratio": 1.332215,
+      "treatment_mean_response_words": 636.0,
+      "treatment_mean_tokens": 19068.0,
+      "treatment_mean_tool_calls": 0.0,
+      "treatment_mean_wall_time_seconds": 45.935522,
+      "treatment_quality": 90.0,
+      "valid_pairs": 2
+    },
+    {
+      "case_id": "career_advisor",
+      "control_mean_response_words": 796.5,
+      "control_mean_tokens": 14594.5,
+      "control_mean_tool_calls": 0.0,
+      "control_mean_wall_time_seconds": 44.908022,
+      "control_quality": 99.285714,
+      "domain": "High-consequence AI product",
+      "marginal_quality_points_per_1k_additional_tokens": -0.645172,
+      "quality_cost_quadrant": "CONTROL_DOMINATES",
+      "quality_delta": -2.857142,
+      "result": "LOSS",
+      "title": "Consequential automated career advice",
+      "token_overhead": 4428.5,
+      "token_ratio": 1.303436,
+      "treatment_mean_response_words": 777.5,
+      "treatment_mean_tokens": 19023.0,
+      "treatment_mean_tool_calls": 0.0,
+      "treatment_mean_wall_time_seconds": 49.089626,
+      "treatment_quality": 96.428572,
+      "valid_pairs": 2
+    },
+    {
+      "case_id": "ed_nurse_workflow",
+      "control_mean_response_words": 845.5,
+      "control_mean_tokens": 14787.0,
+      "control_mean_tool_calls": 0.0,
+      "control_mean_wall_time_seconds": 44.097723,
+      "control_quality": 94.285714,
+      "domain": "Regulated practitioner workflow",
+      "marginal_quality_points_per_1k_additional_tokens": 0.046119,
+      "quality_cost_quadrant": "QUALITY_GAIN_FOR_TOKEN_PREMIUM",
+      "quality_delta": 0.714286,
+      "result": "TIE",
+      "title": "Unfamiliar emergency nursing workflow",
+      "token_overhead": 15488.0,
+      "token_ratio": 2.047407,
+      "treatment_mean_response_words": 751.5,
+      "treatment_mean_tokens": 30275.0,
+      "treatment_mean_tool_calls": 0.5,
+      "treatment_mean_wall_time_seconds": 50.166255,
+      "treatment_quality": 95.0,
+      "valid_pairs": 2
+    },
+    {
+      "case_id": "extreme_heat",
+      "control_mean_response_words": 690.5,
+      "control_mean_tokens": 24780.5,
+      "control_mean_tool_calls": 0.0,
+      "control_mean_wall_time_seconds": 42.118185,
+      "control_quality": 93.571428,
+      "domain": "Public service / social system",
+      "marginal_quality_points_per_1k_additional_tokens": null,
+      "quality_cost_quadrant": "TREATMENT_DOMINATES",
+      "quality_delta": 2.142858,
+      "result": "WIN",
+      "title": "Municipal extreme-heat preparedness",
+      "token_overhead": -5434.5,
+      "token_ratio": 0.780694,
+      "treatment_mean_response_words": 715.5,
+      "treatment_mean_tokens": 19346.0,
+      "treatment_mean_tool_calls": 0.0,
+      "treatment_mean_wall_time_seconds": 58.213682,
+      "treatment_quality": 95.714286,
+      "valid_pairs": 2
+    },
+    {
+      "case_id": "affinity_cluster",
+      "control_mean_response_words": 610.5,
+      "control_mean_tokens": 14541.0,
+      "control_mean_tool_calls": 0.0,
+      "control_mean_wall_time_seconds": 35.869771,
+      "control_quality": 96.428572,
+      "domain": "Qualitative synthesis",
+      "marginal_quality_points_per_1k_additional_tokens": -0.452844,
+      "quality_cost_quadrant": "CONTROL_DOMINATES",
+      "quality_delta": -2.142858,
+      "result": "LOSS",
+      "title": "Visual affinity clustering",
+      "token_overhead": 4732.0,
+      "token_ratio": 1.325425,
+      "treatment_mean_response_words": 471.5,
+      "treatment_mean_tokens": 19273.0,
+      "treatment_mean_tool_calls": 0.0,
+      "treatment_mean_wall_time_seconds": 42.225713,
+      "treatment_quality": 94.285714,
+      "valid_pairs": 2
+    },
+    {
+      "case_id": "process_map",
+      "control_mean_response_words": 753.0,
+      "control_mean_tokens": 14842.5,
+      "control_mean_tool_calls": 0.0,
+      "control_mean_wall_time_seconds": 41.851059,
+      "control_quality": 90.0,
+      "domain": "Service process mapping",
+      "marginal_quality_points_per_1k_additional_tokens": 1.587302,
+      "quality_cost_quadrant": "QUALITY_GAIN_FOR_TOKEN_PREMIUM",
+      "quality_delta": 7.142857,
+      "result": "WIN",
+      "title": "Cross-channel clinic rescheduling map",
+      "token_overhead": 4500.0,
+      "token_ratio": 1.303183,
+      "treatment_mean_response_words": 677.0,
+      "treatment_mean_tokens": 19342.5,
+      "treatment_mean_tool_calls": 0.0,
+      "treatment_mean_wall_time_seconds": 39.351312,
+      "treatment_quality": 97.142857,
+      "valid_pairs": 2
+    },
+    {
+      "case_id": "wide_ideation",
+      "control_mean_response_words": 823.0,
+      "control_mean_tokens": 14663.5,
+      "control_mean_tool_calls": 0.0,
+      "control_mean_wall_time_seconds": 45.474609,
+      "control_quality": 98.571428,
+      "domain": "Divergent ideation",
+      "marginal_quality_points_per_1k_additional_tokens": -0.133486,
+      "quality_cost_quadrant": "CONTROL_DOMINATES",
+      "quality_delta": -0.714285,
+      "result": "TIE",
+      "title": "Conceptually wide service ideation",
+      "token_overhead": 5351.0,
+      "token_ratio": 1.36492,
+      "treatment_mean_response_words": 848.0,
+      "treatment_mean_tokens": 20014.5,
+      "treatment_mean_tool_calls": 0.0,
+      "treatment_mean_wall_time_seconds": 57.994543,
+      "treatment_quality": 97.857143,
+      "valid_pairs": 2
+    },
+    {
+      "case_id": "prototype_forwarding",
+      "control_mean_response_words": 705.5,
+      "control_mean_tokens": 14610.0,
+      "control_mean_tool_calls": 0.0,
+      "control_mean_wall_time_seconds": 36.681285,
+      "control_quality": 95.0,
+      "domain": "Rapid experiment design",
+      "marginal_quality_points_per_1k_additional_tokens": 0.150344,
+      "quality_cost_quadrant": "QUALITY_GAIN_FOR_TOKEN_PREMIUM",
+      "quality_delta": 2.142857,
+      "result": "WIN",
+      "title": "Prototype a coordination behavior",
+      "token_overhead": 14253.0,
+      "token_ratio": 1.975565,
+      "treatment_mean_response_words": 728.0,
+      "treatment_mean_tokens": 28863.0,
+      "treatment_mean_tool_calls": 0.5,
+      "treatment_mean_wall_time_seconds": 52.077584,
+      "treatment_quality": 97.142857,
+      "valid_pairs": 2
+    },
+    {
+      "case_id": "interview_guide",
+      "control_mean_response_words": 791.0,
+      "control_mean_tokens": 14771.0,
+      "control_mean_tool_calls": 0.0,
+      "control_mean_wall_time_seconds": 35.664508,
+      "control_quality": 87.857143,
+      "domain": "Human research",
+      "marginal_quality_points_per_1k_additional_tokens": 0.206548,
+      "quality_cost_quadrant": "QUALITY_GAIN_FOR_TOKEN_PREMIUM",
+      "quality_delta": 5.0,
+      "result": "WIN",
+      "title": "Exploratory interview without solution priming",
+      "token_overhead": 24207.5,
+      "token_ratio": 2.638853,
+      "treatment_mean_response_words": 711.0,
+      "treatment_mean_tokens": 38978.5,
+      "treatment_mean_tool_calls": 1.0,
+      "treatment_mean_wall_time_seconds": 42.722071,
+      "treatment_quality": 92.857143,
+      "valid_pairs": 2
+    },
+    {
+      "case_id": "contradictory_evidence",
+      "control_mean_response_words": 451.5,
+      "control_mean_tokens": 14150.0,
+      "control_mean_tool_calls": 0.0,
+      "control_mean_wall_time_seconds": 28.643798,
+      "control_quality": 91.428571,
+      "domain": "Evidence-driven iteration",
+      "marginal_quality_points_per_1k_additional_tokens": 0.294824,
+      "quality_cost_quadrant": "QUALITY_GAIN_FOR_TOKEN_PREMIUM",
+      "quality_delta": 4.285715,
+      "result": "WIN",
+      "title": "Reframe after contradictory evidence",
+      "token_overhead": 14536.5,
+      "token_ratio": 2.027314,
+      "treatment_mean_response_words": 665.5,
+      "treatment_mean_tokens": 28686.5,
+      "treatment_mean_tool_calls": 0.5,
+      "treatment_mean_wall_time_seconds": 42.350285,
+      "treatment_quality": 95.714286,
+      "valid_pairs": 2
+    },
+    {
+      "case_id": "dark_mode",
+      "control_mean_response_words": 370.0,
+      "control_mean_tokens": 14127.0,
+      "control_mean_tool_calls": 0.0,
+      "control_mean_wall_time_seconds": 26.232422,
+      "control_quality": 85.714285,
+      "domain": "Low-ambiguity implementation routing",
+      "marginal_quality_points_per_1k_additional_tokens": 1.986887,
+      "quality_cost_quadrant": "QUALITY_GAIN_FOR_TOKEN_PREMIUM",
+      "quality_delta": 10.000001,
+      "result": "WIN",
+      "title": "Straightforward specified implementation",
+      "token_overhead": 5033.0,
+      "token_ratio": 1.356268,
+      "treatment_mean_response_words": 259.5,
+      "treatment_mean_tokens": 19160.0,
+      "treatment_mean_tool_calls": 0.0,
+      "treatment_mean_wall_time_seconds": 24.200397,
+      "treatment_quality": 95.714286,
+      "valid_pairs": 2
+    },
+    {
+      "case_id": "parser_spike",
+      "control_mean_response_words": 493.5,
+      "control_mean_tokens": 14274.0,
+      "control_mean_tool_calls": 0.0,
+      "control_mean_wall_time_seconds": 28.06026,
+      "control_quality": 91.428572,
+      "domain": "Technical uncertainty",
+      "marginal_quality_points_per_1k_additional_tokens": 1.563844,
+      "quality_cost_quadrant": "QUALITY_GAIN_FOR_TOKEN_PREMIUM",
+      "quality_delta": 7.142856,
+      "result": "WIN",
+      "title": "Cheap coded technical experiment",
+      "token_overhead": 4567.5,
+      "token_ratio": 1.319987,
+      "treatment_mean_response_words": 531.0,
+      "treatment_mean_tokens": 18841.5,
+      "treatment_mean_tool_calls": 0.0,
+      "treatment_mean_wall_time_seconds": 35.682455,
+      "treatment_quality": 98.571428,
+      "valid_pairs": 2
+    }
+  ],
+  "complete_pairs": 24,
+  "conclusion": "TREATMENT_BETTER",
+  "explicit_invocation_diagnostic": {
+    "calls": 0,
+    "enabled": false,
+    "included_in_primary_uplift": false,
+    "mean_tokens": null,
+    "mean_wall_time_seconds": null,
+    "successful_calls": 0
+  },
+  "generation_cost": {
+    "absolute_mean_token_delta": 8034.791666,
+    "absolute_total_token_delta": 192835.0,
+    "absolute_treatment_minus_control": {
+      "activity_total": {
+        "agent_messages": 23.0,
+        "command_executions": 5.0,
+        "completed_items": 27.0,
+        "tool_calls": 5.0
+      },
+      "mean_activity_per_call": {
+        "agent_messages": 0.958333,
+        "command_executions": 0.208333,
+        "completed_items": 1.125,
+        "tool_calls": 0.208333
+      },
+      "mean_response_words_per_call": -6.375,
+      "mean_usage_per_call": {
+        "cached_input_tokens": 2848.0,
+        "input_tokens": 7616.416666,
+        "output_tokens": 418.375,
+        "reasoning_output_tokens": 314.916667,
+        "total_tokens": 8034.791666,
+        "uncached_input_tokens": 4768.416666
+      },
+      "mean_wall_time_seconds_per_call": 8.044697,
+      "response_words_total": -153.0,
+      "usage_total": {
+        "cached_input_tokens": 68352.0,
+        "input_tokens": 182794.0,
+        "output_tokens": 10041.0,
+        "reasoning_output_tokens": 7558.0,
+        "total_tokens": 192835.0,
+        "uncached_input_tokens": 114442.0
+      }
+    },
+    "control_mean_response_words": 654.041667,
+    "control_mean_tokens_per_case_run": 15371.166667,
+    "control_mean_wall_time_seconds": 36.95609,
+    "control_usage_total": {
+      "cached_input_tokens": 242688,
+      "input_tokens": 344524,
+      "output_tokens": 24384,
+      "reasoning_output_tokens": 3159,
+      "total_tokens": 368908,
+      "uncached_input_tokens": 101836
+    },
+    "mean_activity_per_successful_call": {
+      "control": {
+        "agent_messages": 1.041667,
+        "command_executions": 0.0,
+        "completed_items": 1.083333,
+        "tool_calls": 0.0
+      },
+      "treatment": {
+        "agent_messages": 2.0,
+        "command_executions": 0.208333,
+        "completed_items": 2.208333,
+        "tool_calls": 0.208333
+      }
+    },
+    "mean_usage_per_successful_call": {
+      "control": {
+        "cached_input_tokens": 10112.0,
+        "input_tokens": 14355.166667,
+        "output_tokens": 1016.0,
+        "reasoning_output_tokens": 131.625,
+        "total_tokens": 15371.166667,
+        "uncached_input_tokens": 4243.166667
+      },
+      "treatment": {
+        "cached_input_tokens": 12960.0,
+        "input_tokens": 21971.583333,
+        "output_tokens": 1434.375,
+        "reasoning_output_tokens": 446.541667,
+        "total_tokens": 23405.958333,
+        "uncached_input_tokens": 9011.583333
+      }
+    },
+    "resource_profile_by_arm": {
+      "control": {
+        "activity_total": {
+          "agent_messages": 25,
+          "command_executions": 0,
+          "completed_items": 26,
+          "tool_calls": 0
+        },
+        "mean_activity_per_call": {
+          "agent_messages": 1.041667,
+          "command_executions": 0.0,
+          "completed_items": 1.083333,
+          "tool_calls": 0.0
+        },
+        "mean_response_words_per_call": 654.041667,
+        "mean_usage_per_call": {
+          "cached_input_tokens": 10112.0,
+          "input_tokens": 14355.166667,
+          "output_tokens": 1016.0,
+          "reasoning_output_tokens": 131.625,
+          "total_tokens": 15371.166667,
+          "uncached_input_tokens": 4243.166667
+        },
+        "mean_wall_time_seconds_per_call": 36.95609,
+        "response_words_total": 15697,
+        "successful_resource_complete_calls": 24,
+        "usage_total": {
+          "cached_input_tokens": 242688,
+          "input_tokens": 344524,
+          "output_tokens": 24384,
+          "reasoning_output_tokens": 3159,
+          "total_tokens": 368908,
+          "uncached_input_tokens": 101836
+        }
+      },
+      "treatment": {
+        "activity_total": {
+          "agent_messages": 48,
+          "command_executions": 5,
+          "completed_items": 53,
+          "tool_calls": 5
+        },
+        "mean_activity_per_call": {
+          "agent_messages": 2.0,
+          "command_executions": 0.208333,
+          "completed_items": 2.208333,
+          "tool_calls": 0.208333
+        },
+        "mean_response_words_per_call": 647.666667,
+        "mean_usage_per_call": {
+          "cached_input_tokens": 12960.0,
+          "input_tokens": 21971.583333,
+          "output_tokens": 1434.375,
+          "reasoning_output_tokens": 446.541667,
+          "total_tokens": 23405.958333,
+          "uncached_input_tokens": 9011.583333
+        },
+        "mean_wall_time_seconds_per_call": 45.000787,
+        "response_words_total": 15544,
+        "successful_resource_complete_calls": 24,
+        "usage_total": {
+          "cached_input_tokens": 311040,
+          "input_tokens": 527318,
+          "output_tokens": 34425,
+          "reasoning_output_tokens": 10717,
+          "total_tokens": 561743,
+          "uncached_input_tokens": 216278
+        }
+      }
+    },
+    "response_word_ratio": 0.990253,
+    "token_overhead": 8034.791666,
+    "token_ratio": 1.522718,
+    "treatment_mean_response_words": 647.666667,
+    "treatment_mean_tokens_per_case_run": 23405.958333,
+    "treatment_mean_wall_time_seconds": 45.000787,
+    "treatment_usage_total": {
+      "cached_input_tokens": 311040,
+      "input_tokens": 527318,
+      "output_tokens": 34425,
+      "reasoning_output_tokens": 10717,
+      "total_tokens": 561743,
+      "uncached_input_tokens": 216278
+    },
+    "wall_time_ratio": 1.217683
+  },
+  "heuristic_efficiency": {
+    "control": 6.182892,
+    "label": "mean quality points per 1k total generation tokens; heuristic only",
+    "ratio": 0.70072,
+    "treatment": 4.332475
+  },
+  "incremental_value": {
+    "diagnostics": {
+      "incremental_tokens_per_quality_point": 3139.174185,
+      "quality_cost_quadrant": "QUALITY_GAIN_FOR_TOKEN_PREMIUM",
+      "relative_gain_to_token_premium_ratio": 0.052665
+    },
+    "interpretation_limit": "This is a measured outcome/resource profile, not monetary ROI. It does not assign business value to a quality point or assume account-specific token pricing.",
+    "outcome_gain": {
+      "case_win_rate": 0.583333,
+      "losses": 3,
+      "net_case_wins": 4,
+      "quality_uplift_points": 2.559524,
+      "relative_quality_uplift": 0.027529,
+      "ties": 2,
+      "wins": 7
+    },
+    "primary_metric": {
+      "fixed_observed_cost_ci": {
+        "confidence_level": 0.95,
+        "denominator_note": "uses the observed mean token overhead as a fixed denominator",
+        "lower": 0.051858,
+        "upper": 0.600069
+      },
+      "name": "marginal_quality_yield",
+      "unit": "blind quality points per 1k additional generation tokens",
+      "value": 0.318555
+    },
+    "resource_premium": {
+      "generation_token_ratio": 1.522718,
+      "incremental_generation_tokens": 8034.791666,
+      "incremental_wall_time_seconds": 8.044697,
+      "relative_generation_token_premium": 0.522718,
+      "wall_time_ratio": 1.217683
+    }
+  },
+  "judge_overhead": {
+    "calls": 48,
+    "multiply_judged_pairs": 24,
+    "orientation_disagreement_pairs": 9,
+    "resource_complete_calls": 48,
+    "usage_total": {
+      "cached_input_tokens": 399360,
+      "input_tokens": 744484,
+      "output_tokens": 28328,
+      "reasoning_output_tokens": 7416,
+      "total_tokens": 772812,
+      "uncached_input_tokens": 345124
+    },
+    "wall_time_seconds_total": 988.447993
+  },
+  "outcome_construct_profile": {
+    "analysis_note": "Constructs overlap by design and are diagnostic group means, not independent subscales. Their mapping must be frozen before a confirmatory run; mappings added after a run are post-hoc.",
+    "constructs": [
+      {
+        "case_count": 6,
+        "case_ids": [
+          "family_scheduler",
+          "career_advisor",
+          "ed_nurse_workflow",
+          "extreme_heat",
+          "interview_guide",
+          "contradictory_evidence"
+        ],
+        "construct": "right_problem_framing",
+        "control_mean": 93.095238,
+        "delta": 1.190476,
+        "description": "Distinguishes a proposed solution from the human situation, develops credible alternative frames, and lets contradictory evidence change the frame.",
+        "label": "Right-problem framing",
+        "losses": 2,
+        "ties": 1,
+        "treatment_mean": 94.285714,
+        "wins": 3
+      },
+      {
+        "case_count": 6,
+        "case_ids": [
+          "family_scheduler",
+          "career_advisor",
+          "extreme_heat",
+          "affinity_cluster",
+          "wide_ideation",
+          "contradictory_evidence"
+        ],
+        "construct": "structured_divergence_and_synthesis",
+        "control_mean": 95.238095,
+        "delta": -0.238095,
+        "description": "Creates conceptual distance, organizes alternatives, preserves contradictions and outliers, and avoids premature convergence.",
+        "label": "Structured divergence and synthesis",
+        "losses": 3,
+        "ties": 1,
+        "treatment_mean": 95.0,
+        "wins": 2
+      },
+      {
+        "case_count": 9,
+        "case_ids": [
+          "family_scheduler",
+          "career_advisor",
+          "ed_nurse_workflow",
+          "extreme_heat",
+          "affinity_cluster",
+          "process_map",
+          "prototype_forwarding",
+          "interview_guide",
+          "contradictory_evidence"
+        ],
+        "construct": "evidence_discipline",
+        "control_mean": 93.333333,
+        "delta": 1.587302,
+        "description": "Separates evidence, inference, assumptions, synthetic signals, and unknowns while identifying the grounding needed for a consequential decision.",
+        "label": "Evidence discipline",
+        "losses": 3,
+        "ties": 1,
+        "treatment_mean": 94.920635,
+        "wins": 5
+      },
+      {
+        "case_count": 8,
+        "case_ids": [
+          "family_scheduler",
+          "career_advisor",
+          "extreme_heat",
+          "wide_ideation",
+          "prototype_forwarding",
+          "interview_guide",
+          "contradictory_evidence",
+          "parser_spike"
+        ],
+        "construct": "learning_and_iteration",
+        "control_mean": 93.660714,
+        "delta": 1.875,
+        "description": "Chooses a proportionate prototype or inquiry, defines decision-relevant signals, and updates direction when evidence changes.",
+        "label": "Learning-oriented experiments and iteration",
+        "losses": 2,
+        "ties": 1,
+        "treatment_mean": 95.535714,
+        "wins": 5
+      },
+      {
+        "case_count": 2,
+        "case_ids": [
+          "dark_mode",
+          "parser_spike"
+        ],
+        "construct": "appropriate_scope",
+        "control_mean": 88.571428,
+        "delta": 8.571429,
+        "description": "Uses Design Thinking when it adds decision value and proceeds directly when requirements or a cheap technical experiment are already clear.",
+        "label": "Appropriate scope and momentum",
+        "losses": 0,
+        "ties": 0,
+        "treatment_mean": 97.142857,
+        "wins": 2
+      }
+    ]
+  },
+  "outcome_dimension_profile": {
+    "analysis_unit": "case (judgments average within pair; pairs average within case)",
+    "dimensions": [
+      {
+        "case_count": 12,
+        "control_mean": 98.75,
+        "delta": 0.833333,
+        "dimension": "problem_understanding",
+        "treatment_mean": 99.583333
+      },
+      {
+        "case_count": 12,
+        "control_mean": 88.333333,
+        "delta": 10.0,
+        "dimension": "methodological_rigor",
+        "treatment_mean": 98.333333
+      },
+      {
+        "case_count": 12,
+        "control_mean": 92.5,
+        "delta": 2.916667,
+        "dimension": "breadth_and_nonobviousness",
+        "treatment_mean": 95.416667
+      },
+      {
+        "case_count": 12,
+        "control_mean": 93.75,
+        "delta": 3.75,
+        "dimension": "evidence_calibration",
+        "treatment_mean": 97.5
+      },
+      {
+        "case_count": 12,
+        "control_mean": 98.333333,
+        "delta": -2.083333,
+        "dimension": "actionability",
+        "treatment_mean": 96.25
+      },
+      {
+        "case_count": 12,
+        "control_mean": 95.0,
+        "delta": 2.916667,
+        "dimension": "task_fit_and_clarity",
+        "treatment_mean": 97.916667
+      },
+      {
+        "case_count": 12,
+        "control_mean": 84.166667,
+        "delta": -0.416667,
+        "dimension": "communication_efficiency",
+        "treatment_mean": 83.75
+      }
+    ],
+    "scale": "0-100 blind judge dimension score"
+  },
+  "pair_results": [
+    {
+      "case_id": "family_scheduler",
+      "control_generation_count": 1,
+      "control_quality": 92.857143,
+      "control_response_words": 513,
+      "control_status": "OK",
+      "control_tokens": 14348,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 32.420063,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": true,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "CONTROL",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "family_scheduler.r01",
+      "quality_delta": -4.285714,
+      "repeat": 1,
+      "treatment_generation_count": 1,
+      "treatment_quality": 88.571429,
+      "treatment_response_words": 653,
+      "treatment_status": "OK",
+      "treatment_tokens": 18828,
+      "treatment_tool_calls": 0,
+      "treatment_wall_time_seconds": 42.031427
+    },
+    {
+      "case_id": "family_scheduler",
+      "control_generation_count": 1,
+      "control_quality": 91.428571,
+      "control_response_words": 523,
+      "control_status": "OK",
+      "control_tokens": 14278,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 35.322815,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": true,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "CONTROL",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "family_scheduler.r02",
+      "quality_delta": 1e-06,
+      "repeat": 2,
+      "treatment_generation_count": 1,
+      "treatment_quality": 91.428572,
+      "treatment_response_words": 619,
+      "treatment_status": "OK",
+      "treatment_tokens": 19308,
+      "treatment_tool_calls": 0,
+      "treatment_wall_time_seconds": 49.839616
+    },
+    {
+      "case_id": "career_advisor",
+      "control_generation_count": 1,
+      "control_quality": 100.0,
+      "control_response_words": 775,
+      "control_status": "OK",
+      "control_tokens": 14531,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 42.022281,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": true,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "CONTROL",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "career_advisor.r01",
+      "quality_delta": -2.857143,
+      "repeat": 1,
+      "treatment_generation_count": 1,
+      "treatment_quality": 97.142857,
+      "treatment_response_words": 794,
+      "treatment_status": "OK",
+      "treatment_tokens": 19032,
+      "treatment_tool_calls": 0,
+      "treatment_wall_time_seconds": 41.017161
+    },
+    {
+      "case_id": "career_advisor",
+      "control_generation_count": 1,
+      "control_quality": 98.571428,
+      "control_response_words": 818,
+      "control_status": "OK",
+      "control_tokens": 14658,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 47.793763,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": true,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "CONTROL",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "career_advisor.r02",
+      "quality_delta": -2.857142,
+      "repeat": 2,
+      "treatment_generation_count": 1,
+      "treatment_quality": 95.714286,
+      "treatment_response_words": 761,
+      "treatment_status": "OK",
+      "treatment_tokens": 19014,
+      "treatment_tool_calls": 0,
+      "treatment_wall_time_seconds": 57.162091
+    },
+    {
+      "case_id": "ed_nurse_workflow",
+      "control_generation_count": 1,
+      "control_quality": 92.857143,
+      "control_response_words": 884,
+      "control_status": "OK",
+      "control_tokens": 14850,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 51.508104,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": false,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "TREATMENT",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "ed_nurse_workflow.r01",
+      "quality_delta": 5.714285,
+      "repeat": 1,
+      "treatment_generation_count": 1,
+      "treatment_quality": 98.571428,
+      "treatment_response_words": 730,
+      "treatment_status": "OK",
+      "treatment_tokens": 41367,
+      "treatment_tool_calls": 1,
+      "treatment_wall_time_seconds": 54.914249
+    },
+    {
+      "case_id": "ed_nurse_workflow",
+      "control_generation_count": 1,
+      "control_quality": 95.714286,
+      "control_response_words": 807,
+      "control_status": "OK",
+      "control_tokens": 14724,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 36.687342,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": false,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "CONTROL",
+        "CONTROL"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "ed_nurse_workflow.r02",
+      "quality_delta": -4.285714,
+      "repeat": 2,
+      "treatment_generation_count": 1,
+      "treatment_quality": 91.428572,
+      "treatment_response_words": 773,
+      "treatment_status": "OK",
+      "treatment_tokens": 19183,
+      "treatment_tool_calls": 0,
+      "treatment_wall_time_seconds": 45.418262
+    },
+    {
+      "case_id": "extreme_heat",
+      "control_generation_count": 1,
+      "control_quality": 91.428571,
+      "control_response_words": 675,
+      "control_status": "OK",
+      "control_tokens": 34896,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 46.859826,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": true,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "CONTROL",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "extreme_heat.r01",
+      "quality_delta": 2.857143,
+      "repeat": 1,
+      "treatment_generation_count": 1,
+      "treatment_quality": 94.285714,
+      "treatment_response_words": 673,
+      "treatment_status": "OK",
+      "treatment_tokens": 19492,
+      "treatment_tool_calls": 0,
+      "treatment_wall_time_seconds": 61.9982
+    },
+    {
+      "case_id": "extreme_heat",
+      "control_generation_count": 1,
+      "control_quality": 95.714286,
+      "control_response_words": 706,
+      "control_status": "OK",
+      "control_tokens": 14665,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 37.376544,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": false,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "TREATMENT",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "extreme_heat.r02",
+      "quality_delta": 1.428571,
+      "repeat": 2,
+      "treatment_generation_count": 1,
+      "treatment_quality": 97.142857,
+      "treatment_response_words": 758,
+      "treatment_status": "OK",
+      "treatment_tokens": 19200,
+      "treatment_tool_calls": 0,
+      "treatment_wall_time_seconds": 54.429165
+    },
+    {
+      "case_id": "affinity_cluster",
+      "control_generation_count": 1,
+      "control_quality": 95.714286,
+      "control_response_words": 673,
+      "control_status": "OK",
+      "control_tokens": 14711,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 40.835271,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": true,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "CONTROL",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "affinity_cluster.r01",
+      "quality_delta": 0.0,
+      "repeat": 1,
+      "treatment_generation_count": 1,
+      "treatment_quality": 95.714286,
+      "treatment_response_words": 457,
+      "treatment_status": "OK",
+      "treatment_tokens": 19536,
+      "treatment_tool_calls": 0,
+      "treatment_wall_time_seconds": 54.646792
+    },
+    {
+      "case_id": "affinity_cluster",
+      "control_generation_count": 1,
+      "control_quality": 97.142857,
+      "control_response_words": 548,
+      "control_status": "OK",
+      "control_tokens": 14371,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 30.904272,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": true,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "CONTROL",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "affinity_cluster.r02",
+      "quality_delta": -4.285714,
+      "repeat": 2,
+      "treatment_generation_count": 1,
+      "treatment_quality": 92.857143,
+      "treatment_response_words": 486,
+      "treatment_status": "OK",
+      "treatment_tokens": 19010,
+      "treatment_tool_calls": 0,
+      "treatment_wall_time_seconds": 29.804635
+    },
+    {
+      "case_id": "process_map",
+      "control_generation_count": 1,
+      "control_quality": 85.714286,
+      "control_response_words": 733,
+      "control_status": "OK",
+      "control_tokens": 14814,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 33.473208,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": false,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "TREATMENT",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "process_map.r01",
+      "quality_delta": 10.0,
+      "repeat": 1,
+      "treatment_generation_count": 1,
+      "treatment_quality": 95.714286,
+      "treatment_response_words": 658,
+      "treatment_status": "OK",
+      "treatment_tokens": 19212,
+      "treatment_tool_calls": 0,
+      "treatment_wall_time_seconds": 34.255895
+    },
+    {
+      "case_id": "process_map",
+      "control_generation_count": 1,
+      "control_quality": 94.285714,
+      "control_response_words": 773,
+      "control_status": "OK",
+      "control_tokens": 14871,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 50.22891,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": false,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "TREATMENT",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "process_map.r02",
+      "quality_delta": 4.285714,
+      "repeat": 2,
+      "treatment_generation_count": 1,
+      "treatment_quality": 98.571428,
+      "treatment_response_words": 696,
+      "treatment_status": "OK",
+      "treatment_tokens": 19473,
+      "treatment_tool_calls": 0,
+      "treatment_wall_time_seconds": 44.446728
+    },
+    {
+      "case_id": "wide_ideation",
+      "control_generation_count": 1,
+      "control_quality": 98.571428,
+      "control_response_words": 819,
+      "control_status": "OK",
+      "control_tokens": 14628,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 44.096236,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": false,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "TREATMENT",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "wide_ideation.r01",
+      "quality_delta": 0.0,
+      "repeat": 1,
+      "treatment_generation_count": 1,
+      "treatment_quality": 98.571428,
+      "treatment_response_words": 855,
+      "treatment_status": "OK",
+      "treatment_tokens": 19343,
+      "treatment_tool_calls": 0,
+      "treatment_wall_time_seconds": 62.834515
+    },
+    {
+      "case_id": "wide_ideation",
+      "control_generation_count": 1,
+      "control_quality": 98.571428,
+      "control_response_words": 827,
+      "control_status": "OK",
+      "control_tokens": 14699,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 46.852982,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": true,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "CONTROL",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "wide_ideation.r02",
+      "quality_delta": -1.428571,
+      "repeat": 2,
+      "treatment_generation_count": 1,
+      "treatment_quality": 97.142857,
+      "treatment_response_words": 841,
+      "treatment_status": "OK",
+      "treatment_tokens": 20686,
+      "treatment_tool_calls": 0,
+      "treatment_wall_time_seconds": 53.15457
+    },
+    {
+      "case_id": "prototype_forwarding",
+      "control_generation_count": 1,
+      "control_quality": 95.714286,
+      "control_response_words": 743,
+      "control_status": "OK",
+      "control_tokens": 14611,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 35.013917,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": false,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "TREATMENT",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "prototype_forwarding.r01",
+      "quality_delta": 1.428571,
+      "repeat": 1,
+      "treatment_generation_count": 1,
+      "treatment_quality": 97.142857,
+      "treatment_response_words": 754,
+      "treatment_status": "OK",
+      "treatment_tokens": 38375,
+      "treatment_tool_calls": 1,
+      "treatment_wall_time_seconds": 60.270389
+    },
+    {
+      "case_id": "prototype_forwarding",
+      "control_generation_count": 1,
+      "control_quality": 94.285714,
+      "control_response_words": 668,
+      "control_status": "OK",
+      "control_tokens": 14609,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 38.348653,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": false,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "TREATMENT",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "prototype_forwarding.r02",
+      "quality_delta": 2.857143,
+      "repeat": 2,
+      "treatment_generation_count": 1,
+      "treatment_quality": 97.142857,
+      "treatment_response_words": 702,
+      "treatment_status": "OK",
+      "treatment_tokens": 19351,
+      "treatment_tool_calls": 0,
+      "treatment_wall_time_seconds": 43.884778
+    },
+    {
+      "case_id": "interview_guide",
+      "control_generation_count": 1,
+      "control_quality": 88.571429,
+      "control_response_words": 802,
+      "control_status": "OK",
+      "control_tokens": 14692,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 31.906333,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": false,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "TREATMENT",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "interview_guide.r01",
+      "quality_delta": 7.142857,
+      "repeat": 1,
+      "treatment_generation_count": 1,
+      "treatment_quality": 95.714286,
+      "treatment_response_words": 733,
+      "treatment_status": "OK",
+      "treatment_tokens": 39631,
+      "treatment_tool_calls": 1,
+      "treatment_wall_time_seconds": 43.096742
+    },
+    {
+      "case_id": "interview_guide",
+      "control_generation_count": 1,
+      "control_quality": 87.142857,
+      "control_response_words": 780,
+      "control_status": "OK",
+      "control_tokens": 14850,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 39.422683,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": true,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "TREATMENT",
+        "CONTROL"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "interview_guide.r02",
+      "quality_delta": 2.857143,
+      "repeat": 2,
+      "treatment_generation_count": 1,
+      "treatment_quality": 90.0,
+      "treatment_response_words": 689,
+      "treatment_status": "OK",
+      "treatment_tokens": 38326,
+      "treatment_tool_calls": 1,
+      "treatment_wall_time_seconds": 42.3474
+    },
+    {
+      "case_id": "contradictory_evidence",
+      "control_generation_count": 1,
+      "control_quality": 88.571428,
+      "control_response_words": 465,
+      "control_status": "OK",
+      "control_tokens": 14176,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 28.00821,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": false,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "TREATMENT",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "contradictory_evidence.r01",
+      "quality_delta": 8.571429,
+      "repeat": 1,
+      "treatment_generation_count": 1,
+      "treatment_quality": 97.142857,
+      "treatment_response_words": 658,
+      "treatment_status": "OK",
+      "treatment_tokens": 38261,
+      "treatment_tool_calls": 1,
+      "treatment_wall_time_seconds": 41.662661
+    },
+    {
+      "case_id": "contradictory_evidence",
+      "control_generation_count": 1,
+      "control_quality": 94.285714,
+      "control_response_words": 438,
+      "control_status": "OK",
+      "control_tokens": 14124,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 29.279386,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": false,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "TREATMENT",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "contradictory_evidence.r02",
+      "quality_delta": 0.0,
+      "repeat": 2,
+      "treatment_generation_count": 1,
+      "treatment_quality": 94.285714,
+      "treatment_response_words": 673,
+      "treatment_status": "OK",
+      "treatment_tokens": 19112,
+      "treatment_tool_calls": 0,
+      "treatment_wall_time_seconds": 43.037908
+    },
+    {
+      "case_id": "dark_mode",
+      "control_generation_count": 1,
+      "control_quality": 88.571428,
+      "control_response_words": 366,
+      "control_status": "OK",
+      "control_tokens": 14103,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 23.516106,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": false,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "TREATMENT",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "dark_mode.r01",
+      "quality_delta": 7.142858,
+      "repeat": 1,
+      "treatment_generation_count": 1,
+      "treatment_quality": 95.714286,
+      "treatment_response_words": 216,
+      "treatment_status": "OK",
+      "treatment_tokens": 18544,
+      "treatment_tool_calls": 0,
+      "treatment_wall_time_seconds": 21.619703
+    },
+    {
+      "case_id": "dark_mode",
+      "control_generation_count": 1,
+      "control_quality": 82.857143,
+      "control_response_words": 374,
+      "control_status": "OK",
+      "control_tokens": 14151,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 28.948739,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": false,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "TREATMENT",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "dark_mode.r02",
+      "quality_delta": 12.857143,
+      "repeat": 2,
+      "treatment_generation_count": 1,
+      "treatment_quality": 95.714286,
+      "treatment_response_words": 303,
+      "treatment_status": "OK",
+      "treatment_tokens": 19776,
+      "treatment_tool_calls": 0,
+      "treatment_wall_time_seconds": 26.78109
+    },
+    {
+      "case_id": "parser_spike",
+      "control_generation_count": 1,
+      "control_quality": 91.428571,
+      "control_response_words": 439,
+      "control_status": "OK",
+      "control_tokens": 14217,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 26.879227,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": false,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "TREATMENT",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "parser_spike.r01",
+      "quality_delta": 7.142857,
+      "repeat": 1,
+      "treatment_generation_count": 1,
+      "treatment_quality": 98.571428,
+      "treatment_response_words": 574,
+      "treatment_status": "OK",
+      "treatment_tokens": 18972,
+      "treatment_tool_calls": 0,
+      "treatment_wall_time_seconds": 34.967782
+    },
+    {
+      "case_id": "parser_spike",
+      "control_generation_count": 1,
+      "control_quality": 91.428572,
+      "control_response_words": 548,
+      "control_status": "OK",
+      "control_tokens": 14331,
+      "control_tool_calls": 0,
+      "control_wall_time_seconds": 29.241293,
+      "expected_judge_count": 2,
+      "generations_complete": true,
+      "judge_count": 2,
+      "judge_orientation_disagreement": false,
+      "judgments_complete": true,
+      "mapped_judge_votes": [
+        "TREATMENT",
+        "TREATMENT"
+      ],
+      "observed_judge_repeats": [
+        1,
+        2
+      ],
+      "pair_complete": true,
+      "pair_id": "parser_spike.r02",
+      "quality_delta": 7.142856,
+      "repeat": 2,
+      "treatment_generation_count": 1,
+      "treatment_quality": 98.571428,
+      "treatment_response_words": 488,
+      "treatment_status": "OK",
+      "treatment_tokens": 18711,
+      "treatment_tool_calls": 0,
+      "treatment_wall_time_seconds": 36.397128
+    }
+  ],
+  "planned_pairs": 24,
+  "primary_effectiveness_assessment": {
+    "basis": "Design Council is directionally better, but the interval still overlaps the preregistered practical-importance threshold.",
+    "observed": {
+      "quality_ci_lower": 0.416667,
+      "quality_ci_upper": 4.821429,
+      "quality_uplift_points": 2.559524
+    },
+    "preregistered_thresholds": {
+      "minimum_important_quality_uplift_points": 3.0
+    },
+    "verdict": "DIRECTIONAL_BENEFIT_NOT_YET_ESTABLISHED_AS_MEANINGFUL"
+  },
+  "quality": {
+    "absolute_uplift_points": 2.559524,
+    "blind_preference_votes": {
+      "control": 11,
+      "tie": 0,
+      "treatment": 37
+    },
+    "case_win_tie_loss": {
+      "losses": 3,
+      "tie_margin_points": 2.0,
+      "ties": 2,
+      "wins": 7
+    },
+    "control_mean": 92.97619,
+    "paired_bootstrap_ci": {
+      "confidence_level": 0.95,
+      "lower": 0.416667,
+      "samples": 10000,
+      "unit": "case",
+      "upper": 4.821429
+    },
+    "paired_effect_size_dz": 0.608932,
+    "relative_uplift": 0.027529,
+    "scale": "0-100 blind rubric score",
+    "treatment_mean": 95.535714
+  },
+  "quality_direction": "TREATMENT_BETTER",
+  "realized_design": {
+    "all_planned_pairs_usable": true,
+    "complete_pairs_by_case": {
+      "affinity_cluster": 2,
+      "career_advisor": 2,
+      "contradictory_evidence": 2,
+      "dark_mode": 2,
+      "ed_nurse_workflow": 2,
+      "extreme_heat": 2,
+      "family_scheduler": 2,
+      "interview_guide": 2,
+      "parser_spike": 2,
+      "process_map": 2,
+      "prototype_forwarding": 2,
+      "wide_ideation": 2
+    },
+    "generation_integrity": {
+      "diagnostic_generation_records_excluded": 0,
+      "duplicate_planned_generation_keys": [],
+      "duplicate_recorded_generation_keys": [],
+      "generation_payloads_valid": true,
+      "generation_plan_complete": true,
+      "generation_record_set_exact": true,
+      "generation_usage_complete": true,
+      "invalid_generation_payloads": [],
+      "invalid_generation_usage": [],
+      "invalid_planned_generation_key_count": 0,
+      "invalid_recorded_generation_key_count": 0,
+      "mismatched_generations": [],
+      "missing_generation_keys": [],
+      "planned_generations": 48,
+      "recorded_primary_generations": 48,
+      "successful_planned_generations": 48,
+      "unexpected_generation_keys": []
+    },
+    "judgment_integrity": {
+      "derived_values_recomputed": true,
+      "duplicate_planned_comparison_ids": [],
+      "duplicate_recorded_comparison_ids": [],
+      "invalid_judgment_payloads": [],
+      "invalid_judgment_records": [],
+      "invalid_judgment_usage": [],
+      "invalid_planned_comparison_id_count": 0,
+      "invalid_recorded_comparison_id_count": 0,
+      "judgment_payloads_valid": true,
+      "judgment_plan_complete": true,
+      "judgment_record_set_exact": true,
+      "judgment_usage_complete": true,
+      "mismatched_cached_judgment_fields": [],
+      "mismatched_comparisons": [],
+      "missing_comparison_ids": [],
+      "planned_judgments": 48,
+      "recorded_judgments": 48,
+      "successful_planned_judgments": 48,
+      "unexpected_comparison_ids": []
+    },
+    "minimum_design_met": true,
+    "plan_shape_complete": true,
+    "planned_pairs_by_case": {
+      "affinity_cluster": 2,
+      "career_advisor": 2,
+      "contradictory_evidence": 2,
+      "dark_mode": 2,
+      "ed_nurse_workflow": 2,
+      "extreme_heat": 2,
+      "family_scheduler": 2,
+      "interview_guide": 2,
+      "parser_spike": 2,
+      "process_map": 2,
+      "prototype_forwarding": 2,
+      "wide_ideation": 2
+    },
+    "release_quality_complete": true,
+    "requested_judgments_realized": true,
+    "requested_repeats_per_case": 2,
+    "requested_repeats_realized": true,
+    "requested_valid_judgments_per_pair": 2
+  },
+  "reproducibility": {
+    "codex_version": "codex-cli 0.146.1",
+    "design_council_version": "0.9.0-beta.6",
+    "git": {
+      "commit": "f88cb2ec3ee0f4bba3a2428e12572b58c7093bcd",
+      "dirty": false,
+      "status_available": true
+    },
+    "intervention_snapshot": {
+      "frozen_before_first_model_call": true,
+      "path": "intervention-snapshot",
+      "tree": {
+        "exclusions": [
+          "cache directories",
+          "*.pyc",
+          "*.pyo",
+          ".DS_Store",
+          "* 2.*"
+        ],
+        "file_count": 108,
+        "sha256": "e29ddf931204cdf560fd03b300dd04d478422f67ae3aba6e2d976b61313cc975"
+      }
+    },
+    "judge_schema_sha256": "e159ffaad62281672b57e81051a535cc4b4799697a6ceee507fd01bcd2eff66e",
+    "platform": "macOS-15.7.7-x86_64-i386-64bit",
+    "python": {
+      "executable": "/usr/local/bin/python3",
+      "implementation": "CPython",
+      "version": "3.11.3"
+    },
+    "runner_sha256": "42d022a44ec9ea8b49b3689f9b2a3df38c414257f75ae2202293c75d1df54739",
+    "skill_tree": {
+      "exclusions": [
+        "cache directories",
+        "*.pyc",
+        "*.pyo",
+        ".DS_Store",
+        "* 2.*"
+      ],
+      "file_count": 108,
+      "sha256": "e29ddf931204cdf560fd03b300dd04d478422f67ae3aba6e2d976b61313cc975"
+    }
+  },
+  "resource_efficiency_assessment": {
+    "basis": "The observed token premium exceeded at least one configured resource budget.",
+    "configured_budgets": {
+      "maximum_token_overhead": null,
+      "maximum_token_ratio": 1.5
+    },
+    "interpretation_limit": "This is a resource descriptor, not an outcome-value veto or monetary ROI.",
+    "observed": {
+      "token_overhead": 8034.791666,
+      "token_ratio": 1.522718
+    },
+    "verdict": "ABOVE_CONFIGURED_BUDGET"
+  },
+  "schema_version": "1.4.0",
+  "valid_cases": 12,
+  "valid_pairs": 24,
+  "warnings": [
+    "The host runtime emitted bundled plugin/MCP diagnostics despite the fresh Codex homes. No project or user plugins were copied, but built-in runtime capabilities remain a shared environmental boundary.",
+    "More than 20% of multiply judged pairs changed winner across counterbalanced presentations; inspect judge stability.",
+    "Quality per 1k tokens is a descriptive heuristic only. It is never used to infer causality or determine outcome effectiveness.",
+    "Judge blinding conceals arm allocation, but candidate wording may reveal Design Council terminology; this is not guaranteed content blinding.",
+    "The bundled corpus and rubrics were authored with the product; confirm release claims on held-out external prompts and preferably independent human judges."
+  ]
+}

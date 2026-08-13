@@ -1,0 +1,36 @@
+{
+  "call": {
+    "activity": {
+      "agent_messages": 1,
+      "command_executions": 0,
+      "completed_items": 1,
+      "tool_calls": 0
+    },
+    "event_count": 4,
+    "returncode": 0,
+    "status": "OK",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "0e541bfd6d62a3063cd216f7c4b37ea2a779602344dffa44fcd484b1a84e2344",
+    "timed_out": false,
+    "usage": {
+      "cached_input_tokens": 0,
+      "input_tokens": 15692,
+      "output_tokens": 370,
+      "reasoning_output_tokens": 159,
+      "total_tokens": 16062,
+      "uncached_input_tokens": 15692
+    },
+    "wall_time_seconds": 19.433422,
+    "warnings": []
+  },
+  "parsed": {
+    "leakage_findings": [],
+    "response": "The dashboard is premature, not disproved. We know plans change and people have stories about the aftermath. We do not yet know whose failure matters most, where the sequence breaks, or whether a new interface would expose responsibility or merely give confusion a cleaner surface.\n\nI notice the unsupported bridge from anecdotes to solution. Competing hypotheses remain live: the signal arrives late; its meaning varies by role; coordination happens through invisible work; or ownership is never explicit. Who first learns of a change? What do they do next? Who discovers the mismatch, and who quietly repairs it?\n\nProtect uncertainty about the primary user and the actual failure mode. For one week, have a small cross-role sample record each real plan change: timestamp, sender, recipient, interpretation, next action, and repair. Reconstruct three cases together, including one that went well. Then choose the smallest intervention aimed at the first repeated break—and define in advance what evidence would count against it.",
+    "word_count": 158
+  },
+  "prompt_sha256": "f16e7c50783599a1855dd63cc57790bc79381a065b45cf6014ed1c1e2556c288",
+  "repeat": 1,
+  "response_sha256": "ed6ab4374c3976ca5023ff4f4080a13946b107da81ceab64d9efb7e20413209d",
+  "source_profile": "Theo Bennett",
+  "source_slug": "theo-bennett"
+}

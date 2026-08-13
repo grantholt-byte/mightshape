@@ -80,6 +80,18 @@ class SkillBehavioralContractTests(unittest.TestCase):
         self.assertIn("under matched triggers", self.text)
         self.assertIn("run a proportionality pass", self.text)
         self.assertIn("does not increase discrimination, realism, safety, or decision value", self.text)
+        self.assertIn("a count of events is not a count of cases or participants", self.text)
+        self.assertIn("narrative qualifier is not an `n/N`", self.text)
+        self.assertIn("explicitly supersede incompatible earlier scope", self.text)
+        self.assertIn("distinguish one accountable owner from permitted contributors", self.text)
+        self.assertIn("false duplicate detection", self.text)
+        self.assertIn("prior claim → STRENGTHENED | WEAKENED | FALSIFIED | RETAINED", self.text)
+
+    def test_authoritative_grounding_stays_scoped_to_its_evidence(self) -> None:
+        self.assertIn("Generic guidance constrains safe inquiry", self.text)
+        self.assertIn("not evidence of the local failure mechanism", self.text)
+        self.assertIn("isolated research pass", self.text)
+        self.assertIn("compact cited claim ledger", self.text)
 
     def test_synthetic_participants_are_distinct_from_council_members(self) -> None:
         self.assertIn("opaque study ID", self.text)
@@ -139,7 +151,7 @@ class SkillBehavioralContractTests(unittest.TestCase):
 
     def test_skill_allocates_output_to_distinct_mechanisms_and_grounding(self) -> None:
         for marker in (
-            "compact current-authoritative grounding pass",
+            "ground the decision-changing domain and safety boundaries",
             "broad domain model from local facts",
             "`EXPECTED`, `ADJACENT`, `BEHAVIORAL`, `SYSTEMIC`, and `RADICAL`",
             "Compress feature variants",

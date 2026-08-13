@@ -1,7 +1,7 @@
 # Marketplace submission dossier
 
 **Checked against official platform documentation:** 2026-08-13
-**Current release line:** `0.9.0-beta.6`
+**Current release line:** `0.9.0-beta.7`
 **Publication state:** no submission has been made and nothing in this dossier authorizes one.
 
 This is the owner handoff for a future “go” decision. Technical metadata is prefilled. The
@@ -118,21 +118,17 @@ Treat `v1.0.0` above as a future release target, not an existing tag.
    `claude plugin validate . --strict` on that exact commit, then perform a clean install.
 3. Review and accept Anthropic's Software Directory Policy and Software Directory Terms as an
    authorized publisher. Confirm all rights, privacy, and support statements are accurate.
-4. Submit through the [Claude Console form](https://platform.claude.com/plugins/submit). A
-   Team/Enterprise organization with directory-management access may instead use the Claude.ai
-   admin submission form documented by Anthropic.
-5. Anthropic runs automated validation and safety review, pins accepted entries to a commit SHA,
-   and publishes them on its catalog schedule. The current Claude Code creation guide describes
-   third-party submissions as entering `anthropics/claude-plugins-community` under marketplace
-   name `claude-community`. A separate Anthropic submission page describes the reviewed directory
-   as surfaced under `claude-plugins-official`, with community versus Anthropic Verified status.
+4. Submit the public GitHub repository or final ZIP through the
+   [Claude.ai form](https://claude.ai/settings/plugins/submit) or
+   [Claude Console form](https://platform.claude.com/plugins/submit).
+5. Anthropic runs automated validation and safety review before a community listing is added to
+   the directory surfaced in Claude Code as `claude-plugins-official`. GitHub-backed updates are
+   mirrored and screened automatically after publication.
 
-Those official pages currently use inconsistent catalog labels. Submission therefore establishes
-eligibility for review—not guaranteed placement in a named catalog, official status, or Anthropic
-Verified status. Claude Code's creation guide separately says Anthropic chooses the curated
-official marketplace at its discretion and provides no application process. Keep the GitHub-hosted
-Design Council marketplace as the publisher-controlled distribution path regardless of directory
-review outcome.
+Directory submission does not imply that Anthropic created or endorsed the plugin. A separate
+**Anthropic Verified** badge requires additional quality and safety review, and Anthropic gives no
+guarantee that a community plugin will receive it. Keep the GitHub-hosted Design Council
+marketplace as the publisher-controlled distribution path regardless of directory outcome.
 
 ## Final “go” sequence
 
@@ -157,6 +153,7 @@ When the owner later says to prepare the actual submission:
 - Anthropic: [create plugins](https://code.claude.com/docs/en/plugins),
   [plugin marketplaces](https://code.claude.com/docs/en/plugin-marketplaces),
   [plugin reference](https://code.claude.com/docs/en/plugins-reference),
+  [submit plugins](https://claude.com/docs/plugins/submit),
   [Software Directory Policy](https://support.claude.com/en/articles/13145358-anthropic-software-directory-policy),
   and [Software Directory Terms](https://support.claude.com/en/articles/13145338-anthropic-software-directory-terms)
 

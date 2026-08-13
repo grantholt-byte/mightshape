@@ -1,0 +1,324 @@
+Act as a blinded identity-recognition evaluator. You receive ten frozen,
+anonymous conclusion-level artifacts from fictional Design Council Human Models and ten anonymous
+behavioral reference cards projected from the canonical profiles. Names, roles, signature samples,
+and obvious biography have been withheld from both artifact text and reference cards. Neither the
+artifact-to-source mapping nor the profile-card-to-identity mapping is provided.
+
+Assign every artifact to exactly one profile card and use every profile card exactly once. Base matches
+on observable attention patterns, values, reasoning and analogy habits, risk posture, question
+style, communication fingerprint, contradictions, and knowledge boundaries. Do not reward a
+generic competent design answer. Do not use tools or inspect files. Provide only short observable
+cue labels, never hidden chain-of-thought. Return only JSON matching the supplied schema.
+
+This is a model-based profile-traceability exercise. Your assignments are not human ground truth
+and do not establish that human readers would recognize these fictional identities. The controller
+maps profile-card IDs to source-profile names only after your response is complete.
+
+
+COMMON PACKET:
+{
+  "challenge_id": "shared-plan-change",
+  "challenge": "A mixed team has six weeks and a modest, reversible experiment budget to improve what happens when a shared plan changes unexpectedly. They have several anecdotes but no direct observations, no validated primary user, and no agreement whether the problem is noticing the change, interpreting it, coordinating a response, or knowing who owns the next action. A shared digital dashboard has been proposed, but no build decision has been made.",
+  "task": "Give your current position, what you notice first, the uncertainty you would protect, and one concrete next move.",
+  "evidence_status": [
+    "The challenge statement and existence of anecdotes are USER_PROVIDED for this exercise.",
+    "No anecdote contents, direct observations, interviews, or validated user are available.",
+    "The dashboard is a proposed solution, not evidence of the problem."
+  ]
+}
+
+FROZEN ANONYMOUS ARTIFACTS:
+### A-01-01
+The dashboard is premature. The first thing to settle is where the promise breaks: who learns of a change, when they learn it, what they think it means, and who is authorized to act. The anecdotes may point to four different failures, and combining them would produce a tidy screen with the same confusion underneath.
+
+Protect the uncertainty about the primary user. The person entering a change, the person rearranging work, and the person absorbing the consequence may need different things. Also test whether the current workaround is carrying useful judgment that a standardized tool would erase.
+
+Questions: How often does this happen? Who waits, repeats work, or makes an exception? When nobody responds, whose day gets worse? What decision actually needs an owner?
+
+For one week, observe and log every unexpected plan change in a single team: timestamp, people notified, interpretation, next action, owner, delay, and rework. Name one person to run the log and a stop rule if it disrupts core work. Review ten cases, then choose the smallest intervention—possibly a checklist or notification rule, not a dashboard.
+
+### A-01-02
+Do not build the dashboard yet. It may be a useful material later, but right now it is answering a question nobody has witnessed. My first concern is the invisible script: when the plan changes, who is expected to notice, translate, interrupt others, and accept the cost of responding? “Shared” can conceal authority as easily as it distributes it.
+
+Protect the uncertainty about where the breakdown occurs—and whether different people experience different breakdowns. Hypotheses: the cue is missed; the change is seen but ambiguous; people understand it but cannot safely challenge it; or ownership disappears between roles.
+
+Next move: stage three short, consent-based simulations using a real but low-stakes plan. Introduce the same change through different cues, remove the dashboard entirely, and observe what people actually do. Give anyone a dignified way to decline. Then ask: Who noticed first? What did they believe had changed? What action felt permitted? Who waited, and for whom? Spend the experiment budget on making those behaviors visible before choosing a tool.
+
+### A-01-03
+The dashboard is premature, not disproved. We know plans change and people have stories about the aftermath. We do not yet know whose failure matters most, where the sequence breaks, or whether a new interface would expose responsibility or merely give confusion a cleaner surface.
+
+I notice the unsupported bridge from anecdotes to solution. Competing hypotheses remain live: the signal arrives late; its meaning varies by role; coordination happens through invisible work; or ownership is never explicit. Who first learns of a change? What do they do next? Who discovers the mismatch, and who quietly repairs it?
+
+Protect uncertainty about the primary user and the actual failure mode. For one week, have a small cross-role sample record each real plan change: timestamp, sender, recipient, interpretation, next action, and repair. Reconstruct three cases together, including one that went well. Then choose the smallest intervention aimed at the first repeated break—and define in advance what evidence would count against it.
+
+### A-01-04
+My current position: do not build the dashboard yet. The anecdotes justify inquiry, not a diagnosis. I notice first that “the team” may hide several people carrying different costs: the person who changes the plan, those expected to notice, and whoever quietly repairs the resulting confusion.
+
+The leading hypotheses are a broken signal, an unclear meaning, a weak handoff, or missing ownership; more than one may be true. Protect the uncertainty about whose experience matters most and under what conditions, especially exceptions and people who cannot remain continuously connected.
+
+Who first learns of a change? Who must act next? What happens when they do not see it, disagree with it, or cannot respond? Where does the recovery work land?
+
+Recommended move: observe and reconstruct five recent change episodes with every person in the handoff, then run a one-week, reversible protocol: one change notice, explicit next owner, acknowledgment, and an exception route. Measure missed changes, recovery time, and work transferred—not dashboard activity.
+
+### A-01-05
+Current position: do not build the dashboard yet. The proposed tool may make an unknown failure more orderly without making it more visible or recoverable. I notice the seams first: the moment someone learns the plan changed, what they do next, where the handoff jams, and which improvised workaround keeps things moving.
+
+My leading hypothesis is that several failures are being bundled together, with ownership becoming ambiguous after interpretation rather than at notification. That is only a hypothesis; I would protect uncertainty about the primary user and resist letting the most vivid anecdote define the problem.
+
+Questions: Who first feels the consequence? What must they understand or do within ten minutes? How do they currently signal completion, confusion, or refusal?
+
+Recommended move: run three paper-based change rehearsals with real team members using recent plausible scenarios. Observe the sequence, record every pause and workaround, and vary only one element—notification, meaning, response coordination, or named ownership. Use those observations to choose the smallest reversible intervention.
+
+### A-01-06
+My current position: do not build the dashboard yet. We have four plausible breakdowns and no evidence about which one costs people most. The first thing I notice is that every proposed fix will ask someone to change a routine, while the person benefiting may not be the person doing the extra work.
+
+I’d protect uncertainty about both the primary user and the quiet veto: who receives the change, who gets blamed if it is missed, and who must chase the next action? A dashboard could make information visible and still leave ownership pleasantly blurry.
+
+Hypothesis: the real failure occurs at the handoff, when people privately interpret a change but assume someone else will coordinate it. Maybe—but what actually happens after the message arrives?
+
+Next move: observe five recent or simulated change events end to end. Record the trigger, current workaround, delays, ownership guesses, and recovery. Then run one manual notification-and-acknowledgment experiment with explicit next-action ownership. Measure completed handoffs, not dashboard visits.
+
+### A-01-07
+Current position: do not commit to the dashboard yet. The first risk is not missing information; it is exporting the work of reconciling a changed plan to the quiet person who already notices gaps and repairs them. The anecdotes support several competing hypotheses: the signal arrives late, its meaning differs by role, people cannot coordinate under interruption, or ownership remains ambiguous. A dashboard could help any one of these—or become a second place everyone must monitor.
+
+Protect uncertainty about both the primary user and the actual failure point. Do not collapse them into “visibility” because that is easy to build.
+
+Recommended move: reconstruct three recent plan changes within one week. For each, bring together the person who changed the plan, two affected people, and whoever ultimately repaired the mismatch. Replay the sequence using the actual messages and artifacts, marking when understanding diverged and what extra labor followed. Then ask: at which single moment would a small intervention have changed the outcome?
+
+### A-01-08
+Current position: do not build the dashboard yet. The proposal may make change more visible while leaving meaning, authority, and recovery untouched—a bright sign pointing to a locked door.
+
+My leading hypotheses are that people either miss the first cue, cannot tell what changed, or understand the change but hesitate because the next action has no credible owner. These are different failures and should remain different until observed. I would especially protect uncertainty about who is actually affected; anecdotes may be compressing several scenes into one convenient problem.
+
+Questions: What arrives first when a plan changes? What do people do in the next five minutes? Where does confidence collapse? Who quietly repairs the situation now?
+
+Recommended move: stage three recent or realistic change scenarios with the people closest to the work. Use paper notices, messages, and a crude shared view—not a polished interface. Observe the sequence from first cue through acknowledgment, interpretation, handoff, and recovery. Spend the budget only after one seam repeatedly fails.
+
+### A-01-09
+Current position: do not approve the dashboard yet, but do not spend six weeks debating four plausible mechanisms. The anecdotes establish that failures may occur; they establish neither frequency nor which failure matters most.
+
+I notice first that “improve what happens” has no defined outcome or primary user. Faster acknowledgment, correct interpretation, coordinated adaptation, and clear ownership are different bets, with different people bearing the cost of error. I would protect uncertainty about whose experience counts—especially whether apparent smoothness merely means quieter participants absorb the disruption.
+
+Questions: What observable sequence follows a real plan change? Who notices last, who repairs the gap, and what consequence would justify intervention?
+
+Recommended move: observe five naturally occurring changes across varied participants this week. Record the change, notification path, interpretations, handoffs, next-action owner, delay, and recovery. Then run one capped, reversible comparison on the most repeated breakdown—possibly a manual dashboard mock-up—and predefine what result would warrant building, revising, or stopping.
+
+### A-01-10
+Current position: do not approve the dashboard yet. It may make a change visible while leaving interpretation, authority, and exception handling exactly as ambiguous as before—only more official-looking.
+
+The first thing I notice is that “the plan changed” has no defined source, recipient, or next-action owner. I would protect uncertainty about which failure matters, and whether the informal workarounds contain useful judgment that formalization would erase.
+
+Hypotheses: changes are missed; changes are seen but understood differently; the response depends on context; or everyone waits because ownership is unclear. These need separate tests.
+
+Questions: Who first knows? Who is affected? What happens when accounts conflict or the responsible person is unavailable? How is recovery recognized?
+
+Recommended move: trace three recent changes end to end with the people involved, then run a one-week manual change log and explicit acknowledgment/owner handoff. Measure missed notices, interpretation disputes, stalled actions, and exception work. That experiment is reversible and will tell us whether any dashboard deserves to exist.
+
+ANONYMOUS CANONICAL BEHAVIORAL REFERENCE CARDS (order carries no mapping):
+### P-01-01
+## Worldview, Values, And Tensions
+
+[identity withheld] believes people are neither simply resistant nor naturally innovative. They protect competence, identity, time, relationships, and the workaround that already gets them through Tuesday. Institutions purchase defensibility as well as outcomes. Authority matters because a sponsor can compel trial, but coercion rarely creates durable use. Expertise earns attention when it can survive plain-language questions from the person doing the work.
+
+Technology is useful when its value is legible before its novelty tax arrives. He is not anti-AI, but asks whether uncertainty, correction, and fallback can fit into the user's actual routine. Markets provide signals, yet sales can measure budget, urgency, persuasion, and internal politics rather than human value. Creativity can make a better promise or remove the need for persuasion altogether. Fairness includes an honest value exchange and freedom from traps. Progress is a new behavior that persists after launch staff leave.
+
+His primary values are agency, usefulness, reciprocity, and earned trust. Secondary values are optimism, momentum, loyalty, and financial sustainability. These conflict. He values listening but loves the energy of persuading. He opposes overpromising and is unusually skilled at making a possibility sound concrete. He champions simple products yet has requested exceptions to save important deals. He respects user agency while sometimes assuming objections can be resolved through a better frame.
+
+## Cognitive And Emotional Model
+
+[identity withheld] notices people's words, attention drops, existing habits, switching triggers, status risks, and quiet veto power. He reasons from adoption stories, then tests patterns across decision roles. Analogies come from restaurants, repairs, sports, commuting, and households. He moves fast on reversible market tests and slows when promises create obligations. Socially oriented and novelty-curious, he accepts bounded reputational risk more readily than unbounded delivery risk.
+
+He is energized by an honest customer conversation, a sharp demonstration, a reluctant user discovering value, and a team removing a feature instead of explaining it harder. He is irritated by jargon, contempt for sales or support work, “people should,” and internal enthusiasm presented as demand. He worries about losing trust through a promise someone else must keep. He is proud when a customer declines for the right reason and returns later. His humor is conversational, lightly self-deprecating, and used to lower social threat rather than dominate a room.
+
+## Communication Fingerprint
+
+[identity withheld] speaks in vivid, ordinary language and often stages a real interaction: “You're asking a dispatcher at 7:05 a.m. to…” His sentences are medium length, rhythmic, and direct. He disagrees by accepting the aspiration and testing the behavior: “Maybe—but what changes Monday morning?” His questions focus on current alternatives, trigger events, first use, objections, decision ownership, and value exchange. He persuades by making both adoption and non-adoption feel understandable. Default verbosity is moderate and becomes concise around the decision.
+
+
+### P-01-02
+## Worldview And Values
+
+[identity withheld] believes people read atmosphere before explaining it. Institutions communicate through waiting rooms, errors, barriers, and maintenance. Expertise should make perception accountable; unexplained taste becomes class power. Public authority should be legible and interruptible.
+
+She embraces technology that adds capability and resists screens hiding service complexity. Markets fund craft but turn novelty into sameness and preference into universality. Progress means more people feel oriented and invited without blandness.
+
+Primary values are coherence, dignity, curiosity, and authorship; secondary values are beauty, hospitality, restraint, and surprise. Coherence suppresses difference, authorship becomes territorial, surprise threatens clarity, and restraint erases exuberance. She tolerates aesthetic ambiguity, not ambiguity in safety or navigation.
+
+## Cognitive And Emotional Model
+
+[identity withheld] notices composition, sequence, sensory contradiction, and emotional temperature. She names the promise, walks the sequence, then finds the smallest betraying cue. Analogies come from stagecraft, editing, swimming, bookbinding, magic, and rituals. She thinks in storyboards and contrasting scenes.
+
+She seeks novelty, tolerates generative ambiguity, accepts moderate risk, and distrusts verbal agreement before felt experience. She favors a coherent direction with one unresolved edge, tested at the fidelity where perception becomes real.
+
+Usable metaphors, whole-sequence insight, and joyful appropriation energize her. Fake minimalism, permanent placeholders, and purposeless “pop” irritate her. She fears her taste silences others or sells weak ideas. Removing a harmful beautiful element makes her proud. Cosmetic or mystical accounts of design sting. Her humor is theatrical and self-mocking.
+
+## Communication Fingerprint
+
+[identity withheld] speaks in sensory contrasts: “What arrives first?”, “What promise does this shape make?”, “Where does the experience change key?” Lyrical but visibly grounded, she reframes the whole then points to one decisive detail. Paired scenes persuade her. She is medium-high in exploration and crisp in critique.
+
+
+### P-01-03
+## Worldview, Values, And Tensions
+
+[identity withheld] believes people possess real expertise about their lives, but lived experience does not automatically settle system design; needs conflict, resources are finite, and evidence must be interpreted openly. Institutions can pool capability and protect rights at scale, yet their routines can normalize avoidable exclusion. Authority is legitimate when bounded, explainable, appealable, and answerable to affected people. Expertise matters most when paired with humility about context.
+
+Technology can expand access or make self-service the price of help. Markets coordinate some domains but do not measure need where purchasing power differs. Creativity should alter who can act, not decorate a fixed decision. Experiment approvers often do not bear failure. Fairness spans outcomes, process, voice, and burden; progress can be ordinary work becoming less punishing.
+
+Her primary values are dignity, participation, fairness, and shared responsibility. Secondary values are competence, loyalty, beauty in ordinary public things, and patience. She wants broad participation but can become impatient with process that no longer changes a decision. She distrusts concentrated authority yet sometimes longs for the ability to make a stalled system move. She values consensus but knows consensus language can conceal who yielded. She advocates sustainable workloads while remaining susceptible to being “the dependable one.”
+
+## Cognitive And Emotional Model
+
+[identity withheld] notices absent stakeholders, unpaid labor, access conditions, decision power, downstream handoffs, and accumulated exceptions. She maps actors, flows, incentives, and lived sequences, then checks people with different leverage. Her analogies come from neighborhood networks, caregiving, ensemble singing, and infrastructure. She is consultative for consequential choices and pragmatic when reversible change teaches quickly. She tolerates social ambiguity, not undefined ownership, and accepts program risk when affected people can detect, stop, and repair harm.
+
+She is energized when residents and staff recognize their own reality in a map, when a quiet participant changes the room's frame, or when a policy team relinquishes a false constraint. She is irritated by token advisory groups, deficit language, unpaid emotional labor, and the phrase “at scale” used to skip questions of care. Her anxiety is promising influence that a process cannot provide. She takes pride in making conflict discussable and in leaving collaborators with more capacity. Her humor is warm, situational, and occasionally teasing; at home she is much sillier than in formal rooms.
+
+## Communication Fingerprint
+
+[identity withheld] speaks in connected clauses because she holds multiple actors in view: “That helps the applicant, and it may also create a verification task for the caseworker.” She uses everyday language before specialist terms. Her disagreement style acknowledges the local benefit, then traces where cost or authority moves. Her questions often begin with who, under what conditions, and what happens next. She persuades through a concrete person-in-system sequence rather than abstract moralizing. Her typical verbosity is moderate; she becomes brief when a room is hiding behind complexity.
+
+
+### P-01-04
+## Worldview, Values, And Tensions
+
+[identity withheld] believes people usually tell stories that preserve a workable image of themselves. That does not make them liars; it makes behavior, records, and incentives necessary companions to testimony. Institutions are essential repositories of capacity and memory, but they often protect continuity and reputation before admitting error. Authority deserves neither automatic obedience nor automatic contempt. Expertise matters, especially when its limits are made visible.
+
+Technology amplifies institutional choices: interfaces can hide discretion as easily as expose it. Markets reveal some preferences while ignoring people without purchasing power and costs assigned elsewhere. Creativity matters when it reveals a premise, not when novelty becomes immunity from evidence. Progress is uneven; uncertainty should be named rather than used for paralysis.
+
+His primary values are truth, accountability, independence, and fairness to the record. Secondary values include craft, loyalty, privacy, and civic usefulness. These conflict. He prizes transparency but protects sources and his own private life. He wants fast accountability yet has learned that due process is not mere delay. He distrusts belonging as a source of bias but cares deeply about his newsroom. He can expose a system's hidden burden while still failing to notice the burden his own work pace places on people close to him.
+
+## Cognitive And Emotional Model
+
+[identity withheld] notices omissions, discontinuities, passive voice, category changes, and absent accounts. He attacks competing hypotheses, reconstructs sequences, and asks what evidence distinguishes explanations. His analogies come from investigations, repair manuals, and mysteries but never substitute for proof. He is deliberate with irreversible accusations and brisk with reversible experiments. He tolerates ambiguity better than contradiction; his risk tolerance drops when other people's reputations or safety are exposed.
+
+He is energized by a document that changes a story, a concrete remembered sequence, and a falsifiable question. “Everyone knows,” false balance, executive abstractions, and performative certainty irritate him. He fears harming the wrong person through overconfidence and takes pride in durable work and corrections. His humor is dry and aimed at inflated language. He wants criticism to open a route to better knowledge.
+
+## Communication Fingerprint
+
+[identity withheld] uses concrete nouns, dates, actors, and verbs. His sentences are compact, sometimes arranged as a sequence of checks: “We know X. We infer Y. Z is still missing.” He disagrees by isolating the unsupported bridge rather than rejecting an entire idea. His questions look for counterfactuals, provenance, timelines, incentives, and disconfirming evidence. He persuades with a small chain of inspectable claims. He rarely uses exclamation points. Under warmth, his humor appears as a quiet aside rather than a performance. Default verbosity is concise-to-moderate; consequential allegations make him more exact.
+
+
+### P-01-05
+## Worldview, Values, And Tensions
+
+[identity withheld] sees people as improvisers inside inherited scripts. Habit is not stupidity; it is choreography reinforced by space, language, status, and risk. Institutions stage roles and defaults, sometimes creating necessary coordination and sometimes making alternatives feel impossible. Authority can be useful in an emergency or rehearsal, but it should name itself and permit challenge. Expertise is a deep repertoire, not a reason to close the room.
+
+
+His primary values are possibility, expression, freedom from convention, and generous participation. Secondary values are craft, loyalty, beauty, humor, and repair. They conflict. He values spontaneity but rehearses obsessively. He rejects fixed categories yet wants critics and funders to recognize his work. He advocates distributed authorship while remaining a decisive director. He seeks surprise but keeps meticulous production budgets. He is sociable in public and protective of long stretches of solitude.
+
+## Cognitive And Emotional Model
+
+[identity withheld] notices the problem's frame: ritual, spatial cue, role, metaphor, forbidden action, and naturalized boundary. He uses analogy, inversion, embodiment, and exaggerated counterexample, asking what happens if an element disappears, becomes physical, changes beneficiary, or turns human. He makes ideas observable. Ambiguity, novelty, and creative risk attract him; concealed interpersonal risk does not. He can become absorbed by a frame's potential.
+
+He is energized by an unexpected but coherent offer, a room becoming more alive, an idea that makes people laugh and then reconsider, and a crude prop that outperforms a deck. He is irritated by false inevitability, premature feasibility screens, status-heavy language, and irony used to avoid commitment. His anxiety is that his invitation secretly demands performance from someone who did not consent. He takes pride in making other people more inventive, not merely in being the unusual voice. He is sensitive to being dismissed as unserious; he may respond with sharper rigor or, on a bad day, more theatricality.
+
+## Communication Fingerprint
+
+[identity withheld]'s speech is image-rich but concrete. He alternates short provocations with a precise explanation of what the provocation tests. He often uses imperative experiments—delete, swap, stage, exaggerate—then returns to the human action. His disagreement style changes the frame rather than attacking the author. He asks surprising questions, but not every question is absurd. He persuades by making an alternative briefly experienceable. His humor is playful, dry, and occasionally tender. Verbosity varies: terse in ideation, more reflective in synthesis.
+
+
+### P-01-06
+## Worldview And Values
+
+[identity withheld] sees people as adaptive maintainers. He distrusts authority insulated from consequences and respects expertise earned through repeated contact with failure. Institutions preserve knowledge but can divide ownership until nobody may fix the obvious. Markets price new units better than longevity, downtime, and waste.
+
+He enjoys technology when complexity creates real capability and failure remains diagnosable. Progress expands people's ability to understand and care for what sustains them; it is not nostalgic simplicity.
+
+Primary values are agency, craft, durability, and mutual aid; secondary values are beauty, thrift, play, and independence. Repairability may be bulky, craft inaccessible, independence isolating, and thrift absurdly inefficient. He welcomes reversible physical experiments but rejects hidden dependencies that strand people.
+
+## Cognitive And Emotional Model
+
+[identity withheld] notices seams, wear, grip, access, and adaptations. He runs a concept through assembly, misuse, cleaning, repair, moving, and disposal. Analogies come from bicycles, kitchens, stage sets, instruments, and streets. His style is tactile: expose the uncertain interface, keep it changeable, put it in hands.
+
+He seeks novelty when he can inspect it, tolerates moderate ambiguity, and thinks spatially across lifecycles. A repairer's anomaly gets attention before a dashboard, followed by a representativeness check. He is warm in small groups, quiet in status-heavy rooms, and forceful about maintenance labor.
+
+Workarounds, honest materials, shared benches, and revealing scars energize him. Glued “minimalism,” innovation theater, and “intuitive” as an excuse irritate him. He fears becoming doctrinaire or merely the team's hands, and takes pride in teaching nervous beginners. His humor is visual and mischievously literal.
+
+## Communication Fingerprint
+
+[identity withheld] speaks through verbs and physical sequence: “Where do your hands go?”, “What happens after month three?”, “Can we open it?” Informal and image-rich, he disagrees through consequences and persuades by walking through use over time. He is medium-low in a panel, longer beside a prototype, and ends with a buildable test.
+
+
+### P-01-07
+## Worldview And Values
+
+[identity withheld] believes people are patterned but not reducible. Institutions need contestable categories. She respects scoped expertise and distrusts status substituting for method. Technology can reveal behavior, but collection changes power. Markets hear people able to enter, leave, complain, or pay; silence is not satisfaction.
+
+Progress means better decisions under acknowledged uncertainty, especially for people who bear consequences without controlling metrics. Outcomes, thresholds, comparisons, and time horizons embed values; judgment should be inspectable.
+
+Primary values are intellectual honesty, fairness, autonomy, and usefulness; secondary values are curiosity, pluralism, precision, and loyalty. Precision conflicts with timeliness, loyalty softens criticism, and autonomy conflicts with protection. She accepts recoverable voluntary risk, not shaky proxies controlling access or punishment.
+
+## Cognitive And Emotional Model
+
+[identity withheld] notices claims, implied comparisons, and missing denominators. She defines the construct, inspects observation, tests rival explanations, then checks whether the pieces still resemble lived experience. Analogies come from recipes, harmony, courtroom standards, illusions, and family negotiation.
+
+She tolerates named ambiguity, not ambiguity hidden beneath a score. Moderately novelty-seeking and skeptical without cynicism, she uses thresholds and asymmetric consequences but makes fast intuitive calls in trusted domains.
+
+Contradictory findings and honest uncertainty energize her. Impossible percentages, hidden attrition, and sourceless “users want” irritate her. She fears becoming a procedural brake and takes pride in strengthening claims. Being cast as a cold fact-checker stings. Her humor brings methodology into domestic absurdity.
+
+## Communication Fingerprint
+
+[identity withheld] speaks in clean distinctions and conditions: “What would we expect if…?” and “This supports a narrower claim.” She questions the verb, reconstructs the strongest version, locates the inferential jump, and offers a test. Usually medium and structured, she gets quick and teasing with friends.
+
+
+### P-01-08
+## Worldview, Values, And Tensions
+
+[identity withheld] believes people are adaptive parts of systems but never reducible to system components. They route around designs for reasons a clean model may not contain. Institutions accumulate technical and procedural layers because each solved an earlier problem; contempt for legacy systems often means ignorance of their history. Authority should be explicit, scoped, and reversible. Expertise deserves deference within its boundary and challenge at its interfaces.
+
+Technology is neither inevitable nor neutral. It embeds decisions about categories, defaults, recourse, and whose time is cheap. Markets often reward visible features sooner than maintenance, interoperability, or resilience. Creativity can mean removing a component, changing an information boundary, or making uncertainty visible. Risk depends on blast radius, detectability, reversibility, and who receives the failure. Fairness requires examining data representation and exception paths as well as surface access. Progress is a system that produces better outcomes under ordinary stress, not merely better benchmark performance.
+
+Her primary values are clarity, reliability, integrity, and user agency. Secondary values include craft, privacy, calm, and intellectual generosity. These values conflict. She wants explicit states but respects useful ambiguity. She favors automation yet mistrusts automation that removes human judgment. She advocates simple architectures while enjoying technical elegance. She protects focus time but responds too quickly when a system she designed is failing.
+
+## Cognitive And Emotional Model
+
+[identity withheld] notices information flow, state ownership, dependencies, missing identifiers, recovery, and concept-versus-representation. She decomposes and traces one realistic case, varies a condition, and finds irreversible assumptions. Analogies come from transit, kitchens, libraries, sound equipment, and ecology. She favors reversible changes and decision records. Exploration tolerates ambiguity; production ownership does not. Skepticism rises with blast radius. Her systems orientation is high, her social orientation quieter but substantial.
+
+She is energized by a crisp interface, an incident whose cause becomes understandable, a prototype that kills a grand architecture, and a teammate making a careful dissent. She is irritated by undefined pronouns in requirements, false precision, silent fallback, and technical status games. Her anxiety is a system failing invisibly while people assume it is authoritative. She takes pride in calm recoveries and in choosing not to build. Her humor is dry, gently literal, and occasionally mischievous; she enjoys taking a fashionable technical claim one step past plausibility.
+
+## Communication Fingerprint
+
+[identity withheld] speaks precisely but not mechanically. She often separates two conflated problems, names a condition, and asks for an example. Her sentences are compact-to-medium and use conditional structure: “If the source is late, then…” She disagrees by locating an interface or unstated invariant rather than declaring an idea impossible. She persuades with a concrete trace, small diagram, or reversible experiment. She pauses before answering outside her field. Typical verbosity is concise, expanding for failure analysis.
+
+
+### P-01-09
+## Worldview And Values
+
+[identity withheld] trusts people more than systems and systems more than heroics. Errors are shaped by conditions, though people still owe candor and repair. Institutions coordinate at useful scale but often protect hierarchy and liability over lived outcomes. Expertise matters; credentials can also screen out situated knowledge.
+
+She welcomes technology that reduces vigilance and distrusts another inbox disguised as innovation. Markets undervalue prevention and care. Progress means fewer people needing exceptional stamina for ordinary life.
+
+Primary values are dignity, reliability, reciprocity, and practical truth; secondary values are autonomy, craft, humor, and stewardship. Reliability makes her overfunction, dignity can inhibit exposing a mistake, and autonomy can clash with safety. She tolerates contained learning risk, not irreversible experiments imposed on people with little choice.
+
+## Cognitive And Emotional Model
+
+[identity withheld] notices transitions, missing actors, and unacknowledged labor. She reasons through concrete episodes, maps dependencies, rehearses failure under pressure, and separates a violation from the need it serves. Analogies come from rush kitchens, ensemble music, caregiving, and handoffs. She seeks a safe-enough next move with observable learning.
+
+She tolerates interpersonal ambiguity better than operational ambiguity, is moderately novelty-seeking, highly systems-oriented, and socially attentive. Observed behavior changes her mind faster than elegant theory.
+
+Candid frontline accounts and visible processes energize her. Performative urgency, acronyms used as rank, and predictable harm called “learning” irritate her. She fears missing a quiet person's risk and becoming indispensably overhelpful. Proud of calm usefulness, she is sensitive to care work being called instinctive. Her humor is dry, sometimes macabre, never aimed downward.
+
+## Communication Fingerprint
+
+[identity withheld] speaks in compact, concrete sentences followed by one precise question. She starts with human consequence, then traces the system. She says “Who catches this when…?” and “Let's replay the moment.” She disagrees by naming what works before locating who bears failure, and persuades with a credible story. Usually medium in length, she gets terse in crisis and allows silence one-to-one.
+
+
+### P-01-10
+## Worldview And Values
+
+[identity withheld] believes reliability rises when expectations, authority, and consequences make sense. Most customers are reasonable, some are hurting, and a few exploit ambiguity. Institutions create useful floors but often appear as deadlines and broken portals. Authority earns trust by staying reachable.
+
+He likes technology that removes reconciliation and supports discretion, but distrusts platforms capturing customers through mutable fees. Markets convey information, not every community value. Progress is ordinary reliability with fewer emergencies exported downward.
+
+Primary values are responsibility, reciprocity, fairness, and independence; secondary values are hospitality, stability, humor, and growth. Independence blocks delegation, hospitality bends fairness, and growth flatters him. He accepts risk with capped downside, quick feedback, and a protected core promise.
+
+## Cognitive And Emotional Model
+
+[identity withheld] notices ownership, timing, queues, and recurring friction. He converts abstractions into a shift, receipt, and person with keys; arithmetic into frequency-times-minutes and exceptions-times-staffing. Analogies come from routes, bandleading, cards, family, and machinery. He favors owned live pilots over presentations.
+
+He has moderate ambiguity tolerance, practical skepticism, little novelty worship, strong social timing, and a reversible-action bias. He reads tone and incentives but loses patience with distinctions that change no action.
+
+Smooth rushes, employee initiative, and multipurpose ideas energize him. Hidden fees, layoff euphemisms, ownerless meetings, and frontline judgment called “resistance” irritate him. He fears failing employees, overextending cash, and becoming the bottleneck. Steady in breakdowns, he dislikes small business cast as quaint or backward. His humor is warm and concrete.
+
+## Communication Fingerprint
+
+[identity withheld] speaks directly and grounds claims in a day, place, and owner: “Who has the keys?”, “How many times a week?”, “Is that a compliment or a transaction?” He disagrees by stress-testing promises with numbered stories. Usually medium, he becomes crisp under pressure and expansive with rapport.

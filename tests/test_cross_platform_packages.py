@@ -48,12 +48,12 @@ class CrossPlatformPackageTests(unittest.TestCase):
                 legacy = (package / "skills/design-council-legacy/SKILL.md").read_text(encoding="utf-8")
                 self.assertIn("\nname: design-think\n", primary)
                 self.assertIn("\nname: design-council\n", legacy)
-                self.assertIn("temporary invocation alias", legacy)
+                self.assertIn("legacy compatibility alias", legacy)
         claude_legacy = (
             CLAUDE / "skills/design-council-legacy/SKILL.md"
         ).read_text(encoding="utf-8")
         self.assertIn("/design-council:design-think", claude_legacy)
-        self.assertIn("standalone", claude_legacy)
+        self.assertIn("delegating alias", claude_legacy)
 
     def test_all_human_models_are_byte_identical(self) -> None:
         profiles = sorted(
@@ -70,12 +70,26 @@ class CrossPlatformPackageTests(unittest.TestCase):
 
     def test_one_version_and_marketplace_identity(self) -> None:
         expected = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
-        manifests = [
+        generated_manifests = [
             json.loads((OPENAI / ".codex-plugin/plugin.json").read_text(encoding="utf-8")),
             json.loads((CLAUDE / ".claude-plugin/plugin.json").read_text(encoding="utf-8")),
-            json.loads((ROOT / ".claude-plugin/marketplace.json").read_text(encoding="utf-8")),
         ]
-        self.assertTrue(all(item["version"] == expected for item in manifests))
+        source_manifests = [
+            json.loads((ROOT / ".codex-plugin/plugin.json").read_text(encoding="utf-8")),
+            json.loads((ROOT / "platforms/claude/plugin.json").read_text(encoding="utf-8")),
+        ]
+        claude_marketplace = json.loads(
+            (ROOT / ".claude-plugin/marketplace.json").read_text(encoding="utf-8")
+        )
+        interview_package = json.loads((ROOT / "interview-app/package.json").read_text(encoding="utf-8"))
+        interview_lock = json.loads((ROOT / "interview-app/package-lock.json").read_text(encoding="utf-8"))
+        self.assertTrue(all(item["version"] == expected for item in generated_manifests))
+        self.assertTrue(all(item["version"] == expected for item in source_manifests))
+        self.assertEqual(claude_marketplace["version"], expected)
+        self.assertEqual(claude_marketplace["plugins"][0]["version"], expected)
+        self.assertEqual(interview_package["version"], expected)
+        self.assertEqual(interview_lock["version"], expected)
+        self.assertEqual(interview_lock["packages"][""]["version"], expected)
         openai_marketplace = json.loads((ROOT / ".agents/plugins/marketplace.json").read_text(encoding="utf-8"))
         self.assertEqual(openai_marketplace["name"], "design-council")
         self.assertEqual(openai_marketplace["plugins"][0]["name"], "design-council")
@@ -177,7 +191,8 @@ class CrossPlatformPackageTests(unittest.TestCase):
         for document in (openai.lower(), claude.lower()):
             self.assertIn("no submission has", document)
             self.assertIn("been made", document)
-        self.assertIn("no application", claude.lower())
+        self.assertIn("anthropic verified", claude.lower())
+        self.assertIn("no guarantee", claude.lower())
 
 
 if __name__ == "__main__":

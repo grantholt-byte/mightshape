@@ -1,0 +1,748 @@
+{
+  "bootstrap_samples": 10000,
+  "candidate_command_controls": [
+    "codex exec",
+    "--ephemeral",
+    "--json",
+    "--ignore-user-config",
+    "--ignore-rules",
+    "--sandbox read-only",
+    "fresh CODEX_HOME containing authentication only",
+    "preflight requires no user-scoped ~/.agents/skills",
+    "credential-like environment variables removed"
+  ],
+  "candidate_effort": "medium",
+  "candidate_model": "gpt-5.6-sol",
+  "candidate_runtime": "codex",
+  "case_count": 12,
+  "case_ids": [
+    "family_scheduler",
+    "career_advisor",
+    "ed_nurse_workflow",
+    "extreme_heat",
+    "affinity_cluster",
+    "process_map",
+    "wide_ideation",
+    "prototype_forwarding",
+    "interview_guide",
+    "contradictory_evidence",
+    "dark_mode",
+    "parser_spike"
+  ],
+  "control_mode": "design-thinking-prompt",
+  "corpus_sha256": "afb507b2d2e22eb384a239ca4aaed03e0c9f35e88538c10d327b395c1dab9a29",
+  "created_at": "2026-08-13T21:06:44.829419+00:00",
+  "execution_controls": {
+    "all_generations_complete_before_judging": true,
+    "candidate_parallel_unit": "pair",
+    "judge_parallel_unit": "comparison",
+    "primary_arms_serial_within_pair": true,
+    "records_saved_in_preregistered_plan_order": true
+  },
+  "explicit_diagnostic": false,
+  "intervention": "codex Design Council adapter versus frozen one-shot Design Thinking prompt without the plugin",
+  "judge_effort": "medium",
+  "judge_model": "gpt-5.6-terra",
+  "judge_plan": [
+    {
+      "case_id": "family_scheduler",
+      "comparison_id": "family_scheduler.r01.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "family_scheduler.r01"
+    },
+    {
+      "case_id": "family_scheduler",
+      "comparison_id": "family_scheduler.r01.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "family_scheduler.r01"
+    },
+    {
+      "case_id": "family_scheduler",
+      "comparison_id": "family_scheduler.r02.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "family_scheduler.r02"
+    },
+    {
+      "case_id": "family_scheduler",
+      "comparison_id": "family_scheduler.r02.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "family_scheduler.r02"
+    },
+    {
+      "case_id": "career_advisor",
+      "comparison_id": "career_advisor.r01.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "career_advisor.r01"
+    },
+    {
+      "case_id": "career_advisor",
+      "comparison_id": "career_advisor.r01.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "career_advisor.r01"
+    },
+    {
+      "case_id": "career_advisor",
+      "comparison_id": "career_advisor.r02.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "career_advisor.r02"
+    },
+    {
+      "case_id": "career_advisor",
+      "comparison_id": "career_advisor.r02.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "career_advisor.r02"
+    },
+    {
+      "case_id": "ed_nurse_workflow",
+      "comparison_id": "ed_nurse_workflow.r01.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "ed_nurse_workflow.r01"
+    },
+    {
+      "case_id": "ed_nurse_workflow",
+      "comparison_id": "ed_nurse_workflow.r01.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "ed_nurse_workflow.r01"
+    },
+    {
+      "case_id": "ed_nurse_workflow",
+      "comparison_id": "ed_nurse_workflow.r02.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "ed_nurse_workflow.r02"
+    },
+    {
+      "case_id": "ed_nurse_workflow",
+      "comparison_id": "ed_nurse_workflow.r02.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "ed_nurse_workflow.r02"
+    },
+    {
+      "case_id": "extreme_heat",
+      "comparison_id": "extreme_heat.r01.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "extreme_heat.r01"
+    },
+    {
+      "case_id": "extreme_heat",
+      "comparison_id": "extreme_heat.r01.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "extreme_heat.r01"
+    },
+    {
+      "case_id": "extreme_heat",
+      "comparison_id": "extreme_heat.r02.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "extreme_heat.r02"
+    },
+    {
+      "case_id": "extreme_heat",
+      "comparison_id": "extreme_heat.r02.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "extreme_heat.r02"
+    },
+    {
+      "case_id": "affinity_cluster",
+      "comparison_id": "affinity_cluster.r01.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "affinity_cluster.r01"
+    },
+    {
+      "case_id": "affinity_cluster",
+      "comparison_id": "affinity_cluster.r01.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "affinity_cluster.r01"
+    },
+    {
+      "case_id": "affinity_cluster",
+      "comparison_id": "affinity_cluster.r02.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "affinity_cluster.r02"
+    },
+    {
+      "case_id": "affinity_cluster",
+      "comparison_id": "affinity_cluster.r02.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "affinity_cluster.r02"
+    },
+    {
+      "case_id": "process_map",
+      "comparison_id": "process_map.r01.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "process_map.r01"
+    },
+    {
+      "case_id": "process_map",
+      "comparison_id": "process_map.r01.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "process_map.r01"
+    },
+    {
+      "case_id": "process_map",
+      "comparison_id": "process_map.r02.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "process_map.r02"
+    },
+    {
+      "case_id": "process_map",
+      "comparison_id": "process_map.r02.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "process_map.r02"
+    },
+    {
+      "case_id": "wide_ideation",
+      "comparison_id": "wide_ideation.r01.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "wide_ideation.r01"
+    },
+    {
+      "case_id": "wide_ideation",
+      "comparison_id": "wide_ideation.r01.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "wide_ideation.r01"
+    },
+    {
+      "case_id": "wide_ideation",
+      "comparison_id": "wide_ideation.r02.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "wide_ideation.r02"
+    },
+    {
+      "case_id": "wide_ideation",
+      "comparison_id": "wide_ideation.r02.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "wide_ideation.r02"
+    },
+    {
+      "case_id": "prototype_forwarding",
+      "comparison_id": "prototype_forwarding.r01.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "prototype_forwarding.r01"
+    },
+    {
+      "case_id": "prototype_forwarding",
+      "comparison_id": "prototype_forwarding.r01.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "prototype_forwarding.r01"
+    },
+    {
+      "case_id": "prototype_forwarding",
+      "comparison_id": "prototype_forwarding.r02.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "prototype_forwarding.r02"
+    },
+    {
+      "case_id": "prototype_forwarding",
+      "comparison_id": "prototype_forwarding.r02.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "prototype_forwarding.r02"
+    },
+    {
+      "case_id": "interview_guide",
+      "comparison_id": "interview_guide.r01.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "interview_guide.r01"
+    },
+    {
+      "case_id": "interview_guide",
+      "comparison_id": "interview_guide.r01.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "interview_guide.r01"
+    },
+    {
+      "case_id": "interview_guide",
+      "comparison_id": "interview_guide.r02.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "interview_guide.r02"
+    },
+    {
+      "case_id": "interview_guide",
+      "comparison_id": "interview_guide.r02.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "interview_guide.r02"
+    },
+    {
+      "case_id": "contradictory_evidence",
+      "comparison_id": "contradictory_evidence.r01.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "contradictory_evidence.r01"
+    },
+    {
+      "case_id": "contradictory_evidence",
+      "comparison_id": "contradictory_evidence.r01.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "contradictory_evidence.r01"
+    },
+    {
+      "case_id": "contradictory_evidence",
+      "comparison_id": "contradictory_evidence.r02.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "contradictory_evidence.r02"
+    },
+    {
+      "case_id": "contradictory_evidence",
+      "comparison_id": "contradictory_evidence.r02.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "contradictory_evidence.r02"
+    },
+    {
+      "case_id": "dark_mode",
+      "comparison_id": "dark_mode.r01.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "dark_mode.r01"
+    },
+    {
+      "case_id": "dark_mode",
+      "comparison_id": "dark_mode.r01.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "dark_mode.r01"
+    },
+    {
+      "case_id": "dark_mode",
+      "comparison_id": "dark_mode.r02.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "dark_mode.r02"
+    },
+    {
+      "case_id": "dark_mode",
+      "comparison_id": "dark_mode.r02.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "dark_mode.r02"
+    },
+    {
+      "case_id": "parser_spike",
+      "comparison_id": "parser_spike.r01.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "parser_spike.r01"
+    },
+    {
+      "case_id": "parser_spike",
+      "comparison_id": "parser_spike.r01.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "parser_spike.r01"
+    },
+    {
+      "case_id": "parser_spike",
+      "comparison_id": "parser_spike.r02.j01",
+      "judge_repeat": 1,
+      "label_a_arm": "treatment",
+      "label_b_arm": "control",
+      "pair_id": "parser_spike.r02"
+    },
+    {
+      "case_id": "parser_spike",
+      "comparison_id": "parser_spike.r02.j02",
+      "judge_repeat": 2,
+      "label_a_arm": "control",
+      "label_b_arm": "treatment",
+      "pair_id": "parser_spike.r02"
+    }
+  ],
+  "judge_repetitions": 2,
+  "outcome_construct_registry": {
+    "construct_ids": [
+      "right_problem_framing",
+      "structured_divergence_and_synthesis",
+      "evidence_discipline",
+      "learning_and_iteration",
+      "appropriate_scope"
+    ],
+    "frozen_before_first_model_call": true,
+    "sha256": "1c03e63e8bddccb54a5d3deeebc451426e4b2b387b9170e86dbc9154b78bda13"
+  },
+  "pair_plan": [
+    {
+      "arm_order": [
+        "control",
+        "treatment"
+      ],
+      "case_id": "family_scheduler",
+      "pair_id": "family_scheduler.r01",
+      "raw_prompt_sha256": "23a89455d440c2aca2e1c451eecb15b3535c78a7f9753d63c0785c5590dbc4b9",
+      "repeat": 1
+    },
+    {
+      "arm_order": [
+        "treatment",
+        "control"
+      ],
+      "case_id": "family_scheduler",
+      "pair_id": "family_scheduler.r02",
+      "raw_prompt_sha256": "23a89455d440c2aca2e1c451eecb15b3535c78a7f9753d63c0785c5590dbc4b9",
+      "repeat": 2
+    },
+    {
+      "arm_order": [
+        "control",
+        "treatment"
+      ],
+      "case_id": "career_advisor",
+      "pair_id": "career_advisor.r01",
+      "raw_prompt_sha256": "c087dfb8ed2e89c7183d9001a2a0d42146dd4c523682a6e298735b6ca0715d2c",
+      "repeat": 1
+    },
+    {
+      "arm_order": [
+        "treatment",
+        "control"
+      ],
+      "case_id": "career_advisor",
+      "pair_id": "career_advisor.r02",
+      "raw_prompt_sha256": "c087dfb8ed2e89c7183d9001a2a0d42146dd4c523682a6e298735b6ca0715d2c",
+      "repeat": 2
+    },
+    {
+      "arm_order": [
+        "control",
+        "treatment"
+      ],
+      "case_id": "ed_nurse_workflow",
+      "pair_id": "ed_nurse_workflow.r01",
+      "raw_prompt_sha256": "fbee0d98e53327c3419824cb2aef2b14490a369c62a69b1d0715d4b8b32f8a92",
+      "repeat": 1
+    },
+    {
+      "arm_order": [
+        "treatment",
+        "control"
+      ],
+      "case_id": "ed_nurse_workflow",
+      "pair_id": "ed_nurse_workflow.r02",
+      "raw_prompt_sha256": "fbee0d98e53327c3419824cb2aef2b14490a369c62a69b1d0715d4b8b32f8a92",
+      "repeat": 2
+    },
+    {
+      "arm_order": [
+        "treatment",
+        "control"
+      ],
+      "case_id": "extreme_heat",
+      "pair_id": "extreme_heat.r01",
+      "raw_prompt_sha256": "f6553344adea4ef254c2eca3d3f731ecfe1522ade7946e6993b30a1d402a6519",
+      "repeat": 1
+    },
+    {
+      "arm_order": [
+        "control",
+        "treatment"
+      ],
+      "case_id": "extreme_heat",
+      "pair_id": "extreme_heat.r02",
+      "raw_prompt_sha256": "f6553344adea4ef254c2eca3d3f731ecfe1522ade7946e6993b30a1d402a6519",
+      "repeat": 2
+    },
+    {
+      "arm_order": [
+        "control",
+        "treatment"
+      ],
+      "case_id": "affinity_cluster",
+      "pair_id": "affinity_cluster.r01",
+      "raw_prompt_sha256": "869e616f52d5dd017d0777802ffdda8d78fb2dc975585d9df5045d534fdb2d16",
+      "repeat": 1
+    },
+    {
+      "arm_order": [
+        "treatment",
+        "control"
+      ],
+      "case_id": "affinity_cluster",
+      "pair_id": "affinity_cluster.r02",
+      "raw_prompt_sha256": "869e616f52d5dd017d0777802ffdda8d78fb2dc975585d9df5045d534fdb2d16",
+      "repeat": 2
+    },
+    {
+      "arm_order": [
+        "treatment",
+        "control"
+      ],
+      "case_id": "process_map",
+      "pair_id": "process_map.r01",
+      "raw_prompt_sha256": "0a9936753703d810901d4a00d82a0a2c9cc114c7b7172dd3d8c6d2e86c544455",
+      "repeat": 1
+    },
+    {
+      "arm_order": [
+        "control",
+        "treatment"
+      ],
+      "case_id": "process_map",
+      "pair_id": "process_map.r02",
+      "raw_prompt_sha256": "0a9936753703d810901d4a00d82a0a2c9cc114c7b7172dd3d8c6d2e86c544455",
+      "repeat": 2
+    },
+    {
+      "arm_order": [
+        "treatment",
+        "control"
+      ],
+      "case_id": "wide_ideation",
+      "pair_id": "wide_ideation.r01",
+      "raw_prompt_sha256": "643101d5fb0006700429b4ec958627861c9260bfc4724ef022993701f436689e",
+      "repeat": 1
+    },
+    {
+      "arm_order": [
+        "control",
+        "treatment"
+      ],
+      "case_id": "wide_ideation",
+      "pair_id": "wide_ideation.r02",
+      "raw_prompt_sha256": "643101d5fb0006700429b4ec958627861c9260bfc4724ef022993701f436689e",
+      "repeat": 2
+    },
+    {
+      "arm_order": [
+        "control",
+        "treatment"
+      ],
+      "case_id": "prototype_forwarding",
+      "pair_id": "prototype_forwarding.r01",
+      "raw_prompt_sha256": "1d1c78f8a2be2313b029cb4851fee7e754a7cb17c58a708b9141ba01a002b733",
+      "repeat": 1
+    },
+    {
+      "arm_order": [
+        "treatment",
+        "control"
+      ],
+      "case_id": "prototype_forwarding",
+      "pair_id": "prototype_forwarding.r02",
+      "raw_prompt_sha256": "1d1c78f8a2be2313b029cb4851fee7e754a7cb17c58a708b9141ba01a002b733",
+      "repeat": 2
+    },
+    {
+      "arm_order": [
+        "control",
+        "treatment"
+      ],
+      "case_id": "interview_guide",
+      "pair_id": "interview_guide.r01",
+      "raw_prompt_sha256": "39aff74417a6474735168cd49db66275f53cfb9eecbfbefc902b1f6732cbbfcb",
+      "repeat": 1
+    },
+    {
+      "arm_order": [
+        "treatment",
+        "control"
+      ],
+      "case_id": "interview_guide",
+      "pair_id": "interview_guide.r02",
+      "raw_prompt_sha256": "39aff74417a6474735168cd49db66275f53cfb9eecbfbefc902b1f6732cbbfcb",
+      "repeat": 2
+    },
+    {
+      "arm_order": [
+        "treatment",
+        "control"
+      ],
+      "case_id": "contradictory_evidence",
+      "pair_id": "contradictory_evidence.r01",
+      "raw_prompt_sha256": "353649e0e1a319b2a26ba50cc217f1f88481d72b41228b64887054f8ac44478a",
+      "repeat": 1
+    },
+    {
+      "arm_order": [
+        "control",
+        "treatment"
+      ],
+      "case_id": "contradictory_evidence",
+      "pair_id": "contradictory_evidence.r02",
+      "raw_prompt_sha256": "353649e0e1a319b2a26ba50cc217f1f88481d72b41228b64887054f8ac44478a",
+      "repeat": 2
+    },
+    {
+      "arm_order": [
+        "treatment",
+        "control"
+      ],
+      "case_id": "dark_mode",
+      "pair_id": "dark_mode.r01",
+      "raw_prompt_sha256": "ed573769ba4b8b9575072cf08b02b9ba6895f2ef088e9f6efe137f4b8e2118b3",
+      "repeat": 1
+    },
+    {
+      "arm_order": [
+        "control",
+        "treatment"
+      ],
+      "case_id": "dark_mode",
+      "pair_id": "dark_mode.r02",
+      "raw_prompt_sha256": "ed573769ba4b8b9575072cf08b02b9ba6895f2ef088e9f6efe137f4b8e2118b3",
+      "repeat": 2
+    },
+    {
+      "arm_order": [
+        "treatment",
+        "control"
+      ],
+      "case_id": "parser_spike",
+      "pair_id": "parser_spike.r01",
+      "raw_prompt_sha256": "8ad002debc0fddb5df4427afbc3620cd0dc9f5a6e7b61f1d0160dcbe2b1fc06e",
+      "repeat": 1
+    },
+    {
+      "arm_order": [
+        "control",
+        "treatment"
+      ],
+      "case_id": "parser_spike",
+      "pair_id": "parser_spike.r02",
+      "raw_prompt_sha256": "8ad002debc0fddb5df4427afbc3620cd0dc9f5a6e7b61f1d0160dcbe2b1fc06e",
+      "repeat": 2
+    }
+  ],
+  "planned_explicit_diagnostic_calls": 0,
+  "planned_generation_calls": 48,
+  "planned_judge_calls": 48,
+  "preregistered_value_thresholds": {
+    "maximum_token_overhead": null,
+    "maximum_token_ratio": 1.5,
+    "minimum_important_quality_uplift_points": 3.0
+  },
+  "primary_estimand": "deliberately invoked plugin effect versus a competent frozen prompt-only Design Thinking comparator",
+  "prompt_only_control_sha256": "ad1b7fee598bafda3095c38fcb068686ecf369506cbeca85e7ddadeb715a40f8",
+  "repeats": 2,
+  "reproducibility": {
+    "codex_version": "codex-cli 0.146.1",
+    "design_council_version": "0.9.0-beta.6",
+    "git": {
+      "commit": "f88cb2ec3ee0f4bba3a2428e12572b58c7093bcd",
+      "dirty": false,
+      "status_available": true
+    },
+    "intervention_snapshot": {
+      "frozen_before_first_model_call": true,
+      "path": "intervention-snapshot",
+      "tree": {
+        "exclusions": [
+          "cache directories",
+          "*.pyc",
+          "*.pyo",
+          ".DS_Store",
+          "* 2.*"
+        ],
+        "file_count": 108,
+        "sha256": "e29ddf931204cdf560fd03b300dd04d478422f67ae3aba6e2d976b61313cc975"
+      }
+    },
+    "judge_schema_sha256": "e159ffaad62281672b57e81051a535cc4b4799697a6ceee507fd01bcd2eff66e",
+    "platform": "macOS-15.7.7-x86_64-i386-64bit",
+    "python": {
+      "executable": "/usr/local/bin/python3",
+      "implementation": "CPython",
+      "version": "3.11.3"
+    },
+    "runner_sha256": "42d022a44ec9ea8b49b3689f9b2a3df38c414257f75ae2202293c75d1df54739",
+    "skill_tree": {
+      "exclusions": [
+        "cache directories",
+        "*.pyc",
+        "*.pyo",
+        ".DS_Store",
+        "* 2.*"
+      ],
+      "file_count": 108,
+      "sha256": "e29ddf931204cdf560fd03b300dd04d478422f67ae3aba6e2d976b61313cc975"
+    }
+  },
+  "run_id": "20260813T210644Z",
+  "schema_version": "1.2.0",
+  "seed": 20260813,
+  "tie_margin_points": 2.0,
+  "timeout_seconds": 900,
+  "treatment_invocation": "explicit",
+  "word_cap": 900,
+  "workers": 4
+}
