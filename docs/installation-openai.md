@@ -1,6 +1,7 @@
 # Install on OpenAI / Codex
 
-Verified against `codex-cli 0.146.1` on 2026-08-12. ChatGPT desktop/Codex, ChatGPT Work,
+Verified against `codex-cli 0.146.1` and current official documentation on 2026-08-13.
+ChatGPT desktop/Codex, ChatGPT Work,
 CLI, and other supported surfaces may expose different installation UI; public plugins use
 the universal directory shared by ChatGPT and Codex.
 
@@ -13,7 +14,19 @@ make validate-openai
 ```
 
 The installable package is `dist/openai/design-council/` and the deterministic archive is
-`dist/design-council-openai-0.9.0-beta.4.zip`.
+`dist/design-council-openai-0.9.0-beta.5.zip` after the beta.5 build completes.
+
+## Invoke Design Council
+
+OpenAI surfaces use skill invocation, not an arbitrary plugin-defined slash command:
+
+- Codex: invoke `$design-think`, or open `/skills` and select **Design Think**.
+- ChatGPT: invoke `@design-think`.
+- Natural-language activation remains available on both surfaces.
+
+An exact `/design-think` slash command cannot be registered by a packaged OpenAI plugin.
+Deprecated custom prompts would appear under `/prompts:<name>`, not `/design-think`, and are
+not shipped. Legacy `$design-council` remains available throughout this beta.
 
 ## Test from the local development marketplace
 
@@ -28,10 +41,10 @@ codex plugin add design-council@design-council --json
 codex plugin list --json
 ```
 
-Start a new Codex context and invoke `$design-council`, then test an implicit prompt such as
-“Challenge this product idea before we build it.” The desktop app may require restart or
-plugin refresh after a local package changes because installed plugins are loaded from the
-plugin cache, not the source directory.
+Start a new Codex context and invoke `$design-think` (or choose **Design Think** through
+`/skills`), then test an implicit prompt such as “Challenge this product idea before we build
+it.” The desktop app may require restart or plugin refresh after a local package changes
+because installed plugins are loaded from the plugin cache, not the source directory.
 
 ## Update a local test install
 
@@ -69,8 +82,8 @@ gh auth status
 gh auth login --git-protocol https
 gh auth setup-git
 git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
-  refs/tags/v0.9.0-beta.4
-codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.4 --json
+  refs/tags/v0.9.0-beta.5
+codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.5 --json
 codex plugin list --marketplace design-council --available --json
 codex plugin add design-council@design-council --json
 codex plugin list --json
@@ -78,7 +91,7 @@ codex plugin list --json
 
 The repository owner must add the installer as a collaborator, and the collaborator must
 accept the invitation. `gh auth status` must show that account, while `ls-remote` proves both
-private-repository access and availability of the exact `v0.9.0-beta.4` tag. Do not continue
+private-repository access and availability of the exact `v0.9.0-beta.5` tag. Do not continue
 if either check fails. This installs from the immutable beta tag rather than the moving
 `main` branch.
 
@@ -93,5 +106,12 @@ branch; it does not change a marketplace pinned to an older tag.
 - Run `codex plugin list --available --json` and inspect marketplace/load errors.
 - Rebuild before installing; the marketplace targets `dist/`, not canonical source.
 - If the skill does not trigger implicitly, verify the plugin is enabled and test explicit
-  `$design-council` invocation in a new context.
+  `$design-think` invocation or `/skills` selection in a new context. In ChatGPT, test
+  `@design-think` instead.
+- Do not type `/design-think` in Codex expecting a plugin command; arbitrary plugin slash
+  aliases are not part of the current OpenAI packaging contract.
 - Hooks are optional and trust-gated. Declining the hook must not disable the skill.
+
+The beta.5 package, validator, benchmark reruns, and pinned-tag clean install are pending until
+the repository release gate finishes. Do not share the beta.5 commands as validated before the
+owner confirms that completion.

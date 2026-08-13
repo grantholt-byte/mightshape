@@ -1,6 +1,6 @@
 # OpenAI marketplace and universal directory
 
-Verified from current official OpenAI plugin documentation on 2026-08-12.
+Verified from current official OpenAI plugin and skill documentation on 2026-08-13.
 
 ## Distribution paths
 
@@ -36,7 +36,7 @@ the plugin. Do not add an unnecessary MCP server merely to alter the submission 
 - Tagline: **Think wider. Frame better. Build what matters.**
 - Subtitle: **Frame better before building**
 - Category: Productivity
-- Version: `0.9.0-beta.4`
+- Version: `0.9.0-beta.5` (release candidate; validation pending)
 - Logo/icon: `assets/logo.png`, `assets/icon.png`
 - Starter prompts: three in `.codex-plugin/plugin.json`
 - Test material: `evals/cases/` and `docs/submission-openai-test-cases.md`
@@ -58,6 +58,12 @@ codex plugin list --json
 Then run explicit, implicit, negative-routing, Council, Inquiry, and state-persistence tests
 in a new context. Clean-up commands are in `docs/installation-openai.md`.
 
+The explicit invocation surface is platform-native: `$design-think` in Codex (or selection
+through `/skills`) and `@design-think` in ChatGPT. Current OpenAI plugin packaging does not
+allow Design Council to register an arbitrary `/design-think` slash command. Deprecated local
+custom prompts would invoke as `/prompts:design-think`, are not plugin-distributed, and are not
+shipped. Legacy `$design-council` remains available for beta compatibility.
+
 ## Submission checklist
 
 1. Confirm license and publisher/repository identity.
@@ -77,4 +83,10 @@ OpenAI confirms the optional interview experience qualifies for that listing.
 
 Primary sources: [Package plugins](https://developers.openai.com/plugins/build/plugins),
 [Submit plugins](https://developers.openai.com/plugins/deploy/submission), and
-[Plugin guidelines](https://developers.openai.com/plugins/app-guidelines).
+[Plugin guidelines](https://developers.openai.com/plugins/app-guidelines),
+[Build skills](https://learn.chatgpt.com/docs/build-skills),
+[developer commands](https://learn.chatgpt.com/docs/developer-commands?surface=cli), and
+[deprecated custom prompts](https://learn.chatgpt.com/docs/custom-prompts).
+
+Beta.5 package validation, model-backed benchmark reruns, and clean pinned-tag installation are
+pending. This document describes the prepared route; it does not claim those gates have passed.

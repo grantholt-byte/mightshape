@@ -1,6 +1,6 @@
 # Claude Code marketplace publication
 
-Verified against current official Claude Code documentation on 2026-08-12.
+Verified against current official Claude Code documentation on 2026-08-13.
 
 ## Self-hosted marketplace
 
@@ -28,9 +28,9 @@ gh auth status
 gh auth login --git-protocol https
 gh auth setup-git
 git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
-  refs/tags/v0.9.0-beta.4
+  refs/tags/v0.9.0-beta.5
 CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
-  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.4 --scope user
+  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.5 --scope user
 claude plugin install design-council@design-council --scope user
 ```
 
@@ -62,9 +62,13 @@ Do not promise or market official inclusion.
 
 ## Version and updates
 
-The plugin manifest and marketplace entry both use `0.9.0-beta.4`. Claude Code treats an explicit
+The plugin manifest and marketplace entry both target `0.9.0-beta.5`. Claude Code treats an explicit
 version as the update boundary, so every release must bump `VERSION` and regenerate both
 packages. `check_cross_platform_drift.py` rejects version mismatch.
+
+On Claude Code 2.1.216 or later, the primary explicit invocation is `/design-think`. If that
+short name collides with another installed skill, use `/design-council:design-think`. Legacy
+`/design-council:design-council` remains available throughout this beta.
 
 For a repository-local development install, rebuild and use the normal marketplace/plugin
 update flow:
@@ -75,7 +79,7 @@ claude plugin marketplace update design-council
 claude plugin update design-council@design-council --scope local
 ```
 
-For a hosted `user`-scope install pinned to `@v0.9.0-beta.4`, normal update commands cannot
+For a hosted `user`-scope install pinned to `@v0.9.0-beta.5`, normal update commands cannot
 move the marketplace to a different immutable tag. When a later beta is announced, set the
 variable below to that exact tag and re-create the installed marketplace boundary:
 
@@ -91,11 +95,14 @@ CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
 claude plugin install design-council@design-council --scope user
 ```
 
-The current pinned beta is exactly `v0.9.0-beta.4`; do not substitute a moving branch.
+Beta.5 package validation, model-backed benchmark reruns, the immutable tag, and a fresh
+collaborator install are pending. After the owner confirms the tag has been pushed, the pinned
+beta is exactly `v0.9.0-beta.5`; do not substitute a moving branch.
 
 ## Reviewer trust
 
-The package contains one skill and one read-only sealed-round Agent. It contains no MCP
+The package contains the primary `design-think` skill, a legacy beta compatibility skill, and
+one read-only sealed-round Agent. It contains no MCP
 server, package dependencies, marketplace payment logic, participant recruitment, or
 required hook. The core may write explicit project state and perform user-requested coding;
 network research uses the host's normal tools. The optional interview app is source-repo

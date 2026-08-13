@@ -4,10 +4,11 @@ import hashlib
 import json
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 from unittest.mock import patch
 
-from scripts.build_packages import build, write_checksums
+from scripts.build_packages import build, is_duplicate_copy, write_checksums
 from scripts.check_cross_platform_drift import check
 from scripts.validate_packages import basic_claude_validate, is_semver
 
@@ -39,6 +40,15 @@ class CrossPlatformPackageTests(unittest.TestCase):
         self.assertEqual(openai, canonical)
         self.assertTrue(claude.startswith(canonical + "\n"))
         self.assertIn("Claude Code adapter", claude[len(canonical) :])
+
+    def test_short_invocation_and_legacy_alias_ship_on_both_platforms(self) -> None:
+        for package in (OPENAI, CLAUDE):
+            with self.subTest(package=package):
+                primary = (package / "skills/design-council/SKILL.md").read_text(encoding="utf-8")
+                legacy = (package / "skills/design-council-legacy/SKILL.md").read_text(encoding="utf-8")
+                self.assertIn("\nname: design-think\n", primary)
+                self.assertIn("\nname: design-council\n", legacy)
+                self.assertIn("temporary invocation alias", legacy)
 
     def test_all_human_models_are_byte_identical(self) -> None:
         profiles = sorted(
@@ -97,10 +107,12 @@ class CrossPlatformPackageTests(unittest.TestCase):
                 self.assertTrue((package / "assets/screenshots/01-design-journey.png").is_file())
                 self.assertFalse((package / "assets/concepts").exists())
 
-    def test_packages_exclude_local_duplicate_backups(self) -> None:
-        for package in (OPENAI, CLAUDE):
-            with self.subTest(package=package):
-                duplicates = [path for path in package.rglob("*") if path.is_file() and " 2." in path.name]
+    def test_archives_exclude_local_duplicate_backups(self) -> None:
+        version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+        for platform in ("openai", "claude"):
+            archive = ROOT / f"dist/design-council-{platform}-{version}.zip"
+            with self.subTest(platform=platform), zipfile.ZipFile(archive) as package:
+                duplicates = [name for name in package.namelist() if is_duplicate_copy(Path(name))]
                 self.assertEqual(duplicates, [])
 
     def test_clean_build_preserves_user_duplicate_files_and_excludes_them_from_checksums(self) -> None:
@@ -118,6 +130,19 @@ class CrossPlatformPackageTests(unittest.TestCase):
             self.assertEqual(duplicate.read_bytes(), b"user-owned duplicate")
             self.assertEqual(unrelated.read_text(encoding="utf-8"), "preserve me")
             self.assertNotIn(duplicate.name, checksum)
+
+    def test_clean_build_preserves_duplicate_files_inside_generated_package(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_dist = Path(temporary) / "dist"
+            duplicate = temporary_dist / "openai/design-council/assets 7/notes.md"
+            duplicate.parent.mkdir(parents=True)
+            duplicate.write_text("user-owned", encoding="utf-8")
+            with patch("scripts.build_packages.DIST", temporary_dist):
+                build(clean=True, platform="openai")
+                archive = Path(temporary_dist) / f"design-council-openai-{(ROOT / 'VERSION').read_text().strip()}.zip"
+                with zipfile.ZipFile(archive) as package:
+                    self.assertNotIn("design-council/assets 7/notes.md", package.namelist())
+            self.assertEqual(duplicate.read_text(encoding="utf-8"), "user-owned")
 
     def test_archives_are_deterministic(self) -> None:
         version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()

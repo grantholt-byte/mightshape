@@ -345,7 +345,7 @@ def candidate_prompt(
     word_cap: int = 900,
     explicit: bool = False,
     control_mode: str = "plain",
-    explicit_invocation: str = "$design-council",
+    explicit_invocation: str = "$design-think",
 ) -> str:
     """Return the common wrapper plus an optional frozen prompt-only comparator."""
 
@@ -2142,9 +2142,9 @@ def main(argv: list[str] | None = None) -> int:
                         args.word_cap,
                         explicit=True,
                         explicit_invocation=(
-                            "/design-council:design-council"
+                            "/design-think"
                             if args.candidate_runtime == "claude"
-                            else "$design-council"
+                            else "$design-think"
                         ),
                     )
                 )
@@ -2357,9 +2357,9 @@ def main(argv: list[str] | None = None) -> int:
                     explicit=arm == DIAGNOSTIC_ARM,
                     control_mode=args.control_mode if arm == "control" else "plain",
                     explicit_invocation=(
-                        "/design-council:design-council"
+                        "/design-think"
                         if args.candidate_runtime == "claude"
-                        else "$design-council"
+                        else "$design-think"
                     ),
                 )
                 if args.candidate_runtime == "claude":

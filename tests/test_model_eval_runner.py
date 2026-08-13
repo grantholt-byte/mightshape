@@ -141,7 +141,7 @@ class ModelEvalRunnerTests(unittest.TestCase):
             check=False,
         )
         self.assertEqual(completed.returncode, 0, completed.stdout)
-        self.assertIn("$design-council", completed.stdout)
+        self.assertIn("$design-think", completed.stdout)
         self.assertIn("Meet the Council", completed.stdout)
 
     def test_saved_response_mode_is_offline(self) -> None:

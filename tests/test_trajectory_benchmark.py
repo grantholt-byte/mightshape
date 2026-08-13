@@ -18,6 +18,7 @@ from evals.run_trajectory_benchmark import (
     build_judge_plan,
     build_pair_plan,
     candidate_turn_prompt,
+    collect_source_provenance,
     extract_thread_id,
     initial_command,
     isolated_environment,
@@ -343,6 +344,48 @@ class TrajectoryBenchmarkTests(unittest.TestCase):
             self.assertNotIn("SECRET", environment)
             self.assertEqual(environment["HOME"], str(root / "fake-home"))
             self.assertEqual(environment["CODEX_HOME"], str(destination))
+
+    def test_source_provenance_records_version_commit_and_dirty_state(self) -> None:
+        def fake_git(command, **kwargs):
+            if command == ["git", "rev-parse", "HEAD"]:
+                return subprocess.CompletedProcess(command, 0, "abc123\n", "")
+            if command == [
+                "git",
+                "status",
+                "--porcelain=v1",
+                "--untracked-files=all",
+            ]:
+                return subprocess.CompletedProcess(command, 0, " M tracked-file\n", "")
+            raise AssertionError(f"unexpected command: {command}")
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "VERSION").write_text("0.9.0-beta.test\n", encoding="utf-8")
+            with patch(
+                "evals.run_trajectory_benchmark.subprocess.run",
+                side_effect=fake_git,
+            ):
+                provenance = collect_source_provenance(root)
+
+        self.assertEqual(provenance["design_council_version"], "0.9.0-beta.test")
+        self.assertEqual(provenance["git"]["commit"], "abc123")
+        self.assertTrue(provenance["git"]["dirty"])
+        self.assertTrue(provenance["git"]["status_available"])
+
+    def test_source_provenance_is_safe_when_git_is_unavailable(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "VERSION").write_text("0.9.0-beta.test\n", encoding="utf-8")
+            with patch(
+                "evals.run_trajectory_benchmark.subprocess.run",
+                side_effect=FileNotFoundError("git unavailable"),
+            ):
+                provenance = collect_source_provenance(root)
+
+        self.assertEqual(provenance["design_council_version"], "0.9.0-beta.test")
+        self.assertIsNone(provenance["git"]["commit"])
+        self.assertIsNone(provenance["git"]["dirty"])
+        self.assertFalse(provenance["git"]["status_available"])
 
     def test_only_treatment_workspace_contains_skill(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -670,6 +713,14 @@ class TrajectoryBenchmarkTests(unittest.TestCase):
                 "judge_effort": "medium",
                 "corpus_sha256": "b" * 64,
                 "intervention_snapshot": {"sha256": "c" * 64},
+                "reproducibility": {
+                    "design_council_version": "0.9.0-beta.test",
+                    "git": {
+                        "commit": "abc123",
+                        "dirty": False,
+                        "status_available": True,
+                    },
+                },
             },
         )
         self.assertEqual(summary["effectiveness"]["verdict"], "INCOMPLETE")
@@ -678,6 +729,8 @@ class TrajectoryBenchmarkTests(unittest.TestCase):
         self.assertIn("planned candidate trajectories", report)
         self.assertIn("planned blind judgments", report)
         self.assertNotIn("All planned candidate trajectories", report)
+        self.assertIn("Design Council version: `0.9.0-beta.test`", report)
+        self.assertIn("Git commit: `abc123`; dirty: `False`", report)
 
     def test_quota_and_rate_limits_receive_content_free_categories(self) -> None:
         self.assertEqual(_stderr_category("Execution quota reached"), "QUOTA_DIAGNOSTIC")

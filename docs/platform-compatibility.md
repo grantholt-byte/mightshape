@@ -4,12 +4,32 @@ Researched and tested through 2026-08-13 with `codex-cli 0.146.1` and current pr
 
 ## Packaging and activation
 
-- V1 is a skills-first plugin: `.codex-plugin/plugin.json` distributes `skills/design-council/` and its optional hook. This is the documented minimal package shape.
-- `SKILL.md` is the router/constitution; details live in references, schemas, scripts, and reusable assets. Codex initially exposes only skill metadata and loads the instructions when explicitly invoked with `$design-council` or implicitly matched. This is the documented progressive-disclosure model.
+- V1 is a skills-first plugin: `.codex-plugin/plugin.json` distributes the canonical
+  `skills/design-council/` core whose metadata exposes `design-think`, a thin
+  `skills/design-council-legacy/` beta-compatibility alias, and the optional hook. This is the
+  documented minimal package shape.
+- The canonical `SKILL.md` is the router/constitution; details live in references, schemas,
+  scripts, and reusable assets. The short entry skill delegates to that same constitution—it
+  is not a second product or methodology. Codex initially exposes skill metadata and loads
+  instructions when explicitly invoked with `$design-think`, selected through `/skills`, or
+  implicitly matched. ChatGPT uses `@design-think`. This is the documented
+  progressive-disclosure model.
 - `agents/openai.yaml` supplies UI metadata and invocation policy. It is not a custom Council-agent definition.
 - Codex custom agent roles live in user/project configuration rather than the documented plugin bundle. V1 therefore treats Council members as Human Models loaded into independent subagent tasks, which is portable across supported Codex clients.
 
-Primary docs: [plugin architecture](https://developers.openai.com/plugins/concepts/plugins), [build plugins](https://developers.openai.com/plugins/build/plugins), [build skills](https://developers.openai.com/plugins/build/skills), and [Codex subagents](https://learn.chatgpt.com/docs/agent-configuration/subagents).
+OpenAI plugins cannot register arbitrary slash commands, so `/design-think` is not presented as
+a Codex or ChatGPT invocation. Deprecated local custom prompts would appear under
+`/prompts:design-think`, are not plugin-distributed, and are not shipped. Legacy
+`$design-council` remains available throughout this beta. Claude Code 2.1.216 or later uses the
+requested `/design-think`; `/design-council:design-think` is the collision-safe form, with
+`/design-council:design-council` retained for beta compatibility.
+
+Primary docs: [plugin architecture](https://developers.openai.com/plugins/concepts/plugins),
+[build plugins](https://developers.openai.com/plugins/build/plugins),
+[build skills](https://learn.chatgpt.com/docs/build-skills),
+[developer commands](https://learn.chatgpt.com/docs/developer-commands?surface=cli),
+[deprecated custom prompts](https://learn.chatgpt.com/docs/custom-prompts), and
+[Codex subagents](https://learn.chatgpt.com/docs/agent-configuration/subagents).
 
 ## Epistemic independence
 

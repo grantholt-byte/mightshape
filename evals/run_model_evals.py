@@ -141,7 +141,7 @@ def combine_deterministic_and_judge(
 
 
 def candidate_prompt(case: dict[str, Any]) -> str:
-    explicit = "$design-council\n\n" if case["invocation"] == "explicit" else ""
+    explicit = "$design-think\n\n" if case["invocation"] == "explicit" else ""
     fixture_context = ""
     fixture_relative = case.get("setup", {}).get("fixture")
     if fixture_relative:

@@ -1344,6 +1344,8 @@ def render_summary(summary: dict[str, Any], manifest: dict[str, Any]) -> str:
     effect = summary["effectiveness"]
     resources = summary["resource_diagnostics"]
     completion = summary["completion"]
+    reproducibility = manifest.get("reproducibility", {})
+    git_provenance = reproducibility.get("git", {})
 
     def metric(value: Any, *, signed: bool = False) -> str:
         if value is None:
@@ -1402,6 +1404,10 @@ def render_summary(summary: dict[str, Any], manifest: dict[str, Any]) -> str:
             f"- Frozen prompt-only instruction SHA-256: `{manifest['prompt_only_control_sha256'] or 'n/a'}`",
             f"- Candidate: `{manifest['candidate_model']}` / `{manifest['candidate_effort']}`",
             f"- Judge: `{manifest['judge_model']}` / `{manifest['judge_effort']}`",
+            f"- Design Council version: `{reproducibility.get('design_council_version') or 'unavailable'}`",
+            f"- Git commit: `{git_provenance.get('commit') or 'unavailable'}`; dirty: "
+            f"`{git_provenance.get('dirty')}`; status available: "
+            f"`{git_provenance.get('status_available', False)}`",
             f"- Corpus SHA-256: `{manifest['corpus_sha256']}`",
             f"- Skill SHA-256: `{manifest['intervention_snapshot']['sha256']}`",
             completion_note,
@@ -1417,10 +1423,11 @@ def render_summary(summary: dict[str, Any], manifest: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def _command_text(command: Sequence[str]) -> str | None:
+def _command_text(command: Sequence[str], cwd: Path | None = None) -> str | None:
     try:
         completed = subprocess.run(
             list(command),
+            cwd=cwd,
             text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.DEVNULL,
@@ -1430,6 +1437,54 @@ def _command_text(command: Sequence[str]) -> str | None:
     except (OSError, subprocess.TimeoutExpired):
         return None
     return completed.stdout.strip() if completed.returncode == 0 else None
+
+
+def collect_source_provenance(repo_root: Path = REPO_ROOT) -> dict[str, Any]:
+    """Return release and Git provenance without making Git a runtime dependency.
+
+    A missing ``VERSION`` file, unavailable Git executable, non-repository source
+    tree, or timed-out Git command remains explicit as unavailable metadata. None
+    of those conditions should prevent an otherwise valid benchmark run.
+    """
+
+    version_path = repo_root / "VERSION"
+    try:
+        version = (
+            version_path.read_text(encoding="utf-8").strip()
+            if version_path.is_file()
+            else None
+        )
+    except OSError:
+        version = None
+    if not version:
+        version = None
+
+    commit = _command_text(["git", "rev-parse", "HEAD"], cwd=repo_root)
+    try:
+        status = subprocess.run(
+            ["git", "status", "--porcelain=v1", "--untracked-files=all"],
+            cwd=repo_root,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            check=False,
+            timeout=20,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        status_available = False
+        dirty: bool | None = None
+    else:
+        status_available = status.returncode == 0
+        dirty = bool(status.stdout.strip()) if status_available else None
+
+    return {
+        "design_council_version": version,
+        "git": {
+            "commit": commit,
+            "dirty": dirty,
+            "status_available": status_available,
+        },
+    }
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -1564,6 +1619,7 @@ def main(argv: list[str] | None = None) -> int:
         "runner_sha256": file_digest(Path(__file__).resolve()),
         "judge_schema_sha256": file_digest(JUDGE_SCHEMA),
         "intervention_snapshot": {**snapshot_digest, "frozen_before_first_model_call": True},
+        "reproducibility": collect_source_provenance(),
         "candidate_isolation": {
             "workspace": "fresh opaque directory",
             "codex_home": "fresh authentication-only directory",

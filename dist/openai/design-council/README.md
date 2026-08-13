@@ -2,8 +2,8 @@
 
 Think wider. Frame better. Build what matters.
 
-This is the generated OpenAI / Codex distribution of Design Council 0.9.0-beta.4. Invoke
-it with `$design-council` or a matching natural-language request. Canonical source,
+This is the generated OpenAI / Codex distribution of Design Council 0.9.0-beta.5. Invoke
+it with `$design-think` or a matching natural-language request. Canonical source,
 tests, research notes, privacy documentation, and the optional interview Site
 live in the source repository from which this package was built.
 

@@ -1,7 +1,8 @@
 # Design Council beta evaluator guide
 
-The current private beta is tagged `v0.9.0-beta.4`. Do not call it `1.0.0` or represent it
-as a public marketplace release.
+The current release candidate is `v0.9.0-beta.5`. Its full validation, benchmark reruns,
+immutable tag, and fresh collaborator installs are still pending. Do not distribute it until
+the owner confirms the tag, call it `1.0.0`, or represent it as a public marketplace release.
 
 ## Setup
 
@@ -10,6 +11,10 @@ as a public marketplace release.
 3. Use a fresh, non-confidential project. Do not include real participant data.
 4. Run at least one ambiguous product idea, one straightforward code task, one Council
    round, one Inquiry Lab request, and one optional participatory exercise.
+5. Verify the native invocation for the installed platform before testing implicit routing:
+   `$design-think` or `/skills` in Codex, `@design-think` in ChatGPT, and `/design-think` in
+   Claude Code 2.1.216 or later. If the Claude short name collides, use
+   `/design-council:design-think`.
 
 ## Tasks
 
@@ -27,10 +32,15 @@ as a public marketplace release.
 - “Cluster these source-linked notes into an affinity map and give me a visual artifact.”
 - “Turn this multi-person handoff into a process map; mark missing transitions as unknown.”
 - “Implement the explicit dark-mode issue in this repository.”
+- Invoke the legacy beta entry (`$design-council` in Codex or
+  `/design-council:design-council` in Claude) once and confirm it still reaches the same
+  product rather than a divergent methodology.
 
 ## Questions
 
 - How hard was installation and first invocation?
+- Was the documented native invocation discoverable, and did it load the same Design Council
+  behavior as natural-language activation?
 - Could you explain Design Council to another person after two minutes?
 - Did Council members feel like distinct humans or renamed viewpoints? Which blurred?
 - Did the process preserve momentum, or did it feel obstructive? Where?

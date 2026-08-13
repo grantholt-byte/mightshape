@@ -82,30 +82,39 @@ gh auth status
 gh auth login --git-protocol https
 gh auth setup-git
 git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
-  refs/tags/v0.9.0-beta.4
+  refs/tags/v0.9.0-beta.5
 ```
 
 Do not continue if `ls-remote` fails: the invitation may still need to be accepted, the
-GitHub account may be wrong, or the `v0.9.0-beta.4` tag may not be available yet.
+GitHub account may be wrong, or the `v0.9.0-beta.5` tag may not be available yet.
 
 ### OpenAI / Codex
 
 ```bash
-codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.4 --json
+codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.5 --json
 codex plugin add design-council@design-council --json
 ```
 
-Start a fresh context and say `$design-council`, “Meet the Council,” or another natural request. See [OpenAI installation](docs/installation-openai.md) for update, uninstall, clean-context tests, and troubleshooting.
+Start a fresh Codex context and invoke `$design-think`, select **Design Think** through
+`/skills`, or use natural language. In ChatGPT, invoke `@design-think`. OpenAI plugins cannot
+register an arbitrary `/design-think` slash command, so Design Council does not ship a
+deprecated custom-prompt workaround. Legacy `$design-council` remains available during the
+beta. See [OpenAI installation](docs/installation-openai.md) for update, uninstall,
+clean-context tests, and troubleshooting.
 
 ### Claude Code
 
 ```bash
 CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
-  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.4 --scope user
+  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.5 --scope user
 claude plugin install design-council@design-council --scope user
 ```
 
-Invoke `/design-council:design-council` or use natural language. See [Claude installation](docs/installation-claude.md) for sideloading, update, uninstall, and troubleshooting.
+On Claude Code 2.1.216 or later, invoke `/design-think`. If another installed skill has the
+same short name, use the collision-safe `/design-council:design-think`. Legacy
+`/design-council:design-council` remains available during the beta. See
+[Claude installation](docs/installation-claude.md) for sideloading, update, uninstall, and
+troubleshooting.
 
 The hosted collaborator install uses Claude's `user` scope so it remains available across
 projects. Repository contributors testing a locally built package should instead clone the
@@ -236,4 +245,9 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md
 
 ## Release status
 
-Version `0.9.0-beta.4` is the synchronized private beta. The tagged GitHub repository is private and has not been published to either marketplace. Public release still requires publisher identity, public support/privacy/terms URLs where applicable, a fresh release audit, and the platforms’ current review or catalog steps.
+Version `0.9.0-beta.5` is the current private-beta release candidate. Its validation,
+model-backed benchmark reruns, immutable tag, and fresh collaborator-install checks remain
+pending; do not treat it as a completed release until those gates pass. The GitHub repository
+is private and has not been published to either marketplace. Public release still requires
+publisher identity, public support/privacy/terms URLs where applicable, a fresh release audit,
+and the platforms’ current review or catalog steps.

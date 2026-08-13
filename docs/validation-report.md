@@ -2,7 +2,7 @@
 
 **Validation date:** 2026-08-13
 
-**Release candidate:** `v0.9.0-beta.4`
+**Release candidate:** `v0.9.0-beta.5`
 
 **Scope:** private collaborator distribution only; no public deployment or marketplace submission.
 
@@ -11,11 +11,16 @@ human evidence. Raw authenticated run artifacts remain locally ignored because t
 machine paths and generated study content. Redacted, portable evidence is committed under
 [`evals/evidence/`](../evals/evidence/).
 
-## Deterministic product and package checks
+> **Current status:** beta.5 deterministic validation and both current platform validators
+> pass. Model-backed benchmark reruns, immutable tag creation, and fresh collaborator-install
+> tests remain pending. Pre-beta.5 model evidence below is retained as the current comparison
+> boundary and is not silently promoted to evidence about this release candidate.
+
+## Latest completed deterministic product and package checks
 
 | Check | Observed result |
 |---|---|
-| Python unit suite | **PASS — 182 tests** |
+| Python unit suite | **PASS — 186 tests** |
 | Behavioral contracts | **PASS — 114 cases**, including 60 adversarial cases and 51 invariant families |
 | Adapter mapping | **PASS — 114 shared cases per adapter** |
 | OpenAI package | **PASS** with official plugin and skill validators |
@@ -23,7 +28,7 @@ machine paths and generated study content. Redacted, portable evidence is commit
 | Shared-core drift | **PASS — 105 shared files**, including 10 byte-identical Council Human Models |
 | Package contract | **PASS** for manifests, skill metadata, 35 schemas, 21 deterministic scripts, methods, templates, and optional-infrastructure boundaries |
 | OpenAI starter prompts | **PASS — 3**, within the current runtime limit |
-| Duplicate-file exclusion | **PASS** — user-owned `* 2.*` files are absent from both packages and archives |
+| Duplicate-file safety | **PASS** — clean builds preserve user-owned conflict copies locally; they remain untracked and are excluded from release archives and checksums |
 | Credential scan | **PASS — no candidate secrets detected** |
 
 Primary commands:
@@ -188,12 +193,12 @@ Failure-path tests also require every planned candidate trajectory and blind jud
 validate saved judge payloads, recompute quality from those payloads, reject forged derived scores,
 and render quota/interrupted runs as `INCOMPLETE` without a completion claim.
 
-The live 60-call exploratory run was not started on 2026-08-13 because an earlier post-refinement
-single-turn A/B rerun showed that the local Codex account had reached its execution quota. Starting
-another study would only have produced failed calls. No longitudinal outcome is claimed. The test
-should be rerun after quota is available, followed by held-out trajectories and blind human
-ratings. The pre-refinement single-turn strong-prompt result remains the current honest
-incremental-value boundary.
+The live 60-call exploratory run has not yet completed, so no longitudinal outcome is claimed.
+The runner now records the exact Design Council version, Git commit, dirty state, frozen content
+hashes, and runtime configuration. It will run from a clean source-freeze commit, followed by the
+single-turn strong comparator, held-out trajectories, and blind human ratings. Until then, the
+pre-refinement single-turn strong-prompt result remains the current honest incremental-value
+boundary.
 
 ## Interview companion and Exchange boundary
 
@@ -214,9 +219,8 @@ OpenAI and Claude packages are generated from one canonical core at
 SHA-256 checksums live under `dist/`. Installation, update, uninstall, private-repository auth,
 and current public-publication paths are documented separately.
 
-The final `v0.9.0-beta.4` tag and fresh pinned-tag collaborator installs are release operations
-performed after this report and source freeze. The older `v0.9.0-beta.3` tag remains immutable;
-beta.4 supersedes it after benchmark failure-path hardening. Nothing has been submitted, approved, or
-published to either marketplace. Public publication remains gated on owner-controlled publisher
-identity, public policy/support URLs, independent evaluation, a fresh release audit, and each
-platform's current review/catalog process.
+The `v0.9.0-beta.5` tag and fresh pinned-tag collaborator installs must occur only after its
+pending benchmark review. Existing beta tags remain immutable. Nothing has been
+submitted, approved, or published to either marketplace. Public publication remains gated on
+owner-controlled publisher identity, public policy/support URLs, independent evaluation, a fresh
+release audit, and each platform's current review/catalog process.

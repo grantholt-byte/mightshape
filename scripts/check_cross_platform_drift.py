@@ -12,6 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
 CANONICAL = ROOT / "skills" / "design-council"
+LEGACY = ROOT / "skills" / "design-council-legacy"
 SHARED_PARTS = ("references", "schemas", "scripts", "assets")
 INVARIANTS = (
     "sealed responses",
@@ -69,6 +70,11 @@ def check() -> dict:
         errors.append("OpenAI adapter SKILL.md is not the canonical entry point")
     if not claude_skill.startswith(canonical_skill):
         errors.append("Claude adapter does not preserve the complete canonical SKILL.md prefix")
+    canonical_alias = (LEGACY / "SKILL.md").read_bytes()
+    for name, package in packages.items():
+        alias = package.parent / "design-council-legacy" / "SKILL.md"
+        if not alias.is_file() or alias.read_bytes() != canonical_alias:
+            errors.append(f"{name} adapter lost or changed the legacy invocation alias")
     for marker in INVARIANTS:
         for name, text in (("openai", openai_skill), ("claude", claude_skill)):
             if marker.lower() not in text.lower():

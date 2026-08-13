@@ -4,9 +4,11 @@
 These platform rules override only runtime mechanics; the product constitution
 and methodology above remain unchanged.
 
-- Invoke this plugin skill explicitly as `/design-council:design-council`.
-  Natural-language auto-discovery remains available through the skill
-  description.
+- On Claude Code 2.1.216 or later, invoke the primary skill as `/design-think`.
+  If another installed skill claims the same short name, use the collision-safe
+  `/design-council:design-think`. Legacy `/design-council:design-council` remains
+  available throughout this beta. Natural-language auto-discovery remains
+  available through the skill description.
 - For consequential Round A work, spawn separate fresh-context Agent workers,
   preferably with the plugin agent `design-council:sealed-member`. Give every
   worker the same immutable packet, exactly one Council profile, and only that

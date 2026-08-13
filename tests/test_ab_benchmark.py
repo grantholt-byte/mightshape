@@ -199,8 +199,8 @@ class ABBenchmarkTests(unittest.TestCase):
         diagnostic = candidate_prompt(raw, word_cap=700, explicit=True)
         self.assertEqual(treatment, control)
         self.assertEqual(treatment.count(raw), 1)
-        self.assertNotIn("$design-council", treatment)
-        self.assertIn("$design-council", diagnostic)
+        self.assertNotIn("$design-think", treatment)
+        self.assertIn("$design-think", diagnostic)
         self.assertIn("within 700 words", treatment)
 
     def test_frozen_prompt_only_control_is_explicit_and_not_in_primary_prompt(self) -> None:
@@ -749,7 +749,7 @@ class ABBenchmarkTests(unittest.TestCase):
         self.assertIn("workers=1", completed.stdout)
         self.assertIn("minimum_important_uplift=3.0", completed.stdout)
         self.assertIn("max_token_ratio=1.5", completed.stdout)
-        self.assertIn("$design-council", completed.stdout)
+        self.assertIn("$design-think", completed.stdout)
 
     def test_claude_dry_run_uses_native_invocation_without_auth(self) -> None:
         completed = subprocess.run(
@@ -771,7 +771,7 @@ class ABBenchmarkTests(unittest.TestCase):
         )
         self.assertEqual(completed.returncode, 0, completed.stdout)
         self.assertIn("runtime=claude", completed.stdout)
-        self.assertIn("/design-council:design-council", completed.stdout)
+        self.assertIn("/design-think", completed.stdout)
 
 
 if __name__ == "__main__":

@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import shutil
 import stat
 import zipfile
@@ -15,8 +16,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
 CANONICAL_SKILL = ROOT / "skills" / "design-council"
+LEGACY_SKILL = ROOT / "skills" / "design-council-legacy"
 SHARED_PARTS = ("references", "schemas", "scripts", "assets")
 PLATFORMS = ("openai", "claude")
+DUPLICATE_COPY_RE = re.compile(r" \d+(?:$|(?=\.))")
+
+
+def is_duplicate_copy(path: Path) -> bool:
+    """Return whether any path component is a user-created conflict copy."""
+
+    return any(DUPLICATE_COPY_RE.search(part) for part in path.parts)
 
 
 def version() -> str:
@@ -32,6 +41,7 @@ def copy_tree(source: Path, destination: Path, *extra_ignores: str) -> None:
     shutil.copytree(
         source,
         destination,
+        dirs_exist_ok=True,
         ignore=shutil.ignore_patterns(
             "__pycache__", "*.pyc", ".DS_Store", "* 2.*", *extra_ignores
         ),
@@ -50,7 +60,7 @@ def write_json(path: Path, value: object) -> None:
 
 
 def package_readme(platform: str) -> str:
-    invocation = "$design-council" if platform == "OpenAI / Codex" else "/design-council:design-council"
+    invocation = "$design-think" if platform == "OpenAI / Codex" else "/design-think"
     return f"""# ◇ Design Council — {platform}
 
 Think wider. Frame better. Build what matters.
@@ -70,6 +80,7 @@ def build_openai(target: Path) -> None:
     copy_tree(ROOT / "assets", target / "assets", "concepts")
     copy_tree(ROOT / "hooks", target / "hooks")
     copy_tree(CANONICAL_SKILL, target / "skills" / "design-council")
+    copy_tree(LEGACY_SKILL, target / "skills" / "design-council-legacy")
     copy_file(ROOT / "LICENSE", target / "LICENSE")
     (target / "README.md").write_text(package_readme("OpenAI / Codex"), encoding="utf-8")
 
@@ -83,6 +94,7 @@ def build_claude(target: Path) -> None:
     canonical = (CANONICAL_SKILL / "SKILL.md").read_text(encoding="utf-8").rstrip()
     appendix = (ROOT / "platforms" / "claude" / "adapter-appendix.md").read_text(encoding="utf-8")
     (skill_target / "SKILL.md").write_text(canonical + "\n" + appendix, encoding="utf-8")
+    copy_tree(LEGACY_SKILL, target / "skills" / "design-council-legacy")
     copy_tree(ROOT / "platforms" / "claude" / "agents", target / "agents")
     copy_tree(ROOT / "assets", target / "assets", "concepts")
     copy_file(ROOT / "LICENSE", target / "LICENSE")
@@ -91,7 +103,11 @@ def build_claude(target: Path) -> None:
 
 def zip_tree(source: Path, destination: Path) -> None:
     with zipfile.ZipFile(destination, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
-        for path in sorted(item for item in source.rglob("*") if item.is_file()):
+        for path in sorted(
+            item
+            for item in source.rglob("*")
+            if item.is_file() and not is_duplicate_copy(item.relative_to(source))
+        ):
             info = zipfile.ZipInfo(str(path.relative_to(source.parent)))
             info.date_time = (2020, 1, 1, 0, 0, 0)
             info.external_attr = (stat.S_IFREG | 0o644) << 16
@@ -123,7 +139,24 @@ def clean_platform(platform: str) -> None:
     target = package_target(platform)
     archive = archive_target(platform)
     if target.exists():
-        shutil.rmtree(target)
+        # Generated files are replaceable, but conflict copies are user-owned.
+        # Remove the generated tree bottom-up while leaving every duplicate
+        # subtree in place; builders merge clean output around those files.
+        for path in sorted(target.rglob("*"), key=lambda item: len(item.parts), reverse=True):
+            relative = path.relative_to(target)
+            if is_duplicate_copy(relative):
+                continue
+            if path.is_dir():
+                try:
+                    path.rmdir()
+                except OSError:
+                    pass
+            else:
+                path.unlink()
+        try:
+            target.rmdir()
+        except OSError:
+            pass
     if archive.exists():
         archive.unlink()
 
@@ -136,10 +169,10 @@ def clean_generated_dist() -> list[str]:
         target = package_target(platform)
         if target.exists():
             removed.append(str(target))
-            shutil.rmtree(target)
+        clean_platform(platform)
     for platform in PLATFORMS:
         for archive in sorted(DIST.glob(f"design-council-{platform}-*.zip")):
-            if " 2." in archive.name:
+            if is_duplicate_copy(Path(archive.name)):
                 continue
             removed.append(str(archive))
             archive.unlink()
@@ -159,7 +192,7 @@ def build(clean: bool = False, platform: str = "all") -> dict:
     archives: list[str] = []
     for name in selected:
         target = package_target(name)
-        target.mkdir(parents=True)
+        target.mkdir(parents=True, exist_ok=True)
         builders[name](target)
         archive = archive_target(name)
         zip_tree(target, archive)

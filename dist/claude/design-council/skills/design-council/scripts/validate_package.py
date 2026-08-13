@@ -116,7 +116,7 @@ def validate_package(root: str | Path) -> dict[str, Any]:
     if skill_path.exists():
         skill = skill_path.read_text(encoding="utf-8")
         _check(skill.startswith("---\n"), "SKILL_FRONTMATTER", "SKILL.md needs YAML frontmatter", errors)
-        _check("name: design-council" in skill, "SKILL_NAME", "skill name is missing", errors)
+        _check("name: design-think" in skill, "SKILL_NAME", "primary skill name must be design-think", errors)
         _check("description:" in skill.split("---", 2)[1], "SKILL_DESCRIPTION", "skill description is missing", errors)
         _check(len(skill.splitlines()) <= 500, "SKILL_TOO_LONG", "SKILL.md exceeds 500 lines; preserve progressive disclosure", errors)
         linked = re.findall(r"\]\((references/[^)#]+)\)", skill)
@@ -124,6 +124,12 @@ def validate_package(root: str | Path) -> dict[str, Any]:
             _check((skill_root / relative).is_file(), "BROKEN_SKILL_LINK", relative, errors)
         for invariant in ("sealed", "SOLUTION BLACKOUT", "Build Gate", "evidence firewall", "Minority Report"):
             _check(invariant.lower() in skill.lower(), "SKILL_INVARIANT", f"SKILL.md does not route {invariant}", errors)
+        legacy = root / "skills" / "design-council-legacy" / "SKILL.md"
+        _check(legacy.is_file(), "LEGACY_SKILL", "legacy design-council invocation alias is missing", errors)
+        if legacy.is_file():
+            alias = legacy.read_text(encoding="utf-8")
+            _check("name: design-council" in alias, "LEGACY_SKILL_NAME", "legacy alias name must be design-council", errors)
+            _check("canonical Design Think skill" in alias, "LEGACY_SKILL_TARGET", "legacy alias must delegate to Design Think", errors)
     report("skill metadata and progressive disclosure", before)
 
     before = len(errors)

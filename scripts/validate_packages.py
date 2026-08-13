@@ -27,6 +27,13 @@ SEMVER_RE = re.compile(
 )
 
 
+def skill_name(path: Path) -> str | None:
+    """Read the simple ``name`` field from a skill's YAML frontmatter."""
+
+    match = re.search(r"(?m)^name:\s*([^\n#]+)", path.read_text(encoding="utf-8"))
+    return match.group(1).strip().strip('"\'') if match else None
+
+
 def is_semver(value: object) -> bool:
     """Return whether value is a SemVer 2.0.0 release or prerelease string."""
     match = SEMVER_RE.fullmatch(str(value))
@@ -60,6 +67,12 @@ def basic_openai_validate() -> list[str]:
         errors.append("OpenAI plugin version must be valid SemVer (for example 1.0.0 or 0.9.0-beta.1)")
     if not (OPENAI / "skills/design-council/SKILL.md").is_file():
         errors.append("OpenAI skill is missing")
+    elif skill_name(OPENAI / "skills/design-council/SKILL.md") != "design-think":
+        errors.append("OpenAI primary skill must expose the design-think invocation")
+    if not (OPENAI / "skills/design-council-legacy/SKILL.md").is_file():
+        errors.append("OpenAI legacy invocation alias is missing")
+    elif skill_name(OPENAI / "skills/design-council-legacy/SKILL.md") != "design-council":
+        errors.append("OpenAI legacy alias must preserve the design-council invocation")
     if marketplace.get("name") != "design-council":
         errors.append("OpenAI marketplace name must be design-council")
     plugins = marketplace.get("plugins", [])
@@ -83,6 +96,12 @@ def basic_claude_validate() -> list[str]:
         errors.append("Claude plugin version must be valid SemVer (for example 1.0.0 or 0.9.0-beta.1)")
     if not (CLAUDE / "skills/design-council/SKILL.md").is_file():
         errors.append("Claude skill is missing")
+    elif skill_name(CLAUDE / "skills/design-council/SKILL.md") != "design-think":
+        errors.append("Claude primary skill must expose the /design-think command")
+    if not (CLAUDE / "skills/design-council-legacy/SKILL.md").is_file():
+        errors.append("Claude legacy invocation alias is missing")
+    elif skill_name(CLAUDE / "skills/design-council-legacy/SKILL.md") != "design-council":
+        errors.append("Claude legacy alias must preserve the design-council command")
     if not (CLAUDE / "agents/sealed-member.md").is_file():
         errors.append("Claude sealed-member agent is missing")
     plugins = marketplace.get("plugins", [])
@@ -115,6 +134,7 @@ def validate(require_claude: bool = False, platform: str = "all") -> dict[str, A
             errors.append(f"official OpenAI validator unavailable: {OPENAI_VALIDATOR}")
         if SKILL_VALIDATOR.is_file():
             results.append(run([sys.executable, str(SKILL_VALIDATOR), str(OPENAI / "skills/design-council")]))
+            results.append(run([sys.executable, str(SKILL_VALIDATOR), str(OPENAI / "skills/design-council-legacy")]))
         else:
             errors.append(f"skill validator unavailable: {SKILL_VALIDATOR}")
 
@@ -122,6 +142,7 @@ def validate(require_claude: bool = False, platform: str = "all") -> dict[str, A
         errors.extend(basic_claude_validate())
         if SKILL_VALIDATOR.is_file():
             results.append(run([sys.executable, str(SKILL_VALIDATOR), str(CLAUDE / "skills/design-council")]))
+            results.append(run([sys.executable, str(SKILL_VALIDATOR), str(CLAUDE / "skills/design-council-legacy")]))
         else:
             errors.append(f"skill validator unavailable: {SKILL_VALIDATOR}")
         configured_claude = os.environ.get("DC_CLAUDE_CLI")

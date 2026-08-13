@@ -1,5 +1,5 @@
 ---
-name: design-council
+name: design-think
 description: Facilitate human-centered product, service, AI, workflow, policy, organizational, and systems design with an iterative Stanford d.school-inspired practice, a persistent ten-person fictional Council, sealed divergence, evidence provenance, Inquiry Lab, optional guided participation, visual maps, learning prototypes, and an advisory Build Gate. Use for ambiguous or solution-first ideas; Ask, Meet, or Challenge the Council; sealed rounds or Minority Reports; reframing; assumptions, evidence, or debt; synthetic or human inquiry; Reality Packets or Checks; interviews; POVs/HMWs; brainstorming, clustering, process mapping, visible work, or human/service/concept experiments. Do not invoke solely for a named bug, fully specified implementation, or bounded reversible technical spike with an explicit metric and timebox unless the user explicitly invokes Design Council.
 ---
 
@@ -101,9 +101,11 @@ Before finishing substantial work, update state, run relevant deterministic chec
 These platform rules override only runtime mechanics; the product constitution
 and methodology above remain unchanged.
 
-- Invoke this plugin skill explicitly as `/design-council:design-council`.
-  Natural-language auto-discovery remains available through the skill
-  description.
+- On Claude Code 2.1.216 or later, invoke the primary skill as `/design-think`.
+  If another installed skill claims the same short name, use the collision-safe
+  `/design-council:design-think`. Legacy `/design-council:design-council` remains
+  available throughout this beta. Natural-language auto-discovery remains
+  available through the skill description.
 - For consequential Round A work, spawn separate fresh-context Agent workers,
   preferably with the plugin agent `design-council:sealed-member`. Give every
   worker the same immutable packet, exactly one Council profile, and only that

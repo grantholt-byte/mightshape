@@ -1,5 +1,5 @@
 ---
-name: design-council
+name: design-think
 description: Facilitate human-centered product, service, AI, workflow, policy, organizational, and systems design with an iterative Stanford d.school-inspired practice, a persistent ten-person fictional Council, sealed divergence, evidence provenance, Inquiry Lab, optional guided participation, visual maps, learning prototypes, and an advisory Build Gate. Use for ambiguous or solution-first ideas; Ask, Meet, or Challenge the Council; sealed rounds or Minority Reports; reframing; assumptions, evidence, or debt; synthetic or human inquiry; Reality Packets or Checks; interviews; POVs/HMWs; brainstorming, clustering, process mapping, visible work, or human/service/concept experiments. Do not invoke solely for a named bug, fully specified implementation, or bounded reversible technical spike with an explicit metric and timebox unless the user explicitly invokes Design Council.
 ---
 

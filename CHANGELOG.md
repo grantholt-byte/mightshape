@@ -2,6 +2,34 @@
 
 All notable changes use [Semantic Versioning](https://semver.org/).
 
+## [0.9.0-beta.5] — 2026-08-13
+
+### Added
+
+- Added `design-think` as the short, shared skill entry point while retaining the canonical
+  Design Council product identity and existing invocation names for compatibility.
+- Documented each host's native explicit form: `/design-think` on Claude Code 2.1.216 or
+  later, `$design-think` (or `/skills`) in Codex, and `@design-think` in ChatGPT.
+
+### Changed
+
+- Claude documentation now also records the collision-safe namespaced form
+  `/design-council:design-think`.
+- OpenAI documentation now states plainly that packaged plugins cannot register arbitrary
+  slash commands and that Design Council does not ship deprecated custom prompts.
+- Longitudinal benchmark manifests now bind results to the Design Council version, Git commit,
+  and dirty state so an efficacy run can be traced to an exact source freeze.
+
+### Fixed
+
+- Clean package builds now preserve user-owned conflict-copy files and directories under
+  generated package folders while excluding them from archives and checksum metadata.
+
+### Breaking Changes
+
+- None. Legacy `$design-council` and `/design-council:design-council` invocation remain
+  available throughout this beta.
+
 ## [0.9.0-beta.4] — 2026-08-13
 
 ### Fixed

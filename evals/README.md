@@ -247,12 +247,10 @@ python3 evals/run_trajectory_benchmark.py \
 ```
 
 This is a 60-call exploratory design over three product-authored trajectories. It is not a
-confirmatory efficacy study. It was not run on 2026-08-13: an earlier post-refinement one-shot A/B
-rerun showed that the local Codex account had reached its execution quota, so starting another
-model study would only create failed calls. No longitudinal result is claimed. The harness, frozen
-prompt parity, isolation, persisted-session mechanics, schema, and dry run are deterministically
-validated. Rerun after quota is available, then add held-out trajectories and independent human
-review.
+confirmatory efficacy study. The beta.5 longitudinal run and post-refinement strong-comparator
+rerun are pending; no beta.5 outcome is claimed. The previously validated harness, frozen prompt
+parity, isolation, persisted-session mechanics, schema, and dry-run boundary still require the
+beta.5 release gate to be rerun. Afterward, add held-out trajectories and independent human review.
 
 Use [`human-rating-guide.md`](benchmark/human-rating-guide.md) and
 [`human-paired-rating.schema.json`](schema/human-paired-rating.schema.json) for blind human review.
@@ -355,9 +353,12 @@ quality score.
 
 `openai/manifest.json` and `claude/manifest.json` map the complete shared case
 corpus in `cases/` to each generated package. Explicit cases receive the native
-invocation (`$design-council` or `/design-council:design-council`); implicit and
-avoid-routing prompts remain byte-for-byte unchanged. The platform directories
-do not copy cases or fixtures.
+primary invocation (`$design-think` for Codex or `/design-think` for Claude Code
+2.1.216 and later); implicit and avoid-routing prompts remain byte-for-byte
+unchanged. ChatGPT uses `@design-think`. Claude's collision-safe form is
+`/design-council:design-think`. Legacy `$design-council` and
+`/design-council:design-council` remain beta compatibility checks rather than the
+primary adapter mapping. The platform directories do not copy cases or fixtures.
 
 Run both mappings, or one adapter, without model calls:
 
