@@ -1,6 +1,6 @@
 {
   "name": "design-council-interview-app",
-  "version": "0.9.0-beta.5",
+  "version": "0.9.0-beta.6",
   "private": true,
   "engines": {
     "node": ">=22.13.0"

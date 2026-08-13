@@ -2,30 +2,30 @@
 
 **Validation date:** 2026-08-13
 
-**Release candidate:** `v0.9.0-beta.5`
+**Release candidate:** `v0.9.0-beta.6`
 
 **Scope:** private collaborator distribution only; no public deployment or marketplace submission.
 
 This report records observed checks without upgrading model judgments or synthetic exercises into
-human evidence. Raw authenticated run artifacts remain locally ignored because they can contain
-machine paths and generated study content. Redacted, portable evidence is committed under
-[`evals/evidence/`](../evals/evidence/).
+human evidence. Raw runtime streams remain locally ignored. Content-safe audit bundles preserve
+the frozen manifest, assistant outputs, blinded pairs, structured judgments, summaries, and hashes
+under [`evals/evidence/`](../evals/evidence/), without environment variables or credentials.
 
-> **Current status:** beta.5 deterministic validation and both current platform validators
+> **Current status:** beta.6 deterministic validation and both current platform validators
 > pass. Model-backed benchmark reruns, immutable tag creation, and fresh collaborator-install
-> tests remain pending. Pre-beta.5 model evidence below is retained as the current comparison
+> tests remain pending. Pre-beta.6 model evidence below is retained as the current comparison
 > boundary and is not silently promoted to evidence about this release candidate.
 
 ## Latest completed deterministic product and package checks
 
 | Check | Observed result |
 |---|---|
-| Python unit suite | **PASS — 186 tests** |
-| Behavioral contracts | **PASS — 114 cases**, including 60 adversarial cases and 51 invariant families |
-| Adapter mapping | **PASS — 114 shared cases per adapter** |
-| OpenAI package | **PASS** with official plugin and skill validators |
+| Python unit suite | **PASS — 263 tests** |
+| Behavioral contracts | **PASS — 126 cases**, including 69 adversarial cases and 52 invariant families |
+| Adapter mapping | **PASS — 126 shared cases per adapter** |
+| OpenAI package | **PASS** with bundled plugin/skill authoring validators and local portal-rule checks; portal upload validation remains manual |
 | Claude package | **PASS** with the current strict plugin validator used by `make release-check` |
-| Shared-core drift | **PASS — 105 shared files**, including 10 byte-identical Council Human Models |
+| Shared-core drift | **PASS — 106 shared files**, including 10 byte-identical Council Human Models |
 | Package contract | **PASS** for manifests, skill metadata, 35 schemas, 21 deterministic scripts, methods, templates, and optional-infrastructure boundaries |
 | OpenAI starter prompts | **PASS — 3**, within the current runtime limit |
 | Duplicate-file safety | **PASS** — clean builds preserve user-owned conflict copies locally; they remain untracked and are excluded from release archives and checksums |
@@ -183,7 +183,8 @@ competent Design Thinking instruction on every turn. The eight blind dimensions 
 calibration/provenance as well as framing, history, assumptions, divergence, experiment information
 gain, backward iteration, and momentum.
 
-Deterministic validation passed for the three four-turn trajectories, exact prompt parity,
+Deterministic validation passed for the five neutral comparative trajectories plus two separate
+product-conformance trajectories, exact prompt parity,
 treatment-only skill presence, auth-only isolation, explicit UUID session resume, arm/label
 counterbalancing, frozen hashes, schema enforcement, and quality-first verdict logic. A meaningful
 benefit requires a complete realized design and a case-bootstrap interval clearing the configured
@@ -193,12 +194,21 @@ Failure-path tests also require every planned candidate trajectory and blind jud
 validate saved judge payloads, recompute quality from those payloads, reject forged derived scores,
 and render quota/interrupted runs as `INCOMPLETE` without a completion claim.
 
-The live 60-call exploratory run has not yet completed, so no longitudinal outcome is claimed.
-The runner now records the exact Design Council version, Git commit, dirty state, frozen content
-hashes, and runtime configuration. It will run from a clean source-freeze commit, followed by the
-single-turn strong comparator, held-out trajectories, and blind human ratings. Until then, the
-pre-refinement single-turn strong-prompt result remains the current honest incremental-value
-boundary.
+The clean 60-call beta.5 exploratory run completed every planned candidate turn and blind
+judgment at commit `7bba36d`: Design Council scored **98.33** versus **94.17**, a **+4.17-point**
+directional advantage with 95% case-bootstrap CI **[0.625, 6.875]** and 2 wins, 1 tie, 0 losses.
+Generation-token use was **1.643×** control. The interval lower bound did not clear the
+preregistered +3-point minimum, so the honest verdict is
+`TREATMENT_ADVANTAGE_DETECTED_BELOW_IMPORTANCE_THRESHOLD`, not V1 efficacy success. Full
+assistant trajectories, blinded pairs, judgments, summaries, hashes, and frozen-commit metadata
+are committed under
+[`evals/evidence/runs/20260813T191419Z`](../evals/evidence/runs/20260813T191419Z).
+
+The result identified two bounded changes: preserve live mechanism alternatives through final
+experiment choice and remove study operations that do not add discrimination, realism, safety,
+or decision value. The five-neutral-trajectory, explicitly invoked release comparison and
+post-refinement one-shot strong comparator remain pending. Held-out trajectories and blind human
+ratings are still required before a public outcome claim.
 
 ## Interview companion and Exchange boundary
 
@@ -219,7 +229,7 @@ OpenAI and Claude packages are generated from one canonical core at
 SHA-256 checksums live under `dist/`. Installation, update, uninstall, private-repository auth,
 and current public-publication paths are documented separately.
 
-The `v0.9.0-beta.5` tag and fresh pinned-tag collaborator installs must occur only after its
+The `v0.9.0-beta.6` tag and fresh pinned-tag collaborator installs must occur only after its
 pending benchmark review. Existing beta tags remain immutable. Nothing has been
 submitted, approved, or published to either marketplace. Public publication remains gated on
 owner-controlled publisher identity, public policy/support URLs, independent evaluation, a fresh

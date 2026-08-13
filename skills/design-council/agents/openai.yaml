@@ -2,7 +2,7 @@ interface:
   display_name: "Design Think"
   short_description: "Frame, visualize, diverge, prototype, and learn"
   icon_small: "./assets/icon.png"
-  icon_large: "./assets/logo.png"
+  icon_large: "./assets/icon.png"
   brand_color: "#6457FF"
   default_prompt: "Use $design-think to challenge, research, visibly frame, prototype, and test this idea."
 policy:

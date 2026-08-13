@@ -20,11 +20,12 @@ From the user's own words, draft rather than interrogate:
 
 ## Response pattern
 
-1. Acknowledge the useful energy or intent without endorsing untested claims.
-2. Recast the proposal as a candidate solution.
-3. Show no more than five pivotal assumptions/unknowns.
-4. Choose depth and the smallest next move.
-5. Ask at most one high-yield question when the answer would change the route.
+1. Infer the starting point and current decision from the user's words when possible: `EARLY_HUNCH`, `GROUNDED_EXPLORATION`, `FRAMED_CHALLENGE`, `CONCEPT`, `PROTOTYPE`, `LIVE`, or `UNSURE`. Record whether it was `USER_DECLARED` or `INFERRED`; never confuse it with the current mode. For a sustained project, persist it with `python3 <skill>/scripts/dc.py orient --project-root <root> --starting-point <value> --basis <value> [--current-decision <decision>]`; omitting the decision preserves any existing focus.
+2. Acknowledge the useful energy or intent without endorsing untested claims.
+3. Recast a proposal as a candidate solution when relevant.
+4. Show no more than five pivotal assumptions/unknowns.
+5. Choose depth and the smallest next move from the current decision—not from a requirement to start at Empathize.
+6. Ask at most one high-yield question when the answer would change the route. If explicit invocation supplies no usable context, ask which plain-language starting point best fits and include “not sure”; otherwise infer and proceed without a redundant question.
 
 Example high-yield question: “Tell me about the last real incident that made you want this—what happened, who was involved, and what did they do next?”
 
@@ -46,6 +47,8 @@ Add these checks only when relevant:
 - What remains valuable when AI is removed?
 
 ## Transition
+
+Starting point does not dictate transition. A live product may return to Empathize or Define; an early hunch may move directly to a low-fidelity Prototype when making is the cheapest inquiry.
 
 - To `EMPATHIZE` when behavior, context, stakeholders, or workflow is insufficiently known.
 - To `DEFINE` when grounded evidence exists but the frame is weak or contested.

@@ -60,7 +60,11 @@ def write_json(path: Path, value: object) -> None:
 
 
 def package_readme(platform: str) -> str:
-    invocation = "$design-think" if platform == "OpenAI / Codex" else "/design-think"
+    invocation = (
+        "$design-think"
+        if platform == "OpenAI / Codex"
+        else "/design-council:design-think"
+    )
     return f"""# ◇ Design Council — {platform}
 
 Think wider. Frame better. Build what matters.

@@ -62,6 +62,17 @@ ZERO_STRENGTH_PROVENANCE = {
 }
 
 PROCESS_VIEWS = {"COMPACT", "VISIBLE", "WORKSHOP"}
+STARTING_POINTS = {
+    "EARLY_HUNCH",
+    "GROUNDED_EXPLORATION",
+    "FRAMED_CHALLENGE",
+    "CONCEPT",
+    "PROTOTYPE",
+    "LIVE",
+    "UNSURE",
+}
+STARTING_POINT_BASES = {"USER_DECLARED", "INFERRED"}
+_PRESERVE_CURRENT_DECISION = object()
 PARTICIPATION_MODES = {"OBSERVE", "COLLABORATE", "FACILITATED_TURN_BY_TURN"}
 FACILITATOR_LEVELS = {"NOVICE_ASSISTED", "GUIDED", "LIGHT_TOUCH"}
 ADAPTATION_SOURCES = {"USER_REQUEST", "FACILITATOR_INFERENCE", "SYSTEM_POLICY"}
@@ -130,7 +141,15 @@ def new_project_state(
             "operating_depth": "STANDARD",
             "process_view": "VISIBLE",
         },
-        "journey": {"current_mode": "INTAKE", "cycle": 1, "completed_modes": [], "transitions": []},
+        "journey": {
+            "starting_point": "UNSURE",
+            "starting_point_basis": "INFERRED",
+            "current_decision": None,
+            "current_mode": "INTAKE",
+            "cycle": 1,
+            "completed_modes": [],
+            "transitions": [],
+        },
         "stakeholders": [],
         "evidence": [],
         "assumptions": [],
@@ -319,6 +338,52 @@ def set_process_view(project_root: str | Path, process_view: str) -> dict[str, A
         state,
         "PROCESS_VIEW_CHANGED",
         {"from": previous, "to": normalized},
+    )
+
+
+def set_starting_point(
+    project_root: str | Path,
+    starting_point: str,
+    basis: str,
+    current_decision: str | None | object = _PRESERVE_CURRENT_DECISION,
+) -> dict[str, Any]:
+    """Record maturity orientation without treating it as a mode transition.
+
+    Omitting ``current_decision`` preserves the existing decision focus. Passing
+    ``None`` explicitly clears it; a nonblank string replaces it.
+    """
+
+    normalized = starting_point.upper()
+    normalized_basis = basis.upper()
+    if normalized not in STARTING_POINTS:
+        raise DesignCouncilError(f"Unknown starting point: {starting_point}")
+    if normalized_basis not in STARTING_POINT_BASES:
+        raise DesignCouncilError(f"Unknown starting-point basis: {basis}")
+    if isinstance(current_decision, str) and not current_decision.strip():
+        raise DesignCouncilError("current decision cannot be blank")
+    state = load_project(project_root)
+    journey = state["journey"]
+    previous = {
+        "starting_point": journey.get("starting_point", "UNSURE"),
+        "starting_point_basis": journey.get("starting_point_basis", "INFERRED"),
+        "current_decision": journey.get("current_decision"),
+    }
+    journey["starting_point"] = normalized
+    journey["starting_point_basis"] = normalized_basis
+    if current_decision is not _PRESERVE_CURRENT_DECISION:
+        journey["current_decision"] = (
+            current_decision.strip() if isinstance(current_decision, str) else None
+        )
+    elif "current_decision" not in journey:
+        # Legacy states legitimately predate this optional field. Preserve that
+        # absence semantically while materializing the current schema shape so
+        # the revision record can be built without indexing a missing key.
+        journey["current_decision"] = None
+    return commit_project(
+        project_root,
+        state,
+        "STARTING_POINT_ORIENTED",
+        {"from": previous, "to": {key: journey[key] for key in previous}},
     )
 
 

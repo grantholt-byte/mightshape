@@ -42,11 +42,15 @@ EVAL_ROOT = Path(__file__).resolve().parent
 REPO_ROOT = EVAL_ROOT.parent
 SKILL_ROOT = REPO_ROOT / "skills" / "design-council"
 TRAJECTORIES_PATH = EVAL_ROOT / "benchmark" / "trajectories.jsonl"
+PRODUCT_CONFORMANCE_TRAJECTORIES_PATH = (
+    EVAL_ROOT / "benchmark" / "product-conformance-trajectories.jsonl"
+)
 JUDGE_SCHEMA = EVAL_ROOT / "schema" / "trajectory-judge.schema.json"
 RESULTS_ROOT = EVAL_ROOT / "results" / "trajectory"
 
 ARMS = ("treatment", "control")
 CONTROL_MODES = ("plain", "design-thinking-prompt")
+TREATMENT_INVOCATION_MODES = ("implicit", "explicit-first-turn")
 DESIGN_THINKING_PROMPT_CONTROL = (
     "Use a proportionate human-centered Design Thinking approach. Distinguish a proposed solution "
     "from the underlying human problem; separate evidence, inference, assumptions, and unknowns; "
@@ -72,6 +76,7 @@ SCORE_DIMENSIONS = (
     "evidence_calibration_and_provenance",
 )
 SESSION_MODES = ("persisted", "transcript-replay")
+CORPUS_KINDS = ("efficacy", "product-conformance")
 DEFAULT_MINIMUM_IMPORTANT_UPLIFT = 3.0
 REPRO_CACHE_DIRS = {"__pycache__", ".mypy_cache", ".pytest_cache", ".ruff_cache"}
 
@@ -268,19 +273,32 @@ def build_judge_plan(
     return plan
 
 
-def candidate_turn_prompt(raw_user_turn: str, arm: str, control_mode: str) -> str:
+def candidate_turn_prompt(
+    raw_user_turn: str,
+    arm: str,
+    control_mode: str,
+    *,
+    turn_index: int = 0,
+    treatment_invocation: str = "implicit",
+) -> str:
     """Return the delivered prompt while preserving the raw turn separately.
 
     The frozen instruction is applied independently to every control turn so a
     resumed session cannot depend on the model remembering a turn-one method
-    request. Treatment always receives the unmodified raw turn; its only
-    intervention is repository-local skill availability.
+    request. Explicit treatment adds only the platform invocation to turn one;
+    otherwise treatment receives the unmodified raw turns.
     """
 
     if arm not in ARMS:
         raise TrajectoryBenchmarkError(f"unknown arm: {arm}")
     if control_mode not in CONTROL_MODES:
         raise TrajectoryBenchmarkError(f"unknown control mode: {control_mode}")
+    if treatment_invocation not in TREATMENT_INVOCATION_MODES:
+        raise TrajectoryBenchmarkError(
+            f"unknown treatment invocation mode: {treatment_invocation}"
+        )
+    if arm == "treatment" and treatment_invocation == "explicit-first-turn" and turn_index == 0:
+        return f"$design-think\n\n{raw_user_turn}"
     if arm == "control" and control_mode == "design-thinking-prompt":
         return (
             f"{raw_user_turn}\n\n"
@@ -500,18 +518,31 @@ def replay_prompt(
     *,
     arm: str = "treatment",
     control_mode: str = "plain",
+    treatment_invocation: str = "implicit",
 ) -> str:
     """Construct the explicitly labeled lower-fidelity conversation fallback."""
 
     if current_index == 0:
-        return candidate_turn_prompt(turns[0]["content"], arm, control_mode)
+        return candidate_turn_prompt(
+            turns[0]["content"],
+            arm,
+            control_mode,
+            turn_index=0,
+            treatment_invocation=treatment_invocation,
+        )
     transcript: list[dict[str, str]] = []
     for index in range(current_index):
         transcript.extend(
             [
                 {
                     "role": "user",
-                    "content": candidate_turn_prompt(turns[index]["content"], arm, control_mode),
+                    "content": candidate_turn_prompt(
+                        turns[index]["content"],
+                        arm,
+                        control_mode,
+                        turn_index=index,
+                        treatment_invocation=treatment_invocation,
+                    ),
                 },
                 {"role": "assistant", "content": responses[index]},
             ]
@@ -520,7 +551,11 @@ def replay_prompt(
         {
             "role": "user",
             "content": candidate_turn_prompt(
-                turns[current_index]["content"], arm, control_mode
+                turns[current_index]["content"],
+                arm,
+                control_mode,
+                turn_index=current_index,
+                treatment_invocation=treatment_invocation,
             ),
         }
     )
@@ -647,13 +682,18 @@ def run_candidate_trajectory(
     response_root: Path,
     arm: str,
     control_mode: str,
+    treatment_invocation: str = "implicit",
 ) -> dict[str, Any]:
     """Run one four-turn candidate trajectory with persisted or replayed history."""
 
     if session_mode not in SESSION_MODES:
         raise TrajectoryBenchmarkError(f"unknown session mode: {session_mode}")
-    if arm not in ARMS or control_mode not in CONTROL_MODES:
-        raise TrajectoryBenchmarkError("invalid arm or control mode")
+    if (
+        arm not in ARMS
+        or control_mode not in CONTROL_MODES
+        or treatment_invocation not in TREATMENT_INVOCATION_MODES
+    ):
+        raise TrajectoryBenchmarkError("invalid arm, control mode, or treatment invocation")
     environment = isolated_environment(codex_home, fake_home)
     responses: list[str] = []
     records: list[dict[str, Any]] = []
@@ -661,7 +701,13 @@ def run_candidate_trajectory(
     started = time.perf_counter()
     for index, turn in enumerate(trajectory["turns"]):
         raw_user_turn = turn["content"]
-        delivered_prompt = candidate_turn_prompt(raw_user_turn, arm, control_mode)
+        delivered_prompt = candidate_turn_prompt(
+            raw_user_turn,
+            arm,
+            control_mode,
+            turn_index=index,
+            treatment_invocation=treatment_invocation,
+        )
         response_path = response_root / f"turn-{index + 1:02d}-{secrets.token_hex(5)}.md"
         if session_mode == "persisted":
             if index == 0:
@@ -697,6 +743,7 @@ def run_candidate_trajectory(
                     index,
                     arm=arm,
                     control_mode=control_mode,
+                    treatment_invocation=treatment_invocation,
                 ),
             )
         result = run_codex_call(
@@ -727,6 +774,11 @@ def run_candidate_trajectory(
                 "delivered_prompt_sha256": stable_digest(delivered_prompt),
                 "prompt_only_instruction_applied": (
                     arm == "control" and control_mode == "design-thinking-prompt"
+                ),
+                "treatment_invocation_applied": (
+                    arm == "treatment"
+                    and treatment_invocation == "explicit-first-turn"
+                    and index == 0
                 ),
                 "assistant_response": response,
                 "assistant_word_count": len(response.split()),
@@ -1145,6 +1197,7 @@ def aggregate_results(
     bootstrap_samples: int,
     seed: int,
     control_mode: str,
+    treatment_invocation: str = "implicit",
 ) -> dict[str, Any]:
     """Aggregate by pair then trajectory; token use never vetoes quality uplift."""
 
@@ -1275,12 +1328,20 @@ def aggregate_results(
         "effectiveness": {
             "verdict": verdict,
             "primary_estimand": (
-                "within-model quality uplift from Design Council skill availability over a no-skill "
+                "within-model quality uplift from deliberate Design Council invocation on turn one over "
+                "a no-skill trajectory receiving the frozen Design Thinking prompt on every user turn"
+                if control_mode == "design-thinking-prompt"
+                and treatment_invocation == "explicit-first-turn"
+                else "within-model quality uplift from Design Council skill availability over a no-skill "
                 "trajectory receiving the frozen Design Thinking prompt on every user turn"
                 if control_mode == "design-thinking-prompt"
+                else "within-model quality uplift from deliberate Design Council invocation on turn one "
+                "over a plain no-skill trajectory"
+                if treatment_invocation == "explicit-first-turn"
                 else "within-model quality uplift from Design Council skill availability over a plain no-skill trajectory"
             ),
             "control_mode": control_mode,
+            "treatment_invocation": treatment_invocation,
             "decision_rule": (
                 "A meaningful benefit requires a complete realized design, more case wins than losses, "
                 "and the case-bootstrap interval to clear the configured minimum important uplift. "
@@ -1315,7 +1376,7 @@ def aggregate_results(
         },
         "warnings": [
             "Blind model judgments are subjective measurement aids, not ground truth.",
-            "The three product-authored trajectories are a small exploratory corpus, not confirmatory efficacy evidence.",
+            f"The {len(trajectories)} product-authored trajectories are a small exploratory corpus, not confirmatory efficacy evidence.",
             "The corpus uses explicit fictional benchmark evidence; it does not establish real user outcomes.",
             "This measures assistant-trajectory quality, not shipped-product or longitudinal team performance.",
             "Native Claude effectiveness requires a separate within-Claude run.",
@@ -1364,6 +1425,7 @@ def render_summary(summary: dict[str, Any], manifest: dict[str, Any]) -> str:
         f"({metric(effect['quality_uplift_points'], signed=True)} points).",
         f"Cases: {effect['wins']} wins / {effect['ties']} ties / {effect['losses']} losses.",
         f"Control comparator: `{manifest['control_mode']}`.",
+        f"Treatment invocation: `{manifest.get('treatment_invocation', 'implicit')}`.",
         f"Estimand: {effect['primary_estimand']}.",
         "",
         "The effectiveness verdict is based on outcome quality. Resource use is reported separately and does not veto quality improvement.",
@@ -1401,6 +1463,7 @@ def render_summary(summary: dict[str, Any], manifest: dict[str, Any]) -> str:
             f"- Run: `{manifest['run_id']}`",
             f"- Session mode: `{manifest['session_mode']}`",
             f"- Control mode: `{manifest['control_mode']}`",
+            f"- Treatment invocation: `{manifest.get('treatment_invocation', 'implicit')}`",
             f"- Frozen prompt-only instruction SHA-256: `{manifest['prompt_only_control_sha256'] or 'n/a'}`",
             f"- Candidate: `{manifest['candidate_model']}` / `{manifest['candidate_effort']}`",
             f"- Judge: `{manifest['judge_model']}` / `{manifest['judge_effort']}`",
@@ -1489,6 +1552,12 @@ def collect_source_provenance(repo_root: Path = REPO_ROOT) -> dict[str, Any]:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--corpus",
+        choices=CORPUS_KINDS,
+        default="efficacy",
+        help="use the neutral comparative corpus or the product-specific conformance fixture",
+    )
     parser.add_argument("--case", dest="case_ids", action="append", default=[])
     parser.add_argument("--limit", type=int)
     parser.add_argument("--repeats", type=int, default=1)
@@ -1508,6 +1577,15 @@ def main(argv: list[str] | None = None) -> int:
         default="design-thinking-prompt",
         help="compare against plain Codex or a frozen competent Design Thinking prompt on every control turn",
     )
+    parser.add_argument(
+        "--treatment-invocation",
+        choices=TREATMENT_INVOCATION_MODES,
+        default="implicit",
+        help=(
+            "rely on implicit routing or explicitly invoke $design-think on treatment turn one; "
+            "explicit-first-turn estimates deliberate plugin use"
+        ),
+    )
     parser.add_argument("--timeout", type=int, default=900, help="timeout for each candidate turn or judgment")
     parser.add_argument("--run-model", "--run-models", action="store_true", help="explicitly opt into model calls")
     parser.add_argument("--require-model", action="store_true")
@@ -1516,7 +1594,12 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     try:
-        all_trajectories = load_trajectories()
+        corpus_path = (
+            TRAJECTORIES_PATH
+            if args.corpus == "efficacy"
+            else PRODUCT_CONFORMANCE_TRAJECTORIES_PATH
+        )
+        all_trajectories = load_trajectories(corpus_path)
         trajectories = select_trajectories(all_trajectories, args.case_ids, args.limit)
         pair_plan = build_pair_plan(trajectories, args.repeats, args.seed)
         judge_plan = build_judge_plan(pair_plan, args.judge_repetitions, args.seed)
@@ -1542,6 +1625,7 @@ def main(argv: list[str] | None = None) -> int:
         print(
             f"session_mode={args.session_mode}; candidate={args.model}/{args.effort}; "
             f"judge={judge_model}/{args.judge_effort}; seed={args.seed}; control_mode={args.control_mode}; "
+            f"treatment_invocation={args.treatment_invocation}; corpus={args.corpus}; "
             f"prompt_only_control_sha256={stable_digest(DESIGN_THINKING_PROMPT_CONTROL) if args.control_mode == 'design-thinking-prompt' else 'n/a'}"
         )
         for pair in pair_plan:
@@ -1588,15 +1672,24 @@ def main(argv: list[str] | None = None) -> int:
         "judge_effort": args.judge_effort,
         "session_mode": args.session_mode,
         "control_mode": args.control_mode,
+        "treatment_invocation": args.treatment_invocation,
+        "corpus_kind": args.corpus,
         "prompt_only_control_sha256": (
             stable_digest(DESIGN_THINKING_PROMPT_CONTROL)
             if args.control_mode == "design-thinking-prompt"
             else None
         ),
         "primary_estimand": (
-            "within-model quality uplift from Design Council skill availability over a no-skill "
+            "within-model quality uplift from deliberate Design Council invocation on turn one over "
+            "a no-skill trajectory receiving the frozen Design Thinking prompt on every user turn"
+            if args.control_mode == "design-thinking-prompt"
+            and args.treatment_invocation == "explicit-first-turn"
+            else "within-model quality uplift from Design Council skill availability over a no-skill "
             "trajectory receiving the frozen Design Thinking prompt on every user turn"
             if args.control_mode == "design-thinking-prompt"
+            else "within-model quality uplift from deliberate Design Council invocation on turn one "
+            "over a plain no-skill trajectory"
+            if args.treatment_invocation == "explicit-first-turn"
             else "within-model quality uplift from Design Council skill availability over a plain no-skill trajectory"
         ),
         "session_fidelity": (
@@ -1608,12 +1701,16 @@ def main(argv: list[str] | None = None) -> int:
         "repeats": args.repeats,
         "judge_repetitions": args.judge_repetitions,
         "seed": args.seed,
+        "bootstrap_samples": args.bootstrap_samples,
+        "tie_margin_points": args.tie_margin,
+        "minimum_important_uplift_points": args.minimum_important_uplift,
         "planned_candidate_turn_calls": candidate_calls,
         "planned_judge_calls": judge_calls,
         "all_generations_complete_before_judging": True,
         "raw_turn_identity_control": (
             "each arm starts from the same four raw corpus turns and SHA-256 list; in prompt-only mode "
-            "the frozen method instruction is appended to every control turn and recorded separately"
+            "the frozen method instruction is appended to every control turn and recorded separately; "
+            "explicit treatment adds only $design-think before the first raw turn"
         ),
         "corpus_sha256": stable_digest(corpus_payload),
         "runner_sha256": file_digest(Path(__file__).resolve()),
@@ -1627,8 +1724,8 @@ def main(argv: list[str] | None = None) -> int:
             "sandbox": "read-only",
             "user_config_and_rules": "ignored",
             "treatment_difference": (
-                "repository-local Design Council skill with raw turns versus no skill with the frozen "
-                "Design Thinking prompt on every turn"
+                "repository-local Design Council skill with raw turns and the declared treatment "
+                "invocation mode versus no skill with the frozen Design Thinking prompt on every turn"
                 if args.control_mode == "design-thinking-prompt"
                 else "repository-local Design Council skill present only in treatment; both arms receive raw turns"
             ),
@@ -1680,6 +1777,7 @@ def main(argv: list[str] | None = None) -> int:
                     response_root=response_root,
                     arm=arm,
                     control_mode=args.control_mode,
+                    treatment_invocation=args.treatment_invocation,
                 )
                 record = {
                     "record_type": "generation",
@@ -1690,6 +1788,7 @@ def main(argv: list[str] | None = None) -> int:
                     "arm": arm,
                     "expected_raw_turn_sha256": pair["turn_sha256"],
                     "control_mode": args.control_mode,
+                    "treatment_invocation": args.treatment_invocation,
                     **result,
                 }
                 generations.append(record)
@@ -1788,6 +1887,7 @@ def main(argv: list[str] | None = None) -> int:
         bootstrap_samples=args.bootstrap_samples,
         seed=args.seed,
         control_mode=args.control_mode,
+        treatment_invocation=args.treatment_invocation,
     )
     if args.session_mode == "transcript-replay":
         summary["warnings"].append(

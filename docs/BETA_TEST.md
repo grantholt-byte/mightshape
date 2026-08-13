@@ -1,8 +1,9 @@
 # Design Council beta evaluator guide
 
-The current release candidate is `v0.9.0-beta.5`. Its full validation, benchmark reruns,
+The current release candidate is `v0.9.0-beta.6`. Its full validation, benchmark reruns,
 immutable tag, and fresh collaborator installs are still pending. Do not distribute it until
-the owner confirms the tag, call it `1.0.0`, or represent it as a public marketplace release.
+the owner confirms the tag. Do not call it `1.0.0` or represent it as a public marketplace
+release unless the separate V1 and publication gates pass.
 
 ## Setup
 
@@ -12,9 +13,9 @@ the owner confirms the tag, call it `1.0.0`, or represent it as a public marketp
 4. Run at least one ambiguous product idea, one straightforward code task, one Council
    round, one Inquiry Lab request, and one optional participatory exercise.
 5. Verify the native invocation for the installed platform before testing implicit routing:
-   `$design-think` or `/skills` in Codex, `@design-think` in ChatGPT, and `/design-think` in
-   Claude Code 2.1.216 or later. If the Claude short name collides, use
-   `/design-council:design-think`.
+   `$design-think` or `/skills` in Codex, `@design-think` in ChatGPT, and
+   `/design-council:design-think` for the Claude plugin. Test exact `/design-think` only when
+   intentionally evaluating the optional standalone Claude skill installation.
 
 ## Tasks
 

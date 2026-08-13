@@ -32,21 +32,79 @@ DC_RUN_MODEL_EVALS=1 python3 evals/run_model_evals.py --family routing --limit 3
 DC_RUN_MODEL_EVALS=1 python3 evals/run_model_evals.py --case acceptance.family_scheduler --judge
 ```
 
-The runner creates a temporary project, exposes the local skill through
-`.agents/skills/design-council`, invokes `codex exec --ephemeral`, and writes
-results beneath `evals/results/`. `--judge` adds a separate structured-output
-evaluation pass using `schema/model-result.schema.json`. Without the opt-in
+The runner creates a fresh temporary project for every case, exposes the local
+skill through `.agents/skills/design-council`, invokes `codex exec --ephemeral`,
+and writes results beneath `evals/results/`. Response-only cases use a read-only
+sandbox. Declared mutation cases use a disposable workspace-write sandbox and
+must leave a deterministically valid versioned state, visual artifact, or
+prepared/frozen Council set as applicable; narration alone does not pass.
+`--judge` adds a separate structured-output evaluation pass using
+`schema/model-result.schema.json` and explicitly evaluates `state_effect` using
+the deterministic workspace observation. Without the opt-in
 environment variable, or when the Codex CLI is unavailable, it exits cleanly
 with a visible `SKIP`; use `--require-model` when skipping should fail CI.
 
 Use `--dry-run` to inspect selected prompts without a model call. Use
 `--responses-dir PATH` to apply deterministic regex checks to previously saved
-`<case-id>.md` responses without network access.
+`<case-id>.md` responses without network access. Saved-response mode reports
+mutation cases as `SKIP` because it has no workspace to inspect; it never treats
+response text as proof that required state or artifacts exist.
+
+## All-ten name-blind Council recognition
+
+`run_council_recognition.py` is a focused Humanity Eval for a narrower question:
+can a blinded model match independently generated Council artifacts back to the
+canonical behavioral profiles that produced them? It does **not** establish that
+human readers recognize the fictional people, and source-profile labels are not
+human ground truth.
+
+The harness gives all ten generators the same neutral challenge in fresh,
+read-only, ephemeral Codex cells. Each receives exactly one canonical profile
+with relationship/project-memory contamination removed and sees no sibling
+output. A deterministic screen rejects candidate artifacts containing Council
+names, explicit roles, ages, places, first-person biography, known signature
+questions, or copied profile/sample phrases. Only after all ten artifacts pass
+does the harness freeze and hash the anonymous set.
+
+The blind evaluator sees those frozen artifacts plus randomized anonymous
+behavioral reference cards projected from the canonical profiles. The cards
+omit names, roles, signature samples, and obvious biography. It must complete a
+one-to-one assignment. The controller reveals neither artifact-to-source nor
+profile-card-to-name mappings until after judging, then reports source-profile
+accuracy and a 10% random-permutation baseline with an exact fixed-point tail
+reference. That tail is descriptive, not a human-study p-value.
+
+Inspect the plan and hashes without model calls:
+
+```sh
+python3 evals/run_council_recognition.py --dry-run
+```
+
+Run one complete panel (ten sealed generators plus one blind evaluator):
+
+```sh
+DC_RUN_COUNCIL_RECOGNITION=1 python3 evals/run_council_recognition.py \
+  --require-model \
+  --model gpt-5.6-sol \
+  --effort medium \
+  --judge-model gpt-5.6-terra \
+  --judge-effort medium \
+  --seed 20260813
+```
+
+Use `--repeats 2` or more for independent complete panels; each repeat adds 11
+model calls. Incomplete or leakage-contaminated panels suppress accuracy and
+confusion claims. Results are stored under
+`evals/results/council-recognition/<timestamp>/`, including exact prompts,
+models, efforts, source/profile/projection hashes, frozen-set hashes, call
+metadata, judgments, manifest, accuracy, and the confusion matrix. Run this
+from a clean commit for release evidence; the manifest records commit and dirty
+status. Normal CI remains offline.
 
 ## Paired plugin-versus-baseline benchmark
 
-`run_ab_benchmark.py` primarily measures whether making Design Council available
-produces a practically meaningful outcome-quality improvement. Token and latency
+`run_ab_benchmark.py` measures whether Design Council produces a practically meaningful
+outcome-quality improvement under either deliberate invocation or implicit availability. Token and latency
 use are reported separately as resource descriptors; they do not veto a demonstrated
 quality benefit. This is distinct from the invariant corpus above: it estimates
 comparative effectiveness instead of asking only whether a Design Council response
@@ -54,9 +112,10 @@ satisfies its own contract.
 
 The primary comparison is paired and controlled:
 
-- both arms receive the identical raw user prompt, neutral wrapper, model,
+- both arms receive the identical raw user request, neutral wrapper, model,
   reasoning effort, word cap, sandbox, and fresh workspace;
-- the treatment workspace contains the repository-local Design Council skill;
+- the treatment workspace contains the repository-local Design Council skill; in explicit mode its
+  raw request is preceded only by the native skill invocation;
   the control workspace contains no skill;
 - candidate working directories use opaque random cell names that do not reveal
   treatment/control allocation; the skill's presence is the only arm-specific
@@ -76,6 +135,14 @@ every case, successful treatment and control generations for every planned
 pair, and every requested valid counterbalanced judgment for every pair. A
 partially successful run can still be inspected, but it remains
 `INCONCLUSIVE` even when its partial-sample confidence interval excludes zero.
+Aggregation independently binds every generation and judgment to the frozen
+plan, validates the normalized usage and payload contracts, and recomputes
+quality totals and winner mappings from the structured judge payload. Missing,
+duplicate, unexpected, mismatched, or forged cached records therefore fail the
+release-quality completeness flag without preventing partial diagnostics. The
+report shows treatment, control, and absolute treatment-minus-control values
+for total/input/cached/output/reasoning tokens, response words, and observable
+tool activity.
 
 The judge is blind to arm allocation, not guaranteed blind to product identity:
 a treatment response may name Design Council or use recognizable terminology.
@@ -122,6 +189,7 @@ DC_RUN_AB_BENCHMARK=1 python3 evals/run_ab_benchmark.py \
   --repeats 2 \
   --judge-repetitions 2 \
   --control-mode design-thinking-prompt \
+  --treatment-invocation explicit \
   --judge-model gpt-5.6-terra \
   --seed 20260813
 ```
@@ -130,7 +198,7 @@ That comparator has no plugin, state, Human Models, protocols, or modular refere
 one frozen, competent Design Thinking instruction in addition to the same raw prompt. This tests
 whether Design Council adds value beyond a one-shot prompt, not only beyond an unassisted session.
 
-The completed frozen beta3 run (`20260813T160656Z`) did **not** establish that incremental
+The completed pre-tag beta3 candidate-snapshot run (`20260813T160656Z`) did **not** establish that incremental
 single-turn benefit: Design Council scored **93.57** versus **95.12** for the prompt-only control
 (difference **-1.55**, 95% case-bootstrap CI **[-4.64, 1.79]**; 3 wins, 2 ties, 7 losses).
 Generation-token use was **2.15×** control. The quality verdict is `INCONCLUSIVE`; token use is
@@ -200,9 +268,10 @@ scope. Construct mappings are diagnostic rather than psychometric subscales. The
 in a completed beta3 raw-baseline run was added post-hoc and is labeled accordingly;
 future confirmatory runs freeze its hash before generation.
 
-Optional `--explicit-diagnostic` adds an explicitly invoked Design Council arm
-to diagnose routing failure. It is intentionally excluded from the primary
-paired uplift, which measures implicit skill availability against no skill with
+`--treatment-invocation explicit` makes deliberate use the primary paired treatment. Optional
+`--explicit-diagnostic` adds an explicitly invoked Design Council arm when the primary treatment
+is implicit so routing failure can be diagnosed. The diagnostic is intentionally excluded from
+the primary paired uplift, which measures implicit skill availability against no skill with
 identical prompts.
 
 ### Persisted multi-turn trajectory benchmark
@@ -211,8 +280,10 @@ identical prompts.
 inferring it from one response. Each arm receives the same four raw user turns: a solution-first
 request, a practical constraint, contradictory supplied evidence, and a request to revise the
 frame and next test. By default the no-skill arm also receives the same frozen competent Design
-Thinking instruction on every turn, making the comparison deliberately demanding. The treatment
-receives the raw turns and the frozen Design Council skill.
+Thinking instruction on every turn, making the comparison deliberately demanding. With
+`--treatment-invocation explicit-first-turn`, the treatment receives `$design-think` only on turn
+one and then continues through the persisted session; this is the primary deliberate-use estimand.
+Implicit skill availability remains a separate routing diagnostic.
 
 The judge scores frame adaptation, history preservation, assumption updates, conceptual
 divergence, evidence calibration/provenance, experiment information gain, backward iteration,
@@ -236,6 +307,7 @@ python3 evals/run_trajectory_benchmark.py \
   --require-model \
   --session-mode persisted \
   --control-mode design-thinking-prompt \
+  --treatment-invocation explicit-first-turn \
   --repeats 2 \
   --judge-repetitions 2 \
   --model gpt-5.6-sol \
@@ -246,11 +318,45 @@ python3 evals/run_trajectory_benchmark.py \
   --timeout 900
 ```
 
-This is a 60-call exploratory design over three product-authored trajectories. It is not a
-confirmatory efficacy study. The beta.5 longitudinal run and post-refinement strong-comparator
-rerun are pending; no beta.5 outcome is claimed. The previously validated harness, frozen prompt
-parity, isolation, persisted-session mechanics, schema, and dry-run boundary still require the
-beta.5 release gate to be rerun. Afterward, add held-out trajectories and independent human review.
+The primary efficacy corpus contains exactly five neutral intended-use trajectories. At two
+repeats and two judge repetitions, the frozen V1 design makes 80 candidate-turn calls and 20
+blind judgments (100 calls total). Council independence/change-of-mind and Inquiry Lab
+synthetic-to-human Reality Check journeys remain in
+[`product-conformance-trajectories.jsonl`](benchmark/product-conformance-trajectories.jsonl),
+where they test proprietary product behavior without making the comparative corpus favor the
+plugin's named mechanisms.
+
+The clean, three-trajectory implicit-routing beta.5 run (`20260813T191419Z`) completed every
+planned turn and judgment: **98.33** treatment versus **94.17** competent-prompt control,
+**+4.17 points**, 95% case-bootstrap CI **[0.625, 6.875]**, with 2 wins, 1 tie, and 0 losses.
+Generation-token ratio was **1.643×**. Its verdict is
+`TREATMENT_ADVANTAGE_DETECTED_BELOW_IMPORTANCE_THRESHOLD`: the direction was positive, but the
+lower interval bound did not clear the preregistered +3-point V1 threshold. Complete assistant
+trajectories, blinded pairs, judgments, summaries, hashes, and frozen-commit metadata are retained
+in [`evidence/runs/20260813T191419Z`](evidence/runs/20260813T191419Z); raw process streams and
+credentials are excluded.
+
+Verify a newly completed raw run against the committed fail-closed V1 policy, then export it:
+
+```sh
+make verify-v1-trajectory-gate RUN_DIR=evals/results/trajectory/<run-id>
+python3 scripts/export_benchmark_evidence.py \
+  --require-v1-gate evals/results/trajectory/<run-id>
+```
+
+The verifier reconstructs the exact neutral corpus/hash, pair and judge plans, all four turns,
+prompt delivery, persisted sessions, usage, blinded transcripts, aggregation, and source freeze.
+It rejects dirty/null commits, replay runs, reduced repetitions or bootstrap counts, wrong models,
+missing usage, incomplete records, forged summaries, and a non-meaningful verdict. Its policy is
+[`v1-trajectory-gate-policy.json`](benchmark/v1-trajectory-gate-policy.json). The exporter is
+immutable and writes checksummed artifacts beneath `evals/evidence/runs/<run-id>`; with
+`--require-v1-gate` it includes the signed-by-hash gate report.
+
+That run diagnosed early convergence on one clinic-ownership mechanism and an over-elaborate
+family study. The release candidate now preserves live mechanism alternatives through experiment
+choice and applies a final proportionality pass. The five-neutral-trajectory, explicitly invoked
+comparison must be rerun from a new clean commit. Afterward, add held-out trajectories and
+independent human review before making a public efficacy claim.
 
 Use [`human-rating-guide.md`](benchmark/human-rating-guide.md) and
 [`human-paired-rating.schema.json`](schema/human-paired-rating.schema.json) for blind human review.
@@ -353,10 +459,10 @@ quality score.
 
 `openai/manifest.json` and `claude/manifest.json` map the complete shared case
 corpus in `cases/` to each generated package. Explicit cases receive the native
-primary invocation (`$design-think` for Codex or `/design-think` for Claude Code
-2.1.216 and later); implicit and avoid-routing prompts remain byte-for-byte
-unchanged. ChatGPT uses `@design-think`. Claude's collision-safe form is
-`/design-council:design-think`. Legacy `$design-council` and
+primary invocation (`$design-think` for Codex or `/design-council:design-think`
+for the Claude plugin); implicit and avoid-routing prompts remain byte-for-byte
+unchanged. ChatGPT uses `@design-think`. Exact Claude `/design-think` is only a
+standalone-skill invocation. Legacy `$design-council` and
 `/design-council:design-council` remain beta compatibility checks rather than the
 primary adapter mapping. The platform directories do not copy cases or fixtures.
 

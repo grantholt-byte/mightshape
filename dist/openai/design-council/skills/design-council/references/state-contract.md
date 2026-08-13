@@ -23,13 +23,24 @@ Store sustained journey state under the project being designed:
 
 `project.json` is canonical. Each mutation increments `revision`, writes atomically, appends a history event, and saves a complete revision snapshot. Never edit an older snapshot. Keep secrets and direct identifiers out of state.
 
+After Intake infers or receives a starting point, persist it without changing the current mode:
+
+```sh
+python3 <skill>/scripts/dc.py orient --project-root <root> \
+  --starting-point PROTOTYPE --basis USER_DECLARED \
+  --current-decision "Decide whether the failed recovery requires a changed frame"
+```
+
+Reorientation without `--current-decision` preserves the existing decision focus. Use
+`--clear-current-decision` only when the current focus is intentionally retired.
+
 ## Main domains
 
 Track:
 
 - challenge, original prompt, original proposed solution, current problem frame, desired outcome;
 - archetypes, operating depth, process view (`COMPACT`, `VISIBLE`, or `WORKSHOP`), complexity, reversibility, cost/consequence of error;
-- current mode, cycle, completed modes, and backward transitions;
+- starting point (`EARLY_HUNCH`, `GROUNDED_EXPLORATION`, `FRAMED_CHALLENGE`, `CONCEPT`, `PROTOTYPE`, `LIVE`, or `UNSURE`), whether user-declared or inferred, current decision, current mode, cycle, completed modes, and backward transitions; starting point and mode are separate;
 - stakeholders, evidence, assumptions, unknowns, observations, needs, insights;
 - POV history and supersession, HMW prompts, ideas, clusters, outliers, selected concept portfolio;
 - prototypes, experiments, inquiry studies, Reality Packets, synthetic personas, participant IDs, Reality Checks;

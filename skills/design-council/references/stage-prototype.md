@@ -29,6 +29,12 @@ Make signals behavioral and interpretable. “Users like it” is rarely enough.
 
 Keep participant counts and signal denominators consistent. Use a quantitative threshold only when it comes from supplied evidence, a baseline, or an explicit risk tolerance; otherwise identify it as a proposed heuristic to calibrate. For each plausible outcome, state the conditional next move (`if supported`, `if weakened/falsified`, `if inconclusive`) and which competing problem frame it strengthens or weakens.
 
+Do not let convergence erase the alternatives the experiment must discriminate. Before choosing
+the final test, list the incumbent and live mechanism alternatives. Use the same realistic trigger
+or disruption across the smallest comparison that could change the build decision. If one mechanism
+is tested alone, state why a comparison adds no decision value and what result would reopen the
+alternatives.
+
 ## Choose the cheapest faithful form
 
 - paper prototype for comprehension, sequence, and navigation;
@@ -50,6 +56,11 @@ Codex should happily build a rapid coded experiment when it is the lowest useful
 For each component ask: “If this were rougher or manual, would the participant respond differently in a way that invalidates the learning?” If no, reduce it.
 
 Explicitly list `DO NOT BUILD`. This prevents implementation enthusiasm from consuming the experiment.
+
+Run a proportionality pass before presenting the plan. Remove every participant, day, task,
+artifact, feature, or facilitator operation that does not increase discrimination, ecological
+validity, safety, or decision value. Preserve a matched comparator and decisive branch even when
+they cost more than a simpler confirmation test.
 
 For opted-in prototype design, use `participatory-workshops.md` and choose one learning decision per turn: uncertainty, lowest faithful form, participant/context, signal, or excluded scope. The facilitator may give a concrete domain example, but must not invent the user's choice.
 

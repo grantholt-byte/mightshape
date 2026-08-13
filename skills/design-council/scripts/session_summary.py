@@ -63,9 +63,23 @@ def summarize_state(state: dict[str, Any]) -> str:
         "GUIDED": "Guided",
         "LIGHT_TOUCH": "Light",
     }
+    mode_line = (
+        f"Mode {journey.get('current_mode', 'UNKNOWN')} · Cycle {journey.get('cycle', '?')} · "
+        f"Revision {state.get('revision', '?')} · View {process_view}"
+    )
+    if journey.get("starting_point") and journey.get("starting_point") != "UNSURE":
+        mode_line = (
+            f"Starting point {journey['starting_point']} "
+            f"({journey.get('starting_point_basis', 'INFERRED').lower()}) · {mode_line}"
+        )
     lines = [
         f"◇ DESIGN COUNCIL / {project.get('name', 'Untitled project')}",
-        f"Mode {journey.get('current_mode', 'UNKNOWN')} · Cycle {journey.get('cycle', '?')} · Revision {state.get('revision', '?')} · View {process_view}",
+        mode_line,
+        *(
+            [f"Current decision: {journey['current_decision']}"]
+            if journey.get("current_decision")
+            else []
+        ),
         f"Frame: {frame}",
         f"Evidence: {len(evidence)} records · {human} human participant(s)",
         f"Assumptions: {len(open_high)} open/high · {len(testing)} testing",

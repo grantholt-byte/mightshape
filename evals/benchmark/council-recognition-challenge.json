@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "id": "shared-plan-change",
+  "title": "Recovering when a shared plan changes",
+  "challenge": "A mixed team has six weeks and a modest, reversible experiment budget to improve what happens when a shared plan changes unexpectedly. They have several anecdotes but no direct observations, no validated primary user, and no agreement whether the problem is noticing the change, interpreting it, coordinating a response, or knowing who owns the next action. A shared digital dashboard has been proposed, but no build decision has been made.",
+  "task": "Give your current position, what you notice first, the uncertainty you would protect, and one concrete next move.",
+  "evidence_status": [
+    "The challenge statement and existence of anecdotes are USER_PROVIDED for this exercise.",
+    "No anecdote contents, direct observations, interviews, or validated user are available.",
+    "The dashboard is a proposed solution, not evidence of the problem."
+  ]
+}

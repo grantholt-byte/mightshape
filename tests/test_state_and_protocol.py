@@ -24,12 +24,14 @@ from project_state import (  # noqa: E402
     commit_project,
     initialize_project,
     load_project,
+    project_file,
     record_council_memory,
     record_gate_override,
     record_visual_artifact,
     start_participation,
     open_participation_prompt,
     set_process_view,
+    set_starting_point,
     set_mode,
     validate_state,
 )
@@ -77,6 +79,9 @@ class ProjectStateTests(unittest.TestCase):
 
     def test_history_is_append_only_and_revisioned(self) -> None:
         self.assertTrue(validate_state(self.state)["valid"])
+        self.assertEqual(self.state["journey"]["starting_point"], "UNSURE")
+        self.assertEqual(self.state["journey"]["starting_point_basis"], "INFERRED")
+        self.assertIsNone(self.state["journey"]["current_decision"])
         self.assertTrue((self.root / ".design-council/history/rev-000001.json").exists())
         self.assertTrue((self.root / ".design-council/artifacts").is_dir())
         with self.assertRaises(DesignCouncilError):
@@ -195,6 +200,98 @@ class ProjectStateTests(unittest.TestCase):
         self.assertEqual(updated["history"][-1]["action"], "PROCESS_VIEW_CHANGED")
         with self.assertRaisesRegex(DesignCouncilError, "Unknown process view"):
             set_process_view(self.root, "stream-private-thoughts")
+
+    def test_starting_point_is_separate_from_mode_and_revisioned(self) -> None:
+        oriented = set_starting_point(
+            self.root,
+            "PROTOTYPE",
+            "USER_DECLARED",
+            "Decide whether recovery needs a changed interaction or a changed frame",
+        )
+        self.assertEqual(oriented["journey"]["starting_point"], "PROTOTYPE")
+        self.assertEqual(oriented["journey"]["starting_point_basis"], "USER_DECLARED")
+        self.assertEqual(oriented["journey"]["current_mode"], "INTAKE")
+        self.assertEqual(oriented["history"][-1]["action"], "STARTING_POINT_ORIENTED")
+        with self.assertRaisesRegex(DesignCouncilError, "Unknown starting point"):
+            set_starting_point(self.root, "FUNNEL", "INFERRED")
+
+    def test_reorientation_preserves_decision_unless_explicitly_cleared(self) -> None:
+        decision = "Choose whether to change the interaction or the problem frame"
+        set_starting_point(self.root, "PROTOTYPE", "USER_DECLARED", decision)
+        reoriented = set_starting_point(self.root, "LIVE", "INFERRED")
+        self.assertEqual(reoriented["journey"]["current_decision"], decision)
+        cleared = set_starting_point(self.root, "LIVE", "USER_DECLARED", None)
+        self.assertIsNone(cleared["journey"]["current_decision"])
+
+    def test_orient_cli_preserves_decision_and_supports_explicit_clear(self) -> None:
+        decision = "Decide which live adoption barrier to test"
+        set_starting_point(self.root, "LIVE", "USER_DECLARED", decision)
+        base_command = [
+            sys.executable,
+            str(SCRIPTS / "dc.py"),
+            "orient",
+            "--project-root",
+            str(self.root),
+            "--starting-point",
+            "PROTOTYPE",
+            "--basis",
+            "INFERRED",
+        ]
+        kept = subprocess.run(
+            base_command,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            check=False,
+        )
+        self.assertEqual(kept.returncode, 0, kept.stdout)
+        self.assertEqual(load_project(self.root)["journey"]["current_decision"], decision)
+        cleared = subprocess.run(
+            base_command + ["--clear-current-decision"],
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            check=False,
+        )
+        self.assertEqual(cleared.returncode, 0, cleared.stdout)
+        self.assertIsNone(load_project(self.root)["journey"]["current_decision"])
+
+    def test_legacy_orientation_fields_are_optional_but_pair_when_present(self) -> None:
+        legacy = json.loads(json.dumps(self.state))
+        legacy["journey"].pop("starting_point")
+        legacy["journey"].pop("starting_point_basis")
+        legacy["journey"].pop("current_decision")
+        self.assertTrue(validate_state(legacy)["valid"])
+        malformed = json.loads(json.dumps(legacy))
+        malformed["journey"]["starting_point"] = "LIVE"
+        validation = validate_state(malformed)
+        self.assertFalse(validation["valid"], validation)
+
+    def test_legacy_state_can_be_oriented_without_naming_a_decision(self) -> None:
+        legacy = json.loads(json.dumps(self.state))
+        legacy["journey"].pop("starting_point")
+        legacy["journey"].pop("starting_point_basis")
+        legacy["journey"].pop("current_decision")
+        project_file(self.root).write_text(
+            json.dumps(legacy, indent=2) + "\n", encoding="utf-8"
+        )
+
+        oriented = set_starting_point(
+            self.root, "GROUNDED_EXPLORATION", "INFERRED"
+        )
+
+        self.assertEqual(
+            oriented["journey"]["starting_point"], "GROUNDED_EXPLORATION"
+        )
+        self.assertIsNone(oriented["journey"]["current_decision"])
+        self.assertIsNone(
+            oriented["history"][-1]["details"]["to"]["current_decision"]
+        )
+
+    def test_default_summary_omits_empty_orientation_ceremony(self) -> None:
+        summary = summarize_state(self.state)
+        self.assertNotIn("Starting point UNSURE", summary)
+        self.assertNotIn("Current decision: Not yet named", summary)
 
     def test_visual_artifact_manifest_is_recorded_without_embedding_visual(self) -> None:
         artifact_dir = self.root / ".design-council/artifacts/VA-001"

@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 from scripts.build_packages import build, is_duplicate_copy, write_checksums
 from scripts.check_cross_platform_drift import check
-from scripts.validate_packages import basic_claude_validate, is_semver
+from scripts.validate_packages import basic_claude_validate, basic_openai_validate, is_semver, png_dimensions
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -49,6 +49,11 @@ class CrossPlatformPackageTests(unittest.TestCase):
                 self.assertIn("\nname: design-think\n", primary)
                 self.assertIn("\nname: design-council\n", legacy)
                 self.assertIn("temporary invocation alias", legacy)
+        claude_legacy = (
+            CLAUDE / "skills/design-council-legacy/SKILL.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn("/design-council:design-think", claude_legacy)
+        self.assertIn("standalone", claude_legacy)
 
     def test_all_human_models_are_byte_identical(self) -> None:
         profiles = sorted(
@@ -80,6 +85,15 @@ class CrossPlatformPackageTests(unittest.TestCase):
         prompts = manifest.get("interface", {}).get("defaultPrompt", [])
         self.assertIsInstance(prompts, list)
         self.assertLessEqual(len(prompts), 3)
+
+    def test_openai_portal_assets_are_square_and_locally_validated(self) -> None:
+        self.assertEqual(basic_openai_validate(), [])
+        manifest = json.loads((OPENAI / ".codex-plugin/plugin.json").read_text(encoding="utf-8"))
+        interface = manifest["interface"]
+        self.assertEqual(interface["composerIcon"], "./assets/icon.png")
+        self.assertEqual(interface["logo"], "./assets/icon.png")
+        self.assertEqual(png_dimensions(OPENAI / "assets/icon.png"), (512, 512))
+        self.assertEqual(png_dimensions(OPENAI / "assets/logo.png"), (1600, 560))
 
     def test_release_validator_accepts_semver_prereleases(self) -> None:
         for valid in ("1.0.0", "0.9.0-beta.1", "2.4.1-rc.3+build.9"):

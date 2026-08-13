@@ -4,10 +4,13 @@ Nothing in this file authorizes publication. Check items only with inspectable e
 
 ## Shared product
 
-- [ ] Product owner confirms public publisher/repository identity.
+- [x] Repository metadata names Grant Holt as the intended publisher; final platform identity verification remains manual.
 - [x] MIT retained for the private beta; reconfirm the licensing strategy before public publication.
 - [ ] `VERSION` and `CHANGELOG.md` are final and synchronized.
 - [ ] README, privacy, security, terms, attribution, and support routes reviewed.
+- [ ] Owner confirms the public publisher name, monitored support route, website domain,
+  public privacy-policy URL, public terms URL, launch regions, and repository visibility in
+  `docs/SUBMISSION_DOSSIER.md`.
 - [ ] Logo/icon and repository demo assets reviewed; no Stanford marks or endorsement.
 - [ ] `make release-check` passes from a clean checkout.
 - [ ] Humanity, independence, Inquiry, process, and adversarial evals pass.
@@ -20,6 +23,8 @@ Nothing in this file authorizes publication. Check items only with inspectable e
 - [ ] Whimsical sticky-note/process-map rendering is visually inspected for readability,
   visible outliers, text fallback parity, and decoration that does not imply evidence strength.
 - [ ] Controlled plugin-versus-baseline benchmark reviewed for both quality and token/latency overhead.
+- [ ] The preregistered engineering criteria in `docs/V1_RELEASE_GATE.md` pass on a clean,
+  commit-bound source freeze; inconclusive evidence is not relabeled as efficacy.
 - [ ] Benchmark report is complete and reproducible; any effectiveness statement reflects
   realized pairs, uncertainty, important-value thresholds, and authored/model-judge limitations.
 - [ ] Cross-platform drift/parity check passes with ten identical Human Models.
@@ -32,15 +37,21 @@ Nothing in this file authorizes publication. Check items only with inspectable e
 
 ## OpenAI / Codex
 
-- [ ] `.codex-plugin/plugin.json` passes the current official validator.
-- [ ] Skill metadata passes the current official validator.
+- [ ] `.codex-plugin/plugin.json` passes bundled authoring validation and the current portal validator.
+- [ ] Skill metadata passes bundled authoring validation and the current portal validator.
 - [ ] Local marketplace add/install/list/remove tested in a clean context.
 - [ ] Explicit and implicit invocation plus inappropriate-trigger avoidance tested.
 - [ ] Publisher identity verified; Apps Management write access confirmed.
 - [ ] Public website, support, privacy-policy, and terms HTTPS URLs exist and match publisher.
+- [ ] Repository architecture notes are not submitted as if they were reviewed production
+  privacy terms or service terms.
 - [ ] Five positive and three negative portal cases prepared.
 - [ ] Current submission path rechecked at the OpenAI plugin portal.
 - [ ] Skills-only submission reviewed; no unnecessary MCP server or unsupported screenshot.
+- [ ] Public submission waits for the V1 release gate; beta is not submitted as a trial/demo
+  listing merely to reserve placement.
+- [ ] Listing contains no digital-service pricing, Exchange-credit promotion, subscription
+  plans, upgrade pitch, or checkout link.
 - [ ] Approval and final Publish are treated as separate manual actions.
 
 ## Claude Code
@@ -53,6 +64,8 @@ Nothing in this file authorizes publication. Check items only with inspectable e
 - [ ] Explicit, implicit, sealed Agent, and negative-routing behavior tested.
 - [ ] Public GitHub repository and release tag exist; `<owner>/<repo>` docs updated.
 - [ ] Community-catalog form, validation, and safety-review requirements rechecked.
+- [ ] Anthropic Software Directory Policy and Terms reviewed and accepted by the authorized
+  publisher; rights and privacy representations are accurate.
 - [ ] Public copy distinguishes `claude-community` from curated official marketplace.
 
 ## Release artifacts

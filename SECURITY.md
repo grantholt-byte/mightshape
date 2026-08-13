@@ -9,6 +9,9 @@ publishes a dedicated security contact, contact the repository owner through a p
 channel they control. Include affected version, reproduction steps, impact, and the
 smallest safe proof. Do not include live participant content.
 
+Before public publication, replace this interim route with a monitored private vulnerability
+reporting channel or dedicated security address and publish an expected acknowledgment window.
+
 ## Security boundaries
 
 - The core plugin is local and dependency-light. It has no required account, MCP server,

@@ -19,7 +19,8 @@ There is a real public submission path; no submission has been made by this buil
 
 ## Current prerequisites
 
-- OpenAI Platform organization role with **Apps Management: Write** (owners already have it).
+- OpenAI Platform organization role with **Apps Management: Write**. Organization owners have
+  it by default; otherwise the owner must verify or grant it in the publishing organization.
 - Verified individual or business identity matching the public publisher.
 - Final skills-only bundle for Design Council Core.
 - Production listing: name, subtitle, long description, logo, category, website, support,
@@ -30,19 +31,35 @@ There is a real public submission path; no submission has been made by this buil
 Design Council is skills-only. The optional interview Site is not an MCP server bundled into
 the plugin. Do not add an unnecessary MCP server merely to alter the submission type.
 
+## Current commerce boundary
+
+The current directory policy permits plugin commerce only for physical goods. Design Council
+must not sell or promote hosted interviews, digital subscriptions, Exchange credits, or an
+indirect freemium upgrade inside the OpenAI plugin. A future adapter may recognize an existing
+paid entitlement and may explain an unavailable entitlement within policy. It may link to a
+neutral informational plan page, but it must not display plans, promote an upgrade, start
+checkout, or link directly to a transaction. Recheck the
+[current commerce policy](https://developers.openai.com/plugins/app-guidelines#commerce-and-monetization)
+before submission; the free core remains complete without a paid service.
+
 ## Prepared metadata
 
 - Display name: **Design Council**
 - Tagline: **Think wider. Frame better. Build what matters.**
 - Subtitle: **Frame better before building**
 - Category: Productivity
-- Version: `0.9.0-beta.5` (release candidate; validation pending)
-- Logo/icon: `assets/logo.png`, `assets/icon.png`
+- Version: `0.9.0-beta.6` (release candidate; deterministic package validation passed)
+- Directory logo/composer icon: square `assets/icon.png` (the wide `assets/logo.png` wordmark
+  remains documentation-only)
 - Starter prompts: three in `.codex-plugin/plugin.json`
 - Test material: `evals/cases/` and `docs/submission-openai-test-cases.md`
 
 The manifest intentionally omits fabricated website, repository, support, privacy-policy,
-and terms URLs. The owner must host reviewed pages and add their HTTPS URLs before submission.
+and terms URLs. The owner must host reviewed pages and add their public HTTPS URLs before
+submission. The repository's `docs/privacy.md` and `docs/terms.md` are architecture/publication
+notes, not substitutes for the required publisher-specific public policies.
+The local release check enforces known portal image and text limits; the submission portal
+remains the authoritative validator.
 
 ## Validation and installation test
 
@@ -55,7 +72,8 @@ codex plugin add design-council@design-council --json
 codex plugin list --json
 ```
 
-Then run explicit, implicit, negative-routing, Council, Inquiry, and state-persistence tests
+The first Python command is Codex's bundled authoring validator, not a substitute for portal
+validation. Then run explicit, implicit, negative-routing, Council, Inquiry, and state-persistence tests
 in a new context. Clean-up commands are in `docs/installation-openai.md`.
 
 The explicit invocation surface is platform-native: `$design-think` in Codex (or selection
@@ -76,6 +94,11 @@ shipped. Legacy `$design-council` remains available for beta compatibility.
 7. Submit for review; respond to actual portal validation/review findings.
 8. After approval, publish deliberately. Approval alone does not publish.
 
+Do not submit the beta merely to reserve a listing. OpenAI's guidelines require a stable,
+responsive, complete product and reject trial or demo plugins. The repository's move from a beta
+version to `1.0.0` is governed by `docs/V1_RELEASE_GATE.md`; this is a Design Council release
+decision, not a claim that OpenAI mandates a particular semantic-version string.
+
 The official guidelines say screenshots are optional for plugins with UI and should not be
 submitted for plugins without UI. Design Council ships repository demo images for reviewers
 and beta users, but its skills-only directory submission should omit UI screenshots unless
@@ -88,5 +111,8 @@ Primary sources: [Package plugins](https://developers.openai.com/plugins/build/p
 [developer commands](https://learn.chatgpt.com/docs/developer-commands?surface=cli), and
 [deprecated custom prompts](https://learn.chatgpt.com/docs/custom-prompts).
 
-Beta.5 package validation, model-backed benchmark reruns, and clean pinned-tag installation are
-pending. This document describes the prepared route; it does not claim those gates have passed.
+Beta.6 deterministic package validation has passed. Model-backed benchmark reruns and clean
+pinned-tag installation remain pending. This document describes the prepared route; it does not
+claim those remaining gates have passed.
+The prefilled fields and remaining owner actions are consolidated in
+[`SUBMISSION_DOSSIER.md`](SUBMISSION_DOSSIER.md).

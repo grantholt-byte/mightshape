@@ -2,19 +2,88 @@
 
 All notable changes use [Semantic Versioning](https://semver.org/).
 
+## [0.9.0-beta.6] — 2026-08-13
+
+### Added
+
+- Added starting-point orientation for early hunches, grounded exploration, framed challenges,
+  concepts, prototypes, and live offerings without turning maturity into a waterfall gate.
+- Added an expert facilitator-practice reference covering bottleneck diagnosis, setup,
+  intervention/recovery, participation and power, stop conditions, method adaptation, and debrief.
+- Added static context-load profiling with exact bytes, deterministic word counts, explicitly
+  heuristic token estimates, and duplicate-load detection.
+- Added complete benchmark-evidence export with assistant trajectories, blinded pairs,
+  structured judgments, summaries, source hashes, and checksums while excluding process streams.
+- Added explicit-invocation treatment modes for one-shot and persisted-trajectory benchmarks,
+  mature, participatory, Council, and Inquiry trajectories, and adversarial cases targeting
+  measured efficacy and inappropriate-activation gaps.
+- Added dependency-free, fail-closed JSON Schema validation for the shipped runtime so fresh
+  installs preserve type, enum, range, reference, composition, and conditional constraints.
+- Added state-effect-aware model evals: disposable write cells now prove canonical state,
+  immutable visual artifacts, and prepared/frozen Council sets instead of accepting narration.
+- Added an opt-in, all-ten Council recognition harness with sealed generation, leakage screening,
+  anonymous behavioral cards, a confusion matrix, and an exact permutation chance reference.
+- Added a committed fail-closed V1 trajectory policy and raw-artifact verifier that pins the
+  neutral corpus, design, models, clean source freeze, sessions, records, usage, and verdict.
+- Added a prefilled marketplace submission dossier and a policy-aware monetization recommendation.
+
+### Changed
+
+- Solution-first framing now compares three to five mechanism- and agency-distinct intervention
+  models, including the incumbent or no-new-product path, before evidence-supported convergence.
+- Prototype planning now establishes an incumbent comparator, preserves live mechanism
+  alternatives through experiment choice, selects historical, parallel, or counterbalanced
+  comparisons according to order effects, and removes operations that add no discrimination,
+  realism, safety, or decision value.
+- One-shot brainstorming allocates its response budget to expected, adjacent, behavioral,
+  systemic, and radical mechanism territories before any requested convergence.
+- Comparative efficacy now uses five neutral intended-use trajectories; Council independence and
+  Inquiry Reality Check journeys remain in a separate product-conformance fixture.
+- One-shot comparisons now bind exact plans, validate judge payloads and usage, recompute
+  scores and winners, reject forged cached values, and report absolute resource deltas.
+- Unfamiliar regulated or locally variable workflows now require compact current-authoritative
+  grounding and explicit separation of broad practice from local unknowns.
+- Affinity guidance locks already visible stable-ID decks without echoing them, while graphical
+  artifacts may reproduce wording for spatial inspection; process maps keep inferred workflow
+  branches in a separate `VERIFY` area.
+- Claude marketplace invocation is documented accurately as `/design-council:design-think`;
+  unnamespaced `/design-think` is reserved for an optional standalone skill install.
+- OpenAI package checks now enforce locally knowable portal metadata, icon, contrast, archive,
+  and skills-only constraints while identifying the portal as authoritative.
+
+### Fixed
+
+- Project starting-point updates preserve an existing current decision unless explicitly cleared,
+  and legacy states can be reoriented safely when the optional orientation fields are absent.
+- Benchmark evidence export now understands both persisted-trajectory and one-shot completion
+  records, and explicit-first-turn trajectory summaries name the actual treatment estimand.
+- Legacy Claude invocation guidance now uses the required plugin namespace, while technical data
+  clustering and runtime process inspection remain ordinary non-Design-Council tasks.
+- AI-facilitated interview scripts must contain literal participant-facing AI, data, reviewer,
+  recording/quotation, skip/stop, contact/deletion, and consent language rather than placeholders.
+- Publication metadata now names the intended publisher consistently and distinguishes beta
+  architecture notes from deployment-specific privacy, terms, support, and identity requirements.
+- Anthropic publication guidance now records the conflicting official catalog terminology and
+  avoids promising community, official, curated, or Verified placement before review.
+
+### Breaking Changes
+
+- None. Existing project state and beta invocation aliases remain supported.
+
 ## [0.9.0-beta.5] — 2026-08-13
 
 ### Added
 
 - Added `design-think` as the short, shared skill entry point while retaining the canonical
   Design Council product identity and existing invocation names for compatibility.
-- Documented each host's native explicit form: `/design-think` on Claude Code 2.1.216 or
-  later, `$design-think` (or `/skills`) in Codex, and `@design-think` in ChatGPT.
+- Documented each host's native explicit form: `/design-council:design-think` for a Claude
+  plugin, `$design-think` (or `/skills`) in Codex, and `@design-think` in ChatGPT. The exact
+  Claude `/design-think` spelling is reserved for an optional standalone skill install.
 
 ### Changed
 
-- Claude documentation now also records the collision-safe namespaced form
-  `/design-council:design-think`.
+- Claude documentation now records the required plugin namespace rather than claiming an
+  unsupported unnamespaced marketplace command.
 - OpenAI documentation now states plainly that packaged plugins cannot register arbitrary
   slash commands and that Design Council does not ship deprecated custom prompts.
 - Longitudinal benchmark manifests now bind results to the Design Council version, Git commit,

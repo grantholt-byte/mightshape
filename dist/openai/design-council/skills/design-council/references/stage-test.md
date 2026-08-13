@@ -16,7 +16,9 @@ State:
 - observation and consent plan;
 - what will change after each possible outcome.
 
-Use comparison only when it reveals a meaningful tradeoff; do not make preference voting the entire test.
+Use comparison when it reveals a meaningful tradeoff or distinguishes live mechanisms. Apply the
+same realistic trigger where practical, observe behavior rather than preference voting, and keep
+the comparison to the fewest alternatives that could change the next decision.
 
 ## Observe and capture
 

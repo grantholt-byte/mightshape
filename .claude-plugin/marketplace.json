@@ -1,19 +1,19 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "design-council",
-  "version": "0.9.0-beta.5",
+  "version": "0.9.0-beta.6",
   "description": "The self-hosted marketplace for Design Council.",
   "owner": {
-    "name": "Design Council Contributors"
+    "name": "Grant Holt"
   },
   "plugins": [
     {
       "name": "design-council",
       "source": "./dist/claude/design-council",
       "description": "Human-centered Design Thinking with a deeply modeled Council, evidence-safe inquiry, visible workshop steps, and visual artifacts.",
-      "version": "0.9.0-beta.5",
+      "version": "0.9.0-beta.6",
       "author": {
-        "name": "Design Council Contributors"
+        "name": "Grant Holt"
       },
       "license": "MIT",
       "category": "productivity",

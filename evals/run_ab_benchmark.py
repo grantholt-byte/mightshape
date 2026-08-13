@@ -24,7 +24,7 @@ import subprocess
 import sys
 import tempfile
 import time
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Iterable, Sequence, TypeVar
@@ -62,6 +62,7 @@ ARMS = ("treatment", "control")
 DIAGNOSTIC_ARM = "explicit_treatment"
 CONTROL_MODES = ("plain", "design-thinking-prompt")
 CANDIDATE_RUNTIMES = ("codex", "claude")
+TREATMENT_INVOCATION_MODES = ("implicit", "explicit")
 DESIGN_THINKING_PROMPT_CONTROL = (
     "Use a proportionate human-centered Design Thinking approach. Distinguish a proposed solution "
     "from the underlying human problem; separate evidence, inference, assumptions, and unknowns; "
@@ -78,6 +79,21 @@ SCORE_DIMENSIONS = (
     "actionability",
     "task_fit_and_clarity",
     "communication_efficiency",
+)
+
+USAGE_FIELDS = (
+    "input_tokens",
+    "cached_input_tokens",
+    "uncached_input_tokens",
+    "output_tokens",
+    "reasoning_output_tokens",
+    "total_tokens",
+)
+ACTIVITY_FIELDS = (
+    "completed_items",
+    "tool_calls",
+    "command_executions",
+    "agent_messages",
 )
 
 DEFAULT_MINIMUM_IMPORTANT_UPLIFT = 3.0
@@ -799,10 +815,15 @@ def validate_judgment(value: Any, case_id: str, comparison_id: str) -> str | Non
         return "judgment identifiers do not match the requested comparison"
     if value["winner"] not in {"A", "B", "TIE"}:
         return "winner must be A, B, or TIE"
-    if not isinstance(value["confidence"], (int, float)) or not 0 <= value["confidence"] <= 1:
+    if (
+        not isinstance(value["confidence"], (int, float))
+        or isinstance(value["confidence"], bool)
+        or not math.isfinite(float(value["confidence"]))
+        or not 0 <= value["confidence"] <= 1
+    ):
         return "confidence must be between zero and one"
-    if not isinstance(value["rationale"], str):
-        return "rationale must be a string"
+    if not isinstance(value["rationale"], str) or not value["rationale"]:
+        return "rationale must be a non-empty string"
     for label in ("candidate_a", "candidate_b"):
         candidate = value[label]
         if not isinstance(candidate, dict) or set(candidate) != {"scores", "strengths", "weaknesses"}:
@@ -903,6 +924,476 @@ def _mean_activity(records: Sequence[dict[str, Any]], key: str) -> float | None:
     return _mean(
         record.get("activity", {}).get(key) if isinstance(record.get("activity"), dict) else None
         for record in records
+    )
+
+
+def _sum_activity(records: Iterable[dict[str, Any]]) -> dict[str, int | None]:
+    rows = list(records)
+    totals: dict[str, Any] = {key: 0 for key in ACTIVITY_FIELDS}
+    seen = {key: False for key in ACTIVITY_FIELDS}
+    for record in rows:
+        activity = record.get("activity")
+        if not isinstance(activity, dict):
+            continue
+        for key in totals:
+            value = activity.get(key)
+            if _is_nonnegative_int(value):
+                totals[key] += value
+                seen[key] = True
+    return {key: value if seen[key] else None for key, value in totals.items()}
+
+
+def _arm_resource_profile(records: Sequence[dict[str, Any]]) -> dict[str, Any]:
+    """Summarize only validated, successful planned candidate calls."""
+
+    rows = [
+        record
+        for record in records
+        if record.get("status") == "OK"
+        and _usage_error(record.get("usage")) is None
+        and _activity_error(record.get("activity")) is None
+        and _is_nonnegative_int(record.get("response_word_count"))
+        and _is_nonnegative_number(record.get("wall_time_seconds"))
+    ]
+    return {
+        "successful_resource_complete_calls": len(rows),
+        "usage_total": _sum_usage(rows),
+        "mean_usage_per_call": {key: _mean_usage(rows, key) for key in USAGE_FIELDS},
+        "response_words_total": sum(int(record["response_word_count"]) for record in rows),
+        "mean_response_words_per_call": _mean(record["response_word_count"] for record in rows),
+        "activity_total": _sum_activity(rows),
+        "mean_activity_per_call": {key: _mean_activity(rows, key) for key in ACTIVITY_FIELDS},
+        "mean_wall_time_seconds_per_call": _mean(record["wall_time_seconds"] for record in rows),
+    }
+
+
+def _resource_delta(
+    treatment: dict[str, Any], control: dict[str, Any]
+) -> dict[str, Any]:
+    """Return treatment-minus-control resource differences in physical units."""
+
+    def difference(left: Any, right: Any) -> float | None:
+        if not isinstance(left, (int, float)) or isinstance(left, bool):
+            return None
+        if not isinstance(right, (int, float)) or isinstance(right, bool):
+            return None
+        return round(float(left) - float(right), 6)
+
+    return {
+        "mean_usage_per_call": {
+            key: difference(
+                treatment["mean_usage_per_call"].get(key),
+                control["mean_usage_per_call"].get(key),
+            )
+            for key in USAGE_FIELDS
+        },
+        "usage_total": {
+            key: difference(
+                treatment["usage_total"].get(key),
+                control["usage_total"].get(key),
+            )
+            for key in USAGE_FIELDS
+        },
+        "mean_response_words_per_call": difference(
+            treatment.get("mean_response_words_per_call"),
+            control.get("mean_response_words_per_call"),
+        ),
+        "response_words_total": difference(
+            treatment.get("response_words_total"), control.get("response_words_total")
+        ),
+        "mean_activity_per_call": {
+            key: difference(
+                treatment["mean_activity_per_call"].get(key),
+                control["mean_activity_per_call"].get(key),
+            )
+            for key in ACTIVITY_FIELDS
+        },
+        "activity_total": {
+            key: difference(
+                treatment["activity_total"].get(key),
+                control["activity_total"].get(key),
+            )
+            for key in ACTIVITY_FIELDS
+        },
+        "mean_wall_time_seconds_per_call": difference(
+            treatment.get("mean_wall_time_seconds_per_call"),
+            control.get("mean_wall_time_seconds_per_call"),
+        ),
+    }
+
+
+def _is_nonnegative_int(value: Any) -> bool:
+    return isinstance(value, int) and not isinstance(value, bool) and value >= 0
+
+
+def _is_nonnegative_number(value: Any) -> bool:
+    return (
+        isinstance(value, (int, float))
+        and not isinstance(value, bool)
+        and math.isfinite(float(value))
+        and value >= 0
+    )
+
+
+def _usage_error(value: Any) -> str | None:
+    """Validate the normalized usage contract used by both candidate runtimes."""
+
+    if not isinstance(value, dict):
+        return "usage is missing or is not an object"
+    invalid = [field for field in USAGE_FIELDS if not _is_nonnegative_int(value.get(field))]
+    if invalid:
+        return "usage fields are missing or invalid: " + ", ".join(invalid)
+    if value["cached_input_tokens"] > value["input_tokens"]:
+        return "cached_input_tokens exceeds input_tokens"
+    if value["uncached_input_tokens"] + value["cached_input_tokens"] != value["input_tokens"]:
+        return "cached and uncached input tokens do not sum to input_tokens"
+    if value["reasoning_output_tokens"] > value["output_tokens"]:
+        return "reasoning_output_tokens exceeds output_tokens"
+    if value["input_tokens"] + value["output_tokens"] != value["total_tokens"]:
+        return "input_tokens and output_tokens do not sum to total_tokens"
+    return None
+
+
+def _activity_error(value: Any) -> str | None:
+    if not isinstance(value, dict):
+        return "activity is missing or is not an object"
+    # Claude exposes tool/message counts but not Codex's completed-item event
+    # envelope. Validate the portable activity fields and keep completed_items
+    # optional rather than making every native Claude run incomplete.
+    required = ("tool_calls", "command_executions", "agent_messages")
+    invalid = [field for field in required if not _is_nonnegative_int(value.get(field))]
+    if "completed_items" in value and not _is_nonnegative_int(value.get("completed_items")):
+        invalid.append("completed_items")
+    if invalid:
+        return "activity fields are missing or invalid: " + ", ".join(invalid)
+    if "completed_items" in value and value["tool_calls"] > value["completed_items"]:
+        return "tool_calls exceeds completed_items"
+    if value["command_executions"] > value["tool_calls"]:
+        return "command_executions exceeds tool_calls"
+    if "completed_items" in value and value["agent_messages"] > value["completed_items"]:
+        return "agent_messages exceeds completed_items"
+    return None
+
+
+def _generation_plan_integrity(
+    pair_plan: Sequence[dict[str, Any]],
+    generations: Sequence[dict[str, Any]],
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    """Bind every primary generation to one exact planned pair/arm identity.
+
+    The explicit diagnostic arm is deliberately outside the paired estimand.
+    Malformed historical records remain inspectable, but cannot make a run
+    release-quality complete or contribute unplanned resource use.
+    """
+
+    expected_rows = [
+        {
+            "record_type": "generation",
+            "pair_id": pair.get("pair_id"),
+            "case_id": pair.get("case_id"),
+            "repeat": pair.get("repeat"),
+            "arm": arm,
+            "raw_prompt_sha256": pair.get("raw_prompt_sha256"),
+            "included_in_primary_uplift": True,
+        }
+        for pair in pair_plan
+        for arm in ARMS
+    ]
+    primary_records = [record for record in generations if record.get("arm") != DIAGNOSTIC_ARM]
+
+    def identity(row: dict[str, Any]) -> tuple[str, str] | None:
+        pair_id = row.get("pair_id")
+        arm = row.get("arm")
+        if not isinstance(pair_id, str) or not pair_id or not isinstance(arm, str) or not arm:
+            return None
+        return pair_id, arm
+
+    def public_keys(keys: Iterable[tuple[str, str]]) -> list[dict[str, str]]:
+        return [{"pair_id": pair_id, "arm": arm} for pair_id, arm in sorted(keys)]
+
+    expected_keys = [key for row in expected_rows if (key := identity(row)) is not None]
+    actual_keys = [key for row in primary_records if (key := identity(row)) is not None]
+    expected_counts = Counter(expected_keys)
+    actual_counts = Counter(actual_keys)
+    invalid_expected_keys = len(expected_rows) - len(expected_keys)
+    invalid_actual_keys = len(primary_records) - len(actual_keys)
+    duplicate_expected = sorted(key for key, count in expected_counts.items() if count > 1)
+    duplicate_actual = sorted(key for key, count in actual_counts.items() if count > 1)
+    missing = sorted((expected_counts - actual_counts).elements())
+    unexpected = sorted((actual_counts - expected_counts).elements())
+    expected_by_key = {
+        key: row
+        for row in expected_rows
+        if (key := identity(row)) is not None and expected_counts[key] == 1
+    }
+    actual_by_key = {
+        key: row
+        for row in primary_records
+        if (key := identity(row)) is not None and actual_counts[key] == 1
+    }
+
+    mismatched: list[dict[str, Any]] = []
+    invalid_payloads: list[dict[str, Any]] = []
+    invalid_usage: list[dict[str, Any]] = []
+    valid_records: list[dict[str, Any]] = []
+    identity_fields = (
+        "record_type",
+        "case_id",
+        "repeat",
+        "raw_prompt_sha256",
+        "included_in_primary_uplift",
+    )
+    for pair_id, arm in sorted(expected_by_key.keys() & actual_by_key.keys()):
+        expected = expected_by_key[(pair_id, arm)]
+        actual = actual_by_key[(pair_id, arm)]
+        fields = [
+            field
+            for field in identity_fields
+            if type(actual.get(field)) is not type(expected.get(field))
+            or actual.get(field) != expected.get(field)
+        ]
+        if fields:
+            mismatched.append({"pair_id": pair_id, "arm": arm, "fields": fields})
+            continue
+        status = actual.get("status")
+        if status not in {"OK", "ERROR"}:
+            invalid_payloads.append(
+                {"pair_id": pair_id, "arm": arm, "error": "status must be OK or ERROR"}
+            )
+            continue
+        if status == "OK":
+            payload_errors: list[str] = []
+            if not _is_nonnegative_number(actual.get("wall_time_seconds")):
+                payload_errors.append("wall_time_seconds is missing or invalid")
+            if not _is_nonnegative_int(actual.get("response_word_count")):
+                payload_errors.append("response_word_count is missing or invalid")
+            activity_error = _activity_error(actual.get("activity"))
+            if activity_error:
+                payload_errors.append(activity_error)
+            if payload_errors:
+                invalid_payloads.append(
+                    {"pair_id": pair_id, "arm": arm, "error": "; ".join(payload_errors)}
+                )
+            usage_error = _usage_error(actual.get("usage"))
+            if usage_error:
+                invalid_usage.append({"pair_id": pair_id, "arm": arm, "error": usage_error})
+        valid_records.append(actual)
+
+    record_set_exact = bool(
+        invalid_expected_keys == 0
+        and invalid_actual_keys == 0
+        and not duplicate_expected
+        and not duplicate_actual
+        and not missing
+        and not unexpected
+        and not mismatched
+        and len(primary_records) == len(expected_rows)
+    )
+    successful = sum(record.get("status") == "OK" for record in valid_records)
+    payloads_valid = not invalid_payloads
+    usage_complete = not invalid_usage
+    plan_complete = bool(
+        record_set_exact
+        and payloads_valid
+        and usage_complete
+        and successful == len(expected_rows)
+    )
+    return (
+        {
+            "planned_generations": len(expected_rows),
+            "recorded_primary_generations": len(primary_records),
+            "successful_planned_generations": successful,
+            "generation_record_set_exact": record_set_exact,
+            "generation_payloads_valid": payloads_valid,
+            "generation_usage_complete": usage_complete,
+            "generation_plan_complete": plan_complete,
+            "invalid_planned_generation_key_count": invalid_expected_keys,
+            "invalid_recorded_generation_key_count": invalid_actual_keys,
+            "duplicate_planned_generation_keys": public_keys(duplicate_expected),
+            "duplicate_recorded_generation_keys": public_keys(duplicate_actual),
+            "missing_generation_keys": public_keys(missing),
+            "unexpected_generation_keys": public_keys(unexpected),
+            "mismatched_generations": mismatched,
+            "invalid_generation_payloads": invalid_payloads,
+            "invalid_generation_usage": invalid_usage,
+            "diagnostic_generation_records_excluded": sum(
+                record.get("arm") == DIAGNOSTIC_ARM for record in generations
+            ),
+        },
+        valid_records,
+    )
+
+
+def _judgment_plan_integrity(
+    judge_plan: Sequence[dict[str, Any]],
+    judgments: Sequence[dict[str, Any]],
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    """Validate exact blind-comparison identities and recompute every derived value."""
+
+    expected_ids = [
+        item.get("comparison_id")
+        for item in judge_plan
+        if isinstance(item.get("comparison_id"), str) and item["comparison_id"]
+    ]
+    actual_ids = [
+        item.get("comparison_id")
+        for item in judgments
+        if isinstance(item.get("comparison_id"), str) and item["comparison_id"]
+    ]
+    expected_counts = Counter(expected_ids)
+    actual_counts = Counter(actual_ids)
+    invalid_expected_ids = len(judge_plan) - len(expected_ids)
+    invalid_actual_ids = len(judgments) - len(actual_ids)
+    duplicate_expected = sorted(key for key, count in expected_counts.items() if count > 1)
+    duplicate_actual = sorted(key for key, count in actual_counts.items() if count > 1)
+    missing = sorted((expected_counts - actual_counts).elements())
+    unexpected = sorted((actual_counts - expected_counts).elements())
+    expected_by_id = {
+        item["comparison_id"]: item
+        for item in judge_plan
+        if isinstance(item.get("comparison_id"), str)
+        and expected_counts[item["comparison_id"]] == 1
+    }
+    actual_by_id = {
+        item["comparison_id"]: item
+        for item in judgments
+        if isinstance(item.get("comparison_id"), str)
+        and actual_counts[item["comparison_id"]] == 1
+    }
+
+    mismatched: list[dict[str, Any]] = []
+    invalid_records: list[dict[str, Any]] = []
+    invalid_payloads: list[dict[str, Any]] = []
+    invalid_usage: list[dict[str, Any]] = []
+    derived_mismatches: list[dict[str, Any]] = []
+    validated_records: list[dict[str, Any]] = []
+    identity_fields = (
+        "record_type",
+        "pair_id",
+        "case_id",
+        "judge_repeat",
+        "label_a_arm",
+        "label_b_arm",
+    )
+    for comparison_id in sorted(expected_by_id.keys() & actual_by_id.keys()):
+        expected = {"record_type": "judgment", **expected_by_id[comparison_id]}
+        actual = actual_by_id[comparison_id]
+        fields = [
+            field
+            for field in identity_fields
+            if type(actual.get(field)) is not type(expected.get(field))
+            or actual.get(field) != expected.get(field)
+        ]
+        if fields:
+            mismatched.append({"comparison_id": comparison_id, "fields": fields})
+            continue
+        status = actual.get("status")
+        if status not in {"OK", "ERROR", "SKIP"}:
+            invalid_records.append(
+                {"comparison_id": comparison_id, "error": "status must be OK, ERROR, or SKIP"}
+            )
+            continue
+        if status != "OK":
+            validated_records.append(actual)
+            continue
+        payload = actual.get("judgment")
+        payload_error = validate_judgment(payload, expected["case_id"], comparison_id)
+        if payload_error:
+            invalid_payloads.append({"comparison_id": comparison_id, "error": payload_error})
+            continue
+        usage_error = _usage_error(actual.get("usage"))
+        if usage_error:
+            invalid_usage.append({"comparison_id": comparison_id, "error": usage_error})
+        if not _is_nonnegative_number(actual.get("wall_time_seconds")):
+            invalid_records.append(
+                {"comparison_id": comparison_id, "error": "wall_time_seconds is missing or invalid"}
+            )
+
+        a_quality = candidate_quality(payload["candidate_a"])
+        b_quality = candidate_quality(payload["candidate_b"])
+        computed = {
+            "candidate_a_quality": a_quality,
+            "candidate_b_quality": b_quality,
+            f"{expected['label_a_arm']}_quality": a_quality,
+            f"{expected['label_b_arm']}_quality": b_quality,
+            "mapped_winner": (
+                expected["label_a_arm"]
+                if payload["winner"] == "A"
+                else expected["label_b_arm"]
+                if payload["winner"] == "B"
+                else "TIE"
+            ).upper(),
+        }
+        mismatched_derived = [
+            field
+            for field, computed_value in computed.items()
+            if field in actual
+            and (
+                isinstance(computed_value, (int, float))
+                and not isinstance(computed_value, bool)
+                and (
+                    not isinstance(actual.get(field), (int, float))
+                    or isinstance(actual.get(field), bool)
+                    or actual.get(field) != computed_value
+                )
+                or not isinstance(computed_value, (int, float))
+                and (
+                    type(actual.get(field)) is not type(computed_value)
+                    or actual.get(field) != computed_value
+                )
+            )
+        ]
+        if mismatched_derived:
+            derived_mismatches.append(
+                {"comparison_id": comparison_id, "fields": mismatched_derived}
+            )
+        # Never trust redundant cached totals or winner mappings. The validated
+        # judge payload and frozen label plan are the only aggregation inputs.
+        validated_records.append({**actual, **computed})
+
+    record_set_exact = bool(
+        invalid_expected_ids == 0
+        and invalid_actual_ids == 0
+        and not duplicate_expected
+        and not duplicate_actual
+        and not missing
+        and not unexpected
+        and not mismatched
+        and len(judgments) == len(judge_plan)
+    )
+    successful = sum(record.get("status") == "OK" for record in validated_records)
+    payloads_valid = not invalid_records and not invalid_payloads
+    usage_complete = not invalid_usage
+    plan_complete = bool(
+        record_set_exact
+        and payloads_valid
+        and usage_complete
+        and not derived_mismatches
+        and successful == len(judge_plan)
+    )
+    return (
+        {
+            "planned_judgments": len(judge_plan),
+            "recorded_judgments": len(judgments),
+            "successful_planned_judgments": successful,
+            "judgment_record_set_exact": record_set_exact,
+            "judgment_payloads_valid": payloads_valid,
+            "judgment_usage_complete": usage_complete,
+            "judgment_plan_complete": plan_complete,
+            "invalid_planned_comparison_id_count": invalid_expected_ids,
+            "invalid_recorded_comparison_id_count": invalid_actual_ids,
+            "duplicate_planned_comparison_ids": duplicate_expected,
+            "duplicate_recorded_comparison_ids": duplicate_actual,
+            "missing_comparison_ids": missing,
+            "unexpected_comparison_ids": unexpected,
+            "mismatched_comparisons": mismatched,
+            "invalid_judgment_records": invalid_records,
+            "invalid_judgment_payloads": invalid_payloads,
+            "invalid_judgment_usage": invalid_usage,
+            "mismatched_cached_judgment_fields": derived_mismatches,
+            "derived_values_recomputed": True,
+        },
+        validated_records,
     )
 
 
@@ -1234,6 +1725,7 @@ def assess_resource_efficiency(
             "basis": "Generation-token resource measurement is incomplete.",
             "configured_budgets": configured_budgets,
             "observed": observed,
+            "interpretation_limit": "This is a resource descriptor, not an outcome-value veto or monetary ROI.",
         }
     if token_ratio <= 1 and token_overhead <= 0:
         verdict = "NO_TOKEN_PREMIUM"
@@ -1278,12 +1770,19 @@ def aggregate_results(
 ) -> dict[str, Any]:
     """Aggregate paired judgments with cases, not repeated runs, as the CI unit."""
 
+    judge_plan = build_judge_plan(pair_plan, judge_repetitions, seed)
+    generation_integrity, planned_generations = _generation_plan_integrity(
+        pair_plan, generations
+    )
+    judgment_integrity, planned_judgments = _judgment_plan_integrity(
+        judge_plan, judgments
+    )
     generation_records_by_pair_arm: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
-    for record in generations:
+    for record in planned_generations:
         if record.get("record_type") == "generation" and record.get("arm") in ARMS:
             generation_records_by_pair_arm[(str(record["pair_id"]), str(record["arm"]))].append(record)
     judgments_by_pair: dict[str, list[dict[str, Any]]] = defaultdict(list)
-    for judgment in judgments:
+    for judgment in planned_judgments:
         if judgment.get("status") == "OK":
             judgments_by_pair[str(judgment["pair_id"])].append(judgment)
 
@@ -1304,8 +1803,16 @@ def aggregate_results(
             if treatment_quality is not None and control_quality is not None
             else None
         )
-        treatment_usage = treatment.get("usage") if treatment else None
-        control_usage = control.get("usage") if control else None
+        treatment_usage = (
+            treatment.get("usage")
+            if treatment and _usage_error(treatment.get("usage")) is None
+            else None
+        )
+        control_usage = (
+            control.get("usage")
+            if control and _usage_error(control.get("usage")) is None
+            else None
+        )
         treatment_tokens = treatment_usage.get("total_tokens") if isinstance(treatment_usage, dict) else None
         control_tokens = control_usage.get("total_tokens") if isinstance(control_usage, dict) else None
         mapped_votes = [item["mapped_winner"] for item in pair_judgments]
@@ -1349,10 +1856,26 @@ def aggregate_results(
                 "control_tokens": control_tokens,
                 "treatment_wall_time_seconds": treatment.get("wall_time_seconds") if treatment else None,
                 "control_wall_time_seconds": control.get("wall_time_seconds") if control else None,
-                "treatment_response_words": treatment.get("response_word_count") if treatment else None,
-                "control_response_words": control.get("response_word_count") if control else None,
-                "treatment_tool_calls": treatment.get("activity", {}).get("tool_calls") if treatment else None,
-                "control_tool_calls": control.get("activity", {}).get("tool_calls") if control else None,
+                "treatment_response_words": (
+                    treatment.get("response_word_count")
+                    if treatment and _is_nonnegative_int(treatment.get("response_word_count"))
+                    else None
+                ),
+                "control_response_words": (
+                    control.get("response_word_count")
+                    if control and _is_nonnegative_int(control.get("response_word_count"))
+                    else None
+                ),
+                "treatment_tool_calls": (
+                    treatment.get("activity", {}).get("tool_calls")
+                    if treatment and _activity_error(treatment.get("activity")) is None
+                    else None
+                ),
+                "control_tool_calls": (
+                    control.get("activity", {}).get("tool_calls")
+                    if control and _activity_error(control.get("activity")) is None
+                    else None
+                ),
                 "mapped_judge_votes": mapped_votes,
                 "judge_orientation_disagreement": len(set(mapped_votes)) > 1,
             }
@@ -1441,10 +1964,26 @@ def aggregate_results(
     control_words = _mean(row["control_mean_response_words"] for row in case_rows)
     diagnostic_records = [record for record in generations if record.get("arm") == DIAGNOSTIC_ARM]
     treatment_generation_records = [
-        record for record in generations if record.get("arm") == "treatment" and record.get("status") == "OK"
+        record
+        for record in planned_generations
+        if record.get("arm") == "treatment" and record.get("status") == "OK"
     ]
     control_generation_records = [
-        record for record in generations if record.get("arm") == "control" and record.get("status") == "OK"
+        record
+        for record in planned_generations
+        if record.get("arm") == "control" and record.get("status") == "OK"
+    ]
+    resource_profiles = {
+        "treatment": _arm_resource_profile(treatment_generation_records),
+        "control": _arm_resource_profile(control_generation_records),
+    }
+    resource_delta = _resource_delta(
+        resource_profiles["treatment"], resource_profiles["control"]
+    )
+    judge_resource_records = [
+        record
+        for record in planned_judgments
+        if record.get("status") == "OK" and _usage_error(record.get("usage")) is None
     ]
 
     treatment_efficiency = _mean(
@@ -1482,15 +2021,18 @@ def aggregate_results(
     requested_judgments_realized = bool(
         len(pair_rows) == expected_pairs
         and all(row["judgments_complete"] for row in pair_rows)
+        and judgment_integrity["judgment_plan_complete"]
     )
     all_planned_pairs_usable = bool(
         len(pair_rows) == expected_pairs
         and complete_pairs == expected_pairs
+        and generation_integrity["generation_plan_complete"]
+        and judgment_integrity["judgment_plan_complete"]
     )
     orientation_disagreements = sum(row["judge_orientation_disagreement"] for row in pair_rows if row["judge_count"] > 1)
     multi_judged_pairs = sum(row["judge_count"] > 1 for row in pair_rows)
     blind_votes = {"treatment": 0, "control": 0, "tie": 0}
-    for judgment in judgments:
+    for judgment in planned_judgments:
         mapped = judgment.get("mapped_winner")
         if mapped == "TREATMENT":
             blind_votes["treatment"] += 1
@@ -1535,6 +2077,34 @@ def aggregate_results(
         )
     if not requested_judgments_realized:
         warnings.append("At least one planned pair is missing a requested valid blind judgment.")
+    if not generation_integrity["generation_record_set_exact"]:
+        warnings.append(
+            "Primary generation records do not exactly match the frozen pair/arm plan; unplanned or mismatched records were excluded."
+        )
+    if not generation_integrity["generation_payloads_valid"]:
+        warnings.append(
+            "At least one successful generation has an invalid resource/activity schema; the realized design is incomplete."
+        )
+    if not generation_integrity["generation_usage_complete"]:
+        warnings.append(
+            "At least one successful generation lacks valid normalized usage; release-quality resource comparison is incomplete."
+        )
+    if not judgment_integrity["judgment_record_set_exact"]:
+        warnings.append(
+            "Judgment records do not exactly match the frozen blind-comparison plan; unplanned or mismatched records were excluded."
+        )
+    if not judgment_integrity["judgment_payloads_valid"]:
+        warnings.append(
+            "At least one planned judgment failed record or judge-payload schema validation."
+        )
+    if not judgment_integrity["judgment_usage_complete"]:
+        warnings.append(
+            "At least one successful judgment lacks valid normalized usage; release-quality run completeness is false."
+        )
+    if judgment_integrity["mismatched_cached_judgment_fields"]:
+        warnings.append(
+            "Cached judgment totals or winner mappings disagreed with the validated payload. Aggregation used recomputed values and marked the run incomplete."
+        )
     if ci is None:
         warnings.append("A paired bootstrap confidence interval could not be estimated from fewer than two valid cases.")
         conclusion = "INCONCLUSIVE"
@@ -1553,6 +2123,8 @@ def aggregate_results(
         and all_planned_pairs_usable
         and requested_repeats_realized
         and requested_judgments_realized
+        and generation_integrity["generation_plan_complete"]
+        and judgment_integrity["judgment_plan_complete"]
     )
     if not minimum_design_met and conclusion != "INCONCLUSIVE":
         warnings.append(
@@ -1605,9 +2177,17 @@ def aggregate_results(
         ties=ties,
         losses=losses,
     )
+    release_quality_complete = bool(
+        plan_shape_complete
+        and requested_repeats_realized
+        and requested_judgments_realized
+        and all_planned_pairs_usable
+        and generation_integrity["generation_plan_complete"]
+        and judgment_integrity["judgment_plan_complete"]
+    )
 
     return {
-        "schema_version": "1.3.0",
+        "schema_version": "1.4.0",
         "primary_effectiveness_assessment": effectiveness_assessment,
         "quality_direction": conclusion,
         "conclusion": conclusion,
@@ -1620,6 +2200,7 @@ def aggregate_results(
         "valid_cases": len(case_rows),
         "realized_design": {
             "minimum_design_met": minimum_design_met,
+            "release_quality_complete": release_quality_complete,
             "all_planned_pairs_usable": all_planned_pairs_usable,
             "plan_shape_complete": plan_shape_complete,
             "requested_repeats_per_case": repeats,
@@ -1630,6 +2211,8 @@ def aggregate_results(
             "complete_pairs_by_case": {
                 case_id: complete_pairs_by_case[case_id] for case_id in sorted(expected_case_ids)
             },
+            "generation_integrity": generation_integrity,
+            "judgment_integrity": judgment_integrity,
         },
         "quality": {
             "scale": "0-100 blind rubric score",
@@ -1642,7 +2225,7 @@ def aggregate_results(
             "case_win_tie_loss": {"wins": wins, "ties": ties, "losses": losses, "tie_margin_points": tie_margin},
             "blind_preference_votes": blind_votes,
         },
-        "outcome_dimension_profile": outcome_dimension_profile(judgments),
+        "outcome_dimension_profile": outcome_dimension_profile(planned_judgments),
         "outcome_construct_profile": outcome_construct_profile(case_rows, outcome_constructs),
         "generation_cost": {
             "treatment_mean_tokens_per_case_run": treatment_tokens,
@@ -1655,49 +2238,33 @@ def aggregate_results(
             "treatment_mean_response_words": treatment_words,
             "control_mean_response_words": control_words,
             "response_word_ratio": _ratio(treatment_words, control_words),
-            "treatment_usage_total": _sum_usage(
-                record for record in generations if record.get("arm") == "treatment"
-            ),
-            "control_usage_total": _sum_usage(
-                record for record in generations if record.get("arm") == "control"
-            ),
+            "absolute_mean_token_delta": resource_delta["mean_usage_per_call"]["total_tokens"],
+            "absolute_total_token_delta": resource_delta["usage_total"]["total_tokens"],
+            "treatment_usage_total": resource_profiles["treatment"]["usage_total"],
+            "control_usage_total": resource_profiles["control"]["usage_total"],
+            "resource_profile_by_arm": resource_profiles,
+            "absolute_treatment_minus_control": resource_delta,
             "mean_usage_per_successful_call": {
-                "treatment": {
-                    key: _mean_usage(treatment_generation_records, key)
-                    for key in (
-                        "input_tokens",
-                        "cached_input_tokens",
-                        "uncached_input_tokens",
-                        "output_tokens",
-                        "reasoning_output_tokens",
-                    )
-                },
-                "control": {
-                    key: _mean_usage(control_generation_records, key)
-                    for key in (
-                        "input_tokens",
-                        "cached_input_tokens",
-                        "uncached_input_tokens",
-                        "output_tokens",
-                        "reasoning_output_tokens",
-                    )
-                },
+                "treatment": resource_profiles["treatment"]["mean_usage_per_call"],
+                "control": resource_profiles["control"]["mean_usage_per_call"],
             },
             "mean_activity_per_successful_call": {
-                "treatment": {
-                    key: _mean_activity(treatment_generation_records, key)
-                    for key in ("tool_calls", "command_executions", "agent_messages")
-                },
-                "control": {
-                    key: _mean_activity(control_generation_records, key)
-                    for key in ("tool_calls", "command_executions", "agent_messages")
-                },
+                "treatment": resource_profiles["treatment"]["mean_activity_per_call"],
+                "control": resource_profiles["control"]["mean_activity_per_call"],
             },
         },
         "judge_overhead": {
-            "calls": len(judgments),
-            "usage_total": _sum_usage(judgments),
-            "wall_time_seconds_total": round(sum(float(item.get("wall_time_seconds", 0)) for item in judgments), 6),
+            "calls": len(planned_judgments),
+            "resource_complete_calls": len(judge_resource_records),
+            "usage_total": _sum_usage(judge_resource_records),
+            "wall_time_seconds_total": round(
+                sum(
+                    float(item.get("wall_time_seconds", 0))
+                    for item in judge_resource_records
+                    if _is_nonnegative_number(item.get("wall_time_seconds"))
+                ),
+                6,
+            ),
             "orientation_disagreement_pairs": orientation_disagreements,
             "multiply_judged_pairs": multi_judged_pairs,
         },
@@ -1756,6 +2323,7 @@ def render_summary(summary: dict[str, Any], config: dict[str, Any]) -> str:
     relative_text = f"{relative * 100:.1f}%" if relative is not None else "n/a"
     mean_usage = cost["mean_usage_per_successful_call"]
     mean_activity = cost["mean_activity_per_successful_call"]
+    absolute_resource_delta = cost["absolute_treatment_minus_control"]
     marginal_interval = incremental["primary_metric"].get("fixed_observed_cost_ci")
     marginal_interval_text = (
         f"[{format_number(marginal_interval['lower'])}, {format_number(marginal_interval['upper'])}]"
@@ -1789,7 +2357,7 @@ def render_summary(summary: dict[str, Any], config: dict[str, Any]) -> str:
         "| Measure | Treatment | Control | Comparison |",
         "|---|---:|---:|---:|",
         f"| Blind quality (0–100) | {format_number(quality['treatment_mean'])} | {format_number(quality['control_mean'])} | {format_number(quality['absolute_uplift_points'])} points ({relative_text}) |",
-        f"| Mean generation tokens | {format_number(cost['treatment_mean_tokens_per_case_run'], 0)} | {format_number(cost['control_mean_tokens_per_case_run'], 0)} | {format_number(cost['token_ratio'])}× |",
+        f"| Mean generation tokens | {format_number(cost['treatment_mean_tokens_per_case_run'], 0)} | {format_number(cost['control_mean_tokens_per_case_run'], 0)} | Δ {format_number(cost['absolute_mean_token_delta'], 0)} ({format_number(cost['token_ratio'])}×) |",
         f"| Mean wall time | {format_number(cost['treatment_mean_wall_time_seconds'])}s | {format_number(cost['control_mean_wall_time_seconds'])}s | {format_number(cost['wall_time_ratio'])}× |",
         f"| Mean visible response words | {format_number(cost['treatment_mean_response_words'], 0)} | {format_number(cost['control_mean_response_words'], 0)} | {format_number(cost['response_word_ratio'])}× |",
         "",
@@ -1845,15 +2413,19 @@ def render_summary(summary: dict[str, Any], config: dict[str, Any]) -> str:
         "",
         "### Generation-cost anatomy",
         "",
-        "| Mean per successful candidate call | Treatment | Control |",
-        "|---|---:|---:|",
-        f"| Input tokens | {format_number(mean_usage['treatment']['input_tokens'], 0)} | {format_number(mean_usage['control']['input_tokens'], 0)} |",
-        f"| └ cached input | {format_number(mean_usage['treatment']['cached_input_tokens'], 0)} | {format_number(mean_usage['control']['cached_input_tokens'], 0)} |",
-        f"| └ uncached input | {format_number(mean_usage['treatment']['uncached_input_tokens'], 0)} | {format_number(mean_usage['control']['uncached_input_tokens'], 0)} |",
-        f"| Output tokens | {format_number(mean_usage['treatment']['output_tokens'], 0)} | {format_number(mean_usage['control']['output_tokens'], 0)} |",
-        f"| └ reasoning output | {format_number(mean_usage['treatment']['reasoning_output_tokens'], 0)} | {format_number(mean_usage['control']['reasoning_output_tokens'], 0)} |",
-        f"| Completed tool calls | {format_number(mean_activity['treatment']['tool_calls'], 2)} | {format_number(mean_activity['control']['tool_calls'], 2)} |",
-        f"| Assistant messages | {format_number(mean_activity['treatment']['agent_messages'], 2)} | {format_number(mean_activity['control']['agent_messages'], 2)} |",
+        "| Mean per successful, resource-complete candidate call | Treatment | Control | Absolute Δ (T−C) |",
+        "|---|---:|---:|---:|",
+        f"| Total tokens | {format_number(mean_usage['treatment']['total_tokens'], 0)} | {format_number(mean_usage['control']['total_tokens'], 0)} | {format_number(absolute_resource_delta['mean_usage_per_call']['total_tokens'], 0)} |",
+        f"| Input tokens | {format_number(mean_usage['treatment']['input_tokens'], 0)} | {format_number(mean_usage['control']['input_tokens'], 0)} | {format_number(absolute_resource_delta['mean_usage_per_call']['input_tokens'], 0)} |",
+        f"| └ cached input | {format_number(mean_usage['treatment']['cached_input_tokens'], 0)} | {format_number(mean_usage['control']['cached_input_tokens'], 0)} | {format_number(absolute_resource_delta['mean_usage_per_call']['cached_input_tokens'], 0)} |",
+        f"| └ uncached input | {format_number(mean_usage['treatment']['uncached_input_tokens'], 0)} | {format_number(mean_usage['control']['uncached_input_tokens'], 0)} | {format_number(absolute_resource_delta['mean_usage_per_call']['uncached_input_tokens'], 0)} |",
+        f"| Output tokens | {format_number(mean_usage['treatment']['output_tokens'], 0)} | {format_number(mean_usage['control']['output_tokens'], 0)} | {format_number(absolute_resource_delta['mean_usage_per_call']['output_tokens'], 0)} |",
+        f"| └ reasoning output | {format_number(mean_usage['treatment']['reasoning_output_tokens'], 0)} | {format_number(mean_usage['control']['reasoning_output_tokens'], 0)} | {format_number(absolute_resource_delta['mean_usage_per_call']['reasoning_output_tokens'], 0)} |",
+        f"| Visible response words | {format_number(cost['resource_profile_by_arm']['treatment']['mean_response_words_per_call'], 0)} | {format_number(cost['resource_profile_by_arm']['control']['mean_response_words_per_call'], 0)} | {format_number(absolute_resource_delta['mean_response_words_per_call'], 0)} |",
+        f"| Completed observable items | {format_number(mean_activity['treatment']['completed_items'], 2)} | {format_number(mean_activity['control']['completed_items'], 2)} | {format_number(absolute_resource_delta['mean_activity_per_call']['completed_items'], 2)} |",
+        f"| Completed tool calls | {format_number(mean_activity['treatment']['tool_calls'], 2)} | {format_number(mean_activity['control']['tool_calls'], 2)} | {format_number(absolute_resource_delta['mean_activity_per_call']['tool_calls'], 2)} |",
+        f"| └ command executions | {format_number(mean_activity['treatment']['command_executions'], 2)} | {format_number(mean_activity['control']['command_executions'], 2)} | {format_number(absolute_resource_delta['mean_activity_per_call']['command_executions'], 2)} |",
+        f"| Assistant messages | {format_number(mean_activity['treatment']['agent_messages'], 2)} | {format_number(mean_activity['control']['agent_messages'], 2)} | {format_number(absolute_resource_delta['mean_activity_per_call']['agent_messages'], 2)} |",
         "",
         "Tool-call counts are observable completed runtime events, not hidden reasoning. Input-token cost includes the model context accumulated across those interaction rounds.",
         "",
@@ -1863,6 +2435,7 @@ def render_summary(summary: dict[str, Any], config: dict[str, Any]) -> str:
         "",
         f"- Minimum important quality uplift: `{format_number(effectiveness['preregistered_thresholds']['minimum_important_quality_uplift_points'])}` points",
         f"- Complete realized design: `{realized['minimum_design_met']}` ({summary['complete_pairs']}/{summary['planned_pairs']} complete pairs)",
+        f"- Exact release-quality record/usage integrity: `{realized['release_quality_complete']}`",
         "",
         "The primary effectiveness verdict uses outcome quality and practical importance only. It does not use token cost.",
         "",
@@ -1924,6 +2497,7 @@ def render_summary(summary: dict[str, Any], config: dict[str, Any]) -> str:
             f"- Blind judgments per pair: `{config['judge_repetitions']}`",
             f"- Prompt corpus SHA-256: `{config['corpus_sha256']}`",
             f"- Control mode: `{config.get('control_mode', 'plain')}`",
+            f"- Treatment invocation: `{config.get('treatment_invocation', 'implicit')}`",
             f"- Design Council version: `{reproducibility.get('design_council_version') or 'n/a'}`",
             f"- Canonical skill tree SHA-256: `{reproducibility.get('skill_tree', {}).get('sha256', 'n/a')}` ({reproducibility.get('skill_tree', {}).get('file_count', 'n/a')} files)",
             f"- Benchmark runner SHA-256: `{reproducibility.get('runner_sha256', 'n/a')}`",
@@ -2024,6 +2598,15 @@ def main(argv: list[str] | None = None) -> int:
         help="candidate platform; blind judging remains on the configured Codex judge",
     )
     parser.add_argument(
+        "--treatment-invocation",
+        choices=TREATMENT_INVOCATION_MODES,
+        default="implicit",
+        help=(
+            "whether the primary treatment relies on implicit routing or explicitly invokes "
+            "Design Council; use explicit to estimate deliberate plugin use"
+        ),
+    )
+    parser.add_argument(
         "--explicit-diagnostic",
         action="store_true",
         help="also run an explicitly invoked treatment response; excluded from paired uplift",
@@ -2091,6 +2674,12 @@ def main(argv: list[str] | None = None) -> int:
     if args.claude_max_turns < 1 or args.claude_max_budget_usd <= 0:
         print("ERROR: Claude max turns and budget must be positive", file=sys.stderr)
         return 2
+    if args.treatment_invocation == "explicit" and args.explicit_diagnostic:
+        print(
+            "ERROR: --explicit-diagnostic is redundant when --treatment-invocation=explicit",
+            file=sys.stderr,
+        )
+        return 2
 
     judge_model = args.judge_model or args.model
     candidate_model = args.claude_model if args.candidate_runtime == "claude" else args.model
@@ -2104,6 +2693,7 @@ def main(argv: list[str] | None = None) -> int:
         print(
             f"seed={args.seed}; runtime={args.candidate_runtime}; candidate={candidate_model}/{args.effort}; judge={judge_model}/{args.judge_effort}; "
             f"word_cap={args.word_cap}; explicit_diagnostic={args.explicit_diagnostic}; "
+            f"treatment_invocation={args.treatment_invocation}; "
             f"control_mode={args.control_mode}; "
             f"workers={args.workers}; "
             f"minimum_important_uplift={args.minimum_important_uplift}; "
@@ -2124,7 +2714,18 @@ def main(argv: list[str] | None = None) -> int:
                 )
             )
             print("[treatment candidate input]")
-            print(candidate_prompt(by_id[pair["case_id"]]["prompt"], args.word_cap))
+            print(
+                candidate_prompt(
+                    by_id[pair["case_id"]]["prompt"],
+                    args.word_cap,
+                    explicit=args.treatment_invocation == "explicit",
+                    explicit_invocation=(
+                        "/design-council:design-think"
+                        if args.candidate_runtime == "claude"
+                        else "$design-think"
+                    ),
+                )
+            )
             if args.control_mode != "plain":
                 print("[prompt-only control candidate input]")
                 print(
@@ -2142,7 +2743,7 @@ def main(argv: list[str] | None = None) -> int:
                         args.word_cap,
                         explicit=True,
                         explicit_invocation=(
-                            "/design-think"
+                            "/design-council:design-think"
                             if args.candidate_runtime == "claude"
                             else "$design-think"
                         ),
@@ -2263,6 +2864,7 @@ def main(argv: list[str] | None = None) -> int:
         },
         "word_cap": args.word_cap,
         "control_mode": args.control_mode,
+        "treatment_invocation": args.treatment_invocation,
         "prompt_only_control_sha256": (
             stable_digest(DESIGN_THINKING_PROMPT_CONTROL)
             if args.control_mode == "design-thinking-prompt"
@@ -2312,8 +2914,12 @@ def main(argv: list[str] | None = None) -> int:
             else f"{args.candidate_runtime} Design Council adapter present versus absent"
         ),
         "primary_estimand": (
-            "plugin effect versus a competent frozen prompt-only Design Thinking comparator; explicit diagnostics excluded"
+            "deliberately invoked plugin effect versus a competent frozen prompt-only Design Thinking comparator"
+            if args.control_mode == "design-thinking-prompt" and args.treatment_invocation == "explicit"
+            else "plugin effect versus a competent frozen prompt-only Design Thinking comparator; explicit diagnostics excluded"
             if args.control_mode == "design-thinking-prompt"
+            else "deliberately invoked plugin effect versus a plain no-plugin session"
+            if args.treatment_invocation == "explicit"
             else "implicit availability effect from identical raw prompts; explicit diagnostics excluded"
         ),
         "reproducibility": reproducibility,
@@ -2354,10 +2960,13 @@ def main(argv: list[str] | None = None) -> int:
                 prompt = candidate_prompt(
                     case["prompt"],
                     args.word_cap,
-                    explicit=arm == DIAGNOSTIC_ARM,
+                    explicit=(
+                        arm == DIAGNOSTIC_ARM
+                        or (arm == "treatment" and args.treatment_invocation == "explicit")
+                    ),
                     control_mode=args.control_mode if arm == "control" else "plain",
                     explicit_invocation=(
-                        "/design-think"
+                        "/design-council:design-think"
                         if args.candidate_runtime == "claude"
                         else "$design-think"
                     ),
@@ -2666,7 +3275,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     print(f"JSON: {run_dir / 'summary.json'}")
     print(f"Markdown: {run_dir / 'summary.md'}")
-    return 0 if summary["complete_pairs"] == summary["planned_pairs"] else 1
+    return 0 if summary["realized_design"]["release_quality_complete"] else 1
 
 
 if __name__ == "__main__":

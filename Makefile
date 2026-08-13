@@ -1,6 +1,7 @@
 .PHONY: build-openai build-claude build-packages validate-openai validate-claude \
 	validate-packages check-cross-platform-drift check-drift platform-evals test \
 	benchmark-dry-run benchmark trajectory-benchmark-dry-run trajectory-benchmark \
+	trajectory-conformance-dry-run verify-v1-trajectory-gate context-profile \
 	release-check clean-dist
 
 build-openai:
@@ -38,7 +39,8 @@ benchmark-dry-run:
 	python3 evals/run_ab_benchmark.py --dry-run
 
 benchmark:
-	python3 evals/run_ab_benchmark.py --repeats 2 --judge-repetitions 2 --run-model
+	python3 evals/run_ab_benchmark.py --repeats 2 --judge-repetitions 2 --run-model \
+		--control-mode design-thinking-prompt --treatment-invocation explicit
 
 trajectory-benchmark-dry-run:
 	python3 evals/run_trajectory_benchmark.py --dry-run --repeats 2 --judge-repetitions 2
@@ -46,7 +48,23 @@ trajectory-benchmark-dry-run:
 trajectory-benchmark:
 	python3 evals/run_trajectory_benchmark.py --run-model --require-model \
 		--session-mode persisted --control-mode design-thinking-prompt \
-		--repeats 2 --judge-repetitions 2 --judge-model gpt-5.6-terra
+		--treatment-invocation explicit-first-turn \
+		--repeats 2 --judge-repetitions 2 \
+		--model gpt-5.6-sol --effort medium \
+		--judge-model gpt-5.6-terra --judge-effort medium \
+		--bootstrap-samples 10000 --minimum-important-uplift 3 \
+		--tie-margin 2 --seed 20260813
+
+trajectory-conformance-dry-run:
+	python3 evals/run_trajectory_benchmark.py --dry-run \
+		--corpus product-conformance --repeats 1 --judge-repetitions 1
+
+verify-v1-trajectory-gate:
+	@test -n "$(RUN_DIR)" || (echo "RUN_DIR is required" >&2; exit 2)
+	python3 scripts/verify_v1_trajectory_gate.py "$(RUN_DIR)"
+
+context-profile:
+	python3 scripts/profile_context.py
 
 release-check:
 	python3 scripts/release_check.py

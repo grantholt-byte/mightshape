@@ -48,15 +48,15 @@ Do not:
 
 ## Affinity map procedure
 
-1. Lock the input set and display a source-card deck with every record's ID, provenance, and original wording, plus the record count, provenance mix, and known exclusions. A count-only summary is insufficient.
-2. Render a first arrangement without naming clusters in advance. The complete source-card deck must appear before any provisional cluster label in the user-visible response.
+1. Lock the input set with every record's ID, provenance, and original wording, plus the record count, provenance mix, and known exclusions. If the complete stable-ID deck is already visible in the prompt or immediately preceding context, acknowledge it as locked without echoing it; otherwise display it once. A count-only summary cannot replace a deck that has not yet been shown.
+2. Render a first arrangement without naming clusters in advance. The locked deck must be available before any provisional cluster label; the arrangement can refer to its IDs rather than repeating its wording.
 3. Test at least one alternate arrangement when the grouping changes a material conclusion.
 4. Name clusters after grouping. Keep source IDs on every note.
 5. Preserve genuinely unclustered notes in the visually distinct `OUTLIERS — KEEP VISIBLE` column. Keep a contradiction or counterexample beside the theme it qualifies when that relationship is defensible; contradiction alone does not make a record an outlier.
 6. State what the clustering suggests, what it does not establish, and which records resist the pattern.
 7. Name one concrete next analytical or research move that would test the most consequential interpretation.
 
-For a text-only fallback, preserve the complete locked deck first, then show the arrangement with record IDs rather than repeating each card's full wording. The stable IDs keep the transformation auditable without making the user read the same note twice. A graphical artifact may repeat the wording on moved sticky notes because spatial inspection is the purpose of that view.
+For a text-only fallback, show a not-yet-visible locked deck once, then show the arrangement with record IDs rather than repeating each card's full wording. The stable IDs keep the transformation auditable without making the user read the same note twice. A graphical artifact may repeat the wording on moved sticky notes because spatial inspection is the purpose of that view.
 
 The deterministic renderer displays a supplied arrangement; it does not claim that lexical or model-generated grouping is semantic truth. Use `cluster_ideas.py` only as a facilitation aid, then inspect the grouping.
 

@@ -43,8 +43,8 @@ synchronizes versions.
 | Concern | OpenAI / Codex | Claude Code |
 |---|---|---|
 | Manifest | `.codex-plugin/plugin.json` | `.claude-plugin/plugin.json` |
-| Primary explicit invocation | `$design-think` or `/skills`; ChatGPT uses `@design-think` | `/design-think` on Claude Code 2.1.216+ |
-| Collision-safe / beta compatibility | Legacy `$design-council` | `/design-council:design-think`; legacy `/design-council:design-council` |
+| Primary explicit invocation | `$design-think` or `/skills`; ChatGPT uses `@design-think` | `/design-council:design-think` |
+| Optional short form / beta compatibility | Legacy `$design-council` | Standalone skill only: `/design-think`; legacy plugin skill: `/design-council:design-council` |
 | Independent workers | Native Codex subagents; isolated `codex exec` fallback | Fresh Agent workers via `design-council:sealed-member` |
 | Optional state recovery | Trust-gated SessionStart hook | Skill reads canonical state on activation |
 | Hosted companion | ChatGPT Sites-compatible | Can develop the app; cannot claim a Sites deploy |

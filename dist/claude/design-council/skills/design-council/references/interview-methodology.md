@@ -58,7 +58,7 @@ Use `detect_leading_questions.py` for consistent flags. Let the researcher conti
 
 ## Human interview disclosure
 
-Before data collection state the AI identity, purpose, approximate duration, collected information, reviewer audience, quotation policy, ability to stop, and applicable contact/deletion path. Get affirmative consent. Default to `P-###`; avoid name/email unless necessary.
+Before data collection put literal participant-facing language at the top of the script stating the AI identity, purpose, approximate duration, collected information, reviewer audience, recording and quotation policy, skip/stop rights, and applicable contact/deletion path. Never leave these as placeholders or researcher-only notes. Get affirmative consent. Default to `P-###`; avoid name/email unless necessary.
 
 ## Analysis cautions
 

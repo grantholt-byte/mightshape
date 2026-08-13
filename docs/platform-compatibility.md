@@ -20,9 +20,10 @@ Researched and tested through 2026-08-13 with `codex-cli 0.146.1` and current pr
 OpenAI plugins cannot register arbitrary slash commands, so `/design-think` is not presented as
 a Codex or ChatGPT invocation. Deprecated local custom prompts would appear under
 `/prompts:design-think`, are not plugin-distributed, and are not shipped. Legacy
-`$design-council` remains available throughout this beta. Claude Code 2.1.216 or later uses the
-requested `/design-think`; `/design-council:design-think` is the collision-safe form, with
-`/design-council:design-council` retained for beta compatibility.
+`$design-council` remains available throughout this beta. Claude Code 2.1.216 or later can use
+the requested `/design-think` only when the skill is installed standalone; marketplace plugins
+must use `/design-council:design-think`, with `/design-council:design-council` retained for beta
+compatibility.
 
 Primary docs: [plugin architecture](https://developers.openai.com/plugins/concepts/plugins),
 [build plugins](https://developers.openai.com/plugins/build/plugins),

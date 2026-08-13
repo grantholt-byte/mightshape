@@ -167,7 +167,14 @@
       "type": "object",
       "additionalProperties": false,
       "required": ["current_mode", "cycle", "completed_modes", "transitions"],
+      "dependentRequired": {
+        "starting_point": ["starting_point_basis"],
+        "starting_point_basis": ["starting_point"]
+      },
       "properties": {
+        "starting_point": {"enum": ["EARLY_HUNCH", "GROUNDED_EXPLORATION", "FRAMED_CHALLENGE", "CONCEPT", "PROTOTYPE", "LIVE", "UNSURE"]},
+        "starting_point_basis": {"enum": ["USER_DECLARED", "INFERRED"]},
+        "current_decision": {"type": ["string", "null"], "minLength": 1, "maxLength": 1000},
         "current_mode": {"enum": ["INTAKE", "EMPATHIZE", "DEFINE", "IDEATE", "PROTOTYPE", "TEST", "BUILD"]},
         "cycle": {"type": "integer", "minimum": 1},
         "completed_modes": {"type": "array", "items": {"enum": ["INTAKE", "EMPATHIZE", "DEFINE", "IDEATE", "PROTOTYPE", "TEST", "BUILD"]}},

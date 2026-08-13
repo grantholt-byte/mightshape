@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "policy_id": "design-council-v1-neutral-trajectory-gate",
+  "corpus": {
+    "path": "evals/benchmark/trajectories.jsonl",
+    "canonical_sha256": "8c8fbe4f6a1e10baa92f267b2570e06e4009a754ddefad96b29112565aab75fd",
+    "case_ids": [
+      "family_scheduler_evidence_reframe",
+      "career_pathway_autonomy_reframe",
+      "clinic_handoff_workflow_reframe",
+      "live_product_retention_reframe",
+      "novice_facilitated_ideation"
+    ],
+    "turn_stages": [
+      "solution_first_request",
+      "user_constraint_or_contribution",
+      "contradictory_evidence",
+      "revised_frame_and_next_test"
+    ]
+  },
+  "design": {
+    "session_mode": "persisted",
+    "control_mode": "design-thinking-prompt",
+    "treatment_invocation": "explicit-first-turn",
+    "repeats": 2,
+    "judge_repetitions": 2,
+    "seed": 20260813,
+    "bootstrap_samples_minimum": 10000,
+    "tie_margin_points": 2.0,
+    "minimum_important_uplift_points": 3.0,
+    "candidate_model": "gpt-5.6-sol",
+    "candidate_effort": "medium",
+    "judge_model": "gpt-5.6-terra",
+    "judge_effort": "medium",
+    "prompt_only_control_sha256": "ad1b7fee598bafda3095c38fcb068686ecf369506cbeca85e7ddadeb715a40f8"
+  },
+  "decision": {
+    "required_verdict": "MEANINGFUL_TREATMENT_BENEFIT_ESTABLISHED",
+    "require_more_wins_than_losses": true,
+    "require_clean_non_null_git_commit": true,
+    "require_live_persisted_sessions": true,
+    "require_exact_plans_and_records": true,
+    "require_valid_usage": true
+  }
+}

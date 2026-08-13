@@ -74,7 +74,11 @@ Organize feedback into useful/working elements, questions, change ideas, and sur
 
 ## Comparative Prototype Test — `design_council_original`
 
-Compare distinct mechanisms when contrast will expose tradeoffs. Counterbalance order where practical. Ask participants to act, not merely vote; preserve reasons and context.
+Compare the incumbent and distinct mechanisms when contrast will expose tradeoffs or determine
+what gets built. Keep the trigger, evidence boundary, and success signals matched; change the
+mechanism rather than the scenario. Counterbalance order where practical. Ask participants to act,
+not merely vote; preserve reasons and context. Use the fewest arms that retain the decision-changing
+contrast.
 
 ## Reality Check — `design_council_original`
 

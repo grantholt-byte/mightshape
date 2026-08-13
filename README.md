@@ -82,16 +82,16 @@ gh auth status
 gh auth login --git-protocol https
 gh auth setup-git
 git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
-  refs/tags/v0.9.0-beta.5
+  refs/tags/v0.9.0-beta.6
 ```
 
 Do not continue if `ls-remote` fails: the invitation may still need to be accepted, the
-GitHub account may be wrong, or the `v0.9.0-beta.5` tag may not be available yet.
+GitHub account may be wrong, or the `v0.9.0-beta.6` tag may not be available yet.
 
 ### OpenAI / Codex
 
 ```bash
-codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.5 --json
+codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.6 --json
 codex plugin add design-council@design-council --json
 ```
 
@@ -106,13 +106,14 @@ clean-context tests, and troubleshooting.
 
 ```bash
 CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
-  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.5 --scope user
+  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.6 --scope user
 claude plugin install design-council@design-council --scope user
 ```
 
-On Claude Code 2.1.216 or later, invoke `/design-think`. If another installed skill has the
-same short name, use the collision-safe `/design-council:design-think`. Legacy
-`/design-council:design-council` remains available during the beta. See
+Invoke `/design-council:design-think`. Claude plugin skills are always namespaced. The exact
+`/design-think` spelling is available only through an optional standalone skill install, not
+through a marketplace plugin. Legacy `/design-council:design-council` remains available during
+the beta. See
 [Claude installation](docs/installation-claude.md) for sideloading, update, uninstall, and
 troubleshooting.
 
@@ -216,16 +217,30 @@ Two frozen pre-refinement beta3 comparisons answer different questions:
   This run therefore does not establish incremental single-turn value beyond careful prompt
   engineering.
 
+A later clean beta.5 persisted-session study against that competent prompt found a directional
+longitudinal advantage: **98.33** versus **94.17**, or **+4.17 points** (95% case-bootstrap CI
+**[0.63, 6.88]**; 2 wins, 1 tie, 0 losses) at **1.64×** generation tokens. Because the lower
+bound did not clear the preregistered +3-point meaningful-benefit threshold, its verdict is
+**`TREATMENT_ADVANTAGE_DETECTED_BELOW_IMPORTANCE_THRESHOLD`**, not V1 efficacy success. The
+complete frozen outputs and judgments are in the
+[auditable evidence bundle](evals/evidence/runs/20260813T191419Z/summary.md). Its diagnosed
+regressions informed a broader five-trajectory, explicitly invoked release comparison.
+
 Token use is an optimization target, not an outcome-value veto; the stronger comparator's
 quality result would remain inconclusive regardless of token ratio. These are exploratory
 internal Codex studies, not native Claude evidence, monetary ROI, or a universal efficacy claim.
-Longitudinal trajectories, held-out external prompts, and blind human review are the next tests
+The expanded release trajectory comparison, held-out external prompts, and blind human review are the next tests
 for the plugin's intended advantages in persistent reframing, structured divergence, and rapid
 evidence-driven iteration. See the [raw-prompt evidence](evals/evidence/ab-benchmark-beta3.json),
 [strong-prompt evidence](evals/evidence/ab-benchmark-strong-prompt-beta3.json), and
 [eval guide](evals/README.md).
 
-See the [validation report](docs/validation-report.md), [architecture](docs/architecture.md), [publishing checklist](docs/PUBLISHING_CHECKLIST.md), [beta guide](docs/BETA_TEST.md), [OpenAI marketplace path](docs/marketplace-openai.md), and [Claude marketplace path](docs/marketplace-claude.md).
+See the [validation report](docs/validation-report.md), [V1 release gate](docs/V1_RELEASE_GATE.md),
+[architecture](docs/architecture.md), [publishing checklist](docs/PUBLISHING_CHECKLIST.md),
+[submission dossier](docs/SUBMISSION_DOSSIER.md),
+[beta guide](docs/BETA_TEST.md), [monetization recommendation](docs/MONETIZATION.md),
+[OpenAI marketplace path](docs/marketplace-openai.md), and
+[Claude marketplace path](docs/marketplace-claude.md).
 
 ## Privacy and trust
 
@@ -245,9 +260,11 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md
 
 ## Release status
 
-Version `0.9.0-beta.5` is the current private-beta release candidate. Its validation,
-model-backed benchmark reruns, immutable tag, and fresh collaborator-install checks remain
-pending; do not treat it as a completed release until those gates pass. The GitHub repository
+Version `0.9.0-beta.6` is the current private-beta release candidate. Its final release-gate
+validation, model-backed benchmark reruns, immutable tag, and fresh collaborator-install checks
+remain pending; do not treat it as a completed release until those gates pass. The GitHub repository
 is private and has not been published to either marketplace. Public release still requires
 publisher identity, public support/privacy/terms URLs where applicable, a fresh release audit,
-and the platforms’ current review or catalog steps.
+and the platforms’ current review or catalog steps. The OpenAI listing must remain independently
+useful and contain no digital-service plans, Exchange-credit promotion, upgrade pitch, or checkout
+link under the current plugin commerce policy.

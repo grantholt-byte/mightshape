@@ -108,7 +108,17 @@ def _complete_records(
 class TrajectoryBenchmarkTests(unittest.TestCase):
     def test_corpus_has_strict_four_turn_evidence_trajectories(self) -> None:
         trajectories = load_trajectories()
-        self.assertGreaterEqual(len(trajectories), 3)
+        self.assertEqual(len(trajectories), 5)
+        self.assertEqual(
+            [trajectory["id"] for trajectory in trajectories],
+            [
+                "family_scheduler_evidence_reframe",
+                "career_pathway_autonomy_reframe",
+                "clinic_handoff_workflow_reframe",
+                "live_product_retention_reframe",
+                "novice_facilitated_ideation",
+            ],
+        )
         expected_stages = [
             "solution_first_request",
             "user_constraint_or_contribution",
@@ -119,6 +129,17 @@ class TrajectoryBenchmarkTests(unittest.TestCase):
             self.assertEqual([turn["stage"] for turn in trajectory["turns"]], expected_stages)
             self.assertIn("USER_PROVIDED", trajectory["turns"][2]["content"])
             self.assertIn("not", trajectory["turns"][2]["content"].lower())
+
+    def test_product_specific_cases_remain_in_separate_conformance_fixture(self) -> None:
+        path = REPO_ROOT / "evals/benchmark/product-conformance-trajectories.jsonl"
+        trajectories = load_trajectories(path)
+        self.assertEqual(
+            [trajectory["id"] for trajectory in trajectories],
+            [
+                "council_independence_change_of_mind",
+                "inquiry_synthetic_to_human_reality_check",
+            ],
+        )
 
     def test_loader_rejects_wrong_turn_order(self) -> None:
         case = load_trajectories()[0]
@@ -317,6 +338,23 @@ class TrajectoryBenchmarkTests(unittest.TestCase):
             self.assertEqual(treatment, raw_turn["content"])
             self.assertNotIn(DESIGN_THINKING_PROMPT_CONTROL, treatment)
 
+    def test_explicit_treatment_invokes_only_the_first_turn(self) -> None:
+        turns = load_trajectories()[0]["turns"]
+        delivered = [
+            candidate_turn_prompt(
+                turn["content"],
+                "treatment",
+                "design-thinking-prompt",
+                turn_index=index,
+                treatment_invocation="explicit-first-turn",
+            )
+            for index, turn in enumerate(turns)
+        ]
+        self.assertTrue(delivered[0].startswith("$design-think\n\n"))
+        self.assertEqual(delivered[0].count(turns[0]["content"]), 1)
+        self.assertEqual(delivered[1:], [turn["content"] for turn in turns[1:]])
+        self.assertTrue(all(DESIGN_THINKING_PROMPT_CONTROL not in value for value in delivered))
+
     def test_transcript_replay_is_explicitly_labeled_and_contains_history(self) -> None:
         case = load_trajectories()[0]
         prompt = replay_prompt(case["turns"], ["first response"], 1)
@@ -447,6 +485,33 @@ class TrajectoryBenchmarkTests(unittest.TestCase):
         self.assertEqual(summary["resource_diagnostics"]["treatment_control_token_ratio"], 3)
         self.assertIn("not a quality gate", summary["resource_diagnostics"]["interpretation"])
         self.assertTrue(summary["completion"]["judgment_plan_complete"])
+
+    def test_explicit_invocation_is_part_of_the_reported_estimand(self) -> None:
+        trajectories = load_trajectories()[:2]
+        plan = build_pair_plan(trajectories, repeats=1, seed=4)
+        judge_plan = build_judge_plan(plan, repetitions=1, seed=4)
+        generations, judgments = _complete_records(plan, judge_plan)
+        summary = aggregate_results(
+            trajectories=trajectories,
+            pair_plan=plan,
+            judge_plan=judge_plan,
+            generations=generations,
+            judgments=judgments,
+            tie_margin=2,
+            minimum_important_uplift=3,
+            bootstrap_samples=100,
+            seed=4,
+            control_mode="design-thinking-prompt",
+            treatment_invocation="explicit-first-turn",
+        )
+        self.assertEqual(
+            summary["effectiveness"]["treatment_invocation"],
+            "explicit-first-turn",
+        )
+        self.assertIn(
+            "deliberate Design Council invocation on turn one",
+            summary["effectiveness"]["primary_estimand"],
+        )
 
     def test_judgment_plan_requires_every_exact_comparison_and_repetition(self) -> None:
         trajectories = load_trajectories()[:2]
@@ -731,6 +796,7 @@ class TrajectoryBenchmarkTests(unittest.TestCase):
         self.assertNotIn("All planned candidate trajectories", report)
         self.assertIn("Design Council version: `0.9.0-beta.test`", report)
         self.assertIn("Git commit: `abc123`; dirty: `False`", report)
+        self.assertIn("Treatment invocation: `implicit`", report)
 
     def test_quota_and_rate_limits_receive_content_free_categories(self) -> None:
         self.assertEqual(_stderr_category("Execution quota reached"), "QUOTA_DIAGNOSTIC")
@@ -765,7 +831,31 @@ class TrajectoryBenchmarkTests(unittest.TestCase):
             self.assertIn("8 candidate turns", dry.stdout)
             self.assertIn("contradictory_evidence", dry.stdout)
             self.assertIn("control_mode=design-thinking-prompt", dry.stdout)
+            self.assertIn("treatment_invocation=implicit", dry.stdout)
             self.assertIn(stable_digest(DESIGN_THINKING_PROMPT_CONTROL), dry.stdout)
+            self.assertEqual(list(Path(temporary).iterdir()), [])
+
+            explicit = subprocess.run(
+                [
+                    sys.executable,
+                    str(RUNNER),
+                    "--dry-run",
+                    "--limit",
+                    "1",
+                    "--treatment-invocation",
+                    "explicit-first-turn",
+                    "--results-dir",
+                    temporary,
+                ],
+                cwd=REPO_ROOT,
+                env=environment,
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=False,
+            )
+            self.assertEqual(explicit.returncode, 0)
+            self.assertIn("treatment_invocation=explicit-first-turn", explicit.stdout)
             self.assertEqual(list(Path(temporary).iterdir()), [])
 
 

@@ -5,7 +5,7 @@
   "package_root": "dist/claude/design-council",
   "plugin_manifest": ".claude-plugin/plugin.json",
   "skill_entrypoint": "skills/design-council/SKILL.md",
-  "explicit_invocation": "/design-think",
+  "explicit_invocation": "/design-council:design-think",
   "shared_case_map": {
     "source": "evals/cases",
     "include_families": "all"
@@ -27,7 +27,7 @@
   "text_assertions": [
     {
       "path": "skills/design-council/SKILL.md",
-      "must_contain": "/design-think"
+      "must_contain": "/design-council:design-think"
     },
     {
       "path": "skills/design-council/SKILL.md",

@@ -237,7 +237,10 @@ def validate_package(root: str | Path) -> dict[str, Any]:
         "errors": errors,
         "warnings": warnings,
         "summary": {"checks": len(checks), "passed": sum(item["passes"] for item in checks), "failed": sum(not item["passes"] for item in checks), "errors": len(errors), "warnings": len(warnings)},
-        "note": "Also run the current official plugin validator and skill quick validator before release.",
+        "note": (
+            "Also run Codex's bundled plugin/skill authoring validators and the current "
+            "OpenAI submission-portal validator before release."
+        ),
     }
 
 

@@ -11,6 +11,22 @@
 7. Soft commands
 8. Resource routes
 
+## Starting-point navigation
+
+Treat current maturity as orientation, not a waterfall gate:
+
+| Starting point | Default orientation | Possible next move |
+|---|---|---|
+| `EARLY_HUNCH` | intended change, people affected, pivotal assumption | compact Intake, Empathize, or a disposable learning prototype |
+| `GROUNDED_EXPLORATION` | evidence coverage and unresolved tensions | Define or targeted inquiry |
+| `FRAMED_CHALLENGE` | frame quality and competing interpretations | discriminate POVs or Ideate |
+| `CONCEPT` | mechanism, alternatives, and riskiest assumption | broaden territories or Prototype |
+| `PROTOTYPE` | learning question, fidelity, signals, participant/context | Test, revise prototype, or reframe |
+| `LIVE` | actual behavior, failures, workarounds, outcome evidence | Test/learn, Define, Empathize, or bounded improvement |
+| `UNSURE` | a two-minute plain-language orientation | infer together from what exists; never administer a stage quiz |
+
+If the request already makes the starting point clear, infer it and work. Ask one orientation question only when explicit invocation lacks enough context to act. A mature concept does not have to restart; evidence can send any project backward.
+
 ## Activation boundary
 
 Activate strongly when a request contains one or more of:
@@ -72,7 +88,7 @@ Participation is independent of depth and process view:
 | `COLLABORATE` | Accept ad hoc user cards, moves, renames, steps, or decisions while continuing progress |
 | `FACILITATED_TURN_BY_TURN` | Ask one bounded prompt, wait, record, show a meaningful delta, then continue |
 
-At the first useful exercise boundary, offer these three choices once, non-blockingly. Continue in `OBSERVE` if the user does not answer or declines. Do not start an interactive loop until the user explicitly chooses `COLLABORATE` or `FACILITATED_TURN_BY_TURN`.
+When a genuinely interactive exercise loop is about to continue, or the user says “with me,” “workshop,” or “one prompt at a time,” offer these three choices once and non-blockingly. Continue in `OBSERVE` if the user does not answer or declines. If the user asks to create, cluster, map, run, or return a completed artifact without participatory language, stay silently in `OBSERVE`. Do not start an interactive loop until the user explicitly chooses `COLLABORATE` or `FACILITATED_TURN_BY_TURN`.
 
 When the user opts in, default to `NOVICE_ASSISTED` unless their method fluency is evident. Use `GUIDED` for moderate scaffolding and `LIGHT_TOUCH` for a fluent user or explicit request for speed. Route “why are we doing this?”, “show an example,” “define that,” and “slower/faster” to point-of-use facilitator guidance without opening a second question.
 
@@ -139,4 +155,5 @@ Natural language remains primary. Map these phrases to intent:
 - Hosted interview: `hosted-interviews.md`; do not load for ordinary Inquiry Lab work.
 - UX: `ux-contract.md` only when producing a substantial structured output.
 - User participation: `participatory-workshops.md`; use its one-prompt loop, facilitator levels, controls, and sealed-input rule.
+- Expert exercise facilitation or method questions: `facilitator-practice.md`; choose by bottleneck, adapt participation structure, and debrief learning.
 - Spatial exercise: `visual-workbench.md` plus `render_visual.py`; Browser remains optional.

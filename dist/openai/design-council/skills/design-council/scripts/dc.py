@@ -15,6 +15,8 @@ from project_state import (
     PARTICIPATION_KINDS,
     PARTICIPATION_MODES,
     PROVENANCE,
+    STARTING_POINT_BASES,
+    STARTING_POINTS,
     add_assumption,
     add_evidence,
     add_participation_contribution,
@@ -30,6 +32,7 @@ from project_state import (
     set_mode,
     set_participation_mode,
     set_process_view,
+    set_starting_point,
     start_participation,
     validate_state,
 )
@@ -101,6 +104,14 @@ def parser() -> argparse.ArgumentParser:
     view = commands.add_parser("view", help="Set COMPACT, VISIBLE, or WORKSHOP process presentation")
     view.add_argument("--project-root", default=".")
     view.add_argument("--mode", choices=["COMPACT", "VISIBLE", "WORKSHOP"], required=True)
+
+    orient = commands.add_parser("orient", help="Record the project's starting point and current decision")
+    orient.add_argument("--project-root", default=".")
+    orient.add_argument("--starting-point", choices=sorted(STARTING_POINTS), required=True)
+    orient.add_argument("--basis", choices=sorted(STARTING_POINT_BASES), required=True)
+    orient_decision = orient.add_mutually_exclusive_group()
+    orient_decision.add_argument("--current-decision")
+    orient_decision.add_argument("--clear-current-decision", action="store_true")
 
     artifact = commands.add_parser("record-artifact", help="Record a rendered visual manifest in project history")
     artifact.add_argument("--project-root", default=".")
@@ -208,6 +219,17 @@ def run(args: argparse.Namespace) -> dict | str:
         return record_gate_override(project_root, args.note)
     if args.command == "view":
         return set_process_view(project_root, args.mode)
+    if args.command == "orient":
+        if args.clear_current_decision:
+            return set_starting_point(project_root, args.starting_point, args.basis, None)
+        if args.current_decision is not None:
+            return set_starting_point(
+                project_root,
+                args.starting_point,
+                args.basis,
+                args.current_decision,
+            )
+        return set_starting_point(project_root, args.starting_point, args.basis)
     if args.command == "record-artifact":
         return record_visual_artifact(project_root, args.manifest)
     if args.command == "participate-start":

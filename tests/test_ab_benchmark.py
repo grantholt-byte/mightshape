@@ -13,6 +13,7 @@ from pathlib import Path
 from evals.run_ab_benchmark import (
     BenchmarkError,
     DIAGNOSTIC_ARM,
+    SCORE_DIMENSIONS,
     activity_from_events,
     aggregate_results,
     allocate_opaque_cell,
@@ -42,6 +43,79 @@ RUNNER = REPO_ROOT / "evals" / "run_ab_benchmark.py"
 
 
 class ABBenchmarkTests(unittest.TestCase):
+    @staticmethod
+    def _scores_near(quality: float) -> dict[str, int]:
+        total = max(0, min(35, round(quality * len(SCORE_DIMENSIONS) / 20)))
+        quotient, remainder = divmod(total, len(SCORE_DIMENSIONS))
+        return {
+            dimension: quotient + (1 if index < remainder else 0)
+            for index, dimension in enumerate(SCORE_DIMENSIONS)
+        }
+
+    def _judgment_for_plan(
+        self,
+        planned: dict,
+        treatment_quality: float,
+        control_quality: float,
+    ) -> dict:
+        scores_by_arm = {
+            "treatment": self._scores_near(treatment_quality),
+            "control": self._scores_near(control_quality),
+        }
+        a_arm = planned["label_a_arm"]
+        b_arm = planned["label_b_arm"]
+        a_quality = round(
+            sum(scores_by_arm[a_arm].values()) / len(SCORE_DIMENSIONS) * 20, 6
+        )
+        b_quality = round(
+            sum(scores_by_arm[b_arm].values()) / len(SCORE_DIMENSIONS) * 20, 6
+        )
+        if a_quality == b_quality:
+            winner = "TIE"
+            mapped_winner = "TIE"
+        elif a_quality > b_quality:
+            winner = "A"
+            mapped_winner = a_arm.upper()
+        else:
+            winner = "B"
+            mapped_winner = b_arm.upper()
+        return {
+            "record_type": "judgment",
+            **planned,
+            "status": "OK",
+            "judgment": {
+                "case_id": planned["case_id"],
+                "comparison_id": planned["comparison_id"],
+                "candidate_a": {
+                    "scores": scores_by_arm[a_arm],
+                    "strengths": [],
+                    "weaknesses": [],
+                },
+                "candidate_b": {
+                    "scores": scores_by_arm[b_arm],
+                    "strengths": [],
+                    "weaknesses": [],
+                },
+                "winner": winner,
+                "confidence": 0.8,
+                "rationale": "Candidates were compared against the frozen rubric.",
+            },
+            "candidate_a_quality": a_quality,
+            "candidate_b_quality": b_quality,
+            "treatment_quality": a_quality if a_arm == "treatment" else b_quality,
+            "control_quality": a_quality if a_arm == "control" else b_quality,
+            "mapped_winner": mapped_winner,
+            "usage": {
+                "input_tokens": 100,
+                "cached_input_tokens": 0,
+                "uncached_input_tokens": 100,
+                "output_tokens": 10,
+                "reasoning_output_tokens": 2,
+                "total_tokens": 110,
+            },
+            "wall_time_seconds": 1,
+        }
+
     def _positive_complete_fixture(
         self,
         *,
@@ -52,6 +126,7 @@ class ABBenchmarkTests(unittest.TestCase):
     ) -> tuple[list[dict], list[dict], list[dict], list[dict]]:
         cases = load_cases()[:12]
         plan = build_pair_plan(cases, repeats=2, seed=21)
+        judge_plan = build_judge_plan(plan, repetitions=2, seed=21)
         generations: list[dict] = []
         judgments: list[dict] = []
         for pair in plan:
@@ -59,8 +134,12 @@ class ABBenchmarkTests(unittest.TestCase):
                 generations.append(
                     {
                         "record_type": "generation",
+                        "case_id": pair["case_id"],
                         "pair_id": pair["pair_id"],
+                        "repeat": pair["repeat"],
                         "arm": arm,
+                        "raw_prompt_sha256": pair["raw_prompt_sha256"],
+                        "included_in_primary_uplift": True,
                         "status": "OK",
                         "usage": {
                             "input_tokens": tokens - 20,
@@ -80,53 +159,10 @@ class ABBenchmarkTests(unittest.TestCase):
                         },
                     }
                 )
-            for judge_repeat in (1, 2):
-                judgments.append(
-                    {
-                        "record_type": "judgment",
-                        "pair_id": pair["pair_id"],
-                        "judge_repeat": judge_repeat,
-                        "status": "OK",
-                        "treatment_quality": treatment_quality,
-                        "control_quality": control_quality,
-                        "mapped_winner": "TREATMENT",
-                        "label_a_arm": "treatment",
-                        "label_b_arm": "control",
-                        "judgment": {
-                            "candidate_a": {
-                                "scores": {dimension: round(treatment_quality / 20) for dimension in (
-                                    "problem_understanding",
-                                    "methodological_rigor",
-                                    "breadth_and_nonobviousness",
-                                    "evidence_calibration",
-                                    "actionability",
-                                    "task_fit_and_clarity",
-                                    "communication_efficiency",
-                                )}
-                            },
-                            "candidate_b": {
-                                "scores": {dimension: round(control_quality / 20) for dimension in (
-                                    "problem_understanding",
-                                    "methodological_rigor",
-                                    "breadth_and_nonobviousness",
-                                    "evidence_calibration",
-                                    "actionability",
-                                    "task_fit_and_clarity",
-                                    "communication_efficiency",
-                                )}
-                            },
-                        },
-                        "usage": {
-                            "input_tokens": 100,
-                            "cached_input_tokens": 0,
-                            "uncached_input_tokens": 100,
-                            "output_tokens": 10,
-                            "reasoning_output_tokens": 2,
-                            "total_tokens": 110,
-                        },
-                        "wall_time_seconds": 1,
-                    }
-                )
+        for planned in judge_plan:
+            judgments.append(
+                self._judgment_for_plan(planned, treatment_quality, control_quality)
+            )
         return cases, plan, generations, judgments
 
     def _aggregate_complete(
@@ -483,6 +519,11 @@ class ABBenchmarkTests(unittest.TestCase):
         }
         self.assertIsNone(validate_judgment(value, "case", "case.r01.j01"))
         self.assertIsNotNone(validate_judgment(value, "other", "case.r01.j01"))
+        value["confidence"] = True
+        self.assertIn("confidence", validate_judgment(value, "case", "case.r01.j01"))
+        value["confidence"] = 0.5
+        value["rationale"] = ""
+        self.assertIn("rationale", validate_judgment(value, "case", "case.r01.j01"))
 
     def test_bootstrap_is_deterministic(self) -> None:
         first = paired_bootstrap_ci([10, 5, -1, 7], samples=1000, seed=3)
@@ -493,47 +534,43 @@ class ABBenchmarkTests(unittest.TestCase):
     def test_aggregate_warns_small_sample_and_crossing_zero(self) -> None:
         cases = load_cases()[:2]
         plan = build_pair_plan(cases, repeats=1, seed=4)
+        judge_plan = build_judge_plan(plan, repetitions=1, seed=4)
         generations = []
-        judgments = []
-        for index, pair in enumerate(plan):
+        for pair in plan:
             for arm in ("treatment", "control"):
+                input_tokens = 160 if arm == "treatment" else 100
                 generations.append(
                     {
                         "record_type": "generation",
+                        "case_id": pair["case_id"],
                         "pair_id": pair["pair_id"],
+                        "repeat": pair["repeat"],
                         "arm": arm,
+                        "raw_prompt_sha256": pair["raw_prompt_sha256"],
+                        "included_in_primary_uplift": True,
                         "status": "OK",
                         "usage": {
-                            "input_tokens": 100,
+                            "input_tokens": input_tokens,
                             "cached_input_tokens": 20,
-                            "uncached_input_tokens": 80,
+                            "uncached_input_tokens": input_tokens - 20,
                             "output_tokens": 20,
                             "reasoning_output_tokens": 5,
-                            "total_tokens": 120 if arm == "control" else 180,
+                            "total_tokens": input_tokens + 20,
                         },
                         "wall_time_seconds": 1 if arm == "control" else 2,
+                        "response_word_count": 50,
+                        "activity": {
+                            "completed_items": 1,
+                            "tool_calls": 0,
+                            "command_executions": 0,
+                            "agent_messages": 1,
+                        },
                     }
                 )
-            treatment = 60 if index == 0 else 40
-            judgments.append(
-                {
-                    "record_type": "judgment",
-                    "pair_id": pair["pair_id"],
-                    "status": "OK",
-                    "treatment_quality": treatment,
-                    "control_quality": 50,
-                    "mapped_winner": "TREATMENT" if treatment > 50 else "CONTROL",
-                    "usage": {
-                        "input_tokens": 100,
-                        "cached_input_tokens": 0,
-                        "uncached_input_tokens": 100,
-                        "output_tokens": 10,
-                        "reasoning_output_tokens": 2,
-                        "total_tokens": 110,
-                    },
-                    "wall_time_seconds": 1,
-                }
-            )
+        judgments = [
+            self._judgment_for_plan(planned, 60 if index == 0 else 40, 50)
+            for index, planned in enumerate(judge_plan)
+        ]
         summary = aggregate_results(
             cases=cases,
             pair_plan=plan,
@@ -605,6 +642,193 @@ class ABBenchmarkTests(unittest.TestCase):
         summary = self._aggregate_complete(cases, plan, generations, judgments)
         self.assertEqual(summary["quality_direction"], "INCONCLUSIVE")
         self.assertFalse(summary["realized_design"]["all_planned_pairs_usable"])
+
+    def test_generation_records_must_match_the_exact_plan_and_schema(self) -> None:
+        cases, plan, complete_generations, judgments = self._positive_complete_fixture()
+        variants = {
+            name: json.loads(json.dumps(complete_generations))
+            for name in (
+                "duplicate",
+                "unexpected",
+                "mismatched_metadata",
+                "invalid_payload",
+            )
+        }
+        variants["duplicate"][-1] = json.loads(json.dumps(variants["duplicate"][0]))
+        unexpected = json.loads(json.dumps(complete_generations[0]))
+        unexpected.update({"pair_id": "unplanned.r99", "case_id": "unplanned"})
+        variants["unexpected"].append(unexpected)
+        variants["mismatched_metadata"][-1]["repeat"] = 99
+        variants["invalid_payload"][-1]["response_word_count"] = -1
+
+        summaries = {}
+        for name, generations in variants.items():
+            with self.subTest(name=name):
+                summary = self._aggregate_complete(cases, plan, generations, judgments)
+                summaries[name] = summary
+                integrity = summary["realized_design"]["generation_integrity"]
+                self.assertEqual(summary["quality_direction"], "INCONCLUSIVE")
+                self.assertFalse(summary["realized_design"]["release_quality_complete"])
+                self.assertFalse(integrity["generation_plan_complete"])
+
+        self.assertTrue(
+            summaries["duplicate"]["realized_design"]["generation_integrity"][
+                "duplicate_recorded_generation_keys"
+            ]
+        )
+        self.assertEqual(
+            summaries["unexpected"]["realized_design"]["generation_integrity"][
+                "unexpected_generation_keys"
+            ],
+            [{"pair_id": "unplanned.r99", "arm": "treatment"}],
+        )
+        self.assertEqual(
+            summaries["mismatched_metadata"]["realized_design"]["generation_integrity"][
+                "mismatched_generations"
+            ][0]["fields"],
+            ["repeat"],
+        )
+        self.assertTrue(
+            summaries["invalid_payload"]["realized_design"]["generation_integrity"][
+                "invalid_generation_payloads"
+            ]
+        )
+
+    def test_missing_or_inconsistent_generation_usage_fails_closed(self) -> None:
+        cases, plan, generations, judgments = self._positive_complete_fixture()
+        generations[0]["usage"].pop("total_tokens")
+        summary = self._aggregate_complete(cases, plan, generations, judgments)
+        integrity = summary["realized_design"]["generation_integrity"]
+        self.assertFalse(integrity["generation_usage_complete"])
+        self.assertFalse(summary["realized_design"]["release_quality_complete"])
+        self.assertEqual(summary["quality_direction"], "INCONCLUSIVE")
+        self.assertEqual(
+            summary["generation_cost"]["resource_profile_by_arm"]["treatment"][
+                "successful_resource_complete_calls"
+            ],
+            len(plan) - 1,
+        )
+
+    def test_judgments_must_match_exact_blind_plan_and_valid_payload(self) -> None:
+        cases, plan, generations, complete_judgments = self._positive_complete_fixture()
+        variants = {
+            name: json.loads(json.dumps(complete_judgments))
+            for name in ("duplicate", "unexpected", "mismatched_label", "invalid_payload")
+        }
+        variants["duplicate"][-1] = json.loads(json.dumps(variants["duplicate"][0]))
+        variants["unexpected"][-1]["comparison_id"] = "unplanned.r99.j99"
+        variants["mismatched_label"][-1]["label_a_arm"] = (
+            "control"
+            if variants["mismatched_label"][-1]["label_a_arm"] == "treatment"
+            else "treatment"
+        )
+        variants["invalid_payload"][-1]["judgment"]["candidate_a"]["scores"][
+            SCORE_DIMENSIONS[0]
+        ] = 6
+
+        summaries = {}
+        for name, judgments in variants.items():
+            with self.subTest(name=name):
+                summary = self._aggregate_complete(cases, plan, generations, judgments)
+                summaries[name] = summary
+                integrity = summary["realized_design"]["judgment_integrity"]
+                self.assertEqual(summary["quality_direction"], "INCONCLUSIVE")
+                self.assertFalse(summary["realized_design"]["release_quality_complete"])
+                self.assertFalse(integrity["judgment_plan_complete"])
+
+        self.assertTrue(
+            summaries["duplicate"]["realized_design"]["judgment_integrity"][
+                "duplicate_recorded_comparison_ids"
+            ]
+        )
+        self.assertEqual(
+            summaries["unexpected"]["realized_design"]["judgment_integrity"][
+                "unexpected_comparison_ids"
+            ],
+            ["unplanned.r99.j99"],
+        )
+        self.assertIn(
+            "label_a_arm",
+            summaries["mismatched_label"]["realized_design"]["judgment_integrity"][
+                "mismatched_comparisons"
+            ][0]["fields"],
+        )
+        self.assertTrue(
+            summaries["invalid_payload"]["realized_design"]["judgment_integrity"][
+                "invalid_judgment_payloads"
+            ]
+        )
+
+    def test_quality_and_winner_are_recomputed_from_payload_not_cached_fields(self) -> None:
+        cases, plan, generations, judgments = self._positive_complete_fixture()
+        judgments[0]["candidate_a_quality"] = 0
+        judgments[0]["treatment_quality"] = 0
+        judgments[0]["control_quality"] = 100
+        judgments[0]["mapped_winner"] = "CONTROL"
+        summary = self._aggregate_complete(cases, plan, generations, judgments)
+        integrity = summary["realized_design"]["judgment_integrity"]
+        self.assertEqual(summary["quality"]["treatment_mean"], 80)
+        self.assertEqual(summary["quality"]["control_mean"], 60)
+        self.assertEqual(summary["quality"]["blind_preference_votes"]["treatment"], len(judgments))
+        self.assertTrue(integrity["derived_values_recomputed"])
+        self.assertTrue(integrity["mismatched_cached_judgment_fields"])
+        self.assertFalse(integrity["judgment_plan_complete"])
+        self.assertEqual(summary["quality_direction"], "INCONCLUSIVE")
+
+    def test_redundant_cached_judgment_fields_are_not_required(self) -> None:
+        cases, plan, generations, judgments = self._positive_complete_fixture()
+        for judgment in judgments:
+            for field in (
+                "candidate_a_quality",
+                "candidate_b_quality",
+                "treatment_quality",
+                "control_quality",
+                "mapped_winner",
+            ):
+                judgment.pop(field)
+        summary = self._aggregate_complete(cases, plan, generations, judgments)
+        self.assertTrue(summary["realized_design"]["release_quality_complete"])
+        self.assertEqual(summary["quality"]["treatment_mean"], 80)
+        self.assertEqual(summary["quality"]["control_mean"], 60)
+
+    def test_missing_judge_usage_fails_closed_without_losing_payload_diagnostic(self) -> None:
+        cases, plan, generations, judgments = self._positive_complete_fixture()
+        judgments[0]["usage"] = None
+        summary = self._aggregate_complete(cases, plan, generations, judgments)
+        integrity = summary["realized_design"]["judgment_integrity"]
+        self.assertFalse(integrity["judgment_usage_complete"])
+        self.assertFalse(summary["realized_design"]["release_quality_complete"])
+        self.assertEqual(summary["quality"]["treatment_mean"], 80)
+        self.assertEqual(summary["quality_direction"], "INCONCLUSIVE")
+
+    def test_resource_profile_reports_absolute_token_words_and_activity_deltas(self) -> None:
+        cases, plan, generations, judgments = self._positive_complete_fixture()
+        summary = self._aggregate_complete(cases, plan, generations, judgments)
+        cost = summary["generation_cost"]
+        self.assertEqual(cost["absolute_mean_token_delta"], 40)
+        self.assertEqual(
+            cost["absolute_treatment_minus_control"]["mean_usage_per_call"],
+            {
+                "input_tokens": 40,
+                "cached_input_tokens": 0,
+                "uncached_input_tokens": 40,
+                "output_tokens": 0,
+                "reasoning_output_tokens": 0,
+                "total_tokens": 40,
+            },
+        )
+        self.assertEqual(
+            cost["absolute_treatment_minus_control"]["mean_response_words_per_call"],
+            0,
+        )
+        self.assertEqual(
+            cost["absolute_treatment_minus_control"]["mean_activity_per_call"]["tool_calls"],
+            1,
+        )
+        self.assertEqual(
+            cost["resource_profile_by_arm"]["treatment"]["mean_usage_per_call"]["total_tokens"],
+            140,
+        )
 
     def test_missing_requested_repeat_forces_direction_inconclusive(self) -> None:
         cases, plan, generations, judgments = self._positive_complete_fixture()
@@ -702,9 +926,13 @@ class ABBenchmarkTests(unittest.TestCase):
         self.assertIn("Primary outcome effectiveness", report)
         self.assertIn("Token-budget descriptor", report)
         self.assertIn("Canonical skill tree SHA-256", report)
+        self.assertIn("Treatment invocation", report)
         self.assertIn("does not determine outcome effectiveness", report)
         self.assertIn("Generation-cost anatomy", report)
+        self.assertIn("Absolute Δ (T−C)", report)
+        self.assertIn("Exact release-quality record/usage integrity", report)
         self.assertIn("Completed tool calls", report)
+        self.assertIn("command executions", report)
         self.assertIn("Incremental value purchased", report)
         self.assertIn("quality points per 1k additional tokens", report)
         self.assertIn("User-value construct profile", report)
@@ -771,7 +999,34 @@ class ABBenchmarkTests(unittest.TestCase):
         )
         self.assertEqual(completed.returncode, 0, completed.stdout)
         self.assertIn("runtime=claude", completed.stdout)
-        self.assertIn("/design-think", completed.stdout)
+        self.assertIn("/design-council:design-think", completed.stdout)
+
+    def test_primary_treatment_can_be_explicitly_invoked(self) -> None:
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(RUNNER),
+                "--case",
+                "family_scheduler",
+                "--control-mode",
+                "design-thinking-prompt",
+                "--treatment-invocation",
+                "explicit",
+                "--dry-run",
+            ],
+            cwd=REPO_ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            check=False,
+        )
+        self.assertEqual(completed.returncode, 0, completed.stdout)
+        self.assertIn("treatment_invocation=explicit", completed.stdout)
+        treatment_section = completed.stdout.split("[treatment candidate input]", 1)[1].split(
+            "[prompt-only control candidate input]", 1
+        )[0]
+        self.assertIn("$design-think", treatment_section)
+        self.assertNotIn("PROMPT-ONLY METHOD INSTRUCTION", treatment_section)
 
 
 if __name__ == "__main__":
