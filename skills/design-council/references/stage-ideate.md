@@ -16,6 +16,12 @@ During generation:
 - preserve uncomfortable, minority, and unclustered ideas;
 - separate evidence labels from idea evaluation without stopping imaginative work.
 
+In `VISIBLE` view, expose each completed idea batch and its territory coverage before synthesis. In `WORKSHOP` view, show the conclusion-level idea cards, anonymous build-ons, mutations, and outliers as they are frozen at method boundaries. Do not narrate private reasoning or criticize a batch while protected divergence is active.
+
+For each `WORKSHOP` boundary, show the stable input IDs or assumptions, the named ideation transformation, the resulting idea-card IDs/territories, what materially changed, and the next boundary. A journey rail plus final concept portfolio is not a substitute for the observable input-to-output trace.
+
+When the user joins, follow `participatory-workshops.md`. Capture each idea as `USER_PROVIDED` before coaching; ask for one idea, constraint, analogy, or build-on at a time. Never grade, rank, or steer toward feasibility during protected divergence. In sealed Council work, user input belongs in the common packet before Round A or waits unchanged until after freeze.
+
 Theo and other skeptics obey this contract. Critical examination begins only after the response set is frozen and mutation is complete.
 
 ## Method choices
@@ -35,6 +41,8 @@ Before convergence, ensure credible coverage of:
 - `RADICAL`: inversions, removal, new beneficiaries, new environments, or different paradigms.
 
 If all ideas are features of the proposed artifact, continue divergence with technology removal, zero interface, analogy transfer, and changed beneficiary.
+
+For a one-shot brainstorming request, return the mechanism-distinct idea universe, territory coverage, and retained outlier first. Do not add a concept portfolio, ranking, Build Gate, or participation footer unless the user asked to converge or the current decision genuinely requires it. Concision should remove facilitation narration, never conceptual breadth.
 
 ## Cluster without erasing
 
@@ -56,6 +64,8 @@ Only after divergence, examine desirability, feasibility, viability, accessibili
 - `LONG_SHOT`
 
 A concept may occupy several roles, but the portfolio should maintain strategic diversity.
+
+Do not let portfolio labels become premature selection. Preserve the broader territory map and state which uncertainty—not popularity—would determine what advances.
 
 ## Exit
 

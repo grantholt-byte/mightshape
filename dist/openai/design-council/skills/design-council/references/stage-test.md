@@ -32,6 +32,8 @@ Record:
 
 Ask neutral follow-ups: “What were you expecting there?” “What did you look for first?” “What would you do next?” Avoid “Did you like it?” as the primary learning question.
 
+For opted-in test planning, use `participatory-workshops.md` and ask for one task, signal, or follow-up at a time. If the user proposes a leading or approval-seeking question, preserve it as `USER_PROVIDED`, explain the contamination risk plainly, and offer one behavior-first alternative without grading the user.
+
 ## Outcome contract
 
 ```yaml

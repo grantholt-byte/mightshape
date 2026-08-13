@@ -1,5 +1,6 @@
 .PHONY: build-openai build-claude build-packages validate-openai validate-claude \
 	validate-packages check-cross-platform-drift check-drift platform-evals test \
+	benchmark-dry-run benchmark trajectory-benchmark-dry-run trajectory-benchmark \
 	release-check clean-dist
 
 build-openai:
@@ -32,6 +33,20 @@ test:
 	python3 -m unittest discover -s tests -v
 	python3 evals/run_contracts.py
 	python3 evals/run_platform_contracts.py
+
+benchmark-dry-run:
+	python3 evals/run_ab_benchmark.py --dry-run
+
+benchmark:
+	python3 evals/run_ab_benchmark.py --repeats 2 --judge-repetitions 2 --run-model
+
+trajectory-benchmark-dry-run:
+	python3 evals/run_trajectory_benchmark.py --dry-run --repeats 2 --judge-repetitions 2
+
+trajectory-benchmark:
+	python3 evals/run_trajectory_benchmark.py --run-model --require-model \
+		--session-mode persisted --control-mode design-thinking-prompt \
+		--repeats 2 --judge-repetitions 2 --judge-model gpt-5.6-terra
 
 release-check:
 	python3 scripts/release_check.py

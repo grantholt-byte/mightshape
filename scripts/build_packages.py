@@ -33,7 +33,7 @@ def copy_tree(source: Path, destination: Path, *extra_ignores: str) -> None:
         source,
         destination,
         ignore=shutil.ignore_patterns(
-            "__pycache__", "*.pyc", ".DS_Store", *extra_ignores
+            "__pycache__", "*.pyc", ".DS_Store", "* 2.*", *extra_ignores
         ),
     )
 
@@ -100,7 +100,12 @@ def zip_tree(source: Path, destination: Path) -> None:
 
 def write_checksums() -> Path:
     checksum_path = DIST / "SHA256SUMS"
-    archives = sorted(DIST.glob("design-council-*.zip"))
+    # Only checksum the two canonical current-version outputs. Files such as
+    # ``* 2.*`` are user-owned duplicate backups and must remain untouched and
+    # absent from release metadata.
+    archives = sorted(
+        path for platform in PLATFORMS if (path := archive_target(platform)).is_file()
+    )
     lines = [f"{hashlib.sha256(path.read_bytes()).hexdigest()}  {path.name}" for path in archives]
     checksum_path.write_text("\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
     return checksum_path
@@ -123,10 +128,28 @@ def clean_platform(platform: str) -> None:
         archive.unlink()
 
 
+def clean_generated_dist() -> list[str]:
+    """Remove generated package outputs without deleting unrelated dist files."""
+
+    removed: list[str] = []
+    for platform in PLATFORMS:
+        target = package_target(platform)
+        if target.exists():
+            removed.append(str(target))
+            shutil.rmtree(target)
+    for platform in PLATFORMS:
+        for archive in sorted(DIST.glob(f"design-council-{platform}-*.zip")):
+            if " 2." in archive.name:
+                continue
+            removed.append(str(archive))
+            archive.unlink()
+    return removed
+
+
 def build(clean: bool = False, platform: str = "all") -> dict:
     selected = PLATFORMS if platform == "all" else (platform,)
     if clean and platform == "all" and DIST.exists():
-        shutil.rmtree(DIST)
+        clean_generated_dist()
     else:
         for name in selected:
             clean_platform(name)
@@ -166,8 +189,8 @@ def main() -> int:
     args = parser.parse_args()
     if args.clean_only:
         if args.platform == "all" and DIST.exists():
-            shutil.rmtree(DIST)
-            removed: str | list[str] = str(DIST)
+            removed: str | list[str] = clean_generated_dist()
+            write_checksums()
         else:
             removed = []
             for name in PLATFORMS if args.platform == "all" else (args.platform,):

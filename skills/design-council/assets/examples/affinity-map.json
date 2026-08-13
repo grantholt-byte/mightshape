@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0.0",
+  "id": "VA-DEMO-AFFINITY",
+  "artifact_type": "AFFINITY_MAP",
+  "title": "Family coordination — illustrative prompt wall",
+  "summary": "The supplied notes cluster around fragmented discovery, manual capture, and fragile attention; a paper-first preference remains separate.",
+  "summary_provenance": "DESIGN_COUNCIL",
+  "summary_record_ids": ["N-001", "N-002", "N-003", "N-004", "N-005", "N-006", "N-007", "N-008", "N-009", "N-010"],
+  "mode": "DEFINE",
+  "cycle": 1,
+  "limitations": [
+    "Illustrative demo built from user-provided benchmark notes; P-labels are prompt identifiers, not verified participants or human-interview evidence.",
+    "This small supplied set cannot establish prevalence or represent families generally."
+  ],
+  "data": {
+    "clusters": [
+      {
+        "id": "CLUSTER-DISCOVERY",
+        "label": "The change hides in the channel",
+        "description": "Schedule information is distributed before anyone can reconcile it.",
+        "interpretation_provenance": "DESIGN_COUNCIL",
+        "record_ids": ["N-001", "N-002", "N-003"],
+        "notes": [
+          {
+            "id": "N-001",
+            "text": "P-001 checks three school apps every morning.",
+            "provenance": "USER_PROVIDED",
+            "source_ids": ["BENCHMARK-AFFINITY/PROMPT-NOTE-001"]
+          },
+          {
+            "id": "N-002",
+            "text": "P-002 relies on text messages from another parent.",
+            "provenance": "USER_PROVIDED",
+            "source_ids": ["BENCHMARK-AFFINITY/PROMPT-NOTE-002"]
+          },
+          {
+            "id": "N-003",
+            "text": "P-003 missed a practice change posted only in email.",
+            "provenance": "USER_PROVIDED",
+            "source_ids": ["BENCHMARK-AFFINITY/PROMPT-NOTE-003"]
+          }
+        ]
+      },
+      {
+        "id": "CLUSTER-CAPTURE",
+        "label": "People build memory scaffolds",
+        "description": "The formal calendar competes with screenshots and personal workarounds.",
+        "interpretation_provenance": "DESIGN_COUNCIL",
+        "record_ids": ["N-004", "N-005", "N-006"],
+        "notes": [
+          {
+            "id": "N-004",
+            "text": "P-004 says the shared calendar is accurate but nobody checks it.",
+            "provenance": "USER_PROVIDED",
+            "source_ids": ["BENCHMARK-AFFINITY/PROMPT-NOTE-004"]
+          },
+          {
+            "id": "N-005",
+            "text": "P-005 screenshots messages to remember them.",
+            "provenance": "USER_PROVIDED",
+            "source_ids": ["BENCHMARK-AFFINITY/PROMPT-NOTE-005"]
+          },
+          {
+            "id": "N-006",
+            "text": "P-006 says one caregiver enters everything while others assume it is handled.",
+            "provenance": "USER_PROVIDED",
+            "source_ids": ["BENCHMARK-AFFINITY/PROMPT-NOTE-006"]
+          }
+        ]
+      },
+      {
+        "id": "CLUSTER-ATTENTION",
+        "label": "Attention—not change—is fragile",
+        "description": "Noise and late discovery cause failure, while the counterexample says change is manageable when seen.",
+        "interpretation_provenance": "DESIGN_COUNCIL",
+        "record_ids": ["N-007", "N-008", "N-010"],
+        "notes": [
+          {
+            "id": "N-007",
+            "text": "P-007 gets duplicate alerts and ignores most of them.",
+            "provenance": "USER_PROVIDED",
+            "source_ids": ["BENCHMARK-AFFINITY/PROMPT-NOTE-007"]
+          },
+          {
+            "id": "N-008",
+            "text": "P-008 learned about a cancellation after arriving.",
+            "provenance": "USER_PROVIDED",
+            "source_ids": ["BENCHMARK-AFFINITY/PROMPT-NOTE-008"]
+          },
+          {
+            "id": "N-010",
+            "text": "P-010 says last-minute changes are manageable when the right person sees them.",
+            "provenance": "USER_PROVIDED",
+            "source_ids": ["BENCHMARK-AFFINITY/PROMPT-NOTE-010"]
+          }
+        ]
+      }
+    ],
+    "outliers": [
+      {
+        "id": "N-009",
+        "text": "P-009 likes paper on the refrigerator.",
+        "provenance": "USER_PROVIDED",
+        "source_ids": ["BENCHMARK-AFFINITY/PROMPT-NOTE-009"]
+      }
+    ]
+  }
+}

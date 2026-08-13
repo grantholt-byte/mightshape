@@ -53,7 +53,24 @@ class SkillBehavioralContractTests(unittest.TestCase):
 
     def test_skill_forbids_unlabeled_evidence_and_requires_competing_povs(self) -> None:
         self.assertIn("Do not use an unlabeled `Evidence` heading", self.text)
-        self.assertIn("at least two genuinely competing", self.text)
+        self.assertIn("at least three mechanism-distinct", self.text)
+        self.assertIn("do not crown one as the provisional problem", self.text)
+
+    def test_outcome_quality_precedes_token_efficiency(self) -> None:
+        self.assertIn("Optimize for decision quality and learning value first", self.text)
+        self.assertIn("Token use is a secondary diagnostic", self.text)
+        self.assertIn("Remove repetition and decorative ceremony", self.text)
+
+    def test_output_only_work_does_not_append_participation_ceremony(self) -> None:
+        self.assertIn("stay silently in `OBSERVE`", self.text)
+        self.assertIn("without appending this invitation", self.text)
+        self.assertIn("lead with the useful result", self.text)
+
+    def test_prototype_signals_are_coherent_and_support_iteration(self) -> None:
+        self.assertIn("Keep live alternative frames visible", self.text)
+        self.assertIn("conditional pivot", self.text)
+        self.assertIn("every signal denominator consistent", self.text)
+        self.assertIn("label them proposed heuristics", self.text)
 
     def test_synthetic_participants_are_distinct_from_council_members(self) -> None:
         self.assertIn("opaque study ID", self.text)
@@ -68,8 +85,37 @@ class SkillBehavioralContractTests(unittest.TestCase):
         self.assertIn("build it anyway", self.text.lower())
 
     def test_skill_uses_progressive_disclosure(self) -> None:
-        self.assertIn("Load exactly one current-mode file", self.text)
+        self.assertIn("Choose one primary route, not a stack", self.text)
+        self.assertIn("named method uses the matching method file instead of a stage file", self.text)
         self.assertLess(len(self.text.splitlines()), 500)
+
+    def test_skill_exposes_inspectable_work_without_hidden_reasoning(self) -> None:
+        for marker in ("`VISIBLE`", "`WORKSHOP`", "`COMPACT`", "WHAT CHANGED"):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, self.text)
+        self.assertIn("Never stream member content", self.text)
+        self.assertIn("hidden chain-of-thought", self.text)
+        self.assertIn("private subagent reasoning", self.text)
+
+    def test_skill_routes_spatial_methods_to_portable_visual_artifacts(self) -> None:
+        self.assertIn("[visual-workbench.md](references/visual-workbench.md)", self.text)
+        self.assertIn("render_visual.py", self.text)
+        self.assertIn("HTML, SVG, and Markdown fallback paths", self.text)
+        self.assertIn("Browser is optional", self.text)
+        self.assertIn("print each original card once", self.text)
+        self.assertIn("name one concrete next learning move", self.text)
+
+    def test_quick_work_does_not_require_an_extra_reference_load(self) -> None:
+        self.assertIn("one-turn Quick Look or compact Intake uses this file alone", self.text)
+        self.assertIn("only to create or inspect a durable spatial artifact", self.text)
+        self.assertIn("read-only conversational preview", self.text)
+        self.assertIn("one-turn read-only affinity or process-map preview uses this inline contract alone", self.text)
+        self.assertIn("do not load another reference", self.text)
+
+    def test_bounded_technical_spikes_route_directly(self) -> None:
+        self.assertIn("bounded, low-consequence technical validation spike directly", self.text)
+        self.assertIn("representative boundary corpus", self.text)
+        self.assertIn("do not force a full Prototype Card", self.text)
 
 
 if __name__ == "__main__":

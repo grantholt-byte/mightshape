@@ -29,6 +29,10 @@ Understand people's actual contexts, behaviors, stories, workarounds, relationsh
 
 Run `select_methods.py --mode EMPATHIZE ...` for consistent narrowing.
 
+If the user opts into process reconstruction, assumption mapping, or journey work, follow `participatory-workshops.md`. Use an adaptive facilitator and one bounded prompt at a time: one actual step/handoff, one unknown transition, or one assumption placement. Preserve each contribution as `USER_PROVIDED`; it describes what the user supplied and does not become observed human behavior.
+
+For an evidence-linked workflow or journey, use `render_visual.py` to create a `PROCESS_MAP` when sequence, ownership, breakdowns, or unknown branches are materially easier to inspect spatially. Preserve provenance at every step and mark assumed or missing transitions explicitly. Always provide the Markdown fallback; do not invent a complete path to make the picture tidy.
+
 ## Research plan
 
 Specify:

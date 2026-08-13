@@ -18,6 +18,35 @@ Do not assume “local state” means the model provider receives no content.
 Synthetic interviews and Council responses are labeled synthetic or `DESIGN_COUNCIL`.
 They do not become human evidence through agreement, repetition, or confidence.
 
+If a user joins an exercise, their ideas, card moves, cluster names, process steps, and other
+contributions are sent through the active AI platform like the rest of the conversation and may
+be stored in local project state as `USER_PROVIDED`. They are design-process material, not
+`HUMAN_INTERVIEW` or `OBSERVED_HUMAN_BEHAVIOR`. Participation is optional. Pause, hand-back,
+and exit preserve prior records; “undo” supersedes a contribution for historical integrity
+rather than erasing it. Do not enter sensitive material merely because the facilitator asks one
+small prompt at a time.
+
+`VISIBLE` and `WORKSHOP` responses may reproduce source-card text, method outputs, board changes,
+and decision boundaries in the conversation. They do not intentionally expose private
+chain-of-thought, raw tool logs, subagent messages, or partial sealed-round responses. This
+output-control boundary does not make the visible project content non-sensitive.
+
+Visual workshop exports are written beneath `.design-council/artifacts/` as
+self-contained HTML, SVG, Markdown, and a manifest. They are not uploaded by the
+renderer and contain no remote fonts, scripts, analytics, or network requests. They
+may still reproduce sensitive source-card text, so treat them with the same access,
+disclosure, and retention rules as the underlying study material. Opening a local
+artifact through a platform preview may cause that platform to process the file under
+its own terms. Sticky-note colors, tape, doodles, rotation, and position are decorative;
+they do not alter provenance, confidence, evidence strength, or privacy classification.
+
+The optional A/B benchmark makes additional model calls and stores candidate responses,
+usage counts, and blind-judge results in its selected local results directory. It is
+opt-in and sends the benchmark prompts to the configured model provider; do not use
+confidential project prompts unless that processing and local retention are acceptable.
+The benchmark strips ambient service credentials from candidate subprocesses, but this is
+process isolation rather than a claim of hardware, account, or provider isolation.
+
 ## Bring-Your-Own human interviews
 
 The optional interview Site may store:

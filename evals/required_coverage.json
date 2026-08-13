@@ -15,6 +15,7 @@
   ],
   "required_invariants": [
     "advisory_build_gate",
+    "adaptive_facilitation",
     "analogies_not_proof",
     "avoid_unnecessary_process",
     "biography_leakage_avoidance",
@@ -45,9 +46,12 @@
     "no_fabrication",
     "no_manufactured_consensus",
     "nonlinear_iteration",
+    "optional_participation",
     "participant_independence",
     "participant_source_separation",
     "prototype_uncertainty",
+    "progressive_disclosure",
+    "protected_divergence",
     "qualitative_scope",
     "reality_check_updates_frame",
     "reality_packet_first",
@@ -59,7 +63,8 @@
     "synthetic_convergence_warning",
     "synthetic_not_human",
     "test_to_learn",
-    "user_authority"
+    "user_authority",
+    "user_provided_provenance"
   ],
   "forbidden_placeholder_markers": [
     "TODO",

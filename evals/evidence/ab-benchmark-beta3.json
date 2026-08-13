@@ -1,0 +1,200 @@
+{
+  "schema_version": "1.1.0",
+  "recorded_at": "2026-08-13",
+  "run_id": "20260813T153657Z",
+  "release": "0.9.0-beta.3",
+  "purpose": "Compare outcome quality and resource use with the Design Council skill available versus the same model without the skill.",
+  "design": {
+    "candidate_model": "gpt-5.6-sol",
+    "candidate_effort": "medium",
+    "judge_model": "gpt-5.6-terra",
+    "judge_effort": "medium",
+    "cases": 12,
+    "generation_repeats_per_case": 2,
+    "blind_judgments_per_pair": 2,
+    "complete_pairs": 24,
+    "planned_pairs": 24,
+    "seed": 20260813,
+    "minimum_important_quality_uplift_points": 3.0,
+    "maximum_treatment_control_token_ratio": 1.5,
+    "identical_raw_prompts": true,
+    "counterbalanced_generation_order": true,
+    "counterbalanced_blind_labels": true,
+    "fresh_auth_only_codex_homes": true,
+    "read_only_candidate_sandboxes": true,
+    "all_generation_completed_before_judging": true
+  },
+  "reproducibility": {
+    "prompt_corpus_sha256": "afb507b2d2e22eb384a239ca4aaed03e0c9f35e88538c10d327b395c1dab9a29",
+    "canonical_skill_tree_sha256": "4c065acd66140c9c8eb90670890d4c6a2ffd5b1e5f7a24d52c21d3419fbcfa48",
+    "canonical_skill_file_count": 107,
+    "benchmark_runner_sha256": "60a84d968487531eaefdc55bb91cf0ff93176ec4d13ee881b5b729d5ded4f55d",
+    "judge_schema_sha256": "e159ffaad62281672b57e81051a535cc4b4799697a6ceee507fd01bcd2eff66e",
+    "codex_cli": "codex-cli 0.146.1",
+    "frozen_before_first_model_call": true,
+    "frozen_skill_matched_canonical_after_run": true,
+    "base_git_commit": "c1abfa4231b223bb68b9d180fe4476a2ea5fcaad",
+    "working_tree_was_dirty": true
+  },
+  "reporting_hierarchy": {
+    "primary_question": "Does Design Council produce a practically meaningful outcome-quality benefit over the no-plugin session?",
+    "primary_effectiveness_verdict": "MEANINGFUL_BENEFIT_ESTABLISHED",
+    "basis": "The preregistered quality uplift threshold was 3 points; the observed 9.285714-point uplift had a 95% case-bootstrap interval of [6.071429, 12.738095].",
+    "resource_descriptor": "ABOVE_CONFIGURED_BUDGET",
+    "resource_note": "The 1.5x token ratio is retained as an optimization target, not an outcome-value veto."
+  },
+  "outcome": {
+    "quality_direction": "TREATMENT_BETTER",
+    "quality_scale": "0-100 blind rubric score",
+    "treatment_mean_quality": 95.595238,
+    "control_mean_quality": 86.309524,
+    "absolute_quality_uplift_points": 9.285714,
+    "relative_quality_uplift": 0.107586,
+    "paired_case_bootstrap_95_ci": [
+      6.071429,
+      12.738095
+    ],
+    "paired_effect_size_dz": 1.526294,
+    "case_wins_ties_losses": [
+      11,
+      1,
+      0
+    ],
+    "blind_treatment_control_tie_votes": [
+      42,
+      6,
+      0
+    ]
+  },
+  "resource_cost": {
+    "treatment_mean_generation_tokens": 32392.833333,
+    "control_mean_generation_tokens": 17646.791667,
+    "incremental_generation_tokens": 14746.041666,
+    "treatment_control_token_ratio": 1.835622,
+    "treatment_mean_wall_time_seconds": 46.621777,
+    "control_mean_wall_time_seconds": 34.266635,
+    "wall_time_ratio": 1.360559,
+    "treatment_mean_visible_words": 638.083333,
+    "control_mean_visible_words": 646.375,
+    "visible_word_ratio": 0.987172,
+    "judge_tokens_excluded_from_arms": 773071
+  },
+  "incremental_value": {
+    "marginal_quality_points_per_1k_additional_generation_tokens": 0.629709,
+    "fixed_observed_token_premium_quality_interval": [
+      0.411733,
+      0.863831
+    ],
+    "additional_generation_tokens_per_quality_point": 1588.035305,
+    "quality_cost_quadrant": "QUALITY_GAIN_FOR_TOKEN_PREMIUM",
+    "resource_budget_status": "ABOVE_CONFIGURED_BUDGET",
+    "resource_basis": "The 1.835622x token ratio exceeded the configured 1.5x optimization target."
+  },
+  "post_hoc_outcome_profile": {
+    "status": "POST_HOC_REPORTING_UPDATE",
+    "construct_registry_sha256": "1c03e63e8bddccb54a5d3deeebc451426e4b2b387b9170e86dbc9154b78bda13",
+    "note": "Candidate responses, blind judgments, the preregistered quality threshold, and resource measurements are unchanged. The reporting hierarchy, blind dimension aggregation, and overlapping construct groups are post-hoc additions and must be preregistered for a confirmatory rerun.",
+    "constructs": [
+      {"id": "right_problem_framing", "cases": 6, "treatment": 95.595238, "control": 84.880952, "uplift": 10.714286, "wins_ties_losses": [6, 0, 0]},
+      {"id": "structured_divergence_and_synthesis", "cases": 6, "treatment": 96.071428, "control": 86.904762, "uplift": 9.166666, "wins_ties_losses": [6, 0, 0]},
+      {"id": "evidence_discipline", "cases": 9, "treatment": 95.15873, "control": 85.47619, "uplift": 9.68254, "wins_ties_losses": [9, 0, 0]},
+      {"id": "learning_and_iteration", "cases": 8, "treatment": 96.071428, "control": 88.035714, "uplift": 8.035714, "wins_ties_losses": [7, 1, 0]},
+      {"id": "appropriate_scope", "cases": 2, "treatment": 96.071429, "control": 86.071428, "uplift": 10.000001, "wins_ties_losses": [1, 1, 0]}
+    ],
+    "blind_judge_dimensions": [
+      {"id": "problem_understanding", "uplift": 3.75},
+      {"id": "methodological_rigor", "uplift": 14.583333},
+      {"id": "breadth_and_nonobviousness", "uplift": 9.583333},
+      {"id": "evidence_calibration", "uplift": 20.416667},
+      {"id": "actionability", "uplift": 7.083334},
+      {"id": "task_fit_and_clarity", "uplift": 3.333333},
+      {"id": "communication_efficiency", "uplift": 6.25}
+    ]
+  },
+  "per_case": [
+    {
+      "id": "family_scheduler",
+      "quality_delta": 7.142857,
+      "token_ratio": 2.264799,
+      "result": "WIN"
+    },
+    {
+      "id": "career_advisor",
+      "quality_delta": 6.428571,
+      "token_ratio": 2.229395,
+      "result": "WIN"
+    },
+    {
+      "id": "ed_nurse_workflow",
+      "quality_delta": 9.285715,
+      "token_ratio": 2.170998,
+      "result": "WIN"
+    },
+    {
+      "id": "extreme_heat",
+      "quality_delta": 6.428572,
+      "token_ratio": 1.251502,
+      "result": "WIN"
+    },
+    {
+      "id": "affinity_cluster",
+      "quality_delta": 14.285714,
+      "token_ratio": 2.249521,
+      "result": "WIN"
+    },
+    {
+      "id": "process_map",
+      "quality_delta": 5.0,
+      "token_ratio": 2.211949,
+      "result": "WIN"
+    },
+    {
+      "id": "wide_ideation",
+      "quality_delta": 4.285714,
+      "token_ratio": 2.225129,
+      "result": "WIN"
+    },
+    {
+      "id": "prototype_forwarding",
+      "quality_delta": 3.571429,
+      "token_ratio": 3.551171,
+      "result": "WIN"
+    },
+    {
+      "id": "interview_guide",
+      "quality_delta": 18.571429,
+      "token_ratio": 3.581424,
+      "result": "WIN"
+    },
+    {
+      "id": "contradictory_evidence",
+      "quality_delta": 16.428572,
+      "token_ratio": 2.268653,
+      "result": "WIN"
+    },
+    {
+      "id": "dark_mode",
+      "quality_delta": 18.571429,
+      "token_ratio": 0.333503,
+      "result": "WIN"
+    },
+    {
+      "id": "parser_spike",
+      "quality_delta": 1.428572,
+      "token_ratio": 1.010024,
+      "result": "TIE"
+    }
+  ],
+  "interpretation": "On this internal Codex corpus, making Design Council available established a practically meaningful blind-rated outcome-quality benefit and removed the earlier technical-spike regression. The largest post-hoc dimension gains were evidence calibration, methodological rigor, and breadth/non-obviousness; overlapping construct groups were positive for right-problem framing, structured divergence, evidence discipline, learning/iteration, and appropriate scope. The aggregate token premium remained above the selected optimization target, but resource use does not negate the measured outcome benefit. This supports a quality-positive private beta; it does not establish monetary cost-effectiveness or native Claude efficacy.",
+  "limitations": [
+    "The product team authored the prompt corpus and rubrics.",
+    "The judge was a model, not an independent human panel.",
+    "Candidate wording could reveal Design Council terminology even though arm labels were blind.",
+    "Six of 24 pairs changed winner across counterbalanced judge presentations.",
+    "Three candidate responses exceeded the shared 900-word cap.",
+    "Bundled host-runtime capabilities remained a shared environmental boundary.",
+    "The marginal metric is not monetary ROI and does not assign business value to a quality point.",
+    "This run compares the plugin with raw prompting. The separate frozen strong Design Thinking prompt-only comparison at evals/evidence/ab-benchmark-strong-prompt-beta3.json was inconclusive and did not establish incremental single-turn value beyond competent prompt engineering.",
+    "This is a single-turn Codex study. Held-out external prompts, independent human judges, multi-turn outcome studies, and a native Claude comparison remain necessary before a broad public efficacy claim."
+  ]
+}

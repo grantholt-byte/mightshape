@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/visual-artifact.schema.json",
+  "title": "Design Council visual workshop artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "artifact_type",
+    "title",
+    "summary",
+    "summary_provenance",
+    "summary_record_ids",
+    "limitations",
+    "data"
+  ],
+  "$defs": {
+    "provenance": {
+      "enum": [
+        "OBSERVED_HUMAN_BEHAVIOR",
+        "HUMAN_INTERVIEW",
+        "USER_PROVIDED",
+        "AUTHORITATIVE_RESEARCH",
+        "RESEARCH_SUPPORTED_INFERENCE",
+        "SYNTHETIC_USER",
+        "SYNTHETIC_PRACTITIONER",
+        "SYNTHETIC_EXPERT",
+        "DESIGN_COUNCIL",
+        "ASSUMPTION",
+        "UNKNOWN"
+      ]
+    },
+    "sourceIds": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "note": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "text", "provenance", "source_ids"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"},
+        "text": {"type": "string", "minLength": 1, "maxLength": 1000},
+        "provenance": {"$ref": "#/$defs/provenance"},
+        "source_ids": {"$ref": "#/$defs/sourceIds"}
+      }
+    },
+    "affinityData": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["clusters", "outliers"],
+      "properties": {
+        "clusters": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "label", "interpretation_provenance", "record_ids", "notes"],
+            "properties": {
+              "id": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"},
+              "label": {"type": "string", "minLength": 1, "maxLength": 160},
+              "description": {"type": "string", "maxLength": 500},
+              "interpretation_provenance": {"const": "DESIGN_COUNCIL"},
+              "record_ids": {
+                "type": "array",
+                "minItems": 1,
+                "items": {"type": "string", "minLength": 1},
+                "uniqueItems": true
+              },
+              "notes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {"$ref": "#/$defs/note"}
+              }
+            }
+          }
+        },
+        "outliers": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/note"}
+        }
+      }
+    },
+    "processItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"},
+        "label": {"type": "string", "minLength": 1, "maxLength": 160}
+      }
+    },
+    "processStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "detail",
+        "lane_id",
+        "provenance",
+        "source_ids"
+      ],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"},
+        "label": {"type": "string", "minLength": 1, "maxLength": 160},
+        "detail": {"type": "string", "minLength": 1, "maxLength": 1000},
+        "lane_id": {"type": "string", "minLength": 1},
+        "provenance": {"$ref": "#/$defs/provenance"},
+        "source_ids": {"$ref": "#/$defs/sourceIds"}
+      }
+    },
+    "processTransition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "from_step_id",
+        "to_step_id",
+        "label",
+        "provenance",
+        "source_ids"
+      ],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"},
+        "from_step_id": {"type": "string", "minLength": 1},
+        "to_step_id": {"type": "string", "minLength": 1},
+        "label": {"type": "string", "maxLength": 160},
+        "provenance": {"$ref": "#/$defs/provenance"},
+        "source_ids": {"$ref": "#/$defs/sourceIds"}
+      }
+    },
+    "processData": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lanes", "steps", "transitions"],
+      "properties": {
+        "lanes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/processItem"}
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/processStep"}
+        },
+        "transitions": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/processTransition"}
+        }
+      }
+    }
+  },
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "id": {"type": "string", "pattern": "^VA-[A-Z0-9][A-Z0-9-]*$"},
+    "artifact_type": {"enum": ["AFFINITY_MAP", "PROCESS_MAP"]},
+    "title": {"type": "string", "minLength": 1, "maxLength": 200},
+    "summary": {"type": "string", "minLength": 1, "maxLength": 1000},
+    "summary_provenance": {"const": "DESIGN_COUNCIL"},
+    "summary_record_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "mode": {
+      "enum": ["INTAKE", "EMPATHIZE", "DEFINE", "IDEATE", "PROTOTYPE", "TEST"]
+    },
+    "cycle": {"type": "integer", "minimum": 1},
+    "limitations": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1, "maxLength": 500},
+      "uniqueItems": true
+    },
+    "data": {"type": "object"}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"artifact_type": {"const": "AFFINITY_MAP"}},
+        "required": ["artifact_type"]
+      },
+      "then": {"properties": {"data": {"$ref": "#/$defs/affinityData"}}}
+    },
+    {
+      "if": {
+        "properties": {"artifact_type": {"const": "PROCESS_MAP"}},
+        "required": ["artifact_type"]
+      },
+      "then": {"properties": {"data": {"$ref": "#/$defs/processData"}}}
+    }
+  ]
+}

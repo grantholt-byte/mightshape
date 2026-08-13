@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Blind paired Design Council benchmark judgment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_id",
+    "comparison_id",
+    "candidate_a",
+    "candidate_b",
+    "winner",
+    "confidence",
+    "rationale"
+  ],
+  "properties": {
+    "case_id": {"type": "string"},
+    "comparison_id": {"type": "string"},
+    "candidate_a": {"$ref": "#/$defs/candidate"},
+    "candidate_b": {"$ref": "#/$defs/candidate"},
+    "winner": {"enum": ["A", "B", "TIE"]},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "rationale": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scores", "strengths", "weaknesses"],
+      "properties": {
+        "scores": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "problem_understanding",
+            "methodological_rigor",
+            "breadth_and_nonobviousness",
+            "evidence_calibration",
+            "actionability",
+            "task_fit_and_clarity",
+            "communication_efficiency"
+          ],
+          "properties": {
+            "problem_understanding": {"type": "integer", "minimum": 0, "maximum": 5},
+            "methodological_rigor": {"type": "integer", "minimum": 0, "maximum": 5},
+            "breadth_and_nonobviousness": {"type": "integer", "minimum": 0, "maximum": 5},
+            "evidence_calibration": {"type": "integer", "minimum": 0, "maximum": 5},
+            "actionability": {"type": "integer", "minimum": 0, "maximum": 5},
+            "task_fit_and_clarity": {"type": "integer", "minimum": 0, "maximum": 5},
+            "communication_efficiency": {"type": "integer", "minimum": 0, "maximum": 5}
+          }
+        },
+        "strengths": {"type": "array", "items": {"type": "string"}, "maxItems": 4},
+        "weaknesses": {"type": "array", "items": {"type": "string"}, "maxItems": 4}
+      }
+    }
+  }
+}

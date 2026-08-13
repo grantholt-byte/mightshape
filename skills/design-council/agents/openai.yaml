@@ -1,9 +1,9 @@
 interface:
   display_name: "Design Council"
-  short_description: "Frame, research, diverge, prototype, and learn"
+  short_description: "Frame, visualize, diverge, prototype, and learn"
   icon_small: "./assets/icon.png"
   icon_large: "./assets/logo.png"
   brand_color: "#6457FF"
-  default_prompt: "Use $design-council to challenge, research, frame, prototype, and test this idea."
+  default_prompt: "Use $design-council to challenge, research, visibly frame, prototype, and test this idea."
 policy:
   allow_implicit_invocation: true

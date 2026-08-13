@@ -2,6 +2,74 @@
 
 All notable changes use [Semantic Versioning](https://semver.org/).
 
+## [0.9.0-beta.3] — 2026-08-13
+
+### Added
+
+- Open Studio process views (`COMPACT`, `VISIBLE`, and `WORKSHOP`) with inspectable
+  checkpoints, working cards, alternate groupings, mutations, exceptions, and outliers.
+- A dependency-free Visual Workbench for evidence-linked affinity maps and process maps,
+  emitted as reproducible source JSON, self-contained HTML, accessible SVG, Markdown,
+  and an immutable manifest.
+- Portable visual-artifact records in project state without embedding rendered HTML/SVG.
+- Optional participatory exercises with `OBSERVE`, `COLLABORATE`, and
+  `FACILITATED_TURN_BY_TURN` modes, presented as Watch, Collaborate, or One prompt at a time.
+- Adaptive facilitator levels (`NOVICE_ASSISTED`, `GUIDED`, and `LIGHT_TOUCH`) with
+  progressive explanation, one bounded prompt, user controls, and durable contribution ledgers.
+- An opt-in, isolated plugin-versus-baseline benchmark with blind paired judging, token
+  and latency accounting, uncertainty estimates, incremental outcome value per additional
+  token, per-case value quadrants, straightforward-task routing checks, a frozen competent
+  Design Thinking prompt-only comparator, blind judge dimension profiles, and overlapping
+  user-value construct scorecards.
+- A blind human paired-rating schema and protocol for subjective next-decision quality,
+  right-problem framing, conceptual breadth, informative experiments, evidence-driven
+  iteration, momentum, and multi-turn trajectory review.
+- An opt-in persisted-session trajectory benchmark comparing the skill with either plain Codex
+  or the frozen competent Design Thinking prompt across four-turn evidence-change journeys. It
+  scores reframing, history, assumption updates, divergence, evidence provenance, experiment
+  information gain, backward iteration, and momentum while reporting resource use separately.
+- Visual, visibility, participation, sealed-round, benchmark-isolation, and cross-platform
+  parity tests.
+
+### Changed
+
+- Substantial sessions now show conclusion-level method outputs as they develop while
+  keeping routine implementation compact.
+- Affinity clustering and process/journey mapping route to visual artifacts when spatial
+  structure materially improves comprehension.
+- Visual artifacts now use a warm innovation-studio language: tactile sticky notes, tape,
+  folded corners, colorful cluster neighborhoods, playful lanes, and visible outliers,
+  while retaining accessible text and provenance labels.
+- Joining users receive novice-assisted facilitation by default unless their Design Thinking
+  fluency is evident; watching remains non-blocking and participation can be paused,
+  handed back, or exited at any time.
+- Package builds exclude accidental operating-system duplicate files matching `* 2.*`.
+- Bounded, reversible technical spikes with explicit metrics and timeboxes now route to
+  direct execution unless Design Council is explicitly requested; design-heavy learning
+  prototypes retain the full facilitation contract.
+- Comparative effectiveness is now the primary A/B verdict. Token and latency use remain
+  visible optimization/resource descriptors but cannot negate an established outcome-quality
+  benefit.
+- One-shot outputs now remove participation menus and product ceremony unless decision-relevant,
+  retain at least three mechanism-distinct frames when ambiguity remains, preserve conditional
+  pivots, and reject arbitrary or internally inconsistent prototype thresholds.
+
+### Security
+
+- Visual exports escape untrusted text, contain no remote assets/scripts/telemetry, retain
+  evidence provenance, and open a local browser only by explicit request.
+- Benchmark runs use fresh workspaces and homes, auth-only credential copying, read-only
+  sandboxes, ephemeral sessions, and no inherited user plugins or ambient service keys.
+- Participatory workshop contributions retain `USER_PROVIDED` provenance, undo uses
+  supersession rather than deletion, and in-flight sealed Council packets cannot be changed
+  selectively by new user input.
+- Marketplace visual examples use only supplied benchmark inputs labeled `USER_PROVIDED`;
+  illustrative `P-*` identifiers are explicitly not represented as participants or interviews.
+
+### Breaking Changes
+
+- None. Existing project-state files remain valid; visual and participation fields are additive.
+
 ## [0.9.0-beta.2] — 2026-08-12
 
 ### Fixed

@@ -4,6 +4,8 @@
 
 Name the hypothesis, pivotal assumption, question, minimum fidelity, signals, and excluded scope. Isolate the variable. Build only what changes the participant's response or technical result.
 
+**Participatory route:** choose one Prototype Card field per turn, starting with the pivotal uncertainty. Explain unfamiliar terms at point of use and keep the user's decisions `USER_PROVIDED`.
+
 ## Paper Prototype — `supplemental_design_practice`
 
 Use hand-drawn or printed states for flow, comprehension, and information hierarchy. A facilitator swaps states. Avoid polishing or testing backend feasibility with paper.
@@ -59,6 +61,8 @@ Test a capability, integration, performance bound, or failure mode in isolation.
 ## Assumption Test — `design_council_original`
 
 Choose one high-risk assumption, identify the evidence that could weaken it, run the lowest-cost fair test, and record supported/weakened/falsified/inconclusive. Do not design an approval-seeking metric.
+
+**Participatory route:** ask for one signal or test choice at a time. Coach leading or confirmation-seeking wording without erasing the original contribution.
 
 ## Usability Test — `supplemental_design_practice`
 

@@ -22,6 +22,10 @@ smallest safe proof. Do not include live participant content.
   close studies after collection, and follow the configured retention/deletion policy.
 - Disclosure Guard reduces accidental exposure; it is not legal review, an NDA, identity
   verification, or a confidentiality guarantee.
+- Visual workshop artifacts are local derived files. The renderer escapes source text,
+  embeds no third-party resources, and applies a restrictive content-security policy;
+  preserve those controls when changing templates. Artifact access still exposes the
+  underlying card content, so do not share a path or file beyond the intended audience.
 - Plugin hooks execute with user trust. The supplied SessionStart hook is optional,
   read-only, time-bounded, and must never become a requirement for core behavior.
 

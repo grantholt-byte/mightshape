@@ -51,7 +51,60 @@ methods, memory, Minority Report, Inquiry Lab, debt, and Build Gate are byte-ide
 Both adapters read `.design-council/project.json` and the same revision snapshots. The
 schema contains no OpenAI-, Codex-, Claude-, or Anthropic-specific fields. Platform
 metadata should be optional and namespaced if a future adapter truly needs it; core
-evidence, frames, experiments, and Council memories remain portable.
+evidence, frames, experiments, Council memories, and participation sessions remain portable.
+
+## Participation and adaptive facilitation
+
+Participation is a platform-neutral conversation/state boundary, not a vendor-specific form.
+The user-facing choice is **Watch · Collaborate · One prompt at a time**, represented in state
+as `OBSERVE`, `COLLABORATE`, or `FACILITATED_TURN_BY_TURN`. Watching is the non-blocking
+default. A joining user starts at `NOVICE_ASSISTED` unless fluency is evident and may switch
+to `GUIDED` or `LIGHT_TOUCH` at any time.
+
+The facilitator exposes only the immediate purpose and mindset, one method-safe example, and one
+bounded prompt. Stable `PS-`, `UP-`, and `UC-` records preserve sessions, prompts, and
+`USER_PROVIDED` contributions. Board revisions record material moves, renames, additions, and
+supersessions rather than redrawing an unchanged wall. Pause, resume, skip, undo-as-supersede,
+hand-back, and exit are durable controls. Participation records are design-process material,
+not human interviews or observed behavior.
+
+Sealed independence remains upstream of interaction convenience. Input accepted before Round A
+enters every member's common packet identically; new input received while the round is open is
+held until freeze. Neither adapter may selectively update unfinished members.
+
+## Visual workbench
+
+Spatial workshop outputs are derived from a platform-neutral JSON contract by the
+standard-library renderer in the canonical skill. It emits the same self-contained
+HTML, SVG, and Markdown fallback on both adapters beneath
+`.design-council/artifacts/<artifact-id>/`. No CDN, telemetry, browser extension,
+custom MCP UI, or hosted service is required.
+
+The renderer deliberately uses a warm, whimsical studio vocabulary—sticky-note paper,
+tape, folded corners, soft shadows, colorful dashed cluster neighborhoods, playful actor
+lanes, handoff paths, and sparing doodles. These decorations are deterministic presentation,
+not epistemic encoding. Provenance always remains explicit in text, and accessible fallbacks
+carry the same records and outliers.
+
+Interactive desktop surfaces may open the local HTML. Headless CLI/IDE sessions
+always return inspectable paths and retain the text fallback. Artifact manifests
+carry input hashes, provenance labels, source references, and versioned paths;
+platform preview state never enters canonical project state.
+
+## Evaluation boundary
+
+The paired A/B harness keeps outcome evaluation outside the product core. It runs
+the same raw prompt and model settings in isolated clean workspaces, with the
+repo-local skill absent for the baseline and present for treatment. Arm order and
+blind labels are randomized. Candidate token usage and wall time are measured
+separately from judge cost, and reports include paired quality change, uncertainty,
+token overhead, and marginal blind-quality gain per 1,000 additional generation tokens
+rather than treating verbosity as success. The marginal measure retains its units and is
+not presented as monetary ROI. Important-value thresholds,
+realized-run completeness, reproducibility metadata, and straightforward-task routing cases
+prevent an incomplete or single-pair smoke run from becoming an efficacy claim. The harness
+measures response quality for visual cases under read-only candidate sandboxes; writable
+artifact integrity remains covered by separate end-to-end and deterministic tests.
 
 ## Exchange seam
 

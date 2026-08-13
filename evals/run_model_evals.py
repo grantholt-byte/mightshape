@@ -103,6 +103,43 @@ def validate_result_shape(result: Any, case_id: str) -> str | None:
     return None
 
 
+def combine_deterministic_and_judge(
+    deterministic: dict[str, Any],
+    judged: dict[str, Any],
+) -> dict[str, Any]:
+    """Require both independent gates to pass; never let a judge erase a smoke failure."""
+
+    if deterministic["case_id"] != judged["case_id"]:
+        raise ValueError("deterministic and judge results target different cases")
+    deterministic_criteria = [
+        {**item, "criterion": f"[deterministic] {item['criterion']}"}
+        for item in deterministic["criterion_results"]
+    ]
+    judge_criteria = [
+        {**item, "criterion": f"[judge] {item['criterion']}"}
+        for item in judged["criterion_results"]
+    ]
+    if deterministic["status"] == "FAIL":
+        status = "FAIL"
+    elif judged["status"] == "ERROR":
+        status = "ERROR"
+    elif judged["status"] == "SKIP":
+        status = "SKIP"
+    elif deterministic["status"] == "PASS" and judged["status"] == "PASS":
+        status = "PASS"
+    else:
+        status = "FAIL"
+    return {
+        "case_id": deterministic["case_id"],
+        "status": status,
+        "criterion_results": deterministic_criteria + judge_criteria,
+        "summary": (
+            f"Deterministic gate: {deterministic['status']}. "
+            f"Semantic judge: {judged['status']}. {judged['summary']}"
+        ),
+    }
+
+
 def candidate_prompt(case: dict[str, Any]) -> str:
     explicit = "$design-council\n\n" if case["invocation"] == "explicit" else ""
     fixture_context = ""
@@ -152,19 +189,26 @@ def run_codex(
     if output_schema is not None:
         command.extend(["--output-schema", str(output_schema)])
     command.append(prompt)
-    completed = subprocess.run(
-        command,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        timeout=timeout_seconds,
-        check=False,
-    )
+    try:
+        completed = subprocess.run(
+            command,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            timeout=timeout_seconds,
+            check=False,
+        )
+    except subprocess.TimeoutExpired as exc:
+        captured = exc.stdout or ""
+        if isinstance(captured, bytes):
+            captured = captured.decode("utf-8", errors="replace")
+        return 124, f"codex exec timed out after {timeout_seconds}s\n{captured}"
     return completed.returncode, completed.stdout
 
 
 def judge_prompt(case: dict[str, Any], response: str) -> str:
     contract = {
+        "expected_route": case["expected"]["route"],
         "must_demonstrate": case["expected"]["must_demonstrate"],
         "must_avoid": case["expected"].get("must_avoid", []),
         "invariants": case["invariants"],
@@ -291,7 +335,8 @@ def main(argv: list[str] | None = None) -> int:
                 }
             else:
                 response = response_path.read_text(encoding="utf-8")
-                result = check_regex(case, response)
+                deterministic_result = check_regex(case, response)
+                result = deterministic_result
                 if args.judge:
                     judge_path = run_dir / f"{case['id']}.judge.json"
                     judge_code, judge_log = run_codex(
@@ -307,7 +352,7 @@ def main(argv: list[str] | None = None) -> int:
                     (run_dir / f"{case['id']}.judge.log").write_text(judge_log, encoding="utf-8")
                     if judge_code == 0 and judge_path.exists():
                         try:
-                            result = json.loads(judge_path.read_text(encoding="utf-8"))
+                            judged_result = json.loads(judge_path.read_text(encoding="utf-8"))
                         except json.JSONDecodeError:
                             result = {
                                 "case_id": case["id"],
@@ -316,7 +361,7 @@ def main(argv: list[str] | None = None) -> int:
                                 "summary": "structured judge returned invalid JSON",
                             }
                         else:
-                            shape_error = validate_result_shape(result, case["id"])
+                            shape_error = validate_result_shape(judged_result, case["id"])
                             if shape_error:
                                 result = {
                                     "case_id": case["id"],
@@ -324,6 +369,11 @@ def main(argv: list[str] | None = None) -> int:
                                     "criterion_results": [],
                                     "summary": shape_error,
                                 }
+                            else:
+                                result = combine_deterministic_and_judge(
+                                    deterministic_result,
+                                    judged_result,
+                                )
                     else:
                         result = {
                             "case_id": case["id"],
@@ -335,7 +385,7 @@ def main(argv: list[str] | None = None) -> int:
                 json.dumps(result, indent=2) + "\n", encoding="utf-8"
             )
             summary.append(result)
-            failures += result["status"] not in {"PASS", "SKIP"}
+            failures += result["status"] != "PASS"
             print(f"{result['status']} {case['id']}: {result['summary']}")
 
     aggregate = {

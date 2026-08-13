@@ -11,6 +11,9 @@ Store sustained journey state under the project being designed:
 │   ├── rev-000001.json
 │   └── rev-000002.json
 ├── council-rounds/
+├── artifacts/
+│   └── VA-001/
+├── participation/
 ├── inquiry/
 │   ├── internal-studies/
 │   ├── external-packets/
@@ -25,11 +28,13 @@ Store sustained journey state under the project being designed:
 Track:
 
 - challenge, original prompt, original proposed solution, current problem frame, desired outcome;
-- archetypes, operating depth, complexity, reversibility, cost/consequence of error;
+- archetypes, operating depth, process view (`COMPACT`, `VISIBLE`, or `WORKSHOP`), complexity, reversibility, cost/consequence of error;
 - current mode, cycle, completed modes, and backward transitions;
 - stakeholders, evidence, assumptions, unknowns, observations, needs, insights;
 - POV history and supersession, HMW prompts, ideas, clusters, outliers, selected concept portfolio;
 - prototypes, experiments, inquiry studies, Reality Packets, synthetic personas, participant IDs, Reality Checks;
+- generated visual-artifact manifests, input hashes, source IDs, and versioned HTML/SVG/Markdown paths (never platform UI state);
+- optional participation sessions with mode, facilitator level, one-open-prompt ledger, guidance checkpoints, `USER_PROVIDED` contributions, meaningful board revisions, controls, supersessions, and sealed-round disposition;
 - participant-source selections, private internal studies, minimized external packets, disclosure reviews, exposure levels, and conflict-policy references;
 - decisions, Minority Reports, Build Gate, Design Debt, Evidence Debt;
 - each Council member's project memory;
@@ -37,7 +42,7 @@ Track:
 
 ## Identity and IDs
 
-Use stable prefixes: `E-` evidence, `A-` assumption, `N-` need, `I-` insight, `POV-`, `HMW-`, `IDEA-`, `PROTO-`, `EXP-`, `STUDY-`, `RP-`, `SP-`, `P-`, `RC-`, `DEC-`, `MR-`, `DD-`, `ED-`, `CR-` Council round.
+Use stable prefixes: `E-` evidence, `A-` assumption, `N-` need, `I-` insight, `POV-`, `HMW-`, `IDEA-`, `PROTO-`, `EXP-`, `STUDY-`, `RP-`, `SP-`, `P-`, `RC-`, `DEC-`, `MR-`, `DD-`, `ED-`, `CR-` Council round, `VA-` visual artifact, `PS-` participation session, `UP-` facilitator prompt, `UC-` user contribution, `UG-` guidance checkpoint.
 
 Never recycle an ID. Participant IDs default to `P-001`; do not require names or email.
 
@@ -58,6 +63,8 @@ Supersede rather than overwrite:
 ```
 
 Falsified assumptions remain visible. A changed Council belief retains both positions. Removed concepts become `retired`, with a reason; outliers are never silently deleted.
+
+Participation undo follows the same rule: mark the prior `UC-` record `SUPERSEDED`, link an optional replacement in both directions, and record a board revision. Never delete the original words. Contributions remain `USER_PROVIDED` design material and must not enter human interview or observation records.
 
 ## Assumption Burn-down
 

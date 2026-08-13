@@ -27,6 +27,8 @@ stop_condition: string
 
 Make signals behavioral and interpretable. “Users like it” is rarely enough. Include ambiguous outcomes and what would make the test inconclusive.
 
+Keep participant counts and signal denominators consistent. Use a quantitative threshold only when it comes from supplied evidence, a baseline, or an explicit risk tolerance; otherwise identify it as a proposed heuristic to calibrate. For each plausible outcome, state the conditional next move (`if supported`, `if weakened/falsified`, `if inconclusive`) and which competing problem frame it strengthens or weakens.
+
 ## Choose the cheapest faithful form
 
 - paper prototype for comprehension, sequence, and navigation;
@@ -48,6 +50,8 @@ Codex should happily build a rapid coded experiment when it is the lowest useful
 For each component ask: “If this were rougher or manual, would the participant respond differently in a way that invalidates the learning?” If no, reduce it.
 
 Explicitly list `DO NOT BUILD`. This prevents implementation enthusiasm from consuming the experiment.
+
+For opted-in prototype design, use `participatory-workshops.md` and choose one learning decision per turn: uncertainty, lowest faithful form, participant/context, signal, or excluded scope. The facilitator may give a concrete domain example, but must not invent the user's choice.
 
 ## Ethics
 

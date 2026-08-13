@@ -2,10 +2,12 @@ from __future__ import annotations
 
 import hashlib
 import json
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
-from scripts.build_packages import build
+from scripts.build_packages import build, write_checksums
 from scripts.check_cross_platform_drift import check
 from scripts.validate_packages import basic_claude_validate, is_semver
 
@@ -63,6 +65,12 @@ class CrossPlatformPackageTests(unittest.TestCase):
         self.assertEqual(openai_marketplace["name"], "design-council")
         self.assertEqual(openai_marketplace["plugins"][0]["name"], "design-council")
 
+    def test_openai_manifest_respects_runtime_prompt_limit(self) -> None:
+        manifest = json.loads((ROOT / ".codex-plugin/plugin.json").read_text(encoding="utf-8"))
+        prompts = manifest.get("interface", {}).get("defaultPrompt", [])
+        self.assertIsInstance(prompts, list)
+        self.assertLessEqual(len(prompts), 3)
+
     def test_release_validator_accepts_semver_prereleases(self) -> None:
         for valid in ("1.0.0", "0.9.0-beta.1", "2.4.1-rc.3+build.9"):
             with self.subTest(valid=valid):
@@ -88,6 +96,27 @@ class CrossPlatformPackageTests(unittest.TestCase):
                 self.assertTrue((package / "assets/logo.png").is_file())
                 self.assertTrue((package / "assets/screenshots/01-design-journey.png").is_file())
                 self.assertFalse((package / "assets/concepts").exists())
+
+    def test_packages_exclude_local_duplicate_backups(self) -> None:
+        for package in (OPENAI, CLAUDE):
+            with self.subTest(package=package):
+                duplicates = [path for path in package.rglob("*") if path.is_file() and " 2." in path.name]
+                self.assertEqual(duplicates, [])
+
+    def test_clean_build_preserves_user_duplicate_files_and_excludes_them_from_checksums(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_dist = Path(temporary) / "dist"
+            temporary_dist.mkdir()
+            duplicate = temporary_dist / "design-council-claude-0.9.0-beta.3 2.zip"
+            duplicate.write_bytes(b"user-owned duplicate")
+            unrelated = temporary_dist / "research-notes.txt"
+            unrelated.write_text("preserve me", encoding="utf-8")
+            with patch("scripts.build_packages.DIST", temporary_dist):
+                build(clean=True)
+                checksum = write_checksums().read_text(encoding="utf-8")
+            self.assertEqual(duplicate.read_bytes(), b"user-owned duplicate")
+            self.assertEqual(unrelated.read_text(encoding="utf-8"), "preserve me")
+            self.assertNotIn(duplicate.name, checksum)
 
     def test_archives_are_deterministic(self) -> None:
         version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()

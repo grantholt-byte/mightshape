@@ -23,6 +23,21 @@ def summarize_state(state: dict[str, Any]) -> str:
     gate = state.get("build_gate", {})
     minority = state.get("minority_reports", [])
     evidence = state.get("evidence", [])
+    visual_artifacts = state.get("visual_artifacts", [])
+    participation = state.get("participation_sessions", [])
+    active_participation = next(
+        (item for item in reversed(participation) if item.get("status") in {"ACTIVE", "PAUSED"}),
+        None,
+    )
+    open_prompt = next(
+        (
+            item
+            for item in reversed(active_participation.get("prompts", []))
+            if item.get("status") == "OPEN"
+        ),
+        None,
+    ) if active_participation else None
+    process_view = state.get("classification", {}).get("process_view", "VISIBLE")
     human = len({item.get("participant_id") for item in evidence if item.get("provenance") in {"HUMAN_INTERVIEW", "OBSERVED_HUMAN_BEHAVIOR"} and item.get("participant_id")})
     frame = challenge.get("current_problem_frame") or "Not yet framed"
     next_move = "Clarify the smallest decisive unknown"
@@ -32,14 +47,47 @@ def summarize_state(state: dict[str, Any]) -> str:
         next_move = f"Complete and interpret the active test ({testing[0]})"
     elif gate.get("status") in {"READY", "READY_WITH_KNOWN_RISK"}:
         next_move = "Proceed within the Build Gate's documented risk boundary"
+    if active_participation:
+        activity = str(active_participation.get("activity", "exercise")).replace("_", " ").title()
+        if open_prompt:
+            next_move = f"Resume {activity} at {open_prompt.get('id')}: {open_prompt.get('prompt')}"
+        else:
+            next_move = f"Resume {activity} from board revision {active_participation.get('board_revision', 0)}"
+    mode_labels = {
+        "OBSERVE": "Watch",
+        "COLLABORATE": "Collaborate",
+        "FACILITATED_TURN_BY_TURN": "One prompt at a time",
+    }
+    guidance_labels = {
+        "NOVICE_ASSISTED": "More context",
+        "GUIDED": "Guided",
+        "LIGHT_TOUCH": "Light",
+    }
     lines = [
         f"◇ DESIGN COUNCIL / {project.get('name', 'Untitled project')}",
-        f"Mode {journey.get('current_mode', 'UNKNOWN')} · Cycle {journey.get('cycle', '?')} · Revision {state.get('revision', '?')}",
+        f"Mode {journey.get('current_mode', 'UNKNOWN')} · Cycle {journey.get('cycle', '?')} · Revision {state.get('revision', '?')} · View {process_view}",
         f"Frame: {frame}",
         f"Evidence: {len(evidence)} records · {human} human participant(s)",
         f"Assumptions: {len(open_high)} open/high · {len(testing)} testing",
         f"◆ Build Gate: {gate.get('status', 'NOT_ASSESSED')}",
         f"Minority Reports preserved: {len(minority)}",
+        f"Visual artifacts: {len(visual_artifacts)}",
+        "Participation: "
+        + (
+            f"{active_participation.get('id')} · {active_participation.get('status')} · "
+            f"{str(active_participation.get('activity', 'exercise')).replace('_', ' ').title()} · "
+            f"Mode {mode_labels.get(active_participation.get('mode'), active_participation.get('mode'))} · "
+            f"Guidance {guidance_labels.get(active_participation.get('facilitator_level'), active_participation.get('facilitator_level'))} · "
+            f"Pace {active_participation.get('guidance_state', {}).get('pace', 'STANDARD').title()} · "
+            f"Board r{active_participation.get('board_revision', 0)}"
+            if active_participation
+            else "none active"
+        ),
+        *(
+            [f"Open prompt {open_prompt.get('id')}: {open_prompt.get('prompt')}"]
+            if open_prompt
+            else []
+        ),
         f"↳ Next move: {next_move}",
     ]
     return "\n".join(lines)

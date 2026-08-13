@@ -6,9 +6,13 @@ All methods run under protected divergence. Capture every idea before evaluation
 
 Generate aloud around one HMW, build on ideas, seek quantity and range, and defer judgment. Use a short time box and a visible capture surface. Avoid status-dominated discussion; switch to brainwriting if voices are uneven.
 
+**Participatory route:** ask for one idea or build-on at a time and capture it before any coaching. During divergence, coaching may expand distance but never rank or reject.
+
 ## Brainwriting — `supplemental_design_practice`
 
 Generate silently and independently before sharing. Pass anonymous kernels for extension. Use when anchoring, hierarchy, or airtime threatens breadth. Do not turn the silent round into premature voting.
+
+**Participatory route:** keep the user's independent batch unrevealed until the declared share/freeze boundary. Do not leak Council or other participant ideas into the user's generation prompt.
 
 ## Yes-And — `stanford_dschool`
 

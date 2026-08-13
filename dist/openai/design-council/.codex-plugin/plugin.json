@@ -1,7 +1,7 @@
 {
   "name": "design-council",
-  "version": "0.9.0-beta.2",
-  "description": "Human-centered Design Thinking for Codex and ChatGPT with a deeply modeled ten-person Council, rigorous evidence provenance, research-grounded synthetic inquiry, and real-human research workflows.",
+  "version": "0.9.0-beta.3",
+  "description": "Human-centered Design Thinking for Codex and ChatGPT with a deeply modeled ten-person Council, evidence-safe inquiry, visible workshop steps, and visual design artifacts.",
   "author": {
     "name": "Design Council Contributors"
   },
@@ -21,7 +21,7 @@
   "interface": {
     "displayName": "Design Council",
     "shortDescription": "Frame better before building",
-    "longDescription": "Think wider. Frame better. Build what matters. Design Council preserves the momentum of a promising idea while testing whether it solves the right human problem. It combines an adaptive Stanford d.school-inspired practice, ten persistent fictional collaborators with complete lives and bounded expertise, sealed independent divergence, strict evidence provenance, research-grounded synthetic inquiry, real-human interview workflows, rapid prototypes, and an advisory Build Gate.",
+    "longDescription": "Think wider. Frame better. Build what matters. Design Council preserves the momentum of a promising idea while testing whether it solves the right human problem. It combines an adaptive Stanford d.school-inspired practice, ten persistent fictional collaborators with complete lives and bounded expertise, sealed independent divergence, strict evidence provenance, research-grounded synthetic inquiry, real-human interview workflows, visible workshop checkpoints, visual affinity and process maps, rapid prototypes, and an advisory Build Gate.",
     "developerName": "Design Council Contributors",
     "category": "Productivity",
     "capabilities": [
@@ -33,7 +33,7 @@
     "defaultPrompt": [
       "Challenge this product idea before we build it, then identify the cheapest useful experiment.",
       "Open Inquiry Lab, research this unfamiliar role, and build a Reality Packet before any synthetic interview.",
-      "Run a sealed Council round on this decision and preserve the Minority Report."
+      "Run a sealed Council round or create a source-linked visual affinity map, preserving dissent and outliers."
     ],
     "brandColor": "#6457FF",
     "composerIcon": "./assets/icon.png",

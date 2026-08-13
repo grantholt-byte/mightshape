@@ -13,13 +13,17 @@ Do not skip rungs merely because a compelling concept already exists.
 ## Synthesis sequence
 
 1. **Prepare evidence.** Run `check_evidence.py`; separate human, research, inference, synthetic, Council, assumptions, and unknowns.
-2. **Share and cluster.** Group records by meaningful similarity, not desired conclusion. Preserve unclustered observations and negative cases.
+2. **Share and cluster.** In `VISIBLE`/`WORKSHOP`, show stable source-card IDs and provenance before assigning themes. Group records by meaningful similarity, not desired conclusion. Preserve unclustered observations, negative cases, and boundary cards; test an alternate arrangement before freezing the affinity map.
 3. **Find patterns and tensions.** Look for repeated mechanisms, sequence breaks, workarounds, conflicting goals, say/do gaps, power differences, and context dependence.
 4. **Extract needs.** Use verbs or capacities. A need should remain valid across several possible solutions.
 5. **Generate insights.** Connect evidence to a non-obvious explanation or opportunity. State inferential status.
-6. **Create competing frames.** At minimum consider obvious, behavioral, systems, and counterintuitive interpretations when evidence permits.
-7. **Write POVs.** `USER + NEED + INSIGHT`; cite supporting evidence IDs and unknowns. For a substantial ambiguous journey, show at least two genuinely competing POVs before selecting a provisional frame, and label ungrounded Council frames `DESIGN_COUNCIL`.
+6. **Create competing frames.** At minimum consider obvious, behavioral, systems, and counterintuitive interpretations when evidence permits. For unresolved solution-first work, retain at least three that rely on different causal mechanisms rather than cosmetic wording changes.
+7. **Write POVs.** `USER + NEED + INSIGHT`; cite supporting evidence IDs and unknowns. For a substantial ambiguous journey, show at least three genuinely competing POVs. If the available evidence does not discriminate among them, do not select a provisional winner: specify the smallest inquiry or prototype that could separate them. Label ungrounded Council frames `DESIGN_COUNCIL`.
 8. **Generate HMWs.** Produce several transformations broad enough for alternatives and narrow enough for direction.
+
+When the spatial arrangement matters, render an `AFFINITY_MAP` using `render_visual.py` and provide its HTML, SVG, and Markdown paths. The artifact makes the interpretation inspectable; it does not upgrade any claim's evidence status.
+
+For opted-in affinity, POV, or HMW work, use `participatory-workshops.md`. Let the user move cards or rename clusters without rewriting source evidence; ask one sorting or framing decision at a time. Preserve discarded wording by supersession and show the board only after a meaningful move, rename, or component change.
 
 ## Solution-contamination test
 
@@ -56,7 +60,7 @@ Do not treat the score as scientific. A high score cannot repair weak evidence.
 
 ## HMW transformations
 
-Generate direct, amplify, remove, invert, assumption-questioning, extreme-user, scale-up, scale-down, analogy, resource-constraint, impossible-ideal, and system-intervention variants as useful. Keep competing POVs visible; do not crown one prematurely.
+Generate direct, amplify, remove, invert, assumption-questioning, extreme-user, scale-up, scale-down, analogy, resource-constraint, impossible-ideal, and system-intervention variants as useful. Keep competing POVs visible; do not crown one prematurely. Tie the next learning move to discriminating among plausible frames rather than merely validating the proposed solution.
 
 ## Exit and backward movement
 

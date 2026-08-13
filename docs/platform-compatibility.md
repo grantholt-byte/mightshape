@@ -1,6 +1,6 @@
 # Platform reconciliation for V1
 
-Researched and tested 2026-08-12 with `codex-cli 0.146.1` and the current OpenAI documentation.
+Researched and tested through 2026-08-13 with `codex-cli 0.146.1` and current primary platform documentation.
 
 ## Packaging and activation
 
@@ -24,6 +24,48 @@ Codex supports parallel subagent workflows, but the platform does not document a
 
 `sealed_round.py` supplies independent ephemeral `codex exec` passes as a fallback. If neither path exists, the product reports `FACILITATOR_ONLY`; it never labels contaminated serial roleplay as sealed.
 
+## Visual artifacts and process visibility
+
+The shared core generates offline source JSON, self-contained HTML, accessible SVG, Markdown,
+and an immutable manifest for affinity and process maps. Browser rendering is an optional
+presentation capability, not a methodology dependency:
+
+- interactive ChatGPT/desktop surfaces may preview or open generated HTML where the relevant
+  artifact/browser capability is available;
+- Codex CLI and IDE flows report local clickable paths and retain the Markdown fallback rather
+  than assuming a graphical preview;
+- Claude Code skills can generate self-contained HTML and open it in a local browser when one is
+  available, while headless sessions use the returned file path.
+
+The skill therefore does not depend on an OpenAI-only UI, a Claude-only output style, an MCP UI,
+or remote assets. `VISIBLE` and `WORKSHOP` views expose conclusion-level inputs, artifacts,
+transformations, and decision boundaries. They never expose private chain-of-thought, raw tool
+logs, or pre-freeze Council content. The shared renderer supplies the same playful sticky-note,
+tape, cluster-neighborhood, visible-outlier, and process-lane language on both platforms;
+printed IDs/provenance and text fallbacks keep decoration from carrying evidence meaning.
+
+Primary docs: [OpenAI visualizations](https://learn.chatgpt.com/docs/visualizations),
+[OpenAI artifact viewer](https://learn.chatgpt.com/docs/artifacts-viewer),
+[OpenAI Browser](https://learn.chatgpt.com/docs/browser),
+[Claude Code skills](https://code.claude.com/docs/en/skills), and
+[Claude Desktop](https://code.claude.com/docs/en/desktop).
+
+## Optional user participation
+
+Codex and Claude both support the same conversational participation contract without a custom
+UI: **Watch · Collaborate · One prompt at a time**. Internally these map to `OBSERVE`,
+`COLLABORATE`, and `FACILITATED_TURN_BY_TURN`; facilitator support maps to
+`NOVICE_ASSISTED`, `GUIDED`, or `LIGHT_TOUCH`. Watching continues without a blocking answer.
+One-prompt mode waits for exactly one contribution or control action before advancing, while
+collaborative mode lets the user add, move, rename, challenge, or extend material as the
+facilitator continues bounded work.
+
+Both adapters use the same project-state records and evidence labels. User contributions are
+`USER_PROVIDED`, never human research. Pause, resume, skip, guidance changes, supersession,
+hand-back, and exit are portable. During a sealed round, both adapters hold new user input
+until freeze rather than changing only unfinished first-round packets. Platform differences
+affect invocation syntax and worker mechanics, not facilitation behavior.
+
 ## Durable state and hooks
 
 - `.design-council/project.json` plus immutable revision snapshots are canonical. This keeps state readable, inspectable, and portable without a server or undocumented memory contract.
@@ -35,6 +77,20 @@ Primary docs: [Codex hooks](https://learn.chatgpt.com/docs/hooks) and [Codex con
 ## Behavioral evals
 
 OpenAI's current plugin/skill documentation does not define a packaged behavioral-eval service. Claude Code `2.1.229` exposes a `plugin eval` command, but the authenticated account used for this build reported that capability as early-access gated. V1 therefore keeps one vendor-neutral corpus, maps it to both adapters, and ships deterministic unit/contract tests plus an opt-in model-backed harness using authenticated, ephemeral `codex exec` calls and JSON output contracts. This exercises product behavior without requiring an MCP server or custom agent framework; native Claude model invocation remains an additional release check when the publisher account has access and valid authentication.
+
+`evals/run_ab_benchmark.py` adds a separate controlled effectiveness comparison. Its primary arms
+receive the identical raw prompt in fresh temporary workspaces and fresh `CODEX_HOME` directories;
+only the treatment arm receives the plugin. It counterbalances order and blind A/B labels, keeps
+rubrics out of candidate prompts, records candidate usage and latency independently of judge cost,
+and reports paired uncertainty and realized-run completeness instead of turning a small smoke run
+into an efficacy claim. Quality direction and value assessment remain separate, so token savings
+cannot masquerade as quality improvement and verbosity cannot masquerade as value.
+`codex exec --ephemeral --json` supplies structured per-turn usage. Claude's documented skill
+evaluation guidance likewise recommends fresh with/without-skill baselines and blind comparison;
+a native Claude benchmark remains pending until a Claude runtime and authentication are available.
+
+Primary docs: [Codex non-interactive mode](https://learn.chatgpt.com/docs/non-interactive-mode)
+and [Claude skill evaluation](https://code.claude.com/docs/en/skills).
 
 ## Shareable interviews
 

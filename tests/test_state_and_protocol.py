@@ -3,11 +3,14 @@
 from __future__ import annotations
 
 import json
+import os
 import stat
+import subprocess
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,10 +26,15 @@ from project_state import (  # noqa: E402
     load_project,
     record_council_memory,
     record_gate_override,
+    record_visual_artifact,
+    start_participation,
+    open_participation_prompt,
+    set_process_view,
     set_mode,
     validate_state,
 )
 from sealed_round import (  # noqa: E402
+    _run_one,
     anonymize_round,
     freeze_round,
     prepare_round,
@@ -34,6 +42,7 @@ from sealed_round import (  # noqa: E402
     validate_response,
 )
 from session_summary import summarize_state  # noqa: E402
+from render_visual import render_artifact, write_artifact  # noqa: E402
 
 
 def response(round_id: str, member_id: str, position: str) -> dict:
@@ -69,6 +78,7 @@ class ProjectStateTests(unittest.TestCase):
     def test_history_is_append_only_and_revisioned(self) -> None:
         self.assertTrue(validate_state(self.state)["valid"])
         self.assertTrue((self.root / ".design-council/history/rev-000001.json").exists())
+        self.assertTrue((self.root / ".design-council/artifacts").is_dir())
         with self.assertRaises(DesignCouncilError):
             initialize_project(self.root, "Overwrite", "No")
 
@@ -154,6 +164,81 @@ class ProjectStateTests(unittest.TestCase):
         self.assertIn("DEFINE", summary)
         self.assertIn("Build Gate", summary)
 
+    def test_session_summary_resumes_open_participation_before_unrelated_work(self) -> None:
+        state = start_participation(
+            self.root,
+            "FACILITATED_TURN_BY_TURN",
+            "AFFINITY_CLUSTERING",
+            "NOVICE_ASSISTED",
+        )
+        session_id = state["participation_sessions"][0]["id"]
+        state = open_participation_prompt(
+            self.root,
+            session_id,
+            "Where would you place E-04?",
+            "Make one provisional relationship visible.",
+            "Ambiguity is useful; this is not a right-answer test.",
+            "A card can sit beside a theme as a counterexample.",
+        )
+        summary = summarize_state(state)
+        self.assertIn("Affinity Clustering", summary)
+        self.assertIn("Mode One prompt at a time", summary)
+        self.assertIn("Guidance More context", summary)
+        self.assertIn("Board r0", summary)
+        self.assertIn("Open prompt UP-001: Where would you place E-04?", summary)
+        self.assertIn("↳ Next move: Resume Affinity Clustering at UP-001", summary)
+
+    def test_process_view_is_portable_and_revisioned(self) -> None:
+        self.assertEqual(self.state["classification"]["process_view"], "VISIBLE")
+        updated = set_process_view(self.root, "WORKSHOP")
+        self.assertEqual(updated["classification"]["process_view"], "WORKSHOP")
+        self.assertEqual(updated["history"][-1]["action"], "PROCESS_VIEW_CHANGED")
+        with self.assertRaisesRegex(DesignCouncilError, "Unknown process view"):
+            set_process_view(self.root, "stream-private-thoughts")
+
+    def test_visual_artifact_manifest_is_recorded_without_embedding_visual(self) -> None:
+        artifact_dir = self.root / ".design-council/artifacts/VA-001"
+        artifact = load_json(ROOT / "skills/design-council/assets/examples/affinity-map.json")
+        artifact["id"] = "VA-001"
+        paths = write_artifact(render_artifact(artifact), artifact_dir)
+        manifest_path = Path(paths["manifest"])
+        updated = record_visual_artifact(self.root, manifest_path)
+        item = updated["visual_artifacts"][0]
+        self.assertEqual(item["artifact_id"], "VA-001")
+        self.assertNotIn("html", item)
+        self.assertEqual(item["manifest_path"], ".design-council/artifacts/VA-001/manifest.json")
+        self.assertEqual(updated["history"][-1]["action"], "VISUAL_ARTIFACT_RECORDED")
+        with self.assertRaisesRegex(DesignCouncilError, "already recorded"):
+            record_visual_artifact(self.root, manifest_path)
+
+        outside = self.root.parent / "outside-visual-manifest.json"
+        outside.write_text(manifest_path.read_text(encoding="utf-8"), encoding="utf-8")
+        try:
+            with self.assertRaisesRegex(DesignCouncilError, "inside the project root"):
+                record_visual_artifact(self.root, outside)
+        finally:
+            outside.unlink(missing_ok=True)
+
+    def test_visual_artifact_record_refuses_tampering_or_inconsistent_manifest(self) -> None:
+        artifact_dir = self.root / ".design-council/artifacts/VA-404"
+        artifact = load_json(ROOT / "skills/design-council/assets/examples/process-map.json")
+        artifact["id"] = "VA-404"
+        paths = write_artifact(render_artifact(artifact), artifact_dir)
+        manifest_path = Path(paths["manifest"])
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        manifest["record_count"] += 1
+        manifest_path.chmod(stat.S_IRUSR | stat.S_IWUSR)
+        manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+        with self.assertRaisesRegex(DesignCouncilError, "do not match record_count"):
+            record_visual_artifact(self.root, manifest_path)
+
+        manifest["record_count"] -= 1
+        manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+        Path(paths["html"]).chmod(stat.S_IRUSR | stat.S_IWUSR)
+        Path(paths["html"]).write_text("tampered\n", encoding="utf-8")
+        with self.assertRaisesRegex(DesignCouncilError, "file hash mismatch"):
+            record_visual_artifact(self.root, manifest_path)
+
 
 class SealedRoundTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -183,9 +268,55 @@ class SealedRoundTests(unittest.TestCase):
             path = self.round_dir / "prompts" / f"{member}.json"
             prompt = load_json(path)
             prompt_packets.append(prompt["common_packet"])
+            self.assertEqual(
+                prompt["response_contract"]["properties"]["member_id"],
+                {"type": "string", "const": member},
+            )
+            self.assertEqual(
+                prompt["response_contract"]["properties"]["ideas"]["items"]["properties"]["territory"]["type"],
+                "string",
+            )
+            instructions = " ".join(prompt["instructions"])
+            self.assertIn("what this person would notice first", instructions)
+            self.assertIn("need not cover every territory", instructions)
+            self.assertIn("without dumping biography", instructions)
             self.assertNotIn("Council relationships", prompt["identity_model"])
             self.assertFalse(path.stat().st_mode & stat.S_IWUSR)
         self.assertEqual(prompt_packets[0], prompt_packets[1])
+
+    def test_isolated_model_pass_ignores_user_config_and_keeps_valid_shutdown_output(self) -> None:
+        prepare_round(self.round_dir, self.packet, self.members)
+        source_home = Path(self.temp.name) / "source-codex-home"
+        source_home.mkdir()
+        (source_home / "auth.json").write_text("{}\n", encoding="utf-8")
+        observed: dict[str, object] = {}
+
+        def fake_run(command, **kwargs):
+            observed["command"] = command
+            observed["codex_home"] = kwargs["env"]["CODEX_HOME"]
+            output_index = command.index("--output-last-message") + 1
+            output_path = Path(command[output_index])
+            output_path.write_text(
+                json.dumps(response("CR-101", "maya-chen", "Protect recovery and user control.")),
+                encoding="utf-8",
+            )
+            return subprocess.CompletedProcess(command, 1, "", "unrelated client shutdown warning")
+
+        with patch.dict(os.environ, {"CODEX_HOME": str(source_home)}), patch(
+            "sealed_round.subprocess.run", side_effect=fake_run
+        ):
+            result = _run_one(
+                self.round_dir / "prompts/maya-chen.json",
+                "gpt-5.6-sol",
+                "medium",
+                30,
+            )
+
+        command = observed["command"]
+        self.assertIn("--ignore-user-config", command)
+        self.assertIn("--ignore-rules", command)
+        self.assertNotEqual(observed["codex_home"], str(source_home))
+        self.assertEqual(result["member_id"], "maya-chen")
 
     def test_freeze_then_anonymize_preserves_independence(self) -> None:
         prepare_round(self.round_dir, self.packet, self.members)

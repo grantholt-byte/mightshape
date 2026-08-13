@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Blind paired Design Council trajectory judgment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "trajectory_id",
+    "comparison_id",
+    "candidate_a",
+    "candidate_b",
+    "winner",
+    "confidence",
+    "rationale"
+  ],
+  "properties": {
+    "trajectory_id": {"type": "string"},
+    "comparison_id": {"type": "string"},
+    "candidate_a": {"$ref": "#/$defs/candidate"},
+    "candidate_b": {"$ref": "#/$defs/candidate"},
+    "winner": {"enum": ["A", "B", "TIE"]},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "rationale": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scores", "strengths", "weaknesses"],
+      "properties": {
+        "scores": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "frame_adaptation",
+            "history_preservation",
+            "assumption_updates",
+            "conceptual_divergence",
+            "experiment_information_gain",
+            "backward_iteration",
+            "momentum_and_task_fit",
+            "evidence_calibration_and_provenance"
+          ],
+          "properties": {
+            "frame_adaptation": {"type": "integer", "minimum": 0, "maximum": 5},
+            "history_preservation": {"type": "integer", "minimum": 0, "maximum": 5},
+            "assumption_updates": {"type": "integer", "minimum": 0, "maximum": 5},
+            "conceptual_divergence": {"type": "integer", "minimum": 0, "maximum": 5},
+            "experiment_information_gain": {"type": "integer", "minimum": 0, "maximum": 5},
+            "backward_iteration": {"type": "integer", "minimum": 0, "maximum": 5},
+            "momentum_and_task_fit": {"type": "integer", "minimum": 0, "maximum": 5},
+            "evidence_calibration_and_provenance": {"type": "integer", "minimum": 0, "maximum": 5}
+          }
+        },
+        "strengths": {"type": "array", "items": {"type": "string"}, "maxItems": 4},
+        "weaknesses": {"type": "array", "items": {"type": "string"}, "maxItems": 4}
+      }
+    }
+  }
+}

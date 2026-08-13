@@ -7,7 +7,7 @@
   "required": ["round_id", "member_id", "position", "ideas", "concerns", "questions", "unknowns", "surprise", "knowledge_boundary", "confidence"],
   "properties": {
     "round_id": {"type": "string", "pattern": "^CR-[0-9]{3,}$"},
-    "member_id": {"enum": ["maya-chen", "leo-martinez", "priya-rao", "marcus-brooks", "elena-rossi", "theo-bennett", "samira-okafor", "jack-sullivan", "mei-tanaka", "rafael-alvarez"]},
+    "member_id": {"type": "string", "enum": ["maya-chen", "leo-martinez", "priya-rao", "marcus-brooks", "elena-rossi", "theo-bennett", "samira-okafor", "jack-sullivan", "mei-tanaka", "rafael-alvarez"]},
     "position": {"type": "string", "minLength": 1},
     "ideas": {
       "type": "array",
@@ -17,7 +17,7 @@
         "required": ["idea", "territory"],
         "properties": {
           "idea": {"type": "string", "minLength": 1},
-          "territory": {"enum": ["EXPECTED", "ADJACENT", "BEHAVIORAL", "SYSTEMIC", "RADICAL"]}
+          "territory": {"type": "string", "enum": ["EXPECTED", "ADJACENT", "BEHAVIORAL", "SYSTEMIC", "RADICAL"]}
         }
       }
     },

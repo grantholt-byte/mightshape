@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/participation-session.schema.json",
+  "title": "Design Council participatory workshop session",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "mode",
+    "facilitator_level",
+    "activity",
+    "status",
+    "created_at",
+    "updated_at",
+    "prompts",
+    "contributions",
+    "board_revision",
+    "board_changes",
+    "sealed_coordination",
+    "guidance_state",
+    "guidance_checkpoints",
+    "adaptations",
+    "actions"
+  ],
+  "properties": {
+    "id": {"type": "string", "pattern": "^PS-[0-9]{3,}$"},
+    "mode": {"enum": ["OBSERVE", "COLLABORATE", "FACILITATED_TURN_BY_TURN"]},
+    "facilitator_level": {"enum": ["NOVICE_ASSISTED", "GUIDED", "LIGHT_TOUCH"]},
+    "activity": {
+      "enum": [
+        "BRAINSTORMING",
+        "BRAINWRITING",
+        "AFFINITY_CLUSTERING",
+        "PROCESS_RECONSTRUCTION",
+        "ASSUMPTION_MAPPING",
+        "POV_HMW",
+        "PROTOTYPE_DESIGN",
+        "TEST_DESIGN"
+      ]
+    },
+    "status": {"enum": ["ACTIVE", "PAUSED", "HANDED_BACK", "EXITED", "COMPLETED"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "prompts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "purpose", "mindset", "example", "prompt", "guidance_level", "pace", "status", "created_at", "closed_at", "answered_by"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^UP-[0-9]{3,}$"},
+          "purpose": {"type": ["string", "null"]},
+          "mindset": {"type": ["string", "null"]},
+          "example": {"type": ["string", "null"]},
+          "prompt": {"type": "string", "minLength": 1},
+          "guidance_level": {"enum": ["NOVICE_ASSISTED", "GUIDED", "LIGHT_TOUCH"]},
+          "pace": {"enum": ["SLOWER", "STANDARD", "FASTER"]},
+          "status": {"enum": ["OPEN", "ANSWERED", "SKIPPED"]},
+          "created_at": {"type": "string", "format": "date-time"},
+          "closed_at": {"type": ["string", "null"], "format": "date-time"},
+          "answered_by": {"type": ["string", "null"], "pattern": "^UC-[0-9]{3,}$"}
+        }
+      }
+    },
+    "contributions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "kind",
+          "content",
+          "provenance",
+          "status",
+          "supersedes",
+          "superseded_by",
+          "board_revision",
+          "sealed_disposition",
+          "prompt_id",
+          "created_at"
+        ],
+        "properties": {
+          "id": {"type": "string", "pattern": "^UC-[0-9]{3,}$"},
+          "kind": {
+            "enum": [
+              "IDEA",
+              "NOTE",
+              "SORT_MOVE",
+              "CLUSTER_RENAME",
+              "PROCESS_STEP",
+              "ASSUMPTION",
+              "POV_COMPONENT",
+              "HMW",
+              "PROTOTYPE_DECISION",
+              "TEST_DECISION"
+            ]
+          },
+          "content": {"type": "string", "minLength": 1},
+          "provenance": {"const": "USER_PROVIDED"},
+          "status": {"enum": ["ACTIVE", "SUPERSEDED"]},
+          "supersedes": {"type": ["string", "null"], "pattern": "^UC-[0-9]{3,}$"},
+          "superseded_by": {"type": ["string", "null"], "pattern": "^UC-[0-9]{3,}$"},
+          "board_revision": {"type": "integer", "minimum": 0},
+          "sealed_disposition": {
+            "enum": ["NONE", "COMMON_PACKET_NEXT_ROUND", "HOLD_UNTIL_POST_FREEZE"]
+          },
+          "prompt_id": {"type": ["string", "null"], "pattern": "^UP-[0-9]{3,}$"},
+          "created_at": {"type": "string", "format": "date-time"}
+        }
+      }
+    },
+    "board_revision": {"type": "integer", "minimum": 0},
+    "board_changes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["revision", "summary", "contribution_ids", "created_at"],
+        "properties": {
+          "revision": {"type": "integer", "minimum": 1},
+          "summary": {"type": "string", "minLength": 1},
+          "contribution_ids": {
+            "type": "array",
+            "items": {"type": "string", "pattern": "^UC-[0-9]{3,}$"},
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "created_at": {"type": "string", "format": "date-time"}
+        }
+      }
+    },
+    "sealed_coordination": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["round_id", "phase", "default_disposition", "applies_equally"],
+      "properties": {
+        "round_id": {"type": ["string", "null"], "pattern": "^CR-[A-Z0-9-]+$"},
+        "phase": {"enum": ["NONE", "PRE_ROUND", "ROUND_A_OPEN", "POST_FREEZE"]},
+        "default_disposition": {
+          "enum": ["NONE", "COMMON_PACKET_NEXT_ROUND", "HOLD_UNTIL_POST_FREEZE"]
+        },
+        "applies_equally": {"type": "boolean"}
+      }
+    },
+    "guidance_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["purpose_explained", "mindset_explained", "example_shown", "pace", "last_coaching", "last_adaptation_id"],
+      "properties": {
+        "purpose_explained": {"type": "boolean"},
+        "mindset_explained": {"type": "boolean"},
+        "example_shown": {"type": "boolean"},
+        "pace": {"enum": ["SLOWER", "STANDARD", "FASTER"]},
+        "last_coaching": {"type": ["string", "null"]},
+        "last_adaptation_id": {"type": ["string", "null"], "pattern": "^UA-[0-9]{3,}$"}
+      }
+    },
+    "guidance_checkpoints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "prompt_id", "request", "term", "response", "adaptation_id", "created_at"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^UG-[0-9]{3,}$"},
+          "prompt_id": {"type": "string", "pattern": "^UP-[0-9]{3,}$"},
+          "request": {"enum": ["WHY", "EXAMPLE", "DEFINE", "SLOWER", "FASTER", "COACHING"]},
+          "term": {"type": ["string", "null"]},
+          "response": {"type": "string", "minLength": 1},
+          "adaptation_id": {"type": ["string", "null"], "pattern": "^UA-[0-9]{3,}$"},
+          "created_at": {"type": "string", "format": "date-time"}
+        }
+      }
+    },
+    "adaptations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "dimension", "from", "to", "reason", "source", "prompt_id", "created_at"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^UA-[0-9]{3,}$"},
+          "dimension": {"enum": ["PACE", "FACILITATOR_LEVEL"]},
+          "from": {"enum": ["SLOWER", "STANDARD", "FASTER", "NOVICE_ASSISTED", "GUIDED", "LIGHT_TOUCH"]},
+          "to": {"enum": ["SLOWER", "STANDARD", "FASTER", "NOVICE_ASSISTED", "GUIDED", "LIGHT_TOUCH"]},
+          "reason": {"type": "string", "minLength": 1},
+          "source": {"enum": ["USER_REQUEST", "FACILITATOR_INFERENCE", "SYSTEM_POLICY"]},
+          "prompt_id": {"type": ["string", "null"], "pattern": "^UP-[0-9]{3,}$"},
+          "created_at": {"type": "string", "format": "date-time"}
+        }
+      }
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["action", "at", "details"],
+        "properties": {
+          "action": {
+            "enum": ["START", "MODE_CHANGED", "FACILITATOR_LEVEL_CHANGED", "PROMPT_OPENED", "CONTRIBUTION_ADDED", "GUIDANCE", "SKIP", "PAUSE", "RESUME", "UNDO_SUPERSEDE", "HAND_BACK", "EXIT", "COMPLETE"]
+          },
+          "at": {"type": "string", "format": "date-time"},
+          "details": {"type": "object"}
+        }
+      }
+    }
+  }
+}

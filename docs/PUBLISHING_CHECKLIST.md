@@ -11,9 +11,22 @@ Nothing in this file authorizes publication. Check items only with inspectable e
 - [ ] Logo/icon and repository demo assets reviewed; no Stanford marks or endorsement.
 - [ ] `make release-check` passes from a clean checkout.
 - [ ] Humanity, independence, Inquiry, process, and adversarial evals pass.
+- [ ] Optional participation tests pass for Watch, Collaborate, and One prompt at a time,
+  including non-blocking default behavior, durable `USER_PROVIDED` contributions, and
+  sealed-round input holding.
+- [ ] Novice-assisted, guided, and light-touch facilitator behavior passes; novice mode
+  explains the immediate purpose/mindset, gives one relevant example, and asks one bounded prompt.
+- [ ] Visual Workbench accessibility, provenance, immutability, and browser-optional checks pass.
+- [ ] Whimsical sticky-note/process-map rendering is visually inspected for readability,
+  visible outliers, text fallback parity, and decoration that does not imply evidence strength.
+- [ ] Controlled plugin-versus-baseline benchmark reviewed for both quality and token/latency overhead.
+- [ ] Benchmark report is complete and reproducible; any effectiveness statement reflects
+  realized pairs, uncertainty, important-value thresholds, and authored/model-judge limitations.
 - [ ] Cross-platform drift/parity check passes with ten identical Human Models.
 - [ ] Model-backed family-scheduler, ED-nurse, Council-humanity, and routing evals pass.
 - [ ] No secrets, transcripts, real participant quotes, or confidential project data ship.
+- [ ] Privacy copy explains visible workshop output, local participation records,
+  undo-as-supersession, visual exports, and opt-in benchmark model calls.
 - [ ] Python and Site dependency/security audits reviewed.
 - [ ] Optional interview Site browser flow and consent/delete behavior pass.
 

@@ -36,11 +36,13 @@ Choose methods from the learning question; do not run a catalog tour. Source fam
 
 ## Journey Mapping — `stanford_dschool`
 
-**Use when:** a problem unfolds across time, channels, people, or emotional states. **Do:** ground steps in evidence and map triggers, actions, touchpoints, actors, thoughts/feelings, breakdowns, workarounds, and unresolved gaps. **Output:** evidence-linked journey. **Avoid:** drawing a fictional “happy path” from team opinion.
+**Use when:** a problem unfolds across time, channels, people, or emotional states. **Do:** ground steps in evidence and map triggers, actions, touchpoints, actors, thoughts/feelings, breakdowns, workarounds, and unresolved gaps. In `VISIBLE` view, show the step sequence and contested transitions; in `WORKSHOP` view, render a provenance-aware `PROCESS_MAP` and state when a step is assumed rather than observed. **Output:** evidence-linked journey. **Avoid:** drawing a fictional “happy path” from team opinion.
+
+**Participatory route:** invite one remembered step, handoff, breakdown, or unknown transition at a time. Use `NOVICE_ASSISTED` guidance by default for a joining user and never promote their reconstruction from `USER_PROVIDED` to observed behavior.
 
 ## Stakeholder Mapping — `supplemental_design_practice`
 
-**Use when:** beneficiaries, decision makers, implementers, payers, blockers, or burden holders differ. **Do:** map relationships, authority, incentives, information, dependency, benefit, burden, and absent voices. **Output:** stakeholder/system map. **Avoid:** flattening power into equal circles.
+**Use when:** beneficiaries, decision makers, implementers, payers, blockers, or burden holders differ. **Do:** map relationships, authority, incentives, information, dependency, benefit, burden, and absent voices. Use a structured relationship table in V1; do not misrepresent it as a rendered process sequence. **Output:** stakeholder/system map. **Avoid:** flattening power into equal circles.
 
 ## Story Share and Capture — `stanford_dschool`
 
@@ -53,6 +55,8 @@ Choose methods from the learning question; do not run a catalog tour. Source fam
 ## Assumption Mapping — `supplemental_design_practice`
 
 **Use when:** many beliefs compete for limited research time. **Do:** place assumptions by importance and evidence, identify high-importance/low-evidence items, and design learning moves. **Output:** prioritized assumption map. **Avoid:** false precision or equating team confidence with evidence.
+
+**Participatory route:** place one assumption per turn; coach the difference between confidence and evidence in plain language, then record the user's placement without treating it as validation.
 
 ## Inquiry Lab — `design_council_original`
 

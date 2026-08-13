@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "analysis_note": "Constructs overlap by design. They summarize which user-valued capability each case exercises; they are not independent subscales.",
+  "constructs": {
+    "right_problem_framing": {
+      "label": "Right-problem framing",
+      "description": "Distinguishes a proposed solution from the human situation, develops credible alternative frames, and lets contradictory evidence change the frame.",
+      "case_ids": [
+        "family_scheduler",
+        "career_advisor",
+        "ed_nurse_workflow",
+        "extreme_heat",
+        "interview_guide",
+        "contradictory_evidence"
+      ]
+    },
+    "structured_divergence_and_synthesis": {
+      "label": "Structured divergence and synthesis",
+      "description": "Creates conceptual distance, organizes alternatives, preserves contradictions and outliers, and avoids premature convergence.",
+      "case_ids": [
+        "family_scheduler",
+        "career_advisor",
+        "extreme_heat",
+        "affinity_cluster",
+        "wide_ideation",
+        "contradictory_evidence"
+      ]
+    },
+    "evidence_discipline": {
+      "label": "Evidence discipline",
+      "description": "Separates evidence, inference, assumptions, synthetic signals, and unknowns while identifying the grounding needed for a consequential decision.",
+      "case_ids": [
+        "family_scheduler",
+        "career_advisor",
+        "ed_nurse_workflow",
+        "extreme_heat",
+        "affinity_cluster",
+        "process_map",
+        "prototype_forwarding",
+        "interview_guide",
+        "contradictory_evidence"
+      ]
+    },
+    "learning_and_iteration": {
+      "label": "Learning-oriented experiments and iteration",
+      "description": "Chooses a proportionate prototype or inquiry, defines decision-relevant signals, and updates direction when evidence changes.",
+      "case_ids": [
+        "family_scheduler",
+        "career_advisor",
+        "extreme_heat",
+        "wide_ideation",
+        "prototype_forwarding",
+        "interview_guide",
+        "contradictory_evidence",
+        "parser_spike"
+      ]
+    },
+    "appropriate_scope": {
+      "label": "Appropriate scope and momentum",
+      "description": "Uses Design Thinking when it adds decision value and proceeds directly when requirements or a cheap technical experiment are already clear.",
+      "case_ids": [
+        "dark_mode",
+        "parser_spike"
+      ]
+    }
+  }
+}

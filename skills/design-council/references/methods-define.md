@@ -2,7 +2,9 @@
 
 ## Affinity Clustering — `supplemental_design_practice`
 
-Group evidence records by emergent similarity, name clusters after grouping, test alternate arrangements, and retain source IDs. Preserve unclustered records. Avoid using desired features as cluster labels.
+Group evidence records by emergent similarity, name clusters after grouping, test alternate arrangements, and retain source IDs. Preserve unclustered records. Avoid using desired features as cluster labels. A contradiction is not automatically an outlier: keep a counterexample beside the theme it qualifies; reserve the outlier area for records without a defensible relationship. In `VISIBLE` view, show the complete source-card deck (stable ID, provenance, original wording) before any cluster label, then show the provisional arrangement, boundary cards, alternate grouping, and outliers. A provenance count alone does not satisfy this source-first boundary. In a text-only response, print original wording once in the locked deck and use IDs in the arrangement rather than duplicating every note. End with one concrete analytical or research move that tests the most consequential interpretation. In `WORKSHOP` view, render an `AFFINITY_MAP` through `render_visual.py`; the visual grouping is an interpretation and must not change provenance.
+
+**Participatory route:** expose card IDs and invite one move or cluster rename at a time. Preserve each move as `USER_PROVIDED`, retain the prior arrangement in history, and redraw only when the board materially changes.
 
 ## Pattern Finding — `stanford_dschool`
 
@@ -26,7 +28,7 @@ Connect evidence, pattern/tension, interpretation, and design opportunity. A str
 
 ## 2×2 Matrix — `stanford_dschool`
 
-Choose two meaningful, independent dimensions; place evidence or concepts; inspect gaps, clusters, and relationships; then challenge the axes. Use for exploration, not automatic market segmentation or proof.
+Choose two meaningful, independent dimensions; place evidence or concepts; inspect gaps, clusters, and relationships; then challenge the axes. Use for exploration, not automatic market segmentation or proof. Until a dedicated 2×2 renderer exists, preserve a structured text matrix rather than forcing data into an affinity wall.
 
 ## Why-How Laddering — `stanford_dschool`
 
@@ -44,6 +46,10 @@ Generate at least obvious, behavioral, systems, and counterintuitive readings wh
 
 Write `specific user/context + solution-independent need + evidence-linked insight`. Generate several narrow POVs rather than one vague umbrella. Score heuristically, preserve competing frames, and list assumptions.
 
+**Participatory route:** facilitate one component per turn. Gently coach solution-laden needs, explain the narrowing risk, and let the user revise or retain their wording without grading it.
+
 ## How Might We — `stanford_dschool`
 
 Turn a POV into several generative questions: direct, amplify, remove, invert, question an assumption, extreme user, scale, analogy, constraint, impossible ideal, and system intervention. Avoid embedding a solution or producing a question too broad to guide action.
+
+**Participatory route:** offer one transformation example, then ask for or invite revision of one HMW at a time. Keep competing prompts visible.

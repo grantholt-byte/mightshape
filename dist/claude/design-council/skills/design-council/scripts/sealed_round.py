@@ -88,13 +88,17 @@ def _profile_for_sealed_round(member_id: str) -> str:
 
 def _prompt_payload(packet: dict[str, Any], member_id: str, memory: dict[str, Any] | None) -> dict[str, Any]:
     response_contract = copy.deepcopy(load_json(SCHEMA_ROOT / "council-response.schema.json"))
-    response_contract["properties"]["member_id"] = {"const": member_id}
+    response_contract["properties"]["member_id"] = {"type": "string", "const": member_id}
     return {
         "protocol": "DESIGN_COUNCIL_ROUND_A_SEALED_V1",
         "member_id": member_id,
         "instructions": [
             "Respond as this persistent fictional human, using conclusion-level reasoning rather than hidden chain-of-thought.",
             "Use only the common packet, this one identity model, and this member's own supplied project memory.",
+            "Lead with what this person would notice first; do not open with a generic facilitator verdict or a balanced summary that any member could have written.",
+            "Be naturally selective rather than mechanically comprehensive: two to four strong ideas are usually enough, and you need not cover every territory.",
+            "Let the full life model influence attention, analogy, risk, and language without dumping biography, repeating a signature question, or relying on the occupation label.",
+            "Preserve an interpretation, discomfort, or possibility this person would retain even if other competent people might disagree; do not manufacture disagreement when the packet genuinely supports the same conclusion.",
             "Do not mention, infer, cite, praise, rebut, or predict another Council member or any sibling response.",
             "No social relationship history is available. Do not claim direct user or research evidence.",
             "Respect knowledge boundaries; say what is intuition, unknown, or outside expertise.",
@@ -229,13 +233,41 @@ def _run_one(prompt_path: Path, model: str, reasoning_effort: str, timeout: int)
         schema_path = isolated / "response.schema.json"
         dump_json_atomic(schema_path, payload["response_contract"])
         output_path = isolated / "response.json"
+        codex_home = isolated / "codex-home"
+        codex_home.mkdir()
+        source_codex_home = Path(
+            os.environ.get("CODEX_HOME", str(Path.home() / ".codex"))
+        ).expanduser()
+        source_auth = source_codex_home / "auth.json"
+        if source_auth.is_file():
+            destination_auth = codex_home / "auth.json"
+            shutil.copy2(source_auth, destination_auth)
+            destination_auth.chmod(0o600)
+        environment = os.environ.copy()
+        environment["CODEX_HOME"] = str(codex_home)
         command = [
-            "codex", "exec", "--ephemeral", "--skip-git-repo-check", "--ignore-rules",
+            "codex", "exec", "--ephemeral", "--skip-git-repo-check", "--ignore-user-config", "--ignore-rules",
             "--sandbox", "read-only", "-C", str(isolated), "--output-schema", str(schema_path),
             "--output-last-message", str(output_path), "-m", model,
             "-c", f'model_reasoning_effort="{reasoning_effort}"', "-",
         ]
-        completed = subprocess.run(command, input=_plain_prompt(payload), text=True, capture_output=True, timeout=timeout, check=False)
+        completed = subprocess.run(
+            command,
+            input=_plain_prompt(payload),
+            text=True,
+            capture_output=True,
+            timeout=timeout,
+            check=False,
+            env=environment,
+        )
+        # An optional client may fail during shutdown after Codex has already
+        # written the complete structured answer. Prefer that auditable file;
+        # complete-set validation below still binds it to this member/round.
+        if output_path.is_file():
+            try:
+                return load_json(output_path)
+            except DesignCouncilError:
+                pass
         if completed.returncode != 0:
             detail = completed.stderr.strip() or completed.stdout.strip() or "unknown codex exec failure"
             raise DesignCouncilError(f"isolated pass failed for {payload['member_id']}: {detail[-800:]}")

@@ -7,9 +7,12 @@ This repository ships a Codex-native human-centered design product. Preserve the
 3. deep, bounded Human Models;
 4. sealed Council independence before social influence;
 5. useful conceptual divergence and minority preservation;
-6. low-friction, native Codex interaction;
-7. progressive disclosure and token efficiency.
-8. cross-platform parity from one canonical source.
+6. outcome quality and decision-relevant learning;
+7. low-friction, native Codex interaction;
+8. progressive disclosure without sacrificing substantive quality;
+9. cross-platform parity from one canonical source;
+10. optional, method-safe participant facilitation;
+11. visual creativity without provenance loss.
 
 Development rules:
 
@@ -19,6 +22,10 @@ Development rules:
 - Do not claim that Intake, Inquiry Lab, sealed rounds, Reality Check, Build Gate, Design Debt, Evidence Debt, or Assumption Burn-down are Stanford methods.
 - Do not describe the five d.school modes as a mandatory linear process.
 - Never convert Council or synthetic output into human evidence.
+- Never label illustrative/demo records as human interviews or observations. Public examples must name their real source and visibly state their limits.
+- Keep participation optional and non-blocking. A novice facilitator explains only the immediate purpose and mindset, gives a method-safe example, and asks one bounded prompt; protected ideation must not receive a target-domain seed.
+- Show inspectable method artifacts and transformations, never hidden chain-of-thought, private worker reasoning, or raw tool logs.
+- Route bounded, reversible technical spikes directly when the metric and timebox are already explicit; do not spend Design Council tokens where plain execution is the better fit.
 - Keep study definition, participant sourcing, interviewing, evidence ingestion, and synthesis separable; Exchange must remain a replaceable provider boundary.
 - Never send a private InternalStudy to a participant. Produce and approve a minimized ExternalStudyPacket, and keep project-owner and participant consent independent.
 - Do not make the core depend on hooks, Sites, Codex memories, an MCP server, or third-party infrastructure.
@@ -28,5 +35,7 @@ Development rules:
 - Use `apply_patch` for source edits. Do not edit generated `interview-app/dist` output.
 - Run `python3 -m unittest discover -s tests -v`, the package validator, skill validator, plugin validator, schema checks, and behavioral contract evals after substantive changes.
 - Run `make release-check` before a release; platform package drift is a release blocker.
+- Treat plugin-versus-baseline outcome effectiveness as primary. Report incremental token/latency use and marginal quality gain separately as resource diagnostics; a configured token target must never veto an established quality benefit. Never call the result monetary ROI or cost-effective without a defensible utility/cost model.
+- Compare against both raw prompting and a frozen competent Design Thinking prompt. Use persisted multi-turn trajectories to test reframing, history, evidence updates, conceptual breadth, experiment information gain, and backward iteration; do not infer those longitudinal benefits from a one-shot response.
 - Build and test `interview-app` separately; never claim a public URL unless Sites returned one.
 - Do not copy substantial source text or Stanford visual assets. Keep attribution precise and avoid any implication of endorsement.

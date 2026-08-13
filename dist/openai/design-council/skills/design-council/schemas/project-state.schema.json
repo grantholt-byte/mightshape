@@ -71,6 +71,57 @@
         "status": {"enum": ["open", "mitigated", "resolved", "accepted"]},
         "created_at": {"type": "string", "format": "date-time"}
       }
+    },
+    "visualArtifactRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_id",
+        "artifact_type",
+        "input_sha256",
+        "record_count",
+        "provenance_counts",
+        "source_ids",
+        "manifest_path",
+        "files",
+        "file_sha256",
+        "recorded_at"
+      ],
+      "properties": {
+        "artifact_id": {"type": "string", "pattern": "^VA-[A-Z0-9][A-Z0-9-]*$"},
+        "artifact_type": {"enum": ["AFFINITY_MAP", "PROCESS_MAP"]},
+        "input_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "record_count": {"type": "integer", "minimum": 0},
+        "provenance_counts": {
+          "type": "object",
+          "additionalProperties": {"type": "integer", "minimum": 0}
+        },
+        "source_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "manifest_path": {"type": "string", "pattern": "^\\.design-council/artifacts/VA-[A-Z0-9][A-Z0-9-]*/manifest\\.json$"},
+        "files": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source", "html", "svg", "markdown"],
+          "properties": {
+            "source": {"type": "string", "pattern": "^[^/\\\\]+$"},
+            "html": {"type": "string", "pattern": "^[^/\\\\]+\\.html$"},
+            "svg": {"type": "string", "pattern": "^[^/\\\\]+\\.svg$"},
+            "markdown": {"type": "string", "pattern": "^[^/\\\\]+\\.md$"}
+          }
+        },
+        "file_sha256": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source", "html", "svg", "markdown"],
+          "properties": {
+            "source": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+            "html": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+            "svg": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+            "markdown": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+          }
+        },
+        "recorded_at": {"type": "string", "format": "date-time"}
+      }
     }
   },
   "properties": {
@@ -108,7 +159,8 @@
         "reversibility": {"enum": ["EASY", "MODERATE", "DIFFICULT", "UNKNOWN"]},
         "consequence_of_error": {"enum": ["LOW", "MEDIUM", "HIGH", "UNKNOWN"]},
         "solution_lock_in_risk": {"enum": ["LOW", "MEDIUM", "HIGH", "UNKNOWN"]},
-        "operating_depth": {"enum": ["QUICK_LOOK", "SPRINT", "STANDARD", "DEEP_DESIGN"]}
+        "operating_depth": {"enum": ["QUICK_LOOK", "SPRINT", "STANDARD", "DEEP_DESIGN"]},
+        "process_view": {"enum": ["COMPACT", "VISIBLE", "WORKSHOP"]}
       }
     },
     "journey": {
@@ -144,6 +196,8 @@
     "reality_checks": {"type": "array", "items": {"$ref": "reality-check.schema.json"}},
     "decisions": {"$ref": "#/$defs/recordArray"},
     "minority_reports": {"$ref": "#/$defs/recordArray"},
+    "visual_artifacts": {"type": "array", "items": {"$ref": "#/$defs/visualArtifactRecord"}},
+    "participation_sessions": {"type": "array", "items": {"$ref": "participation-session.schema.json"}},
     "design_debt": {"type": "array", "items": {"$ref": "#/$defs/debt"}},
     "evidence_debt": {"type": "array", "items": {"$ref": "#/$defs/debt"}},
     "build_gate": {

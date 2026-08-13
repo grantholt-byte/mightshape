@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Design Council blind human paired rating",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "comparison_id",
+    "platform",
+    "anonymous_rater_id",
+    "arm_identity_hidden_during_rating",
+    "resource_use_revealed_after_quality_rating",
+    "preferences",
+    "confidence",
+    "rationale"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "comparison_id": {"type": "string", "minLength": 1},
+    "platform": {"enum": ["CODEX", "CLAUDE_CODE"]},
+    "anonymous_rater_id": {"type": "string", "pattern": "^R-[0-9]{3,}$"},
+    "arm_identity_hidden_during_rating": {"const": true},
+    "resource_use_revealed_after_quality_rating": {"const": true},
+    "preferences": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "next_decision_quality",
+        "challenges_initial_solution",
+        "conceptual_breadth",
+        "evidence_discipline",
+        "experiment_information_gain",
+        "evidence_driven_iteration",
+        "preserves_momentum",
+        "continue_working_with"
+      ],
+      "properties": {
+        "next_decision_quality": {"$ref": "#/$defs/preference"},
+        "challenges_initial_solution": {"$ref": "#/$defs/preference"},
+        "conceptual_breadth": {"$ref": "#/$defs/preference"},
+        "evidence_discipline": {"$ref": "#/$defs/preference"},
+        "experiment_information_gain": {"$ref": "#/$defs/preferenceOrNA"},
+        "evidence_driven_iteration": {"$ref": "#/$defs/preferenceOrNA"},
+        "preserves_momentum": {"$ref": "#/$defs/preference"},
+        "continue_working_with": {"$ref": "#/$defs/preference"}
+      }
+    },
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "rationale": {"type": "string", "minLength": 1, "maxLength": 2000}
+  },
+  "$defs": {
+    "preference": {"enum": ["A", "B", "TIE"]},
+    "preferenceOrNA": {"enum": ["A", "B", "TIE", "NOT_APPLICABLE"]}
+  }
+}

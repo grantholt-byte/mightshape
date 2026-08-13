@@ -1,0 +1,33 @@
+{
+  "round_id": "CR-903",
+  "task": "Generate independent positions, ideas, concerns, questions, unknowns, and one surprise about whether automatic conflict resolution is the right intervention.",
+  "challenge": "A proposed AI family scheduler would automatically resolve conflicts among changing commitments.",
+  "current_problem_frame": "Families may struggle to discover, reconcile, and assign ownership for commitments arriving through fragmented channels.",
+  "current_pov": null,
+  "known_evidence": [
+    {
+      "id": "E-001",
+      "provenance": "USER_PROVIDED",
+      "claim": "Commitments arrive through email, texts, school applications, and paper."
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "A-001",
+      "statement": "Families want an AI system to resolve conflicts automatically."
+    },
+    {
+      "id": "A-002",
+      "statement": "Scheduling, rather than discovery or decision ownership, is the primary problem."
+    }
+  ],
+  "unknowns": [
+    "Who currently performs the invisible coordination work?",
+    "Which conflict decisions can safely be delegated?",
+    "What happens when the system has incomplete information?"
+  ],
+  "constraints": [
+    "No completed human interviews are available.",
+    "Keep the next experiment reversible and low cost."
+  ]
+}

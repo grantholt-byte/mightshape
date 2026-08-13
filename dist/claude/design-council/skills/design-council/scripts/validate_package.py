@@ -27,6 +27,7 @@ EXPECTED_SCRIPTS = {
     "create_persona.py", "validate_reality_packet.py", "detect_leading_questions.py", "compare_participants.py",
     "synthesize_inquiry.py", "validate_package.py", "sealed_round.py",
     "participant_sources.py", "disclosure_guard.py",
+    "render_visual.py",
 }
 EXPECTED_SCHEMAS = {
     "project-state.schema.json", "evidence.schema.json", "assumption.schema.json", "insight.schema.json",
@@ -40,6 +41,8 @@ EXPECTED_SCHEMAS = {
     "research-session-type.schema.json", "exchange-recruitment-request.schema.json",
     "exchange-credit-ledger.schema.json", "learning-signal.schema.json",
     "ip-exposure-assessment.schema.json", "demand-signal-event.schema.json",
+    "visual-artifact.schema.json",
+    "participation-session.schema.json",
 }
 EXPECTED_TEMPLATES = {
     "design-brief.md", "research-plan.md", "interview-guide.md", "reality-packet.md", "pov-card.md",
@@ -155,6 +158,12 @@ def validate_package(root: str | Path) -> dict[str, Any]:
 
     before = len(errors)
     reference_root = skill_root / "references"
+    _check(
+        (reference_root / "participatory-workshops.md").is_file(),
+        "MISSING_REFERENCE",
+        "participatory-workshops.md",
+        errors,
+    )
     for member_id in COUNCIL_IDS:
         path = reference_root / f"council-{member_id}.md"
         _check(path.is_file(), "MISSING_PROFILE", member_id, errors)

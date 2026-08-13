@@ -13,11 +13,13 @@ make validate-openai
 ```
 
 The installable package is `dist/openai/design-council/` and the deterministic archive is
-`dist/design-council-openai-0.9.0-beta.2.zip`.
+`dist/design-council-openai-0.9.0-beta.3.zip`.
 
-## Test from the repository marketplace
+## Test from the local development marketplace
 
-The root `.agents/plugins/marketplace.json` points to the generated package.
+The root `.agents/plugins/marketplace.json` points to the generated package. This path-based
+marketplace is for repository-local development; the GitHub source below is the shareable
+collaborator install.
 
 ```bash
 codex plugin marketplace add /absolute/path/to/design-council --json
@@ -62,17 +64,23 @@ only through a deliberate project-data retention decision.
 For a collaborator who has access to the private beta repository:
 
 ```bash
+gh auth status
+# If the preceding command reports that you are not logged in:
+gh auth login --git-protocol https
 gh auth setup-git
-git ls-remote https://github.com/grantholt-byte/design-council.git \
-  --exit-code refs/tags/v0.9.0-beta.2
-codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.2 --json
+git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
+  refs/tags/v0.9.0-beta.3
+codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.3 --json
 codex plugin list --marketplace design-council --available --json
 codex plugin add design-council@design-council --json
 codex plugin list --json
 ```
 
-GitHub authentication must grant the collaborator read access to the private repository.
-This installs from the immutable beta tag rather than the moving `main` branch.
+The repository owner must add the installer as a collaborator, and the collaborator must
+accept the invitation. `gh auth status` must show that account, while `ls-remote` proves both
+private-repository access and availability of the exact `v0.9.0-beta.3` tag. Do not continue
+if either check fails. This installs from the immutable beta tag rather than the moving
+`main` branch.
 
 To move to a later immutable beta tag, remove the installed plugin and marketplace, then
 repeat the commands above with the new `--ref`. `marketplace upgrade` refreshes a moving

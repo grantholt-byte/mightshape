@@ -1,0 +1,181 @@
+{
+  "schema_version": "1.0.0",
+  "recorded_at": "2026-08-13",
+  "run_id": "20260813T160656Z",
+  "release": "0.9.0-beta.3",
+  "purpose": "Test whether the Design Council skill adds single-turn outcome value beyond a competent frozen Design Thinking prompt without the plugin.",
+  "design": {
+    "candidate_model": "gpt-5.6-sol",
+    "candidate_effort": "medium",
+    "judge_model": "gpt-5.6-terra",
+    "judge_effort": "medium",
+    "cases": 12,
+    "generation_repeats_per_case": 2,
+    "blind_judgments_per_pair": 2,
+    "complete_pairs": 24,
+    "planned_pairs": 24,
+    "seed": 20260813,
+    "minimum_important_quality_uplift_points": 3.0,
+    "maximum_treatment_control_token_ratio": 1.5,
+    "control_mode": "design-thinking-prompt",
+    "identical_raw_user_prompts": true,
+    "counterbalanced_generation_order": true,
+    "counterbalanced_blind_labels": true,
+    "fresh_auth_only_codex_homes": true,
+    "read_only_candidate_sandboxes": true,
+    "all_generation_completed_before_judging": true
+  },
+  "intervention": {
+    "treatment": "Repository-local Design Council skill frozen before the first model call.",
+    "control": "No plugin, state, Human Models, Council protocols, or modular references; the same raw user prompt was preceded by one frozen competent Design Thinking instruction.",
+    "prompt_only_control_sha256": "ad1b7fee598bafda3095c38fcb068686ecf369506cbeca85e7ddadeb715a40f8"
+  },
+  "reproducibility": {
+    "prompt_corpus_sha256": "afb507b2d2e22eb384a239ca4aaed03e0c9f35e88538c10d327b395c1dab9a29",
+    "outcome_construct_registry_sha256": "1c03e63e8bddccb54a5d3deeebc451426e4b2b387b9170e86dbc9154b78bda13",
+    "canonical_skill_tree_sha256_at_run": "4c065acd66140c9c8eb90670890d4c6a2ffd5b1e5f7a24d52c21d3419fbcfa48",
+    "canonical_skill_file_count_at_run": 107,
+    "benchmark_runner_sha256": "bccb168ff7358f2efa011c331e15a5e022bb9ad73053106ce05359665b0fe043",
+    "judge_schema_sha256": "e159ffaad62281672b57e81051a535cc4b4799697a6ceee507fd01bcd2eff66e",
+    "codex_cli": "codex-cli 0.146.1",
+    "frozen_before_first_model_call": true,
+    "base_git_commit": "c1abfa4231b223bb68b9d180fe4476a2ea5fcaad",
+    "working_tree_was_dirty": true
+  },
+  "reporting_hierarchy": {
+    "primary_question": "Does Design Council produce a practically meaningful single-turn outcome-quality benefit over a competent prompt-only Design Thinking session?",
+    "primary_effectiveness_verdict": "INCONCLUSIVE",
+    "basis": "The observed treatment-control difference was -1.547619 points and the 95% case-bootstrap interval [-4.642857, 1.785714] crossed zero; the run therefore established neither a treatment advantage nor a reliable control advantage.",
+    "resource_descriptor": "ABOVE_CONFIGURED_BUDGET",
+    "resource_note": "Token use is a secondary optimization descriptor and does not determine the outcome-quality verdict. Here it reinforces, but does not cause, the conclusion that this run established no incremental benefit."
+  },
+  "outcome": {
+    "quality_direction": "INCONCLUSIVE",
+    "quality_scale": "0-100 blind rubric score",
+    "treatment_mean_quality": 93.571429,
+    "control_mean_quality": 95.119048,
+    "absolute_quality_uplift_points": -1.547619,
+    "relative_quality_uplift": -0.01627,
+    "paired_case_bootstrap_95_ci": [
+      -4.642857,
+      1.785714
+    ],
+    "paired_effect_size_dz": -0.256046,
+    "case_wins_ties_losses": [
+      3,
+      2,
+      7
+    ],
+    "blind_treatment_control_tie_votes": [
+      21,
+      27,
+      0
+    ]
+  },
+  "resource_cost": {
+    "treatment_mean_generation_tokens": 35168.041667,
+    "control_mean_generation_tokens": 16353.291667,
+    "incremental_generation_tokens": 18814.75,
+    "treatment_control_token_ratio": 2.150518,
+    "treatment_mean_wall_time_seconds": 46.787118,
+    "control_mean_wall_time_seconds": 36.175409,
+    "wall_time_ratio": 1.29334,
+    "treatment_mean_visible_words": 651.375,
+    "control_mean_visible_words": 652.583333,
+    "visible_word_ratio": 0.998148,
+    "judge_tokens_excluded_from_arms": 772402
+  },
+  "outcome_construct_profile": {
+    "status": "FROZEN_BEFORE_RUN_DIAGNOSTIC_GROUPS",
+    "note": "These groups overlap and are diagnostic means, not independent validated psychometric subscales.",
+    "constructs": [
+      {
+        "id": "right_problem_framing",
+        "cases": 6,
+        "treatment": 93.690476,
+        "control": 95.119048,
+        "uplift": -1.428572,
+        "wins_ties_losses": [2, 1, 3]
+      },
+      {
+        "id": "structured_divergence_and_synthesis",
+        "cases": 6,
+        "treatment": 92.380952,
+        "control": 97.02381,
+        "uplift": -4.642858,
+        "wins_ties_losses": [1, 1, 4]
+      },
+      {
+        "id": "evidence_discipline",
+        "cases": 9,
+        "treatment": 92.857143,
+        "control": 95.476191,
+        "uplift": -2.619048,
+        "wins_ties_losses": [2, 1, 6]
+      },
+      {
+        "id": "learning_and_iteration",
+        "cases": 8,
+        "treatment": 94.017857,
+        "control": 95.625,
+        "uplift": -1.607143,
+        "wins_ties_losses": [2, 2, 4]
+      },
+      {
+        "id": "appropriate_scope",
+        "cases": 2,
+        "treatment": 95.714286,
+        "control": 91.428572,
+        "uplift": 4.285714,
+        "wins_ties_losses": [1, 1, 0]
+      }
+    ],
+    "blind_judge_dimensions": [
+      {"id": "problem_understanding", "uplift": -0.416666},
+      {"id": "methodological_rigor", "uplift": 3.333333},
+      {"id": "breadth_and_nonobviousness", "uplift": -8.75},
+      {"id": "evidence_calibration", "uplift": -3.75},
+      {"id": "actionability", "uplift": 0.0},
+      {"id": "task_fit_and_clarity", "uplift": 1.25},
+      {"id": "communication_efficiency", "uplift": -2.5}
+    ]
+  },
+  "per_case": [
+    {"id": "family_scheduler", "quality_delta": -7.857143, "token_ratio": 2.249104, "result": "LOSS"},
+    {"id": "career_advisor", "quality_delta": -8.571428, "token_ratio": 2.200316, "result": "LOSS"},
+    {"id": "ed_nurse_workflow", "quality_delta": -2.857142, "token_ratio": 1.261659, "result": "LOSS"},
+    {"id": "extreme_heat", "quality_delta": -1.428572, "token_ratio": 1.256548, "result": "TIE"},
+    {"id": "affinity_cluster", "quality_delta": -8.571429, "token_ratio": 2.184069, "result": "LOSS"},
+    {"id": "process_map", "quality_delta": -2.857142, "token_ratio": 2.202323, "result": "LOSS"},
+    {"id": "wide_ideation", "quality_delta": -3.571428, "token_ratio": 2.818399, "result": "LOSS"},
+    {"id": "prototype_forwarding", "quality_delta": -3.571429, "token_ratio": 3.52197, "result": "LOSS"},
+    {"id": "interview_guide", "quality_delta": 10.0, "token_ratio": 3.539547, "result": "WIN"},
+    {"id": "contradictory_evidence", "quality_delta": 2.142857, "token_ratio": 2.906886, "result": "WIN"},
+    {"id": "dark_mode", "quality_delta": 8.571428, "token_ratio": 2.010548, "result": "WIN"},
+    {"id": "parser_spike", "quality_delta": 0.0, "token_ratio": 1.002526, "result": "TIE"}
+  ],
+  "interpretation": "This internal Codex run does not establish that the beta3 Design Council snapshot improves a competent one-shot Design Thinking prompt. The point estimate slightly favored the prompt-only control, but the interval crossed zero. Design Council improved methodological rigor, task fit, and appropriate-scope handling, while the prompt-only control was stronger on breadth/non-obviousness, evidence calibration, and communication efficiency. The raw-prompt comparison remains positive evidence against an unassisted session; it must not be presented as proof of incremental value beyond competent prompt engineering.",
+  "companion_evidence": {
+    "raw_prompt_control": "evals/evidence/ab-benchmark-beta3.json",
+    "raw_prompt_result": "MEANINGFUL_BENEFIT_ESTABLISHED"
+  },
+  "limitations": [
+    "The product team authored the prompt corpus, control instruction, and rubrics.",
+    "The judge was a model, not an independent human panel.",
+    "Candidate wording could reveal Design Council terminology even though arm labels were blind.",
+    "Seven of 24 pairs changed winner across counterbalanced judge presentations.",
+    "Two candidate responses exceeded the shared 900-word cap.",
+    "Bundled host-runtime capabilities remained a shared environmental boundary.",
+    "This was a single-turn Codex study and cannot measure the plugin's proposed longitudinal value from persistent project memory, evidence-driven iteration, facilitated participation, or multi-cycle Council work.",
+    "The frozen treatment snapshot was captured from a dirty beta3 working tree; later refinements require a new frozen run rather than being inferred from this result.",
+    "Held-out external prompts and independent human raters are required before a public efficacy claim.",
+    "No authenticated native Claude study was run, so no Claude efficacy claim is made.",
+    "Token ratios are resource descriptors, not monetary ROI and not a substitute for outcome quality."
+  ],
+  "next_validation": [
+    "Run scripted multi-turn trajectories that score frame changes, evidence integration, divergence, experiment information gain, and backward iteration.",
+    "Use held-out prompts contributed by people who did not author the product or benchmark.",
+    "Conduct blind human paired review with quality ratings locked before resource use is shown.",
+    "Repeat the within-platform comparison in an authenticated native Claude Code runtime."
+  ]
+}

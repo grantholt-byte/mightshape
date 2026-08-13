@@ -11,21 +11,31 @@ points at `dist/claude/design-council`, a self-contained generated plugin. Befor
 make validate-claude
 ```
 
-Local install:
+Repository-local development install (`local` scope):
 
 ```bash
 claude plugin marketplace add /absolute/path/to/design-council --scope local
 claude plugin install design-council@design-council --scope local
 ```
 
-After the owner creates and tags a GitHub repository, users can add it with:
+After the owner grants private-repository collaborator access and the collaborator accepts
+the invitation, verify authentication and the exact beta tag before adding the hosted
+marketplace in Claude's cross-project `user` scope:
 
 ```bash
+gh auth status
+# If the preceding command reports that you are not logged in:
+gh auth login --git-protocol https
 gh auth setup-git
+git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
+  refs/tags/v0.9.0-beta.3
 CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
-  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.2
-claude plugin install design-council@design-council
+  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.3 --scope user
+claude plugin install design-council@design-council --scope user
 ```
+
+`gh auth status` must show the invited GitHub account, and `ls-remote` must succeed. Stop and
+resolve authentication, invitation, or tag availability if it does not.
 
 Git-backed relative plugin sources are supported because Claude clones the entire
 marketplace. A direct URL to only `marketplace.json` would not resolve this relative source.
@@ -52,14 +62,36 @@ Do not promise or market official inclusion.
 
 ## Version and updates
 
-The plugin manifest and marketplace entry both use `0.9.0-beta.2`. Claude Code treats an explicit
+The plugin manifest and marketplace entry both use `0.9.0-beta.3`. Claude Code treats an explicit
 version as the update boundary, so every release must bump `VERSION` and regenerate both
 packages. `check_cross_platform_drift.py` rejects version mismatch.
 
+For a repository-local development install, rebuild and use the normal marketplace/plugin
+update flow:
+
 ```bash
+make build-claude
 claude plugin marketplace update design-council
-claude plugin update design-council@design-council
+claude plugin update design-council@design-council --scope local
 ```
+
+For a hosted `user`-scope install pinned to `@v0.9.0-beta.3`, normal update commands cannot
+move the marketplace to a different immutable tag. When a later beta is announced, set the
+variable below to that exact tag and re-create the installed marketplace boundary:
+
+```bash
+DC_DESIGN_COUNCIL_TAG='REPLACE_WITH_ANNOUNCED_TAG'
+claude plugin uninstall design-council@design-council --scope user
+claude plugin marketplace remove design-council --scope user
+git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
+  "refs/tags/${DC_DESIGN_COUNCIL_TAG}"
+CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
+  claude plugin marketplace add \
+  "grantholt-byte/design-council@${DC_DESIGN_COUNCIL_TAG}" --scope user
+claude plugin install design-council@design-council --scope user
+```
+
+The current pinned beta is exactly `v0.9.0-beta.3`; do not substitute a moving branch.
 
 ## Reviewer trust
 

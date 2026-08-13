@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.0.0",
+  "id": "VA-DEMO-PROCESS",
+  "artifact_type": "PROCESS_MAP",
+  "title": "Clinic rescheduling — illustrative prompt map",
+  "summary": "The supplied sequence crosses patient, front-desk, clinical-team, and transport lanes; recovery after interruption remains unknown.",
+  "summary_provenance": "DESIGN_COUNCIL",
+  "summary_record_ids": ["STEP-001", "STEP-002", "STEP-003", "STEP-004", "STEP-005", "STEP-006", "FLOW-001", "FLOW-002", "FLOW-003", "FLOW-004", "FLOW-005", "FLOW-006"],
+  "mode": "EMPATHIZE",
+  "cycle": 1,
+  "limitations": [
+    "Illustrative demo built from a user-provided benchmark scenario, not observation or a human interview.",
+    "Local clinic variations, decision rules, timing, and the actual interruption-recovery path remain unverified."
+  ],
+  "data": {
+    "lanes": [
+      {"id": "LANE-PATIENT", "label": "Patient"},
+      {"id": "LANE-FRONT-DESK", "label": "Receptionist"},
+      {"id": "LANE-CLINICAL", "label": "Clinical team"},
+      {"id": "LANE-TRANSPORT", "label": "Transport"}
+    ],
+    "steps": [
+      {
+        "id": "STEP-001",
+        "label": "Requests a new time",
+        "detail": "The patient calls the clinic to reschedule.",
+        "lane_id": "LANE-PATIENT",
+        "provenance": "USER_PROVIDED",
+        "source_ids": ["BENCHMARK-PROCESS/PROMPT"]
+      },
+      {
+        "id": "STEP-002",
+        "label": "Writes and routes a note",
+        "detail": "The receptionist records the request and messages the clinical team.",
+        "lane_id": "LANE-FRONT-DESK",
+        "provenance": "USER_PROVIDED",
+        "source_ids": ["BENCHMARK-PROCESS/PROMPT"]
+      },
+      {
+        "id": "STEP-003",
+        "label": "Reviews the request",
+        "detail": "The clinical team decides whether to approve the change.",
+        "lane_id": "LANE-CLINICAL",
+        "provenance": "USER_PROVIDED",
+        "source_ids": ["BENCHMARK-PROCESS/PROMPT"]
+      },
+      {
+        "id": "STEP-004",
+        "label": "Calls back and updates",
+        "detail": "The receptionist tells the patient and updates scheduling.",
+        "lane_id": "LANE-FRONT-DESK",
+        "provenance": "USER_PROVIDED",
+        "source_ids": ["BENCHMARK-PROCESS/PROMPT"]
+      },
+      {
+        "id": "STEP-005",
+        "label": "Notifies transport",
+        "detail": "Transport is told separately when a ride was booked.",
+        "lane_id": "LANE-TRANSPORT",
+        "provenance": "USER_PROVIDED",
+        "source_ids": ["BENCHMARK-PROCESS/PROMPT"]
+      },
+      {
+        "id": "STEP-006",
+        "label": "Recovers from interruption",
+        "detail": "What happens after voicemail, shift change, or missing transport detail is not supplied.",
+        "lane_id": "LANE-FRONT-DESK",
+        "provenance": "UNKNOWN",
+        "source_ids": []
+      }
+    ],
+    "transitions": [
+      {
+        "id": "FLOW-001",
+        "from_step_id": "STEP-001",
+        "to_step_id": "STEP-002",
+        "label": "phone handoff",
+        "provenance": "USER_PROVIDED",
+        "source_ids": ["BENCHMARK-PROCESS/PROMPT"]
+      },
+      {
+        "id": "FLOW-002",
+        "from_step_id": "STEP-002",
+        "to_step_id": "STEP-003",
+        "label": "message for approval",
+        "provenance": "USER_PROVIDED",
+        "source_ids": ["BENCHMARK-PROCESS/PROMPT"]
+      },
+      {
+        "id": "FLOW-003",
+        "from_step_id": "STEP-003",
+        "to_step_id": "STEP-004",
+        "label": "approval returned",
+        "provenance": "USER_PROVIDED",
+        "source_ids": ["BENCHMARK-PROCESS/PROMPT"]
+      },
+      {
+        "id": "FLOW-004",
+        "from_step_id": "STEP-004",
+        "to_step_id": "STEP-005",
+        "label": "if transport booked",
+        "provenance": "USER_PROVIDED",
+        "source_ids": ["BENCHMARK-PROCESS/PROMPT"]
+      },
+      {
+        "id": "FLOW-005",
+        "from_step_id": "STEP-002",
+        "to_step_id": "STEP-006",
+        "label": "if shift changes",
+        "provenance": "USER_PROVIDED",
+        "source_ids": ["BENCHMARK-PROCESS/PROMPT"]
+      },
+      {
+        "id": "FLOW-006",
+        "from_step_id": "STEP-006",
+        "to_step_id": "STEP-004",
+        "label": "recovery path unknown",
+        "provenance": "UNKNOWN",
+        "source_ids": []
+      }
+    ]
+  }
+}

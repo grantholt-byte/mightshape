@@ -5,9 +5,11 @@
 1. Activation boundary
 2. Intake risk
 3. Operating depth
-4. Archetypes
-5. Soft commands
-6. Resource routes
+4. Process view
+5. Participation and facilitator level
+6. Archetypes
+7. Soft commands
+8. Resource routes
 
 ## Activation boundary
 
@@ -50,6 +52,30 @@ High risk does not authorize a giant questionnaire. Identify the smallest decisi
 
 Switch depth when evidence, consequence, or reversibility changes. Never equate depth with quality theater.
 
+## Process view
+
+| View | Use when | Observable behavior |
+|---|---|---|
+| `COMPACT` | Quick Look, routine execution, or explicit brevity | Result, evidence status where needed, and next move |
+| `VISIBLE` | Default substantive session | Conclusion-level checkpoints at material method/phase boundaries |
+| `WORKSHOP` | User asks to watch or inspect the exercise | Checkpoints plus cards, batches, groupings, alternate arrangements, transformations, and outliers |
+
+Process view is independent of operating depth. It never authorizes hidden reasoning, raw logs, private worker transcripts, or sealed-response leakage.
+
+## Participation and facilitator level
+
+Participation is independent of depth and process view:
+
+| Mode | Route |
+|---|---|
+| `OBSERVE` | Default; facilitator runs the method without requiring user turns |
+| `COLLABORATE` | Accept ad hoc user cards, moves, renames, steps, or decisions while continuing progress |
+| `FACILITATED_TURN_BY_TURN` | Ask one bounded prompt, wait, record, show a meaningful delta, then continue |
+
+At the first useful exercise boundary, offer these three choices once, non-blockingly. Continue in `OBSERVE` if the user does not answer or declines. Do not start an interactive loop until the user explicitly chooses `COLLABORATE` or `FACILITATED_TURN_BY_TURN`.
+
+When the user opts in, default to `NOVICE_ASSISTED` unless their method fluency is evident. Use `GUIDED` for moderate scaffolding and `LIGHT_TOUCH` for a fluent user or explicit request for speed. Route “why are we doing this?”, “show an example,” “define that,” and “slower/faster” to point-of-use facilitator guidance without opening a second question.
+
 ## Challenge archetypes
 
 Allow multiple labels. Use them to adjust methods and Council allocation:
@@ -88,6 +114,15 @@ Natural language remains primary. Map these phrases to intent:
 | Prepare a human interview | consent, guide, fieldwork kit, Solution Blackout |
 | Create an interview link | hosted capability check and Sites companion |
 | Analyze/compare interviews | provenance-safe synthesis |
+| Show the work / workshop mode / show it along the way | `WORKSHOP` process view; expose inspectable artifacts and boundaries |
+| Join the exercise / let me participate | `COLLABORATE`; preserve user contributions as `USER_PROVIDED` |
+| Facilitate me through it / one prompt at a time | `FACILITATED_TURN_BY_TURN` with adaptive AI facilitator |
+| Let me sort the notes | collaborative affinity clustering with stable card IDs |
+| Why are we doing this? / show an example / define that | point-of-use facilitator guidance; keep the current prompt open |
+| Slower / faster | change facilitator level/pace without changing methodology |
+| Skip / pause / undo / take over / exit | participation control; supersede rather than erase |
+| Visualize / post-it clustering / affinity map | Define with source-linked `AFFINITY_MAP` artifact |
+| Process map / journey map / map this workflow | Empathize with provenance-aware `PROCESS_MAP` artifact |
 | Prototype this / what should we test? | critical uncertainty and Prototype Card |
 | Check the Build Gate | advisory scoring plus rationale |
 | Continue the journey | restore canonical project state and propose next mode |
@@ -103,3 +138,5 @@ Natural language remains primary. Map these phrases to intent:
 - State: `state-contract.md` and `dc.py`.
 - Hosted interview: `hosted-interviews.md`; do not load for ordinary Inquiry Lab work.
 - UX: `ux-contract.md` only when producing a substantial structured output.
+- User participation: `participatory-workshops.md`; use its one-prompt loop, facilitator levels, controls, and sealed-input rule.
+- Spatial exercise: `visual-workbench.md` plus `render_visual.py`; Browser remains optional.

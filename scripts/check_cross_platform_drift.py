@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import fnmatch
 from pathlib import Path
 
 
@@ -36,7 +37,10 @@ def file_map(root: Path) -> dict[str, str]:
         str(path.relative_to(root)): digest(path)
         for part in SHARED_PARTS
         for path in sorted((root / part).rglob("*"))
-        if path.is_file() and "__pycache__" not in path.parts and path.suffix != ".pyc"
+        if path.is_file()
+        and "__pycache__" not in path.parts
+        and path.suffix != ".pyc"
+        and not fnmatch.fnmatch(path.name, "* 2.*")
     }
 
 
