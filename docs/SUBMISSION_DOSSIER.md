@@ -17,7 +17,7 @@ reported separately.
 | Area | Completed | Remaining external step |
 |---|---|---|
 | Shared product | Canonical rebrand, stable packages, MIT license, archive hashes, shared core, preserved legacy state contracts, a verified immutable `v1.0.1` tag, and a green 18-check final gate | Complete live channel installs separately |
-| OpenAI | Skills-only package, manifest, listing copy, icon, three prompts, required 5 positive/3 negative cases, official local validation, public Git source, and clean install from the release commit | Submit MightShape as a new identity; verify publisher/permission, availability, attestations, and the live upload scan |
+| OpenAI | Skills-only package, manifest, listing copy, icon, three prompts, required 5 positive/3 negative cases, official local validation, public Git source, and clean install from immutable tag `v1.0.1` | Submit MightShape as a new identity; verify publisher/permission, availability, attestations, and the live upload scan |
 | Claude | Plugin/marketplace manifests, strict official validation, public Git source, and fresh local-scope installs from both the release candidate and immutable release tag | Accept directory terms and submit the new namespace; native model invocation remains blocked only by the expired local OAuth session |
 | Hosted interview app | Optional deployable source and deterministic tests | Not part of either marketplace submission and not represented as an operated service |
 

@@ -52,6 +52,9 @@ Nothing in this file authorizes publication. Check items only with inspectable e
 - [ ] Final bundle passes the current live OpenAI portal validator.
 - [x] Public Git marketplace add/install/list tested from exact release commit
   `dae745ef1e73daf17fbfee6fcfe2219d4d4a79fc`; version `1.0.1` resolved.
+- [x] Local Codex marketplace migrated from the obsolete former-name source and repinned to
+  immutable tag `v1.0.1`; the checkout resolves to `7f4d8b517f32c407126fcc906328499ca920c3c3`
+  and only `mightshape@mightshape` remains installed from this project.
 - [x] Renamed explicit invocation tested in an isolated ephemeral Codex context from the installed
   package; it loaded the submitted skill and applied solution-first routing.
 - [ ] Implicit invocation and inappropriate-trigger avoidance remain to be repeated in a fully

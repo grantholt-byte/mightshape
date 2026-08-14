@@ -63,8 +63,10 @@ The public GitHub repository at `grantholt-byte/mightshape` was tested from exac
 After release, annotated tag `v1.0.1` was independently verified to resolve to final commit
 `7f4d8b517f32c407126fcc906328499ca920c3c3`. A second fresh Claude Code local-scope marketplace
 install cloned the public repository at that exact tag and installed `mightshape@mightshape`
-version `1.0.1` successfully. The public GitHub release exposes both validated package archives
-and `SHA256SUMS`, and unauthenticated downloads matched the recorded hashes.
+version `1.0.1` successfully. The local Codex marketplace was also repinned to that tag, reinstalled
+`mightshape@mightshape` version `1.0.1`, and removed the obsolete former-name local install and
+marketplace source. The public GitHub release exposes both validated package archives and
+`SHA256SUMS`, and unauthenticated downloads matched the recorded hashes.
 
 ## Collaboration scope
 
