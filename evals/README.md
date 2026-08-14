@@ -395,8 +395,24 @@ boundary, rejects experiments whose plausible results cannot distinguish the com
 spends scarce instrumentation on consequential downstream behavior rather than clicks or
 self-declared roles. One targeted local model regression passed semantic judgment, and its saved
 response passed the corrected deterministic matcher. This gitignored diagnostic is **unshipped**, was
-not run from a frozen beta.8 release candidate, and is **not release evidence**. It does not replace
-another unchanged preregistered gate run.
+not run from a frozen beta.8 release candidate, and is **not release evidence**. It did not replace
+the subsequent unchanged preregistered gate run.
+
+The unchanged gate subsequently ran from clean beta.8 source commit
+`afddbf4ee4b2c7555f8e390d92edd843427ea31c` as `20260814T002300Z`. All **100/100 planned
+calls** completed. Design Council scored **97.50** versus **88.125** for the competent Design
+Thinking prompt control, a **+9.375-point** advantage with **4 wins, 1 tie, and 0 losses**. The
+10,000-sample case-bootstrap interval was **[4.625, 14.625]**, entirely above the fixed +3-point
+minimum-important-uplift threshold. Candidate-token use was **1.320392×** control and wall time
+was **1.244173×** control; neither resource measure changes the outcome verdict.
+
+The fail-closed raw-run verifier passed **45/45 checks**, and the content-safe export passed
+**44/44 checks** in exported-bundle mode. The run therefore satisfies the preregistered V1
+efficacy gate without changing the corpus, comparator, policy, verifier, or threshold. Its frozen,
+checksummed evidence is in
+[`evidence/runs/20260814T002300Z`](evidence/runs/20260814T002300Z). This is internal Codex
+evidence for the bounded comparative claim; it is not native Claude evidence or a substitute for
+held-out trajectories and independent human review.
 
 Verify a newly completed raw run against the committed fail-closed V1 policy, then export it:
 
@@ -420,8 +436,9 @@ scope, and legitimate shared work and false blocking were under-tested. Beta.7 a
 invariants and adversarial cases for those behaviors, scopes authoritative research to decision-
 changing boundaries, and records only privacy-safe completed runtime item-type counts so future
 context spikes are diagnosable. The clean beta.7 rerun above confirmed the clinic correction but
-failed the fixed V1 gate after exposing the live-product outcome-locus defect. Beta.8 addresses only
-that bounded defect; the comparison policy, corpus, threshold, and verifier remain unchanged.
+failed the fixed V1 gate after exposing the live-product outcome-locus defect. Beta.8 addressed only
+that bounded defect; the comparison policy, corpus, threshold, and verifier remained unchanged, and
+the subsequent clean beta.8 run passed the fixed gate as reported above.
 Held-out trajectories and independent human review remain necessary before making a public efficacy
 claim.
 
@@ -531,7 +548,7 @@ for the Claude plugin); implicit and avoid-routing prompts remain byte-for-byte
 unchanged. ChatGPT uses `@design-think`. Exact Claude `/design-think` is only a
 separately installed explicit-only delegating alias; the plugin itself remains namespaced.
 Legacy `$design-council` and
-`/design-council:design-council` remain beta compatibility checks rather than the
+`/design-council:design-council` remain compatibility checks rather than the
 primary adapter mapping. The platform directories do not copy cases or fixtures.
 
 Run both mappings, or one adapter, without model calls:

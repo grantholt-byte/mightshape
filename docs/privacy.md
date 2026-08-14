@@ -90,10 +90,11 @@ Design Council Core does not sell confidential project content. A future hosted 
 would require its own public policy, contracts, access controls, retention rules, and
 consent model before processing data.
 
-## Before public deployment
+## Before hosted or MCP-backed deployment
 
-A publisher must provide a public, publisher-specific privacy policy with concrete controller identity,
+A publisher must provide a public, publisher-specific privacy policy before operating the hosted
+interview service or submitting an MCP-backed package. It should state concrete controller identity,
 purposes, data categories, recipients/processors, retention timelines, security measures,
-rights/controls, contact route, and applicable regional terms. Replace this repository
-architecture note with—or link it to—that reviewed policy in marketplace metadata. Do not submit
-a raw GitHub rendering of this architecture note as if it were the final deployment policy.
+rights/controls, contact route, and applicable regional terms. Current OpenAI guidance makes the
+URL optional for the skills-only Core; a publisher may still add a reviewed page as a trust asset.
+Never submit a raw GitHub rendering of this architecture note as if it were a deployment policy.

@@ -11,7 +11,7 @@ and methodology above remain unchanged.
   `design-council:design-think` skill; it is not a native plugin alias. If Skill
   invocation is denied or the plugin is unavailable, fail visibly rather than
   substituting a partial workflow. Legacy `/design-council:design-council` remains available
-  throughout this beta. Natural-language auto-discovery remains available
+  as a V1 compatibility alias. Natural-language auto-discovery remains available
   through the skill description.
 - For consequential Round A work, spawn separate fresh-context Agent workers,
   preferably with the plugin agent `design-council:sealed-member`. Give every

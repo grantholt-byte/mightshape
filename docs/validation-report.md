@@ -1,8 +1,8 @@
-# V1 private-beta validation report
+# V1 validation report
 
 **Validation date:** 2026-08-13
 
-**Release candidate:** `v0.9.0-beta.8`
+**Release:** `1.0.0`
 
 **Scope:** private collaborator distribution only; no public deployment or marketplace submission.
 
@@ -11,12 +11,12 @@ human evidence. Raw runtime streams remain locally ignored. Content-safe audit b
 the frozen manifest, assistant outputs, blinded pairs, structured judgments, summaries, and hashes
 under [`evals/evidence/`](../evals/evidence/), without environment variables or credentials.
 
-> **Current status:** the beta.7 preregistered trajectory gate completed all 100 planned calls and
-> produced a positive point estimate, but its uncertainty interval did not clear the fixed
-> minimum-important-uplift threshold. The verifier therefore failed 2 of 45 checks and V1 correctly
-> remains beta. A bounded beta.8 candidate fix now targets the newly isolated outcome-versus-
-> intervention-locus defect; its local targeted regression is intentionally unshipped diagnostic
-> evidence, not release evidence. Earlier evidence remains historical and is not silently promoted.
+> **Current status:** the unchanged preregistered V1 trajectory gate passed from clean beta.8
+> source commit `afddbf4ee4b2c7555f8e390d92edd843427ea31c` as run `20260814T002300Z`.
+> All 100 planned calls completed; Design Council scored 97.50 versus 88.125, a +9.375-point
+> advantage (95% case-bootstrap CI [4.625, 14.625]; 4 wins, 1 tie, 0 losses). The raw verifier
+> passed 45/45 checks and the content-safe exported bundle passed 44/44. This satisfies the fixed
+> V1 efficacy gate. Earlier beta evidence remains historical and is not silently promoted.
 
 ## Latest completed deterministic product and package checks
 
@@ -305,14 +305,31 @@ becoming that destination, bridging into an accepted existing venue, and retaini
 private workflows; it also spent the one-event budget on a role declaration rather than downstream
 reciprocal behavior.
 
-The bounded beta.8 candidate correction makes outcome and intervention locus separate decisions,
+The bounded beta.8 correction makes outcome and intervention locus separate decisions,
 requires the destination/bridge/incumbent-or-private fork to survive until a discriminating test,
 and allocates scarce instrumentation to consequential downstream behavior rather than clicks or
 self-declared roles. One targeted local model regression for this new invariant passed semantic
-judgment, and its saved response passed the corrected deterministic matcher. That gitignored run is
-a development diagnostic only: it was not generated from a frozen beta.8 release candidate, is not
-in the shipped evidence bundle, and does not substitute for the unchanged 100-call gate. Held-out
-trajectories and blind human ratings also remain required before a broad public outcome claim.
+judgment, and its saved response passed the corrected deterministic matcher. That gitignored run
+remains a development diagnostic only and is not release evidence. The unchanged release gate was
+then rerun from the frozen beta.8 source as documented below.
+
+### Passing V1 trajectory gate
+
+The unchanged five-trajectory gate ran from clean beta.8 source commit
+`afddbf4ee4b2c7555f8e390d92edd843427ea31c` as `20260814T002300Z`. All **100/100 planned
+calls** completed. Design Council scored **97.50** versus **88.125** for the competent Design
+Thinking prompt control, a **+9.375-point** advantage with **4 wins, 1 tie, and 0 losses**. The
+10,000-sample case-bootstrap interval was **[4.625, 14.625]**, entirely above the fixed +3-point
+minimum-important-uplift threshold. Candidate-token use was **1.320392×** control and wall time
+was **1.244173×** control; these remain resource diagnostics rather than outcome gates.
+
+The fail-closed raw-run verifier passed **45/45 checks**. The immutable content-safe export passed
+**44/44 checks** in exported-bundle mode. The run therefore satisfies the preregistered V1
+efficacy gate without changing its comparator, corpus, policy, verifier, or threshold. The complete
+checksummed evidence is in
+[`evals/evidence/runs/20260814T002300Z`](../evals/evidence/runs/20260814T002300Z).
+This internal Codex result supports the bounded claim tested by that corpus; held-out trajectories,
+native Claude testing, and blind human ratings remain required before a broad public efficacy claim.
 
 ## Interview companion and Exchange boundary
 
@@ -320,7 +337,7 @@ trajectories and blind human ratings also remain required before a broad public 
 - Lint, TypeScript checking, production build, and `npm audit --omit=dev` pass with
   **0 production vulnerabilities**.
 - Full development audit continues to report 6 upstream build/development advisories
-  (4 moderate, 2 high); these are not production runtime dependencies and remain a beta caveat.
+  (4 moderate, 2 high); these are not production runtime dependencies and remain a release caveat.
 - No Site was deployed and no public interview URL was created.
 - `SYNTHETIC` and `BRING_YOUR_OWN` participant sources function. `EXCHANGE` remains a
   side-effect-free future provider returning a structured unavailable state. Recruitment,
@@ -329,14 +346,17 @@ trajectories and blind human ratings also remain required before a broad public 
 ## Marketplace and distribution readiness
 
 OpenAI and Claude packages are generated from one canonical core at
-`dist/openai/design-council` and `dist/claude/design-council`; deterministic beta archives and
+`dist/openai/design-council` and `dist/claude/design-council`; deterministic release archives and
 SHA-256 checksums live under `dist/`. Installation, update, uninstall, private-repository auth,
 and current public-publication paths are documented separately.
 
-The next beta tag and fresh pinned-tag collaborator installs must occur only after the bounded
-beta.8 candidate is frozen and passes a final clean-commit release verification. Promotion to V1
-still requires the unchanged trajectory gate to pass; the completed beta.7 run did not. Existing
-beta tags remain immutable. Nothing has been
-submitted, approved, or published to either marketplace. Public publication remains gated on
-owner-controlled publisher identity, public policy/support URLs, independent evaluation, a fresh
-release audit, and each platform's current review/catalog process.
+The product is now version `1.0.0`, and the fixed V1 efficacy gate has passed. The immutable
+`v1.0.0` tag and fresh pinned-tag collaborator installs are required operational checks: use the
+pinned commands only when the documented tag preflight succeeds. Existing beta tags remain
+immutable. Nothing has
+been submitted, approved, or published to either marketplace. Public publication remains gated on
+owner-controlled publisher identity, a fresh release audit, and each platform's current
+review/catalog process. Public policy/support URLs are recommended trust assets for skills-only
+Core and become deployment requirements before a hosted interview service is promoted. Broader
+outcome claims—not publication of the bounded, accurately described Core—remain gated on held-out
+trajectories, native Claude evidence, and independent human review.

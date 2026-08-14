@@ -14,11 +14,17 @@ Keep **Design Council Core free** on Codex and Claude. Monetize the scarce, oper
 
 The strategic boundary is simple:
 
-> Design Council Core provides intelligence. Design Council Exchange provides access to reality.
+> Design Council Core provides intelligence. Design Council Exchange provides access to qualified
+> human evidence.
 
 Do not charge for better Council answers, core Design Thinking methods, project-state portability, the Evidence Firewall, or the right to reach a sound Build Gate decision. Those capabilities create trust, adoption, and differentiation. Charge when Design Council incurs real service costs or supplies scarce access, durable hosted operations, or organizational assurance.
 
-This is a low-friction hybrid, not a crippled freemium prompt pack. A user should be able to install the plugin, complete a serious design journey, and export their work without creating a Design Council account or seeing an upgrade prompt.
+This is a low-friction hybrid, not a crippled freemium prompt pack. A user should be able to install the plugin, complete a serious design journey, and export their work without creating a Design Council account or seeing an upgrade prompt. “Free” means no additional Design Council charge; users still need an eligible Codex/ChatGPT or Claude plan and remain responsible for their platform's model or usage costs.
+
+The best near-term commercial sequence is: ship the free Core; run a small, manual, no-card hosted
+interview pilot only after the participant-data hard stop below is satisfied; introduce pay-per-study
+before a subscription; add subscription only when repeat use clears the stated threshold; and defer
+credits until transaction volume makes ordinary pricing genuinely cumbersome.
 
 ## Why this boundary is defensible
 
@@ -107,6 +113,9 @@ Therefore:
 - paid hosted capabilities must be optional and accurately described;
 - account, privacy, and billing flows should live in the hosted service, not masquerade as native
   Claude marketplace billing;
+- before connecting a hosted service to a Claude directory plugin, provide the required privacy
+  link, verified support/contact route, controlled endpoints/domains, and a standard test account
+  with representative sample data for review;
 - obtain written clarification from Anthropic before adding any transaction flow inside Claude.
 
 ## Free and paid product boundary
@@ -144,6 +153,11 @@ account is needed, what will be stored, and what it costs. Let the user cancel a
 local fieldwork kit. In the OpenAI plugin, an unavailable entitlement may be explained only within
 the current commerce policy; do not turn that explanation into an upgrade pitch.
 
+Acquisition belongs outside both plugins: use an independent website, direct sales, or a separately
+operated hosted-service flow. Do not put pricing, paid calls to action, checkout, or fake-door
+upgrade experiments into Council output. The OpenAI adapter may recognize an entitlement the user
+already has and explain an unavailable one neutrally; that is not permission to market the upgrade.
+
 Prefer value-first sampling:
 
 - allow a first small hosted study without a card;
@@ -154,7 +168,9 @@ Prefer value-first sampling:
 
 ## Pricing hypotheses to test
 
-The following numbers are **experiments**, not settled prices. Each should be tested with customer interviews, fake-door or concierge pilots, willingness-to-pay conversations, and real cost data before implementation.
+The following numbers are **experiments**, not settled prices. Each should be tested with customer
+interviews, off-plugin fake-door research, concierge pilots, willingness-to-pay conversations, and
+real cost data before implementation. No fake-door offer belongs inside the OpenAI or Claude plugin.
 
 ### Experiment A — hosted Bring-Your-Own interviews
 
@@ -164,6 +180,10 @@ The following numbers are **experiments**, not settled prices. Each should be te
 - Team workspace: **$99/workspace/month** for shared studies, permissions, and pooled usage; avoid per-seat pricing initially because collaboration should not be penalized.
 - Overage: price only after observing real inference, support, storage, and payment costs; warn before charging.
 
+Before any customer-facing offer, define interview duration/turn limits, model tier, retention and
+deletion window, storage/export scope, team allowance, overage behavior, and support response. The
+numbers above are not sufficiently specified to quote yet.
+
 Test the pay-per-study offer against the subscription. Occasional discovery work may fit transactional pricing better than another recurring subscription.
 
 ### Experiment B — Exchange recruitment
@@ -172,7 +192,9 @@ Do not build an owned participant panel first. Start with a concierge or partner
 
 Two pricing structures are worth testing:
 
-1. **Transparent pass-through:** verified sourcing and incentive cost plus a **15–25% orchestration fee**.
+1. **Transparent pass-through:** participant incentives plus documented external sourcing,
+   screening, verification, and payout costs, with a **15–25% orchestration fee** applied to that
+   disclosed cost base.
 2. **Per-completed-session fee:** an experimental **$20–45 platform fee for general consumers** or **$50–100 for professional/B2B participants**, plus the participant incentive.
 
 Use the higher of actual cost coverage or the tested customer price. Do not promise these ranges until completion rates, screening effort, fraud loss, refunds, and support load are known. Expert and rare-role research should be quoted rather than forced into a flat rate.
@@ -203,6 +225,9 @@ Possible validation ranges:
 - study-plan or synthesis review: **$750–$1,500**;
 - facilitated Design Council workshop: **$2,500–$5,000**;
 - custom research program: scoped proposal.
+
+Every services quote must state the concrete deliverables, revision boundary, participant or
+workshop scope, schedule, data handling, and what implementation is excluded.
 
 Services can finance early learning but should be standardized over time so the product does not become a consulting business disguised as software.
 
@@ -272,6 +297,9 @@ The goal is not to maximize gross margin by underpaying participants. Incentives
 ### Stage 1 — hosted Bring-Your-Own private beta, outside the OpenAI plugin
 
 - Add authentication only to the hosted interview service.
+- **Hard stop before any real participant data:** publish deployment-specific privacy and terms,
+  define retention/deletion and subprocessors, establish a monitored support/security route, and
+  verify consent and incident-response operations. Until then, use fictional test data only.
 - Offer the first small study free.
 - Validate consent, deletion, Disclosure Guard, retention, support load, and actual per-session costs.
 - Test pay-per-study versus subscription with real purchase intent.
@@ -396,4 +424,6 @@ ENTERPRISE
   governance + privacy controls + deployment assurance
 ```
 
-This model preserves a seamless first experience, aligns revenue with real delivered value, works despite the absence of native paid-plugin rails, and leaves room for platform commerce adapters if OpenAI or Anthropic add them later.
+This model preserves a seamless first experience, aligns revenue with real delivered value, is
+compatible with current platform rails despite the absence of native paid-plugin checkout, and
+leaves room for platform commerce adapters if OpenAI or Anthropic add them later.

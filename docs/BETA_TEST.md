@@ -1,9 +1,13 @@
-# Design Council beta evaluator guide
+# Design Council release evaluator guide
 
-The current release candidate is `v0.9.0-beta.8`. Its full validation, benchmark rerun,
-immutable tag, and fresh collaborator installs are still pending. Do not distribute it until
-the owner confirms the tag. Do not call it `1.0.0` or represent it as a public marketplace
-release unless the separate V1 and publication gates pass.
+The current private release is `1.0.0`. The fixed V1 efficacy gate passed from clean beta.8
+source commit `afddbf4ee4b2c7555f8e390d92edd843427ea31c`: run `20260814T002300Z` completed
+100/100 calls and scored 97.50 versus 88.125, **+9.375 points** (95% case-bootstrap CI
+**[4.625, 14.625]**; 4 wins, 1 tie, 0 losses). Candidate tokens were 1.320392× control and wall
+time was 1.244173×; raw verification passed 45/45 and exported verification passed 44/44.
+Before any evaluation install, require the documented `git ls-remote --exit-code` preflight to
+resolve `refs/tags/v1.0.0`. Do not represent a private tagged install as a public marketplace
+release: submission and publication are separate owner actions.
 
 ## Setup
 
@@ -33,7 +37,7 @@ release unless the separate V1 and publication gates pass.
 - “Cluster these source-linked notes into an affinity map and give me a visual artifact.”
 - “Turn this multi-person handoff into a process map; mark missing transitions as unknown.”
 - “Implement the explicit dark-mode issue in this repository.”
-- Invoke the legacy beta entry (`$design-council` in Codex or
+- Invoke the legacy compatibility entry (`$design-council` in Codex or
   `/design-council:design-council` in Claude) once and confirm it still reaches the same
   product rather than a divergent methodology.
 
@@ -70,7 +74,7 @@ release unless the separate V1 and publication gates pass.
 Collect installation outcome, platform/version, anonymous task ID, evaluator ratings, and
 redacted observations. Do not collect raw projects, code, model conversations, interview
 transcripts, participant quotes, company names, or product ideas by default. Obtain separate
-consent for any material beyond the beta evaluation itself.
+consent for any material beyond the release evaluation itself.
 
 Record defects as routing, humanity, independence, inquiry, provenance, UX, packaging, or
 platform-parity issues. Record participation defects separately when the facilitator lectures,
@@ -80,7 +84,7 @@ case before release.
 
 ## Release-team effectiveness check
 
-Beta feedback is not a substitute for the controlled plugin-versus-baseline benchmark. The
+Evaluator feedback is not a substitute for the controlled plugin-versus-baseline benchmark. The
 release team—not every evaluator—should run the documented paired harness with identical raw
 prompts/model settings, isolated workspaces, counterbalanced order, and blind labels. Review
 quality change together with candidate tokens and latency, including low-ambiguity routing

@@ -14,7 +14,7 @@ make validate-openai
 ```
 
 The installable package is `dist/openai/design-council/` and the deterministic archive is
-`dist/design-council-openai-0.9.0-beta.8.zip` after the beta.8 build completes.
+`dist/design-council-openai-1.0.0.zip`.
 
 ## Invoke Design Council
 
@@ -26,7 +26,7 @@ OpenAI surfaces use skill invocation, not an arbitrary plugin-defined slash comm
 
 An exact `/design-think` slash command cannot be registered by a packaged OpenAI plugin.
 Deprecated custom prompts would appear under `/prompts:<name>`, not `/design-think`, and are
-not shipped. Legacy `$design-council` remains available throughout this beta.
+not shipped. Legacy `$design-council` remains available for compatibility.
 
 ## Test from the local development marketplace
 
@@ -74,7 +74,8 @@ only through a deliberate project-data retention decision.
 
 ## GitHub marketplace source
 
-For a collaborator who has access to the private beta repository:
+For a collaborator who has access to the private repository, after the owner confirms the
+immutable `v1.0.0` tag has been created and pushed:
 
 ```bash
 gh auth status
@@ -82,8 +83,8 @@ gh auth status
 gh auth login --git-protocol https
 gh auth setup-git
 git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
-  refs/tags/v0.9.0-beta.8
-codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.8 --json
+  refs/tags/v1.0.0
+codex plugin marketplace add grantholt-byte/design-council --ref v1.0.0 --json
 codex plugin list --marketplace design-council --available --json
 codex plugin add design-council@design-council --json
 codex plugin list --json
@@ -91,11 +92,11 @@ codex plugin list --json
 
 The repository owner must add the installer as a collaborator, and the collaborator must
 accept the invitation. `gh auth status` must show that account, while `ls-remote` proves both
-private-repository access and availability of the exact `v0.9.0-beta.8` tag. Do not continue
-if either check fails. This installs from the immutable beta tag rather than the moving
+private-repository access and availability of the exact `v1.0.0` tag. Do not continue
+if either check fails. This installs from the immutable release tag rather than the moving
 `main` branch.
 
-To move to a later immutable beta tag, remove the installed plugin and marketplace, then
+To move to a later immutable release tag, remove the installed plugin and marketplace, then
 repeat the commands above with the new `--ref`. `marketplace upgrade` refreshes a moving
 branch; it does not change a marketplace pinned to an older tag.
 
@@ -112,6 +113,9 @@ branch; it does not change a marketplace pinned to an older tag.
   aliases are not part of the current OpenAI packaging contract.
 - Hooks are optional and trust-gated. Declining the hook must not disable the skill.
 
-The beta.8 package and deterministic validators must pass before tagging. The model-backed release
-gate rerun, immutable tag, and pinned-tag clean install remain pending. Do not share the beta.8 GitHub commands as
-validated before the owner confirms those remaining steps.
+The fixed model-backed V1 gate passed in run `20260814T002300Z` from clean beta.8 source commit
+`afddbf4ee4b2c7555f8e390d92edd843427ea31c`: 100/100 calls, 97.50 versus 88.125,
++9.375 points, 95% CI [4.625, 14.625], 4 wins, 1 tie, and 0 losses. The raw verifier passed
+45/45 checks and the exported verifier passed 44/44. Treat the GitHub commands as usable only when
+the documented `git ls-remote --exit-code` preflight resolves `refs/tags/v1.0.0`; record remote
+install evidence separately from the immutable source snapshot.

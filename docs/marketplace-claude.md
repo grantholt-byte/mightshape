@@ -19,8 +19,9 @@ claude plugin install design-council@design-council --scope local
 ```
 
 After the owner grants private-repository collaborator access and the collaborator accepts
-the invitation, verify authentication and the exact beta tag before adding the hosted
-marketplace in Claude's cross-project `user` scope:
+the invitation, verify authentication and the exact release tag before adding the hosted
+marketplace in Claude's cross-project `user` scope. Use these commands only when the preflight
+resolves the immutable tag:
 
 ```bash
 gh auth status
@@ -28,9 +29,9 @@ gh auth status
 gh auth login --git-protocol https
 gh auth setup-git
 git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
-  refs/tags/v0.9.0-beta.8
+  refs/tags/v1.0.0
 CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
-  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.8 --scope user
+  claude plugin marketplace add grantholt-byte/design-council@v1.0.0 --scope user
 claude plugin install design-council@design-council --scope user
 ```
 
@@ -54,14 +55,15 @@ quality and safety review receive an **Anthropic Verified** badge, and the submi
 no guarantee that a community plugin will receive that badge. The dependable publisher-controlled
 route therefore remains this GitHub-hosted marketplace even after directory submission.
 
-Before submitting, make the repository or distribution mirror public, run `claude plugin validate`,
-and confirm the stable release, license, security/privacy documentation, README, tests, and
-publisher rights. Accepted GitHub-backed listings are mirrored into the directory and later source
-updates are screened automatically; review timing varies. No submission has been made.
+Before submitting, either make the repository/distribution mirror public for the GitHub-backed
+route or prepare the accepted final ZIP. Run `claude plugin validate`, and confirm the stable
+release, license, security/privacy documentation, README, tests, and publisher rights. Accepted
+GitHub-backed listings are mirrored into the directory and later source updates are screened
+automatically; review timing varies. No submission has been made.
 
 ## Version and updates
 
-The plugin manifest and marketplace entry both target `0.9.0-beta.8`. Claude Code treats an explicit
+The plugin manifest and marketplace entry both target `1.0.0`. Claude Code treats an explicit
 version as the update boundary, so every release must bump `VERSION` and regenerate both
 packages. `check_cross_platform_drift.py` rejects version mismatch.
 
@@ -70,7 +72,7 @@ Claude plugin skills are always namespaced. Exact `/design-think` requires a sep
 explicit-only delegating skill outside the plugin namespace and is not the marketplace invocation.
 Install or safely remove that optional alias with `scripts/install_claude_alias.py`; it contains no
 duplicate methodology and fails closed if a user modifies it. Legacy
-`/design-council:design-council` remains available throughout this beta.
+`/design-council:design-council` remains available for compatibility.
 
 For a repository-local development install, rebuild and use the normal marketplace/plugin
 update flow:
@@ -81,8 +83,8 @@ claude plugin marketplace update design-council
 claude plugin update design-council@design-council --scope local
 ```
 
-For a hosted `user`-scope install pinned to `@v0.9.0-beta.8`, normal update commands cannot
-move the marketplace to a different immutable tag. When a later beta is announced, set the
+For a hosted `user`-scope install pinned to `@v1.0.0`, normal update commands cannot
+move the marketplace to a different immutable tag. When a later release is announced, set the
 variable below to that exact tag and re-create the installed marketplace boundary:
 
 ```bash
@@ -97,14 +99,16 @@ CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
 claude plugin install design-council@design-council --scope user
 ```
 
-Beta.8 deterministic package validation, including the current strict Claude validator, must pass
-before tagging. The model-backed release-gate rerun, immutable tag, and a fresh collaborator install
-remain pending. After the owner confirms the tag has been pushed, the pinned beta is exactly
-`v0.9.0-beta.8`; do not substitute a moving branch.
+The fixed model-backed V1 gate passed in run `20260814T002300Z` from clean beta.8 source commit
+`afddbf4ee4b2c7555f8e390d92edd843427ea31c`: 100/100 calls, 97.50 versus 88.125,
++9.375 points, 95% CI [4.625, 14.625], 4 wins, 1 tie, and 0 losses. Raw verification passed
+45/45 and exported-bundle verification passed 44/44. Verify `v1.0.0` and a fresh collaborator
+install as operational checks; never substitute a moving branch. No directory submission or
+publication has occurred.
 
 ## Reviewer trust
 
-The package contains the primary `design-think` skill, a legacy beta compatibility skill, and
+The package contains the primary `design-think` skill, a legacy compatibility skill, and
 one read-only sealed-round Agent. It contains no MCP
 server, package dependencies, marketplace payment logic, participant recruitment, or
 required hook. The core may write explicit project state and perform user-requested coding;

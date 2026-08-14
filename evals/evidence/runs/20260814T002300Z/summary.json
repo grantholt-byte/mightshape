@@ -1,0 +1,174 @@
+{
+  "completion": {
+    "completed_case_rows": 5,
+    "duplicate_planned_comparison_ids": [],
+    "duplicate_planned_generation_keys": [],
+    "duplicate_recorded_comparison_ids": [],
+    "duplicate_recorded_generation_keys": [],
+    "generation_failures": 0,
+    "generation_plan_complete": true,
+    "generation_record_set_exact": true,
+    "invalid_judgment_derived_fields": [],
+    "invalid_judgment_payloads": [],
+    "invalid_planned_comparison_id_count": 0,
+    "invalid_planned_generation_key_count": 0,
+    "invalid_recorded_comparison_id_count": 0,
+    "invalid_recorded_generation_key_count": 0,
+    "judgment_failures": 0,
+    "judgment_plan_complete": true,
+    "judgment_record_set_exact": true,
+    "mismatched_comparisons": [],
+    "mismatched_generations": [],
+    "missing_comparison_ids": [],
+    "missing_generation_keys": [],
+    "planned_generations": 20,
+    "planned_judgments": 20,
+    "planned_pairs": 10,
+    "realized_design_complete": true,
+    "recorded_generations": 20,
+    "recorded_judgments": 20,
+    "successful_planned_generations": 20,
+    "successful_planned_judgments": 20,
+    "unexpected_comparison_ids": [],
+    "unexpected_generation_keys": []
+  },
+  "effectiveness": {
+    "case_bootstrap_ci": {
+      "confidence_level": 0.95,
+      "lower": 4.625,
+      "samples": 10000,
+      "unit": "trajectory_case",
+      "upper": 14.625
+    },
+    "cases": [
+      {
+        "completed_pairs": 2,
+        "control_quality": 88.125,
+        "delta": 11.875,
+        "result": "WIN",
+        "trajectory_id": "family_scheduler_evidence_reframe",
+        "treatment_quality": 100.0
+      },
+      {
+        "completed_pairs": 2,
+        "control_quality": 90.625,
+        "delta": 6.875,
+        "result": "WIN",
+        "trajectory_id": "career_pathway_autonomy_reframe",
+        "treatment_quality": 97.5
+      },
+      {
+        "completed_pairs": 2,
+        "control_quality": 91.875,
+        "delta": 7.5,
+        "result": "WIN",
+        "trajectory_id": "clinic_handoff_workflow_reframe",
+        "treatment_quality": 99.375
+      },
+      {
+        "completed_pairs": 2,
+        "control_quality": 90.625,
+        "delta": 1.25,
+        "result": "TIE",
+        "trajectory_id": "live_product_retention_reframe",
+        "treatment_quality": 91.875
+      },
+      {
+        "completed_pairs": 2,
+        "control_quality": 79.375,
+        "delta": 19.375,
+        "result": "WIN",
+        "trajectory_id": "novice_facilitated_ideation",
+        "treatment_quality": 98.75
+      }
+    ],
+    "control_mode": "design-thinking-prompt",
+    "control_quality": 88.125,
+    "decision_rule": "A meaningful benefit requires a complete realized design, more case wins than losses, and the case-bootstrap interval to clear the configured minimum important uplift. Token and latency diagnostics do not veto an established quality benefit.",
+    "dimensions": [
+      {
+        "control_mean": 94.0,
+        "delta": 4.0,
+        "dimension": "frame_adaptation",
+        "treatment_mean": 98.0
+      },
+      {
+        "control_mean": 86.0,
+        "delta": 12.0,
+        "dimension": "history_preservation",
+        "treatment_mean": 98.0
+      },
+      {
+        "control_mean": 90.0,
+        "delta": 10.0,
+        "dimension": "assumption_updates",
+        "treatment_mean": 100.0
+      },
+      {
+        "control_mean": 87.0,
+        "delta": 12.0,
+        "dimension": "conceptual_divergence",
+        "treatment_mean": 99.0
+      },
+      {
+        "control_mean": 78.0,
+        "delta": 16.0,
+        "dimension": "experiment_information_gain",
+        "treatment_mean": 94.0
+      },
+      {
+        "control_mean": 94.0,
+        "delta": 4.0,
+        "dimension": "backward_iteration",
+        "treatment_mean": 98.0
+      },
+      {
+        "control_mean": 95.0,
+        "delta": -2.0,
+        "dimension": "momentum_and_task_fit",
+        "treatment_mean": 93.0
+      },
+      {
+        "control_mean": 81.0,
+        "delta": 19.0,
+        "dimension": "evidence_calibration_and_provenance",
+        "treatment_mean": 100.0
+      }
+    ],
+    "losses": 0,
+    "minimum_important_uplift_points": 3.0,
+    "primary_estimand": "within-model quality uplift from deliberate Design Council invocation on turn one over a no-skill trajectory receiving the frozen Design Thinking prompt on every user turn",
+    "quality_uplift_points": 9.375,
+    "ties": 1,
+    "treatment_invocation": "explicit-first-turn",
+    "treatment_quality": 97.5,
+    "verdict": "MEANINGFUL_TREATMENT_BENEFIT_ESTABLISHED",
+    "wins": 4
+  },
+  "resource_diagnostics": {
+    "arms": {
+      "control": {
+        "completed_trajectories": 10,
+        "mean_total_tokens_per_trajectory": 177566.9,
+        "mean_wall_time_seconds_per_trajectory": 168.106282
+      },
+      "treatment": {
+        "completed_trajectories": 10,
+        "mean_total_tokens_per_trajectory": 234457.9,
+        "mean_wall_time_seconds_per_trajectory": 209.153267
+      }
+    },
+    "interpretation": "Descriptive resource use only; not a quality gate, monetary ROI, or cost-effectiveness claim.",
+    "judge_tokens_excluded": true,
+    "treatment_control_token_ratio": 1.320392,
+    "treatment_control_wall_time_ratio": 1.244173
+  },
+  "schema_version": "1.0.0",
+  "warnings": [
+    "Blind model judgments are subjective measurement aids, not ground truth.",
+    "The 5 product-authored trajectories are a small exploratory corpus, not confirmatory efficacy evidence.",
+    "The corpus uses explicit fictional benchmark evidence; it does not establish real user outcomes.",
+    "This measures assistant-trajectory quality, not shipped-product or longitudinal team performance.",
+    "Native Claude effectiveness requires a separate within-Claude run."
+  ]
+}

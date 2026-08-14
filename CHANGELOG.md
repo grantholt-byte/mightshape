@@ -2,6 +2,37 @@
 
 All notable changes use [Semantic Versioning](https://semver.org/).
 
+## [1.0.0] — 2026-08-13
+
+### Added
+
+- Added the checksummed V1 trajectory-gate receipt for run `20260814T002300Z`, generated from
+  clean beta.8 source commit `afddbf4ee4b2c7555f8e390d92edd843427ea31c` and independently
+  verified against the frozen release policy.
+
+### Changed
+
+- Promoted the shared OpenAI and Claude product line to `1.0.0` after all 100 planned candidate
+  and blind-judgment calls completed and Design Council established a meaningful advantage over
+  the frozen competent Design Thinking prompt comparator: +9.375 quality points, 95% case-bootstrap
+  CI [4.625, 14.625], 4 wins, 1 tie, and 0 losses.
+- Release materials now distinguish the validated stable package from still-manual marketplace
+  submission, publisher identity, public-policy URL, and clean remote-install steps.
+
+### Fixed
+
+- None beyond the bounded beta.8 intervention-locus correction validated by the V1 gate.
+
+### Security
+
+- The exported efficacy receipt excludes raw runtime streams, environment variables, and
+  credentials and includes a complete SHA-256 ledger.
+
+### Breaking Changes
+
+- None. Existing project state, native platform invocations, and legacy compatibility aliases remain
+  supported.
+
 ## [0.9.0-beta.8] — 2026-08-13
 
 ### Added

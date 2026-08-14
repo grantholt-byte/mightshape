@@ -70,11 +70,12 @@ The first four repository demo images are composed from live acceptance-session 
 The last two images are rendered directly by the shipped Visual Workbench from the
 versioned example JSON under `skills/design-council/assets/examples/`.
 
-## Install the private beta
+## Install the private V1 release
 
-The beta repository is private. The owner must add the installer as a repository
+The repository is private. The owner must add the installer as a repository
 collaborator, and the collaborator must accept the invitation. On a fresh machine, verify
-GitHub CLI authentication and access to the exact immutable beta tag first:
+GitHub CLI authentication and access to the exact immutable release tag first. Run the pinned
+install commands only when this preflight resolves `v1.0.0`:
 
 ```bash
 gh auth status
@@ -82,31 +83,31 @@ gh auth status
 gh auth login --git-protocol https
 gh auth setup-git
 git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
-  refs/tags/v0.9.0-beta.8
+  refs/tags/v1.0.0
 ```
 
 Do not continue if `ls-remote` fails: the invitation may still need to be accepted, the
-GitHub account may be wrong, or the `v0.9.0-beta.8` tag may not be available yet.
+GitHub account may be wrong, or the `v1.0.0` tag may not be available yet.
 
 ### OpenAI / Codex
 
 ```bash
-codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.8 --json
+codex plugin marketplace add grantholt-byte/design-council --ref v1.0.0 --json
 codex plugin add design-council@design-council --json
 ```
 
 Start a fresh Codex context and invoke `$design-think`, select **Design Think** through
 `/skills`, or use natural language. In ChatGPT, invoke `@design-think`. OpenAI plugins cannot
 register an arbitrary `/design-think` slash command, so Design Council does not ship a
-deprecated custom-prompt workaround. Legacy `$design-council` remains available during the
-beta. See [OpenAI installation](docs/installation-openai.md) for update, uninstall,
+deprecated custom-prompt workaround. Legacy `$design-council` remains available for
+compatibility. See [OpenAI installation](docs/installation-openai.md) for update, uninstall,
 clean-context tests, and troubleshooting.
 
 ### Claude Code
 
 ```bash
 CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
-  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.8 --scope user
+  claude plugin marketplace add grantholt-byte/design-council@v1.0.0 --scope user
 claude plugin install design-council@design-council --scope user
 ```
 
@@ -114,7 +115,7 @@ Invoke `/design-council:design-think`. Claude plugin skills are always namespace
 `/design-think` spelling is available through an optional explicit-only personal alias that
 delegates to the installed plugin; from a pinned source checkout run
 `python3 scripts/install_claude_alias.py --scope user`. Legacy
-`/design-council:design-council` remains available during the beta. See
+`/design-council:design-council` remains available for compatibility. See
 [Claude installation](docs/installation-claude.md) for sideloading, update, uninstall, and
 troubleshooting.
 
@@ -254,16 +255,25 @@ intervention must live. Beta.8 adds a bounded strategic-fork and discriminating-
 complete first failed-gate evidence remains available in the
 [beta.6 trajectory bundle](evals/evidence/runs/20260813T210617Z/summary.md); it is not discarded
 or relabeled as success. The beta.7 rerun is preserved in the
-[beta.7 trajectory bundle](evals/evidence/runs/20260813T225549Z/summary.md). The unchanged gate
-must pass from a clean beta.8 source freeze before V1 promotion.
+[beta.7 trajectory bundle](evals/evidence/runs/20260813T225549Z/summary.md).
+
+The unchanged preregistered gate then passed from clean beta.8 source commit
+`afddbf4ee4b2c7555f8e390d92edd843427ea31c` as run `20260814T002300Z`. All **100/100** calls
+completed. Design Council scored **97.50** versus **88.125**, a **+9.375-point** advantage with
+**4 wins, 1 tie, and 0 losses**; its 95% case-bootstrap interval was **[4.625, 14.625]**, clearing
+the fixed +3-point practical-benefit threshold. Candidate-token use was **1.320392×** control and
+wall time was **1.244173×**. The raw verifier passed **45/45** checks and the content-safe export
+passed **44/44**. This satisfies the fixed V1 efficacy gate without changing the comparator,
+corpus, policy, or threshold. The complete passing evidence is in the
+[V1 trajectory bundle](evals/evidence/runs/20260814T002300Z/summary.md).
 
 Token use is an optimization target, not an outcome-value veto. These are exploratory internal
 Codex studies, not native Claude evidence, monetary ROI, or a universal efficacy claim. A focused
 beta.6 name-blind model evaluator matched **10/10** independently generated, leakage-screened
 Council artifacts to their canonical fictional profiles; that establishes narrow model-based
 traceability on one challenge, not human recognizability or cross-context identity consistency.
-The preregistered persisted-trajectory rerun remains the V1 efficacy gate; held-out external
-prompts and blind human review remain necessary for broader claims. See the
+The preregistered persisted-trajectory gate is now satisfied; held-out external prompts and blind
+human review remain necessary for broader claims. See the
 [raw-prompt evidence](evals/evidence/ab-benchmark-beta3.json),
 [strong-prompt evidence](evals/evidence/ab-benchmark-strong-prompt-beta3.json), and
 [eval guide](evals/README.md).
@@ -271,7 +281,7 @@ prompts and blind human review remain necessary for broader claims. See the
 See the [validation report](docs/validation-report.md), [V1 release gate](docs/V1_RELEASE_GATE.md),
 [architecture](docs/architecture.md), [publishing checklist](docs/PUBLISHING_CHECKLIST.md),
 [submission dossier](docs/SUBMISSION_DOSSIER.md),
-[beta guide](docs/BETA_TEST.md), [monetization recommendation](docs/MONETIZATION.md),
+[release evaluator guide](docs/BETA_TEST.md), [monetization recommendation](docs/MONETIZATION.md),
 [OpenAI marketplace path](docs/marketplace-openai.md), and
 [Claude marketplace path](docs/marketplace-claude.md).
 
@@ -293,10 +303,10 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md
 
 ## Release status
 
-Version `0.9.0-beta.8` is the current private-beta release candidate. Its final release-gate
-rerun, immutable tag, and fresh collaborator-install checks
-remain pending; do not treat it as a completed release until those gates pass. The GitHub repository
-is private and has not been published to either marketplace. Public release still requires
+Version `1.0.0` is the current private V1 release, and the fixed model-backed efficacy gate passed.
+The immutable tag and remote install are operational checks: verify `refs/tags/v1.0.0` with the
+preflight above before installing. The GitHub repository is private
+and has not been submitted to or published in either marketplace. Public publication still requires
 publisher identity, public support/privacy/terms URLs where applicable, a fresh release audit,
 and the platforms’ current review or catalog steps. The OpenAI listing must remain independently
 useful and contain no digital-service plans, Exchange-credit promotion, upgrade pitch, or checkout

@@ -1,0 +1,239 @@
+{
+  "checks": [
+    {
+      "detail": "canonical corpus IDs must match policy order",
+      "name": "policy.corpus_ids",
+      "passed": true
+    },
+    {
+      "detail": "canonical neutral corpus digest must match policy",
+      "name": "policy.corpus_hash",
+      "passed": true
+    },
+    {
+      "detail": "frozen control prompt digest must match policy",
+      "name": "policy.control_prompt_hash",
+      "passed": true
+    },
+    {
+      "detail": "expected 'efficacy', observed 'efficacy'",
+      "name": "manifest.corpus_kind",
+      "passed": true
+    },
+    {
+      "detail": "expected ['family_scheduler_evidence_reframe', 'career_pathway_autonomy_reframe', 'clinic_handoff_workflow_reframe', 'live_product_retention_reframe', 'novice_facilitated_ideation'], observed ['family_scheduler_evidence_reframe', 'career_pathway_autonomy_reframe', 'clinic_handoff_workflow_reframe', 'live_product_retention_reframe', 'novice_facilitated_ideation']",
+      "name": "manifest.case_ids",
+      "passed": true
+    },
+    {
+      "detail": "expected 'persisted', observed 'persisted'",
+      "name": "manifest.session_mode",
+      "passed": true
+    },
+    {
+      "detail": "expected 'design-thinking-prompt', observed 'design-thinking-prompt'",
+      "name": "manifest.control_mode",
+      "passed": true
+    },
+    {
+      "detail": "expected 'explicit-first-turn', observed 'explicit-first-turn'",
+      "name": "manifest.treatment_invocation",
+      "passed": true
+    },
+    {
+      "detail": "expected 2, observed 2",
+      "name": "manifest.repeats",
+      "passed": true
+    },
+    {
+      "detail": "expected 2, observed 2",
+      "name": "manifest.judge_repetitions",
+      "passed": true
+    },
+    {
+      "detail": "expected 20260813, observed 20260813",
+      "name": "manifest.seed",
+      "passed": true
+    },
+    {
+      "detail": "expected 2.0, observed 2.0",
+      "name": "manifest.tie_margin_points",
+      "passed": true
+    },
+    {
+      "detail": "expected 3.0, observed 3.0",
+      "name": "manifest.minimum_important_uplift_points",
+      "passed": true
+    },
+    {
+      "detail": "expected 'gpt-5.6-sol', observed 'gpt-5.6-sol'",
+      "name": "manifest.candidate_model",
+      "passed": true
+    },
+    {
+      "detail": "expected 'medium', observed 'medium'",
+      "name": "manifest.candidate_effort",
+      "passed": true
+    },
+    {
+      "detail": "expected 'gpt-5.6-terra', observed 'gpt-5.6-terra'",
+      "name": "manifest.judge_model",
+      "passed": true
+    },
+    {
+      "detail": "expected 'medium', observed 'medium'",
+      "name": "manifest.judge_effort",
+      "passed": true
+    },
+    {
+      "detail": "expected 'ad1b7fee598bafda3095c38fcb068686ecf369506cbeca85e7ddadeb715a40f8', observed 'ad1b7fee598bafda3095c38fcb068686ecf369506cbeca85e7ddadeb715a40f8'",
+      "name": "manifest.prompt_only_control_sha256",
+      "passed": true
+    },
+    {
+      "detail": "expected '8c8fbe4f6a1e10baa92f267b2570e06e4009a754ddefad96b29112565aab75fd', observed '8c8fbe4f6a1e10baa92f267b2570e06e4009a754ddefad96b29112565aab75fd'",
+      "name": "manifest.corpus_sha256",
+      "passed": true
+    },
+    {
+      "detail": "expected True, observed True",
+      "name": "manifest.all_generations_complete_before_judging",
+      "passed": true
+    },
+    {
+      "detail": "run ID must be valid and equal the run-directory name",
+      "name": "manifest.run_id",
+      "passed": true
+    },
+    {
+      "detail": "must be an integer >= 10000; observed 10000",
+      "name": "manifest.bootstrap_samples",
+      "passed": true
+    },
+    {
+      "detail": "pair plan must equal the canonical counterbalanced plan",
+      "name": "manifest.pair_plan",
+      "passed": true
+    },
+    {
+      "detail": "judge plan must equal the canonical blinded plan",
+      "name": "manifest.judge_plan",
+      "passed": true
+    },
+    {
+      "detail": "expected 80",
+      "name": "manifest.planned_candidate_turn_calls",
+      "passed": true
+    },
+    {
+      "detail": "expected 20",
+      "name": "manifest.planned_judge_calls",
+      "passed": true
+    },
+    {
+      "detail": "run must record a clean, available, non-null full Git commit",
+      "name": "source.clean_commit",
+      "passed": true
+    },
+    {
+      "detail": "recorded commit and corpus must exist locally",
+      "name": "source.commit_exists",
+      "passed": true
+    },
+    {
+      "detail": "recorded commit must contain the frozen neutral corpus",
+      "name": "source.committed_corpus",
+      "passed": true
+    },
+    {
+      "detail": "runner digest must resolve from recorded commit",
+      "name": "source.committed_runner",
+      "passed": true
+    },
+    {
+      "detail": "judge schema digest must resolve from recorded commit",
+      "name": "source.committed_judge_schema",
+      "passed": true
+    },
+    {
+      "detail": "recorded Design Council version must match VERSION at the commit",
+      "name": "source.committed_version",
+      "passed": true
+    },
+    {
+      "detail": "intervention snapshot must have a valid digest and be frozen before calls",
+      "name": "source.snapshot_declared_frozen",
+      "passed": true
+    },
+    {
+      "detail": "snapshot digest must equal the Design Council skill at the clean commit",
+      "name": "source.committed_skill_snapshot",
+      "passed": true
+    },
+    {
+      "detail": "raw gate verification requires the frozen intervention snapshot",
+      "name": "source.raw_snapshot_present",
+      "passed": true
+    },
+    {
+      "detail": "generation records must exactly match every planned pair and arm",
+      "name": "records.generation_set",
+      "passed": true
+    },
+    {
+      "detail": "all generation records validated",
+      "name": "records.generation_content",
+      "passed": true
+    },
+    {
+      "detail": "judgment records must exactly match the blind plan",
+      "name": "records.judgment_set",
+      "passed": true
+    },
+    {
+      "detail": "all judgment records validated",
+      "name": "records.judgment_content",
+      "passed": true
+    },
+    {
+      "detail": "all blinded transcripts reconstructed",
+      "name": "records.blinded_pairs",
+      "passed": true
+    },
+    {
+      "detail": "saved summary must exactly equal the result recomputed from raw records",
+      "name": "summary.recomputed",
+      "passed": true
+    },
+    {
+      "detail": "all generation and judgment plans must be complete",
+      "name": "summary.complete",
+      "passed": true
+    },
+    {
+      "detail": "expected MEANINGFUL_TREATMENT_BENEFIT_ESTABLISHED, observed 'MEANINGFUL_TREATMENT_BENEFIT_ESTABLISHED'",
+      "name": "decision.verdict",
+      "passed": true
+    },
+    {
+      "detail": "trajectory wins must exceed losses",
+      "name": "decision.wins",
+      "passed": true
+    },
+    {
+      "detail": "case-bootstrap lower bound and sample count must clear policy",
+      "name": "decision.interval",
+      "passed": true
+    }
+  ],
+  "checks_passed": 45,
+  "checks_total": 45,
+  "claim_boundary": "Engineering V1 release gate only; not evidence of real-world product outcomes.",
+  "errors": [],
+  "passed": true,
+  "policy_id": "design-council-v1-neutral-trajectory-gate",
+  "policy_sha256": "1a93e20029ce6123af94284ec8751a6921b420b05a723e08aed7964ffec6899c",
+  "run_id": "20260814T002300Z",
+  "schema_version": "1.0.0",
+  "source_commit": "afddbf4ee4b2c7555f8e390d92edd843427ea31c"
+}

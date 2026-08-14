@@ -1,0 +1,33 @@
+{
+  "benchmark_kind": "trajectory",
+  "complete_realized_design": true,
+  "excluded": [
+    "raw stdout and stderr",
+    "runtime event streams",
+    "environment variables and credentials",
+    "copied intervention tree; use the clean Git commit and recorded tree hash"
+  ],
+  "retained": [
+    "frozen run manifest",
+    "assistant generations and turn-level usage",
+    "blinded candidate pairs",
+    "structured blind judgments",
+    "machine-readable and human-readable summaries"
+  ],
+  "run_id": "20260814T002300Z",
+  "schema_version": "1.0.0",
+  "source_artifact_sha256": {
+    "blinded-pairs.jsonl": "cdb3b912570be861fa2303ab8dd1510b7dfa257d1c56f80778958788abacfd6d",
+    "generations.jsonl": "9aec122ca054551798acfc1a7bf216ff51830617de14ab5307de4a472e49c4b6",
+    "judgments.jsonl": "c0a0b446df115da91dfcdb6855bf0bbb21c2f61ac21f4fbae24c956780fc49e0",
+    "manifest.json": "c82c05d8ac7caf6106c232b5c99be9010afd15dfe1a5e12f2a9ae3e7393aa63c",
+    "summary.json": "6a0b3c0127368bb7a4212d0ef4557dc7330aaf88b5594a84e1b0df1c38192530",
+    "summary.md": "99ac69922d26d69c2cf5f61477584441ce8eeeb9f33eddb3c6c27b53b8b15967"
+  },
+  "v1_trajectory_gate": {
+    "policy_id": "design-council-v1-neutral-trajectory-gate",
+    "policy_sha256": "1a93e20029ce6123af94284ec8751a6921b420b05a723e08aed7964ffec6899c",
+    "source_commit": "afddbf4ee4b2c7555f8e390d92edd843427ea31c",
+    "verified": true
+  }
+}

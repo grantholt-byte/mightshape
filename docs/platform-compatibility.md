@@ -20,7 +20,7 @@ Researched and tested through 2026-08-13 with `codex-cli 0.146.1` and current pr
 OpenAI plugins cannot register arbitrary slash commands, so `/design-think` is not presented as
 a Codex or ChatGPT invocation. Deprecated local custom prompts would appear under
 `/prompts:design-think`, are not plugin-distributed, and are not shipped. Legacy
-`$design-council` remains available throughout this beta. Current Claude Code can use
+`$design-council` remains available as a V1 compatibility alias. Current Claude Code can use
 the requested `/design-think` through the shipped explicit-only standalone alias, which delegates
 to the installed plugin. Marketplace plugin skills themselves remain namespaced and use
 `/design-council:design-think`; `/design-council:design-council` retains old-name compatibility.
@@ -105,7 +105,11 @@ only the treatment arm receives the plugin. It counterbalances order and blind A
 rubrics out of candidate prompts, records candidate usage and latency independently of judge cost,
 and reports paired uncertainty and realized-run completeness instead of turning a small smoke run
 into an efficacy claim. Quality direction and value assessment remain separate, so token savings
-cannot masquerade as quality improvement and verbosity cannot masquerade as value.
+cannot masquerade as quality improvement and verbosity cannot masquerade as value. The fixed V1
+comparison completed 100/100 planned calls on clean beta.8 source, established a +9.375-point
+blind quality advantage over the competent prompt control (95% case-bootstrap CI [4.625, 14.625]),
+and reported a 1.320392× token ratio separately. This is engineering release evidence, not proof of
+real-world team or product outcomes.
 `codex exec --ephemeral --json` supplies structured per-turn usage. Claude's documented skill
 evaluation guidance likewise recommends fresh with/without-skill baselines and blind comparison;
 a native Claude benchmark remains pending until a Claude runtime and authentication are available.
