@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Design Council blind human paired rating",
+  "title": "MightShape blind human paired rating",
   "type": "object",
   "additionalProperties": false,
   "required": [

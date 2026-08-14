@@ -29,7 +29,7 @@ export default function Home() {
 
         <article className="sample-card" aria-label="Sample participant welcome">
           <div className="sample-topline">
-            <span>DESIGN COUNCIL RESEARCH</span>
+            <span>MIGHTSHAPE RESEARCH</span>
             <span className="mode-pill">SOLUTION BLACKOUT</span>
           </div>
           <h2>Thanks for taking part.</h2>
@@ -69,13 +69,13 @@ export default function Home() {
 
 function BrandMark() {
   return (
-    <div className="brand-lockup" aria-label="Design Council">
+    <div className="brand-lockup" aria-label="MightShape">
       <span className="brand-glyph" aria-hidden="true">
         {Array.from({ length: 10 }, (_, index) => (
           <i key={index} style={{ "--node": index } as React.CSSProperties} />
         ))}
       </span>
-      <span>DESIGN COUNCIL</span>
+      <span>MIGHTSHAPE</span>
     </div>
   );
 }

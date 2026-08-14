@@ -5,7 +5,7 @@ export const metadata = { title: "Participant privacy" };
 export default function PrivacyPage() {
   return (
     <main className="document-shell">
-      <Link className="back-link" href="/">← Design Council Research</Link>
+      <Link className="back-link" href="/">← MightShape Research</Link>
       <p className="kicker">PARTICIPANT PRIVACY</p>
       <h1>Research without unnecessary identity.</h1>
       <p className="document-lede">
@@ -34,7 +34,7 @@ export default function PrivacyPage() {
         <h2>Who controls the study</h2>
         <p>
           The research team named on the consent screen controls the study and can
-          review its transcript. Design Council is an interviewing tool, not the
+          review its transcript. MightShape is an interviewing tool, not the
           study sponsor. Questions about a specific study should go to that team.
         </p>
       </section>

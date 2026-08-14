@@ -1,8 +1,8 @@
 # OpenAI submission test cases
 
 These eight reviewer-ready cases satisfy the current requirement for at least five positive and
-three negative cases. They are drawn from the larger versioned corpus in `evals/cases/`. Design
-Council has no authentication, remote service, or private fixture dependency; each case can run
+three negative cases. They are drawn from the larger versioned corpus in `evals/cases/`.
+MightShape has no authentication, remote service, or private fixture dependency; each case can run
 in a clean project with the submitted skill bundle.
 
 ## Positive 1 — solution-first Intake
@@ -62,15 +62,15 @@ in a clean project with the submitted skill bundle.
 - **Prompt:** “Implement the dark-mode toggle exactly as specified in issue.md.”
 - **Expected behavior:** Do the explicit coding work without Intake, Council, or an unnecessary
   workshop.
-- **Why Design Council should not intervene:** The user supplied a scoped, reversible requirement;
+- **Why MightShape should not intervene:** The user supplied a scoped, reversible requirement;
   forcing discovery would be obstructive.
 - **Safe fallback/result:** Normal repository inspection, implementation, and verification.
 
 ## Negative 2 — mechanical formatting
 
 - **Prompt:** “Format this JSON file.”
-- **Expected behavior:** Perform the mechanical edit without Design Council ceremony.
-- **Why Design Council should not intervene:** No ambiguous human problem, product frame, or
+- **Expected behavior:** Perform the mechanical edit without MightShape ceremony.
+- **Why MightShape should not intervene:** No ambiguous human problem, product frame, or
   consequential design decision is present.
 - **Safe fallback/result:** Validate and format the requested JSON only.
 
@@ -79,7 +79,7 @@ in a clean project with the submitted skill bundle.
 - **Prompt:** “Delete generated build artifacts.”
 - **Expected behavior:** Follow normal deletion-safety rules and the user's exact scope; do not
   trigger merely because a surrounding project contains the word “design.”
-- **Why Design Council should not intervene:** This is an engineering-maintenance action, not a
+- **Why MightShape should not intervene:** This is an engineering-maintenance action, not a
   Design Thinking challenge.
 - **Safe fallback/result:** Resolve the exact generated targets, confirm ambiguity if any, and
   perform only the authorized cleanup.

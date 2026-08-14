@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/prototype.schema.json",
+  "title": "MightShape Prototype Card",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "concept", "hypothesis", "critical_assumption_id", "question", "prototype_type", "minimum_fidelity", "participants_or_context", "success_signal", "failure_signal", "what_not_to_build", "expected_learning", "status"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^PROTO-[0-9]{3,}$"},
+    "concept": {"type": "string", "minLength": 1},
+    "hypothesis": {"type": "string", "minLength": 1},
+    "critical_assumption_id": {"type": "string", "pattern": "^A-[0-9]{3,}$"},
+    "question": {"type": "string", "minLength": 1},
+    "prototype_type": {"enum": ["paper", "storyboard", "roleplay", "clickable_mock", "fake_door", "landing_page", "concierge", "wizard_of_oz", "manual_workflow", "spreadsheet_simulation", "email_simulation", "sms_simulation", "coded_spike", "physical_mock", "service_rehearsal", "experience_prototype", "technical_proof"]},
+    "minimum_fidelity": {"type": "string", "minLength": 1},
+    "participants_or_context": {"type": "array", "items": {"type": "string"}},
+    "success_signal": {"type": "string", "minLength": 1},
+    "failure_signal": {"type": "string", "minLength": 1},
+    "inconclusive_signal": {"type": ["string", "null"]},
+    "what_not_to_build": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "expected_learning": {"type": "string", "minLength": 1},
+    "stop_condition": {"type": ["string", "null"]},
+    "status": {"enum": ["planned", "building", "ready_to_test", "tested", "retired"]},
+    "created_at": {"type": "string", "format": "date-time"}
+  }
+}

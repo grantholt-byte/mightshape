@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/team-workshop-session.schema.json",
+  "title": "Portable MightShape team workshop session",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "exercise",
+    "starting_point",
+    "challenge",
+    "visibility",
+    "status",
+    "facilitator_level",
+    "initiator_participant_id",
+    "controller_participant_ids",
+    "participants",
+    "prompts",
+    "contributions",
+    "artifacts",
+    "contribution_set_frozen_at",
+    "step_version",
+    "created_at",
+    "updated_at",
+    "retention_expires_at",
+    "history"
+  ],
+  "$defs": {
+    "participantId": {"type": "string", "pattern": "^TP-[0-9]{3,}$"},
+    "participant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "role", "status", "joined_at"],
+      "properties": {
+        "id": {"$ref": "#/$defs/participantId"},
+        "role": {"enum": ["INITIATOR", "FACILITATOR", "CONTRIBUTOR"]},
+        "status": {"enum": ["ACTIVE", "PASSED", "LEFT"]},
+        "joined_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "prompt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "purpose", "mindset", "prompt", "status", "opened_at", "closed_at"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^UP-[0-9]{3,}$"},
+        "purpose": {"type": "string", "minLength": 1, "maxLength": 1000},
+        "mindset": {"type": "string", "minLength": 1, "maxLength": 1000},
+        "prompt": {"type": "string", "minLength": 1, "maxLength": 1000},
+        "status": {"enum": ["OPEN", "CLOSED"]},
+        "opened_at": {"type": "string", "format": "date-time"},
+        "closed_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "contribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "participant_id",
+        "kind",
+        "content",
+        "provenance",
+        "status",
+        "submitted_at",
+        "revealed_at"
+      ],
+      "properties": {
+        "id": {"type": "string", "pattern": "^UC-[0-9]{3,}$"},
+        "participant_id": {"$ref": "#/$defs/participantId"},
+        "kind": {"enum": ["IDEA", "NOTE", "SORT_MOVE", "PROCESS_STEP", "ASSUMPTION", "POV_COMPONENT", "HMW", "PROTOTYPE_DECISION", "TEST_DECISION"]},
+        "content": {"type": "string", "minLength": 1, "maxLength": 2000},
+        "provenance": {"const": "USER_PROVIDED"},
+        "status": {"enum": ["ACTIVE", "SUPERSEDED"]},
+        "submitted_at": {"type": "string", "format": "date-time"},
+        "revealed_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_id", "artifact_type", "source_contribution_ids", "png_sha256", "alt_text", "text_summary", "recorded_at"],
+      "properties": {
+        "artifact_id": {"type": "string", "pattern": "^VA-[A-Z0-9][A-Z0-9-]*$"},
+        "artifact_type": {"enum": ["AFFINITY_MAP", "PROCESS_MAP"]},
+        "source_contribution_ids": {"type": "array", "items": {"type": "string", "pattern": "^UC-[0-9]{3,}$"}, "uniqueItems": true},
+        "png_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "alt_text": {"type": "string", "minLength": 1, "maxLength": 1000},
+        "text_summary": {"type": "string", "minLength": 1, "maxLength": 5000},
+        "recorded_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "history": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "at", "action", "actor_participant_id", "details"],
+      "properties": {
+        "version": {"type": "integer", "minimum": 1},
+        "at": {"type": "string", "format": "date-time"},
+        "action": {"type": "string", "minLength": 1},
+        "actor_participant_id": {"anyOf": [{"$ref": "#/$defs/participantId"}, {"type": "null"}]},
+        "details": {"type": "object"}
+      }
+    }
+  },
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "id": {"type": "string", "pattern": "^TW-[A-F0-9-]{36}$"},
+    "exercise": {"enum": ["BRAINSTORMING", "BRAINWRITING", "AFFINITY_CLUSTERING", "PROCESS_RECONSTRUCTION", "ASSUMPTION_MAPPING", "POV_HMW", "PROTOTYPE_DESIGN", "TEST_DESIGN"]},
+    "starting_point": {"enum": ["EARLY_HUNCH", "GROUNDED_EXPLORATION", "FRAMED_CHALLENGE", "CONCEPT", "PROTOTYPE", "LIVE", "UNSURE"]},
+    "challenge": {"type": "string", "minLength": 1, "maxLength": 2000},
+    "visibility": {"enum": ["OPEN", "SEALED"]},
+    "status": {"enum": ["COLLECTING", "PAUSED", "FROZEN", "SYNTHESIZING", "REVIEW", "COMPLETED", "CLOSED"]},
+    "facilitator_level": {"enum": ["NOVICE_ASSISTED", "GUIDED", "LIGHT_TOUCH"]},
+    "initiator_participant_id": {"$ref": "#/$defs/participantId"},
+    "controller_participant_ids": {"type": "array", "items": {"$ref": "#/$defs/participantId"}, "minItems": 1, "uniqueItems": true},
+    "participants": {"type": "array", "items": {"$ref": "#/$defs/participant"}, "minItems": 1},
+    "prompts": {"type": "array", "items": {"$ref": "#/$defs/prompt"}, "minItems": 1},
+    "contributions": {"type": "array", "items": {"$ref": "#/$defs/contribution"}, "maxItems": 100},
+    "artifacts": {"type": "array", "items": {"$ref": "#/$defs/artifact"}},
+    "contribution_set_frozen_at": {"type": ["string", "null"], "format": "date-time"},
+    "step_version": {"type": "integer", "minimum": 1},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "retention_expires_at": {"type": "string", "format": "date-time"},
+    "history": {"type": "array", "items": {"$ref": "#/$defs/history"}, "minItems": 1}
+  }
+}

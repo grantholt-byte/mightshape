@@ -1,1 +1,1 @@
-"""Behavioral evaluation support for Design Council."""
+"""Behavioral evaluation support for MightShape."""

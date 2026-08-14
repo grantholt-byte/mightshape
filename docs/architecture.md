@@ -1,8 +1,8 @@
-# Architecture: one product, two adapters
+# Architecture: one product, multiple adapters
 
 ## Source of truth
 
-Design Council has one canonical product core under `skills/design-council/`:
+MightShape has one canonical product core under `skills/mightshape/`:
 
 - `references/`: constitution, ten Human Models, Council protocols, Inquiry Lab,
   stage/method guidance, UX, evidence, and source notes;
@@ -12,10 +12,6 @@ Design Council has one canonical product core under `skills/design-council/`:
 - `SKILL.md`: the shared routing constitution whose skill metadata exposes the primary
   `design-think` entry point.
 
-`skills/design-council-legacy/` is the intentionally thin pre-`design-think` compatibility adapter. It
-delegates to the canonical constitution and does not duplicate Human Models, methodology,
-state, or policy.
-
 The repository layout predates the platform-adapter addendum, so the core remains in its
 validated installable location rather than moving every file. That is an intentional
 low-risk choice, not two products.
@@ -23,29 +19,35 @@ low-risk choice, not two products.
 ```text
 canonical core + routing constitution
               │
-       ┌──────┴──────┐
-       │             │
-OpenAI adapter   Claude adapter
-manifest/hooks   manifest/Agent appendix
-       │             │
-dist/openai      dist/claude
+       ┌──────┼─────────────────────┐
+       │      │                     │
+ OpenAI    Claude          optional collaboration service
+ adapter   adapter          shared workshop engine + visuals
+       │      │                │       │       │
+dist/openai dist/claude     Slack   Discord   Teams
 ```
 
 `scripts/build_packages.py` creates both self-contained packages. Each package receives the
-same canonical Design Council core (exposed as `design-think`) and thin legacy alias. The Claude
+same canonical MightShape core (exposed as `design-think`). The Claude
 package then appends only Claude-specific invocation, Agent, Sites, and hook mechanics. It does
 not fork Human Models or methodology. `scripts/check_cross-platform-drift.py` hashes every
 shared file, checks all signature invariants, confirms ten identical Human Models, and
 synchronizes versions.
+
+The optional `collaboration-app/` is a separate hosted runtime around a platform-neutral
+workshop engine. Slack, Discord, and Teams are thin interaction transports over the same
+exercise definitions, state machine, facilitator contract, evidence rules, and visual renderer.
+They do not fork the ten Human Models or the Design Thinking methodology. Neither Codex nor
+Claude requires this service.
 
 ## Platform differences
 
 | Concern | OpenAI / Codex | Claude Code |
 |---|---|---|
 | Manifest | `.codex-plugin/plugin.json` | `.claude-plugin/plugin.json` |
-| Primary explicit invocation | `$design-think` or `/skills`; ChatGPT uses `@design-think` | `/design-council:design-think` |
-| Optional short form / compatibility | Legacy `$design-council` | Explicit-only standalone alias `/design-think` delegates to the installed plugin; legacy plugin skill: `/design-council:design-council` |
-| Independent workers | Native Codex subagents; isolated `codex exec` fallback | Fresh Agent workers via `design-council:sealed-member` |
+| Primary explicit invocation | `$design-think` or `/skills`; ChatGPT uses `@design-think` | `/mightshape:design-think` |
+| Optional short form | None | Explicit-only standalone alias `/design-think` delegates to the installed plugin |
+| Independent workers | Native Codex subagents; isolated `codex exec` fallback | Fresh Agent workers via `mightshape:sealed-member` |
 | Optional state recovery | Trust-gated SessionStart hook | Skill reads canonical state on activation |
 | Hosted companion | ChatGPT Sites-compatible | Can develop the app; cannot claim a Sites deploy |
 
@@ -55,7 +57,7 @@ OpenAI's plugin contract does not permit an arbitrary `/design-think` alias; dep
 custom prompts would invoke under `/prompts:` and are intentionally not shipped.
 Claude's plugin namespace is mandatory, so `platforms/claude/standalone-alias/design-think/`
 provides an optional explicit-only personal/project command that delegates to the installed
-`design-council:design-think` skill. It contains no product core and cannot silently replace a
+`mightshape:design-think` skill. It contains no product core and cannot silently replace a
 missing plugin.
 
 ## Portable state
@@ -83,6 +85,26 @@ not human interviews or observed behavior.
 Sealed independence remains upstream of interaction convenience. Input accepted before Round A
 enters every member's common packet identically; new input received while the round is open is
 held until freeze. Neither adapter may selectively update unfinished members.
+
+### Team-channel boundary
+
+Team workshops split state into a portable `TeamWorkshopSession` and a private
+`TeamChannelBinding`. The portable record contains opaque participants, `UC-*` contributions,
+prompts, freeze status, artifact references, and versioned history. Raw workspace, tenant, guild,
+channel, message, event, and user identifiers stay in the owner-only private binding. Interaction
+IDs are retained only as bounded hashes for replay protection.
+
+Only explicit commands, mentions, buttons, and submitted dialogs enter this boundary; the
+transports do not read ambient channel history. Open exercises may echo submitted text to the
+workshop thread. Sealed exercises expose counts until the initiator freezes the complete set.
+The shared service then sends one bounded frozen packet to the configured facilitator and renders
+the validated result through the canonical Visual Workbench. The default mock provider labels
+itself as a source wall and does not pretend to perform semantic clustering.
+
+The bundled file store is crash-safe and owner-only but intentionally single-process. A
+multi-instance deployment must replace it with a transactional shared `WorkshopStore`, shared
+idempotency receipts, and a durable background-job queue. Platform transports and store
+implementations depend on interfaces rather than changing canonical project state.
 
 ## Visual workbench
 
@@ -136,6 +158,7 @@ canonical core
   → platform validators
   → unit + behavioral parity tests
   → interview-app tests/build
+  → collaboration service typecheck/tests/audit
   → deterministic ZIP artifacts
 ```
 

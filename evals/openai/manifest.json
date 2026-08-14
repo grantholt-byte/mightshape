@@ -2,9 +2,9 @@
   "schema_version": "1.0.0",
   "platform": "openai",
   "display_name": "OpenAI / Codex",
-  "package_root": "dist/openai/design-council",
+  "package_root": "dist/openai/mightshape",
   "plugin_manifest": ".codex-plugin/plugin.json",
-  "skill_entrypoint": "skills/design-council/SKILL.md",
+  "skill_entrypoint": "skills/mightshape/SKILL.md",
   "explicit_invocation": "$design-think",
   "shared_case_map": {
     "source": "evals/cases",
@@ -17,7 +17,7 @@
   },
   "required_paths": [
     ".codex-plugin/plugin.json",
-    "skills/design-council/SKILL.md",
+    "skills/mightshape/SKILL.md",
     "hooks/hooks.json"
   ],
   "forbidden_paths": [
@@ -30,7 +30,7 @@
       "must_contain": "$design-think"
     },
     {
-      "path": "skills/design-council/SKILL.md",
+      "path": "skills/mightshape/SKILL.md",
       "must_contain": "common evidence packet → sealed responses → freeze"
     }
   ]

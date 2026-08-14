@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Controlled Claude Code candidate runtime for Design Council A/B studies."""
+"""Controlled Claude Code candidate runtime for MightShape A/B studies."""
 
 from __future__ import annotations
 
@@ -204,7 +204,7 @@ def _names(value: Any) -> set[str]:
 
 
 def validate_arm_init(control: dict[str, Any], treatment: dict[str, Any]) -> list[str]:
-    """Return fairness errors; only Design Council may differ between init surfaces."""
+    """Return fairness errors; only MightShape may differ between init surfaces."""
 
     errors: list[str] = []
     if not control or not treatment:
@@ -216,16 +216,16 @@ def validate_arm_init(control: dict[str, Any], treatment: dict[str, Any]) -> lis
     treatment_plugins = _names(treatment.get("plugins"))
     if control_plugins:
         errors.append("control unexpectedly loaded a plugin")
-    if not any("design-council" in name for name in treatment_plugins):
-        errors.append("treatment did not load Design Council")
-    if any("design-council" not in name for name in treatment_plugins - control_plugins):
+    if not any("mightshape" in name for name in treatment_plugins):
+        errors.append("treatment did not load MightShape")
+    if any("mightshape" not in name for name in treatment_plugins - control_plugins):
         errors.append("treatment loaded an unexpected plugin")
     control_skills = _names(control.get("skills"))
     treatment_skills = _names(treatment.get("skills"))
     added_skills = treatment_skills - control_skills
     removed_skills = control_skills - treatment_skills
-    if removed_skills or any("design-council" not in name for name in added_skills):
-        errors.append("bundled skill surfaces differ beyond Design Council")
+    if removed_skills or any("mightshape" not in name for name in added_skills):
+        errors.append("bundled skill surfaces differ beyond MightShape")
     control_agents = _names(control.get("agents"))
     treatment_agents = _names(treatment.get("agents"))
     added_agents = treatment_agents - control_agents

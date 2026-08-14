@@ -1,5 +1,9 @@
 # V1 validation report
 
+> Historical evidence notice: this report records tests run before the MightShape rename. Former
+> product-name references identify the evaluated artifact and are not current branding. Current
+> release status lives in `README.md` and `docs/PUBLISHING_CHECKLIST.md`.
+
 **Validation date:** 2026-08-13
 
 **Release:** `1.0.0`
@@ -353,7 +357,7 @@ native Claude testing, and blind human ratings remain required before a broad pu
 ## Marketplace and distribution readiness
 
 OpenAI and Claude packages are generated from one canonical core at
-`dist/openai/design-council` and `dist/claude/design-council`; deterministic release archives and
+`dist/openai/mightshape` and `dist/claude/mightshape`; deterministic release archives and
 SHA-256 checksums live under `dist/`. Installation, update, uninstall, private-repository auth,
 and current public-publication paths are documented separately.
 

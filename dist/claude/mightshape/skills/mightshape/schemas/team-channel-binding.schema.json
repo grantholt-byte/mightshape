@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/team-channel-binding.schema.json",
+  "title": "Private team-channel adapter binding",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "session_id",
+    "binding_version",
+    "platform",
+    "workspace_ref",
+    "channel_ref",
+    "conversation_ref",
+    "root_message_ref",
+    "participant_refs",
+    "processed_event_digests",
+    "outbound_deliveries",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "session_id": {"type": "string", "pattern": "^TW-[A-F0-9-]{36}$"},
+    "binding_version": {"type": "integer", "minimum": 1},
+    "platform": {"enum": ["SLACK", "DISCORD", "TEAMS"]},
+    "workspace_ref": {"type": "string", "minLength": 1, "maxLength": 500},
+    "channel_ref": {"type": "string", "minLength": 1, "maxLength": 500},
+    "conversation_ref": {"type": ["string", "null"], "minLength": 1, "maxLength": 500},
+    "root_message_ref": {"type": ["string", "null"], "minLength": 1, "maxLength": 500},
+    "participant_refs": {
+      "type": "object",
+      "minProperties": 1,
+      "patternProperties": {
+        "^[a-f0-9]{64}$": {"type": "string", "pattern": "^TP-[0-9]{3,}$"}
+      },
+      "additionalProperties": false
+    },
+    "processed_event_digests": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+      "uniqueItems": true
+    },
+    "outbound_deliveries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "kind",
+          "conversation_ref",
+          "root_message_ref",
+          "message_ref",
+          "file_ref",
+          "artifact_id",
+          "status",
+          "posted_at",
+          "updated_at",
+          "delivery_attempts",
+          "delete_attempts",
+          "last_error_code"
+        ],
+        "properties": {
+          "id": {"type": "string", "minLength": 1, "maxLength": 500},
+          "kind": {"enum": ["ROOT", "PROGRESS", "SOURCE_SET", "VISUAL", "TEXT_FALLBACK", "CONTROL", "STATUS"]},
+          "conversation_ref": {"type": "string", "minLength": 1, "maxLength": 500},
+          "root_message_ref": {"type": ["string", "null"], "minLength": 1, "maxLength": 500},
+          "message_ref": {"type": ["string", "null"], "minLength": 1, "maxLength": 500},
+          "file_ref": {"type": ["string", "null"], "minLength": 1, "maxLength": 500},
+          "artifact_id": {"type": ["string", "null"], "maxLength": 100},
+          "status": {"enum": ["CLAIMED", "POSTED", "FAILED", "DELETE_PENDING", "DELETED", "DELETE_FAILED", "UNKNOWN"]},
+          "posted_at": {"type": ["string", "null"], "format": "date-time"},
+          "updated_at": {"type": "string", "format": "date-time"},
+          "delivery_attempts": {"type": "integer", "minimum": 1},
+          "delete_attempts": {"type": "integer", "minimum": 0},
+          "last_error_code": {"type": ["string", "null"], "maxLength": 100}
+        }
+      }
+    },
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"}
+  }
+}

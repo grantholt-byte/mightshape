@@ -15,6 +15,12 @@ interview-app/.next/
 interview-app/.wrangler/
 interview-app/.env
 interview-app/.dev.vars
+collaboration-app/node_modules/
+collaboration-app/dist/
+collaboration-app/.data/
+collaboration-app/.env
+collaboration-app/.env.*
+!collaboration-app/.env.example
 coverage/
 assets/concepts/
 evals/results/*

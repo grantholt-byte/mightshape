@@ -1,6 +1,6 @@
 # Code of conduct
 
-Design Council welcomes rigorous disagreement without personal hostility.
+MightShape welcomes rigorous disagreement without personal hostility.
 
 Contributors must:
 

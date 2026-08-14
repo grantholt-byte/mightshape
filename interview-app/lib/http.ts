@@ -65,6 +65,6 @@ export function routeError(error: unknown) {
       { status: 503 },
     );
   }
-  console.error("Design Council interview route failed", error);
+  console.error("MightShape interview route failed", error);
   return json({ error: "The interview service is temporarily unavailable." }, { status: 500 });
 }

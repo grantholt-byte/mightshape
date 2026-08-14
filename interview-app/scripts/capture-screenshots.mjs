@@ -16,7 +16,7 @@ async function main() {
   }
 
   await mkdir(outputDirectory, { recursive: true });
-  const profileDirectory = await mkdtemp(join(tmpdir(), "design-council-chrome-"));
+  const profileDirectory = await mkdtemp(join(tmpdir(), "mightshape-chrome-"));
   let browser;
   let studyId;
 
@@ -42,7 +42,7 @@ async function main() {
       maxTurns: 8,
       maxParticipants: 3,
       dataCollected: "Your text responses, anonymous participant ID, and interview timestamps.",
-      reviewerDescription: "The Design Council project research team.",
+      reviewerDescription: "The MightShape project research team.",
       deidentifiedQuotesAllowed: true,
     }),
   });

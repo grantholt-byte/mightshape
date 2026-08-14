@@ -1,6 +1,6 @@
 # Static context-load profiler
 
-Use `scripts/profile_context.py` to compare the file footprint of Design Council's
+Use `scripts/profile_context.py` to compare the file footprint of MightShape's
 progressive-disclosure routes without running a model:
 
 ```bash
@@ -28,7 +28,7 @@ append it to one profile:
 
 ```bash
 python3 scripts/profile_context.py --profile quick-look \
-  --extra-load skills/design-council/SKILL.md
+  --extra-load skills/mightshape/SKILL.md
 ```
 
 Use the result to remove accidental reloads and unjustified route stacking. It is a resource

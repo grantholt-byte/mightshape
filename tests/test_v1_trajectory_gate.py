@@ -69,7 +69,7 @@ class V1TrajectoryGateTests(unittest.TestCase):
             self.pairs, design["judge_repetitions"], design["seed"]
         )
         snapshot = self.run / "intervention-snapshot"
-        shutil.copytree(ROOT / "skills/design-council", snapshot)
+        shutil.copytree(ROOT / "skills/mightshape", snapshot)
         snapshot_digest = canonical_tree_digest(snapshot)
         corpus_payload = "\n".join(
             json.dumps(case, sort_keys=True, separators=(",", ":"))

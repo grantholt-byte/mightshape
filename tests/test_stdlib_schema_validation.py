@@ -9,7 +9,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / "skills" / "design-council" / "scripts"
+SCRIPTS = ROOT / "skills" / "mightshape" / "scripts"
 if str(SCRIPTS) not in sys.path:
     sys.path.insert(0, str(SCRIPTS))
 
@@ -51,7 +51,7 @@ class StdlibSchemaValidationTests(unittest.TestCase):
         )
         result = schema_validation(malformed, "evidence.schema.json")
         self.assertFalse(result["valid"])
-        self.assertEqual(result["validator"], "design-council-stdlib-2020-12-subset")
+        self.assertEqual(result["validator"], "mightshape-stdlib-2020-12-subset")
         combined = "\n".join(result["errors"])
         for marker in (
             "id:",

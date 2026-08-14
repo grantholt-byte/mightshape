@@ -1,17 +1,21 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
-  "name": "design-council",
-  "version": "1.0.0",
-  "description": "The self-hosted marketplace for Design Council.",
+  "name": "mightshape",
+  "version": "1.0.1",
+  "description": "The self-hosted marketplace for MightShape.",
   "owner": {
     "name": "Grant Holt"
   },
+  "renames": {
+    "design-council": "mightshape",
+    "hunchgarden": "mightshape"
+  },
   "plugins": [
     {
-      "name": "design-council",
-      "source": "./dist/claude/design-council",
+      "name": "mightshape",
+      "source": "./dist/claude/mightshape",
       "description": "Human-centered Design Thinking with a deeply modeled Council, evidence-safe inquiry, visible workshop steps, and visual artifacts.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": {
         "name": "Grant Holt"
       },

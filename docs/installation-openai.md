@@ -8,15 +8,15 @@ the universal directory shared by ChatGPT and Codex.
 ## Build and validate
 
 ```bash
-cd /absolute/path/to/design-council
+cd /absolute/path/to/mightshape
 make build-openai
 make validate-openai
 ```
 
-The installable package is `dist/openai/design-council/` and the deterministic archive is
-`dist/design-council-openai-1.0.0.zip`.
+The installable package is `dist/openai/mightshape/` and the deterministic archive is
+`dist/mightshape-openai-1.0.1.zip`.
 
-## Invoke Design Council
+## Invoke MightShape
 
 OpenAI surfaces use skill invocation, not an arbitrary plugin-defined slash command:
 
@@ -26,7 +26,7 @@ OpenAI surfaces use skill invocation, not an arbitrary plugin-defined slash comm
 
 An exact `/design-think` slash command cannot be registered by a packaged OpenAI plugin.
 Deprecated custom prompts would appear under `/prompts:<name>`, not `/design-think`, and are
-not shipped. Legacy `$design-council` remains available for compatibility.
+not shipped.
 
 ## Test from the local development marketplace
 
@@ -35,9 +35,9 @@ marketplace is for repository-local development; the GitHub source below is the 
 public install.
 
 ```bash
-codex plugin marketplace add /absolute/path/to/design-council --json
+codex plugin marketplace add /absolute/path/to/mightshape --json
 codex plugin list --available --json
-codex plugin add design-council@design-council --json
+codex plugin add mightshape@mightshape --json
 codex plugin list --json
 ```
 
@@ -52,21 +52,21 @@ Rebuild, remove the cached plugin, and install it again:
 
 ```bash
 make build-openai
-codex plugin remove design-council@design-council --json
-codex plugin add design-council@design-council --json
+codex plugin remove mightshape@mightshape --json
+codex plugin add mightshape@mightshape --json
 ```
 
 For a Git-backed marketplace, refresh its snapshot first:
 
 ```bash
-codex plugin marketplace upgrade design-council --json
+codex plugin marketplace upgrade mightshape --json
 ```
 
 ## Uninstall and remove the test marketplace
 
 ```bash
-codex plugin remove design-council@design-council --json
-codex plugin marketplace remove design-council --json
+codex plugin remove mightshape@mightshape --json
+codex plugin marketplace remove mightshape --json
 ```
 
 Removing the plugin does not erase `.design-council/` project files. Remove project state
@@ -74,19 +74,19 @@ only through a deliberate project-data retention decision.
 
 ## GitHub marketplace source
 
-The public repository can be installed without collaborator access. First prove that the
-immutable `v1.0.0` tag resolves:
+Use the public `grantholt-byte/mightshape` repository and immutable release tag. Prove that the
+exact tag resolves before sharing it:
 
 ```bash
-git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
-  refs/tags/v1.0.0
-codex plugin marketplace add grantholt-byte/design-council --ref v1.0.0 --json
-codex plugin list --marketplace design-council --available --json
-codex plugin add design-council@design-council --json
+git ls-remote --exit-code https://github.com/grantholt-byte/mightshape.git \
+  refs/tags/v1.0.1
+codex plugin marketplace add grantholt-byte/mightshape --ref v1.0.1 --json
+codex plugin list --marketplace mightshape --available --json
+codex plugin add mightshape@mightshape --json
 codex plugin list --json
 ```
 
-`ls-remote` proves availability of the exact `v1.0.0` tag. Do not continue if it fails. This
+`ls-remote` proves availability of the exact `v1.0.1` tag. Do not continue if it fails. This
 installs from the immutable release tag rather than the moving `main` branch.
 
 To move to a later immutable release tag, remove the installed plugin and marketplace, then
@@ -106,9 +106,10 @@ branch; it does not change a marketplace pinned to an older tag.
   aliases are not part of the current OpenAI packaging contract.
 - Hooks are optional and trust-gated. Declining the hook must not disable the skill.
 
-The fixed model-backed V1 gate passed in run `20260814T002300Z` from clean beta.8 source commit
+The pre-rebrand core passed the fixed model-backed V1 gate in run `20260814T002300Z` from clean
+beta.8 source commit
 `afddbf4ee4b2c7555f8e390d92edd843427ea31c`: 100/100 calls, 97.50 versus 88.125,
 +9.375 points, 95% CI [4.625, 14.625], 4 wins, 1 tie, and 0 losses. The raw verifier passed
 45/45 checks and the exported verifier passed 44/44. Treat the GitHub commands as usable only when
-the documented `git ls-remote --exit-code` preflight resolves `refs/tags/v1.0.0`; record remote
-install evidence separately from the immutable source snapshot.
+the documented `git ls-remote --exit-code` preflight resolves `refs/tags/v1.0.1`; record
+renamed-package remote-install evidence separately from the earlier core evidence.

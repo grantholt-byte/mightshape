@@ -1,1 +1,1 @@
-"""Deterministic tests for Design Council."""
+"""Deterministic tests for MightShape."""

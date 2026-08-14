@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Blind paired Design Council trajectory judgment",
+  "title": "Blind paired MightShape trajectory judgment",
   "type": "object",
   "additionalProperties": false,
   "required": [

@@ -14,7 +14,7 @@ from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / "skills" / "design-council" / "scripts"
+SCRIPTS = ROOT / "skills" / "mightshape" / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
 from dc_core import DesignCouncilError, load_json  # noqa: E402
@@ -295,7 +295,7 @@ class ProjectStateTests(unittest.TestCase):
 
     def test_visual_artifact_manifest_is_recorded_without_embedding_visual(self) -> None:
         artifact_dir = self.root / ".design-council/artifacts/VA-001"
-        artifact = load_json(ROOT / "skills/design-council/assets/examples/affinity-map.json")
+        artifact = load_json(ROOT / "skills/mightshape/assets/examples/affinity-map.json")
         artifact["id"] = "VA-001"
         paths = write_artifact(render_artifact(artifact), artifact_dir)
         manifest_path = Path(paths["manifest"])
@@ -318,7 +318,7 @@ class ProjectStateTests(unittest.TestCase):
 
     def test_visual_artifact_record_refuses_tampering_or_inconsistent_manifest(self) -> None:
         artifact_dir = self.root / ".design-council/artifacts/VA-404"
-        artifact = load_json(ROOT / "skills/design-council/assets/examples/process-map.json")
+        artifact = load_json(ROOT / "skills/mightshape/assets/examples/process-map.json")
         artifact["id"] = "VA-404"
         paths = write_artifact(render_artifact(artifact), artifact_dir)
         manifest_path = Path(paths["manifest"])

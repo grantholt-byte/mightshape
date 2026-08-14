@@ -1,14 +1,14 @@
 {
-  "name": "design-council",
+  "name": "mightshape",
   "interface": {
-    "displayName": "Design Council"
+    "displayName": "MightShape"
   },
   "plugins": [
     {
-      "name": "design-council",
+      "name": "mightshape",
       "source": {
         "source": "local",
-        "path": "./dist/openai/design-council"
+        "path": "./dist/openai/mightshape"
       },
       "policy": {
         "installation": "AVAILABLE",

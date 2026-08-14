@@ -11,8 +11,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
-CANONICAL = ROOT / "skills" / "design-council"
-LEGACY = ROOT / "skills" / "design-council-legacy"
+BRAND = json.loads((ROOT / "brand.json").read_text(encoding="utf-8"))
+PRODUCT_SLUG = BRAND["product"]["slug"]
+CANONICAL = ROOT / "skills" / PRODUCT_SLUG
 SHARED_PARTS = ("references", "schemas", "scripts", "assets")
 INVARIANTS = (
     "sealed responses",
@@ -48,8 +49,8 @@ def file_map(root: Path) -> dict[str, str]:
 def check() -> dict:
     errors: list[str] = []
     packages = {
-        "openai": DIST / "openai" / "design-council" / "skills" / "design-council",
-        "claude": DIST / "claude" / "design-council" / "skills" / "design-council",
+        "openai": DIST / "openai" / PRODUCT_SLUG / "skills" / PRODUCT_SLUG,
+        "claude": DIST / "claude" / PRODUCT_SLUG / "skills" / PRODUCT_SLUG,
     }
     canonical_map = file_map(CANONICAL)
     for name, root in packages.items():
@@ -70,11 +71,6 @@ def check() -> dict:
         errors.append("OpenAI adapter SKILL.md is not the canonical entry point")
     if not claude_skill.startswith(canonical_skill):
         errors.append("Claude adapter does not preserve the complete canonical SKILL.md prefix")
-    canonical_alias = (LEGACY / "SKILL.md").read_bytes()
-    for name, package in packages.items():
-        alias = package.parent / "design-council-legacy" / "SKILL.md"
-        if not alias.is_file() or alias.read_bytes() != canonical_alias:
-            errors.append(f"{name} adapter lost or changed the legacy invocation alias")
     for marker in INVARIANTS:
         for name, text in (("openai", openai_skill), ("claude", claude_skill)):
             if marker.lower() not in text.lower():
@@ -82,8 +78,8 @@ def check() -> dict:
 
     expected_version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
     version_files = {
-        "openai": DIST / "openai/design-council/.codex-plugin/plugin.json",
-        "claude": DIST / "claude/design-council/.claude-plugin/plugin.json",
+        "openai": DIST / "openai" / PRODUCT_SLUG / ".codex-plugin" / "plugin.json",
+        "claude": DIST / "claude" / PRODUCT_SLUG / ".claude-plugin" / "plugin.json",
         "claude_marketplace": ROOT / ".claude-plugin/marketplace.json",
     }
     versions = {}

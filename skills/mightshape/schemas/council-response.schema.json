@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/council-response.schema.json",
+  "title": "Sealed MightShape response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["round_id", "member_id", "position", "ideas", "concerns", "questions", "unknowns", "surprise", "knowledge_boundary", "confidence"],
+  "properties": {
+    "round_id": {"type": "string", "pattern": "^CR-[0-9]{3,}$"},
+    "member_id": {"type": "string", "enum": ["maya-chen", "leo-martinez", "priya-rao", "marcus-brooks", "elena-rossi", "theo-bennett", "samira-okafor", "jack-sullivan", "mei-tanaka", "rafael-alvarez"]},
+    "position": {"type": "string", "minLength": 1},
+    "ideas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["idea", "territory"],
+        "properties": {
+          "idea": {"type": "string", "minLength": 1},
+          "territory": {"type": "string", "enum": ["EXPECTED", "ADJACENT", "BEHAVIORAL", "SYSTEMIC", "RADICAL"]}
+        }
+      }
+    },
+    "concerns": {"type": "array", "items": {"type": "string"}},
+    "questions": {"type": "array", "items": {"type": "string"}},
+    "unknowns": {"type": "array", "items": {"type": "string"}},
+    "surprise": {"type": "string"},
+    "knowledge_boundary": {"type": "string"},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1}
+  }
+}

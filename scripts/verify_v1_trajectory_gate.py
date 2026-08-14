@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed verifier for the preregistered Design Council V1 trajectory gate.
+"""Fail-closed verifier for the preregistered MightShape V1 trajectory gate.
 
 The verifier accepts only the exact neutral corpus and experimental design in
 ``evals/benchmark/v1-trajectory-gate-policy.json``. It reconstructs plans,
@@ -160,7 +160,7 @@ def _git_bytes(commit: str, relative_path: str) -> bytes | None:
 
 
 def _git_skill_tree_digest(commit: str) -> dict[str, Any] | None:
-    prefix = "skills/design-council/"
+    prefix = "skills/mightshape/"
     try:
         listing = subprocess.run(
             ["git", "ls-tree", "-r", "--name-only", commit, "--", prefix.rstrip("/")],
@@ -404,7 +404,7 @@ def verify_v1_trajectory_run(
         "source.committed_version",
         committed_version is not None
         and committed_version.decode("utf-8", errors="replace").strip() == recorded_version,
-        "recorded Design Council version must match VERSION at the commit",
+        "recorded MightShape version must match VERSION at the commit",
     )
 
     snapshot_manifest = manifest.get("intervention_snapshot")
@@ -424,7 +424,7 @@ def verify_v1_trajectory_run(
         "intervention snapshot must have a valid digest and be frozen before calls",
     )
     committed_skill = _git_skill_tree_digest(commit) if isinstance(commit, str) else None
-    check("source.committed_skill_snapshot", committed_skill == snapshot_expected, "snapshot digest must equal the Design Council skill at the clean commit")
+    check("source.committed_skill_snapshot", committed_skill == snapshot_expected, "snapshot digest must equal the MightShape skill at the clean commit")
     snapshot_path = run_dir / "intervention-snapshot"
     if require_snapshot:
         actual_snapshot = canonical_tree_digest(snapshot_path) if snapshot_path.is_dir() else None

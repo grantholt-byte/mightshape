@@ -576,7 +576,7 @@ class TrajectoryBenchmarkTests(unittest.TestCase):
             root = Path(temporary)
             treatment = prepare_workspace(root / "a", "treatment")
             control = prepare_workspace(root / "b", "control")
-            self.assertTrue((treatment / ".agents/skills/design-council/SKILL.md").is_file())
+            self.assertTrue((treatment / ".agents/skills/mightshape/SKILL.md").is_file())
             self.assertFalse((control / ".agents/skills").exists())
 
     def test_judgment_schema_and_runtime_validator_cover_longitudinal_dimensions(self) -> None:
@@ -655,7 +655,7 @@ class TrajectoryBenchmarkTests(unittest.TestCase):
             "explicit-first-turn",
         )
         self.assertIn(
-            "deliberate Design Council invocation on turn one",
+            "deliberate MightShape invocation on turn one",
             summary["effectiveness"]["primary_estimand"],
         )
 
@@ -940,7 +940,7 @@ class TrajectoryBenchmarkTests(unittest.TestCase):
         self.assertIn("planned candidate trajectories", report)
         self.assertIn("planned blind judgments", report)
         self.assertNotIn("All planned candidate trajectories", report)
-        self.assertIn("Design Council version: `0.9.0-beta.test`", report)
+        self.assertIn("MightShape version: `0.9.0-beta.test`", report)
         self.assertIn("Git commit: `abc123`; dirty: `False`", report)
         self.assertIn("Treatment invocation: `implicit`", report)
 

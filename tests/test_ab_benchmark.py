@@ -343,9 +343,9 @@ class ABBenchmarkTests(unittest.TestCase):
             treatment = prepare_workspace(root / "one", "treatment")
             control = prepare_workspace(root / "two", "control")
             explicit = prepare_workspace(root / "three", DIAGNOSTIC_ARM)
-            self.assertTrue((treatment / ".agents/skills/design-council/SKILL.md").is_file())
+            self.assertTrue((treatment / ".agents/skills/mightshape/SKILL.md").is_file())
             self.assertFalse((control / ".agents/skills").exists())
-            self.assertTrue((explicit / ".agents/skills/design-council/SKILL.md").is_file())
+            self.assertTrue((explicit / ".agents/skills/mightshape/SKILL.md").is_file())
             self.assertEqual(
                 (treatment / "AGENTS.md").read_text(),
                 (control / "AGENTS.md").read_text(),
@@ -398,7 +398,7 @@ class ABBenchmarkTests(unittest.TestCase):
             self.assertNotEqual(canonical_tree_digest(source), frozen_digest)
             treatment = prepare_workspace(root / "cell", "treatment", snapshot)
             self.assertEqual(
-                (treatment / ".agents/skills/design-council/SKILL.md").read_text(encoding="utf-8"),
+                (treatment / ".agents/skills/mightshape/SKILL.md").read_text(encoding="utf-8"),
                 "frozen\n",
             )
 
@@ -999,7 +999,7 @@ class ABBenchmarkTests(unittest.TestCase):
         )
         self.assertEqual(completed.returncode, 0, completed.stdout)
         self.assertIn("runtime=claude", completed.stdout)
-        self.assertIn("/design-council:design-think", completed.stdout)
+        self.assertIn("/mightshape:design-think", completed.stdout)
 
     def test_primary_treatment_can_be_explicitly_invoked(self) -> None:
         completed = subprocess.run(

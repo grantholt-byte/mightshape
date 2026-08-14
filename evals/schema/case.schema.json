@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://design-council.local/schemas/eval-case.schema.json",
-  "title": "Design Council behavioral evaluation case",
+  "title": "MightShape behavioral evaluation case",
   "type": "object",
   "additionalProperties": false,
   "required": [

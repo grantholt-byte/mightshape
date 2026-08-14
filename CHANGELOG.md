@@ -4,16 +4,69 @@ All notable changes use [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+No unreleased changes.
+
+## [1.0.1] — 2026-08-14
+
+### Added
+
+- Added the MightShape brand manifest, runtime/package identity guard, brand-clearance gate, and
+  migration guide while preserving existing project-state and evidence identifiers.
+- Added a maintainer-only third-party source and rights review plus an automated release guard that
+  rejects institutional positioning, legacy source-family names, branded resource names, and
+  branded sticky-note terminology from runtime and generated packages.
+- Added the optional team-workshop service with one shared state machine and thin
+  Slack, Discord, and Microsoft Teams transports.
+- Added explicit teammate contribution and pass flows, novice-assistive facilitation, open and
+  sealed rounds, controller-authorized freeze/close/retry primitives, and retention-aware deletion.
+- Added source-linked whimsical PNG affinity/process artifacts with platform-safe upload paths,
+  meaningful alt text, and complete text fallbacks.
+- Added portable team-workshop and private channel-binding schemas, structural/behavioral evals,
+  simulated platform interaction tests, and a scheduler-safe expired-record purge command.
+
 ### Changed
 
-- Recorded the owner's decision to keep Design Council free and defer every monetization model
+- Renamed the current product and package identity to **MightShape**. The user-facing command
+  remains `design-think`; `.design-council`, `DESIGN_COUNCIL`, `DC_*`, and stored IDs remain stable
+  compatibility contracts.
+- Removed institutional names from marketplace metadata, runtime skill descriptions, method steps,
+  facilitator guidance, generated package copy, and source-family labels. Runtime methodology now
+  uses neutral `public_design_practice`, `supplemental_design_practice`, and
+  `mightshape_original` lineage categories with independently authored language.
+- Replaced the central hexagonal brand shape with an open circular center and standardized runtime
+  exercise language on the generic term “sticky note.”
+- Replaced the former product name after its UK conflict was identified; MightShape remains
+  a preliminarily screened candidate pending qualified trademark review rather than a claim of
+  legal clearance.
+- Recorded the owner's decision to keep MightShape free and defer every monetization model
   unless wide adoption later leads to a new explicit decision.
 - Updated OpenAI submission materials for the required five positive and three negative reviewer
   cases and updated Claude publication materials for the current public-GitHub-only
-  `claude-community` route.
+  third-party submission route.
 - Replaced private-collaborator installation language with public, immutable-tag installation and
   established public issue support plus GitHub private vulnerability reporting for sensitive
   security reports.
+- Extended the architecture from two conversation adapters to one canonical product with OpenAI,
+  Claude, and optional Slack/Discord/Teams transports; stable V1 remains independent of hosting.
+- Improved single-cluster affinity maps so small team exercises fill the canvas with tactile,
+  readable sticky notes instead of collapsing into a narrow column.
+
+### Fixed
+
+- Added the missing explicit Pass control to Teams so optional participation is behaviorally
+  consistent across all three team transports.
+
+### Security
+
+- Kept raw platform identifiers in private owner-only bindings, bounded replay receipts, avoided
+  ambient channel-history access, suppressed Discord mentions, retained signed/stale interaction
+  checks, and kept platform permissions to the minimum required for explicit participation.
+
+### Breaking Changes
+
+- Marketplace package coordinates change from the former slug to `mightshape`, and Claude's native
+  plugin command becomes `/mightshape:design-think`. Existing project state and the stable
+  `design-think` skill identity remain compatible; see `docs/REBRAND_MIGRATION.md`.
 
 ## [1.0.0] — 2026-08-13
 

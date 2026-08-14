@@ -1,0 +1,32 @@
+{
+  "name": "mightshape-collaboration-app",
+  "version": "1.0.1",
+  "private": true,
+  "description": "Optional Slack, Discord, and Microsoft Teams collaboration adapters for MightShape.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run build && node --test --test-reporter=dot dist/tests/core.test.js && node --test --test-reporter=dot dist/tests/discord-adapter.test.js && node --test --test-reporter=dot dist/tests/facilitator.test.js && node --test --test-reporter=dot dist/tests/slack-adapter.test.js && node --test --test-reporter=dot dist/tests/teams-adapter.test.js",
+    "start:slack": "node dist/src/adapters/slack.js",
+    "start:discord": "node dist/src/adapters/discord.js",
+    "start:teams": "node dist/src/adapters/teams.js",
+    "purge-expired": "node dist/scripts/purge-expired.js",
+    "register:discord": "node dist/scripts/register-discord.js",
+    "build:teams-package": "node dist/scripts/build-teams-package.js"
+  },
+  "dependencies": {
+    "@microsoft/teams.apps": "2.0.15",
+    "@microsoft/teams.cards": "2.0.15",
+    "@slack/bolt": "5.0.0",
+    "discord-interactions": "4.4.0",
+    "sharp": "0.35.3"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.19",
+    "typescript": "5.9.3"
+  }
+}

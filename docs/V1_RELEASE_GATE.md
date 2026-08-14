@@ -1,5 +1,9 @@
 # V1 release gate
 
+> Historical policy notice: this frozen efficacy gate predates the MightShape rename. Former
+> product-name references preserve the identity of the tested artifact; they are not current
+> marketplace copy.
+
 This gate was fixed before inspecting the current release-candidate benchmark results. It
 separates product quality, comparative outcome evidence, resource diagnostics, and marketplace
 administration so a favorable result in one category cannot hide a failure in another.

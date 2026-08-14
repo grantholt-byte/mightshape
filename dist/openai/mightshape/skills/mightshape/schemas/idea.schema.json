@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-council.local/schemas/idea.schema.json",
+  "title": "MightShape idea",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "statement", "territory", "origin", "status", "created_at"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^IDEA-[0-9]{3,}$"},
+    "statement": {"type": "string", "minLength": 1},
+    "mechanism": {"type": ["string", "null"]},
+    "territory": {"enum": ["EXPECTED", "ADJACENT", "BEHAVIORAL", "SYSTEMIC", "RADICAL"]},
+    "origin": {"enum": ["USER", "FACILITATOR", "DESIGN_COUNCIL", "SYNTHETIC_INQUIRY", "HUMAN_EVIDENCE"]},
+    "source_round_id": {"type": ["string", "null"]},
+    "cluster_id": {"type": ["string", "null"]},
+    "is_outlier": {"type": "boolean"},
+    "status": {"enum": ["active", "selected", "outlier", "retired"]},
+    "created_at": {"type": "string", "format": "date-time"}
+  }
+}

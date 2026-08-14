@@ -13,7 +13,7 @@ from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / "skills" / "design-council" / "scripts"
+SCRIPTS = ROOT / "skills" / "mightshape" / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
 from dc_core import DesignCouncilError, schema_validation  # noqa: E402
@@ -327,12 +327,45 @@ class VisualWorkbenchTests(unittest.TestCase):
                 result = schema_validation(artifact, "visual-artifact.schema.json")
                 self.assertTrue(result["valid"], result["errors"])
 
+    def test_note_and_step_detail_share_the_2000_character_limit(self) -> None:
+        cases = (
+            (
+                "affinity note",
+                affinity_artifact,
+                lambda artifact, value: artifact["data"]["clusters"][0]["notes"][0].__setitem__("text", value),
+            ),
+            (
+                "process step detail",
+                process_artifact,
+                lambda artifact, value: artifact["data"]["steps"][0].__setitem__("detail", value),
+            ),
+        )
+
+        for label, factory, set_value in cases:
+            with self.subTest(record=label, length=2000):
+                artifact = factory()
+                accepted_value = "x" * 2000
+                set_value(artifact, accepted_value)
+                schema_result = schema_validation(artifact, "visual-artifact.schema.json")
+                self.assertTrue(schema_result["valid"], schema_result["errors"])
+                validate_artifact(artifact)
+                rendered = render_artifact(artifact)
+                self.assertIn(accepted_value, rendered["html"])
+
+            with self.subTest(record=label, length=2001):
+                artifact = factory()
+                set_value(artifact, "x" * 2001)
+                schema_result = schema_validation(artifact, "visual-artifact.schema.json")
+                self.assertFalse(schema_result["valid"])
+                with self.assertRaisesRegex(DesignCouncilError, "exceeds maximum length 2000"):
+                    validate_artifact(artifact)
+
     def test_cli_input_contract_remains_json_serializable(self) -> None:
         for artifact in (affinity_artifact(), process_artifact()):
             self.assertEqual(json.loads(json.dumps(artifact)), artifact)
 
     def test_shipped_examples_validate_and_render(self) -> None:
-        examples = ROOT / "skills/design-council/assets/examples"
+        examples = ROOT / "skills/mightshape/assets/examples"
         for path in sorted(path for path in examples.glob("*.json") if " 2." not in path.name):
             with self.subTest(example=path.name):
                 artifact = json.loads(path.read_text(encoding="utf-8"))

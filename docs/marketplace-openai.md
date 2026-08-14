@@ -1,6 +1,6 @@
 # OpenAI marketplace and universal directory
 
-Verified from current official OpenAI plugin and skill documentation on 2026-08-13.
+Verified from current official OpenAI plugin and skill documentation on 2026-08-14.
 
 ## Distribution paths
 
@@ -15,15 +15,18 @@ Verified from current official OpenAI plugin and skill documentation on 2026-08-
    plugin must then be explicitly published before it is discoverable across supported
    ChatGPT and Codex surfaces.
 
-There is a real public submission path. The owner authorized public submission on 2026-08-13;
-record the portal draft/review state separately from directory publication.
+There is a real public submission path. The former-name `1.0.0` listing was published on
+2026-08-13. MightShape is a new plugin identity: prepare and validate it independently, then
+record any new portal draft/review state separately from directory publication.
+Owner authorization to prepare the renamed release is distinct from authorization to submit or
+publish it; no MightShape portal action is claimed here.
 
 ## Current prerequisites
 
 - OpenAI Platform organization role with **Apps Management: Write**. Organization owners have
   it by default; otherwise the owner must verify or grant it in the publishing organization.
 - Verified individual or business identity matching the public publisher.
-- Final skills-only bundle for Design Council Core.
+- Final skills-only bundle for MightShape Core.
 - Production listing: name, subtitle, long description, logo, and category. Website, support,
   privacy-policy, and terms URLs are optional for the current skills-only submission type and
   become required for an MCP-backed submission.
@@ -32,12 +35,12 @@ record the portal draft/review state separately from directory publication.
   observable behavior, result shape or safe fallback, and reproducibility information.
 - Country/region availability, release notes, and policy attestations.
 
-Design Council is skills-only. The optional interview Site is not an MCP server bundled into
+MightShape is skills-only. The optional interview Site is not an MCP server bundled into
 the plugin. Do not add an unnecessary MCP server merely to alter the submission type.
 
 ## Current commerce boundary
 
-Design Council is free and has no paid entitlement, checkout, advertising, or upgrade path. The
+MightShape is free and has no paid entitlement, checkout, advertising, or upgrade path. The
 current directory policy also prohibits selling or promoting digital services, subscriptions, or
 credits through the plugin. Recheck the
 [current commerce policy](https://developers.openai.com/plugins/app-guidelines#commerce-and-monetization)
@@ -45,11 +48,12 @@ before any future commercial change; the current product makes no commercial off
 
 ## Prepared metadata
 
-- Display name: **Design Council**
+- Display name: **MightShape**
 - Tagline: **Think wider. Frame better. Build what matters.**
-- Subtitle: **Frame better before building**
+- Subtitle: **Shape the right thing**
 - Category: Productivity
-- Version: `1.0.0` (immutable tag and clean pinned install verified)
+- Prepared version: `1.0.1` (local package validation only; no renamed remote tag or clean
+  pinned install has been claimed)
 - Directory logo/composer icon: square `assets/icon.png` (the wide `assets/logo.png` wordmark
   remains documentation-only)
 - Starter prompts: three in `.codex-plugin/plugin.json`
@@ -57,7 +61,7 @@ before any future commercial change; the current product makes no commercial off
 
 The manifest intentionally omits fabricated website, repository, support, privacy-policy,
 and terms URLs. Current OpenAI guidance makes those fields optional for a skills-only package, so
-their absence does not block Design Council Core submission. Reviewed public pages are still
+their absence does not block MightShape Core submission. Reviewed public pages are still
 recommended trust assets and become necessary before listing or operating a hosted service. The
 repository's `docs/privacy.md` and `docs/terms.md` are architecture/publication notes, not
 deployment-specific public policies.
@@ -68,10 +72,10 @@ remains the authoritative validator.
 
 ```bash
 make validate-openai
-python3 ~/.codex/skills/.system/plugin-creator/scripts/validate_plugin.py dist/openai/design-council
-python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py dist/openai/design-council/skills/design-council
-codex plugin marketplace add /absolute/path/to/design-council --json
-codex plugin add design-council@design-council --json
+python3 ~/.codex/skills/.system/plugin-creator/scripts/validate_plugin.py dist/openai/mightshape
+python3 ~/.codex/skills/.system/skill-creator/scripts/quick_validate.py dist/openai/mightshape/skills/mightshape
+codex plugin marketplace add /absolute/path/to/mightshape --json
+codex plugin add mightshape@mightshape --json
 codex plugin list --json
 ```
 
@@ -81,9 +85,9 @@ in a new context. Clean-up commands are in `docs/installation-openai.md`.
 
 The explicit invocation surface is platform-native: `$design-think` in Codex (or selection
 through `/skills`) and `@design-think` in ChatGPT. Current OpenAI plugin packaging does not
-allow Design Council to register an arbitrary `/design-think` slash command. Deprecated local
+allow MightShape to register an arbitrary `/design-think` slash command. Deprecated local
 custom prompts would invoke as `/prompts:design-think`, are not plugin-distributed, and are not
-shipped. Legacy `$design-council` remains available for compatibility.
+shipped.
 
 ## Submission checklist
 
@@ -100,12 +104,12 @@ shipped. Legacy `$design-council` remains available for compatibility.
 8. After approval, publish deliberately. Approval alone does not publish.
 
 Do not submit merely to reserve a listing. OpenAI's guidelines require a stable, responsive,
-complete product and reject trial or demo plugins. Design Council's move to `1.0.0` was governed
-by `docs/V1_RELEASE_GATE.md`; this is a Design Council release decision, not a claim that OpenAI
-mandates a particular semantic-version string.
+complete product and reject trial or demo plugins. Promote MightShape from beta only after the
+collaboration lifecycle, package, live-install, and name-clearance gates pass; this is a product
+release decision, not a claim that OpenAI mandates a particular semantic-version string.
 
 The official guidelines say screenshots are optional for plugins with UI and should not be
-submitted for plugins without UI. Design Council ships repository demo images for reviewers
+submitted for plugins without UI. MightShape ships repository demo images for reviewers
 and release evaluators, but its skills-only directory submission should omit UI screenshots unless
 OpenAI confirms the optional interview experience qualifies for that listing.
 
@@ -117,12 +121,13 @@ Primary sources: [Package plugins](https://developers.openai.com/plugins/build/p
 [developer commands](https://learn.chatgpt.com/docs/developer-commands?surface=cli), and
 [deprecated custom prompts](https://learn.chatgpt.com/docs/custom-prompts).
 
-The fixed model-backed V1 gate passed in run `20260814T002300Z` from clean beta.8 source commit
+The pre-rebrand core passed the fixed model-backed V1 gate in run `20260814T002300Z` from clean
+beta.8 source commit
 `afddbf4ee4b2c7555f8e390d92edd843427ea31c`: 100/100 calls, 97.50 versus 88.125,
 +9.375 points, 95% CI [4.625, 14.625], 4 wins, 1 tie, and 0 losses. Raw verification passed
-45/45 and exported-bundle verification passed 44/44. Verify the immutable `v1.0.0` tag and a clean
-pinned install as operational release checks. Owner authorization to submit was recorded on
-2026-08-13; a portal draft, a submission under review, approval, and final publication are distinct
-states and must be reported precisely.
+45/45 and exported-bundle verification passed 44/44. The renamed MightShape package still requires
+an immutable `v1.0.1` tag and clean pinned-install evidence before it can be shared remotely.
+A portal draft, submission under review, approval, and final publication are distinct states and
+must be reported precisely.
 The prefilled fields and remaining owner actions are consolidated in
 [`SUBMISSION_DOSSIER.md`](SUBMISSION_DOSSIER.md).

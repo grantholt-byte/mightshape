@@ -30,7 +30,7 @@ if (!apiKey) {
     maxTurns: Number(process.env.STUDY_MAX_TURNS || 12),
     dataCollected:
       "Your conversation, consent time, and anonymous participant ID. Likely email addresses and phone numbers are removed before storage.",
-    reviewerDescription: process.env.STUDY_REVIEWERS || "The Design Council project research team.",
+    reviewerDescription: process.env.STUDY_REVIEWERS || "The MightShape project research team.",
     deidentifiedQuotesAllowed:
       String(process.env.STUDY_ALLOW_QUOTES).toLowerCase() === "true",
   };

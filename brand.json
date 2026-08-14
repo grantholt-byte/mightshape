@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0.0",
+  "product": {
+    "display_name": "MightShape",
+    "slug": "mightshape",
+    "tagline": "Think wider. Frame better. Build what matters.",
+    "primary_skill": "design-think",
+    "brand_color": "#6457FF"
+  },
+  "repository": {
+    "owner": "grantholt-byte",
+    "name": "mightshape",
+    "url": "https://github.com/grantholt-byte/mightshape"
+  },
+  "legacy_contracts": {
+    "former_display_name": "Design Council",
+    "former_slug": "design-council",
+    "transitional_display_names": [
+      "Hunchgarden"
+    ],
+    "transitional_slugs": [
+      "hunchgarden"
+    ],
+    "state_directory": ".design-council",
+    "provenance_value": "DESIGN_COUNCIL",
+    "environment_prefix": "DC_",
+    "schema_id_host": "design-council.local",
+    "interview_consent_version": "design-council-live-interview-v1",
+    "interview_resource_name": "design-council-interviews",
+    "identifier_prefixes": [
+      "DC-",
+      "TW-",
+      "VA-"
+    ],
+    "action_prefixes": [
+      "dc_",
+      "dc|"
+    ]
+  }
+}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Measure static Design Council context-load profiles without calling a model.
+"""Measure static MightShape context-load profiles without calling a model.
 
 The token figure is deliberately a rough, tokenizer-free planning heuristic. Exact
 model input and billing usage remain the responsibility of authenticated runtime
@@ -47,7 +47,7 @@ class ProfileSpec:
 
 
 BASE_SKILL = LoadSpec(
-    "skills/design-council/SKILL.md",
+    "skills/mightshape/SKILL.md",
     "activated routing contract and embedded one-turn method safeguards",
 )
 
@@ -66,7 +66,7 @@ PROFILES = (
         (
             BASE_SKILL,
             LoadSpec(
-                "skills/design-council/references/participatory-workshops.md",
+                "skills/mightshape/references/participatory-workshops.md",
                 "participation modes, one-prompt loop, controls, and sealed-input rule",
             ),
         ),
@@ -78,11 +78,11 @@ PROFILES = (
         (
             BASE_SKILL,
             LoadSpec(
-                "skills/design-council/references/participatory-workshops.md",
+                "skills/mightshape/references/participatory-workshops.md",
                 "participation state, turn-taking, contribution, and control contract",
             ),
             LoadSpec(
-                "skills/design-council/references/facilitator-practice.md",
+                "skills/mightshape/references/facilitator-practice.md",
                 "expert bottleneck diagnosis, group adaptation, interventions, and debrief",
             ),
         ),
@@ -94,7 +94,7 @@ PROFILES = (
         (
             BASE_SKILL,
             LoadSpec(
-                "skills/design-council/references/inquiry-lab.md",
+                "skills/mightshape/references/inquiry-lab.md",
                 "inquiry routes, epistemic boundaries, and synthetic-to-human sequencing",
             ),
         ),
@@ -106,27 +106,27 @@ PROFILES = (
         (
             BASE_SKILL,
             LoadSpec(
-                "skills/design-council/references/council-protocol.md",
+                "skills/mightshape/references/council-protocol.md",
                 "sealed generation, freeze, anonymous mutation, challenge, and synthesis",
             ),
             LoadSpec(
-                "skills/design-council/references/council-mei-tanaka.md",
+                "skills/mightshape/references/council-mei-tanaka.md",
                 "selected member's complete bounded Human Model",
             ),
             LoadSpec(
-                "skills/design-council/references/council-maya-chen.md",
+                "skills/mightshape/references/council-maya-chen.md",
                 "selected member's complete bounded Human Model",
             ),
             LoadSpec(
-                "skills/design-council/references/council-priya-rao.md",
+                "skills/mightshape/references/council-priya-rao.md",
                 "selected member's complete bounded Human Model",
             ),
             LoadSpec(
-                "skills/design-council/references/council-jack-sullivan.md",
+                "skills/mightshape/references/council-jack-sullivan.md",
                 "selected member's complete bounded Human Model",
             ),
             LoadSpec(
-                "skills/design-council/references/council-rafael-alvarez.md",
+                "skills/mightshape/references/council-rafael-alvarez.md",
                 "selected member's complete bounded Human Model",
             ),
         ),
@@ -138,7 +138,7 @@ PROFILES = (
         (
             BASE_SKILL,
             LoadSpec(
-                "skills/design-council/references/visual-workbench.md",
+                "skills/mightshape/references/visual-workbench.md",
                 "durable spatial artifact contract, provenance, accessibility, and export",
             ),
         ),
@@ -361,7 +361,7 @@ def _parse_args(argv: Sequence[str] | None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
             "Measure deterministic bytes/words and a clearly labeled static token heuristic "
-            "for Design Council's progressive-disclosure routes."
+            "for MightShape's progressive-disclosure routes."
         )
     )
     parser.add_argument(

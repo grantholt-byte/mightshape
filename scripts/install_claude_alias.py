@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Install the optional exact `/design-think` alias for Claude Code.
 
-The alias delegates to the installed Design Council plugin. It does not copy the product core.
+The alias delegates to the installed MightShape plugin. It does not copy the product core.
 """
 
 from __future__ import annotations
@@ -41,7 +41,7 @@ def install_alias(*, target_dir: Path, force: bool = False) -> dict[str, object]
         if not target.is_file():
             raise AliasInstallError(f"target exists and is not a file: {target}")
         if target.read_bytes() == source_bytes:
-            return {"status": "UNCHANGED", "path": str(target), "delegates_to": "design-council:design-think"}
+            return {"status": "UNCHANGED", "path": str(target), "delegates_to": "mightshape:design-think"}
         if not force:
             raise AliasInstallError(
                 f"refusing to overwrite an existing alias: {target}; rerun with --force only after review"
@@ -60,7 +60,7 @@ def install_alias(*, target_dir: Path, force: bool = False) -> dict[str, object]
         if temporary_path.exists():
             temporary_path.unlink()
 
-    return {"status": "INSTALLED", "path": str(target), "delegates_to": "design-council:design-think"}
+    return {"status": "INSTALLED", "path": str(target), "delegates_to": "mightshape:design-think"}
 
 
 def uninstall_alias(*, target_dir: Path) -> dict[str, object]:
@@ -94,7 +94,7 @@ def uninstall_alias(*, target_dir: Path) -> dict[str, object]:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Install an exact /design-think Claude alias that delegates to the installed Design Council plugin."
+        description="Install an exact /design-think Claude alias that delegates to the installed MightShape plugin."
     )
     parser.add_argument("--scope", choices=("user", "project"), default="user")
     parser.add_argument("--project-root", type=Path)

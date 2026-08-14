@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the Design Council JSONL behavioral-eval corpus.
+"""Validate the MightShape JSONL behavioral-eval corpus.
 
 This runner intentionally has no required third-party dependencies. When
 ``jsonschema`` is available it performs full schema validation; otherwise the

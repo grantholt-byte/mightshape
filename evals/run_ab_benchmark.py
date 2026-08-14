@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Run a controlled Design Council skill-versus-baseline benchmark.
+"""Run a controlled MightShape skill-versus-baseline benchmark.
 
 Model calls are deliberately opt-in. Each pair receives the same raw user
 prompt, model, reasoning effort, wrapper, permissions, and fresh Codex home.
-The only treatment difference is the repository-local Design Council skill.
+The only treatment difference is the repository-local MightShape skill.
 """
 
 from __future__ import annotations
@@ -51,11 +51,11 @@ except ModuleNotFoundError:  # Imported as evals.run_ab_benchmark in unit tests.
 
 EVAL_ROOT = Path(__file__).resolve().parent
 REPO_ROOT = EVAL_ROOT.parent
-SKILL_ROOT = REPO_ROOT / "skills" / "design-council"
+SKILL_ROOT = REPO_ROOT / "skills" / "mightshape"
 CASES_PATH = EVAL_ROOT / "benchmark" / "cases.jsonl"
 JUDGE_SCHEMA = EVAL_ROOT / "schema" / "ab-judge.schema.json"
 OUTCOME_CONSTRUCTS_PATH = EVAL_ROOT / "benchmark" / "outcome-constructs.json"
-CLAUDE_PACKAGE_ROOT = REPO_ROOT / "dist" / "claude" / "design-council"
+CLAUDE_PACKAGE_ROOT = REPO_ROOT / "dist" / "claude" / "mightshape"
 RESULTS_ROOT = EVAL_ROOT / "results" / "ab"
 
 ARMS = ("treatment", "control")
@@ -561,7 +561,7 @@ def prepare_workspace(root: Path, arm: str, skill_root: Path = SKILL_ROOT) -> Pa
         encoding="utf-8",
     )
     if arm in {"treatment", DIAGNOSTIC_ARM}:
-        destination = workdir / ".agents" / "skills" / "design-council"
+        destination = workdir / ".agents" / "skills" / "mightshape"
         destination.parent.mkdir(parents=True)
         shutil.copytree(skill_root, destination)
     return workdir
@@ -1647,7 +1647,7 @@ def assess_outcome_effectiveness(
     quality_delta: float | None,
     minimum_important_uplift: float,
 ) -> dict[str, Any]:
-    """Decide whether Design Council adds meaningful outcome quality.
+    """Decide whether MightShape adds meaningful outcome quality.
 
     Resource use is intentionally absent. A demonstrated improvement in
     right-problem framing, divergence, evidence discipline, or learning does
@@ -1686,20 +1686,20 @@ def assess_outcome_effectiveness(
     if lower >= minimum_important_uplift:
         return {
             "verdict": "MEANINGFUL_BENEFIT_ESTABLISHED",
-            "basis": "Design Council establishes a practically important outcome-quality benefit over the no-plugin baseline.",
+            "basis": "MightShape establishes a practically important outcome-quality benefit over the no-plugin baseline.",
             "preregistered_thresholds": thresholds,
             "observed": observed,
         }
     if upper < minimum_important_uplift:
         return {
             "verdict": "BENEFIT_BELOW_IMPORTANCE_THRESHOLD",
-            "basis": "Design Council is directionally better, but the entire interval remains below the preregistered practical-importance threshold.",
+            "basis": "MightShape is directionally better, but the entire interval remains below the preregistered practical-importance threshold.",
             "preregistered_thresholds": thresholds,
             "observed": observed,
         }
     return {
         "verdict": "DIRECTIONAL_BENEFIT_NOT_YET_ESTABLISHED_AS_MEANINGFUL",
-        "basis": "Design Council is directionally better, but the interval still overlaps the preregistered practical-importance threshold.",
+        "basis": "MightShape is directionally better, but the interval still overlaps the preregistered practical-importance threshold.",
         "preregistered_thresholds": thresholds,
         "observed": observed,
     }
@@ -1729,7 +1729,7 @@ def assess_resource_efficiency(
         }
     if token_ratio <= 1 and token_overhead <= 0:
         verdict = "NO_TOKEN_PREMIUM"
-        basis = "Design Council used no more generation tokens than the baseline."
+        basis = "MightShape used no more generation tokens than the baseline."
     else:
         ratio_within = max_token_ratio is None or token_ratio <= max_token_ratio
         overhead_within = max_token_overhead is None or token_overhead <= max_token_overhead
@@ -2141,7 +2141,7 @@ def aggregate_results(
         "Quality per 1k tokens is a descriptive heuristic only. It is never used to infer causality or determine outcome effectiveness."
     )
     warnings.append(
-        "Judge blinding conceals arm allocation, but candidate wording may reveal Design Council terminology; this is not guaranteed content blinding."
+        "Judge blinding conceals arm allocation, but candidate wording may reveal MightShape terminology; this is not guaranteed content blinding."
     )
     warnings.append(
         "The bundled corpus and rubrics were authored with the product; confirm release claims on held-out external prompts and preferably independent human judges."
@@ -2331,17 +2331,17 @@ def render_summary(summary: dict[str, Any], config: dict[str, Any]) -> str:
         else "n/a"
     )
     control_description = (
-        "the control does not load Design Council and receives the frozen prompt-only Design Thinking instruction"
+        "the control does not load MightShape and receives the frozen prompt-only Design Thinking instruction"
         if config.get("control_mode") == "design-thinking-prompt"
-        else "the control does not load Design Council"
+        else "the control does not load MightShape"
     )
     treatment_description = (
-        "the treatment loads the frozen Design Council Claude plugin package"
+        "the treatment loads the frozen MightShape Claude plugin package"
         if config.get("candidate_runtime") == "claude"
-        else "the treatment workspace contains the frozen repository-local Design Council skill"
+        else "the treatment workspace contains the frozen repository-local MightShape skill"
     )
     lines = [
-        "# Design Council paired A/B benchmark",
+        "# MightShape paired A/B benchmark",
         "",
         f"**Primary outcome effectiveness:** `{effectiveness['verdict']}`",
         f"**Quality direction:** `{summary['quality_direction']}`",
@@ -2368,7 +2368,7 @@ def render_summary(summary: dict[str, Any], config: dict[str, Any]) -> str:
         "",
         "## Incremental value purchased",
         "",
-        f"Design Council bought **{format_number(incremental['outcome_gain']['quality_uplift_points'])} blind-quality points** "
+        f"MightShape bought **{format_number(incremental['outcome_gain']['quality_uplift_points'])} blind-quality points** "
         f"for **{format_number(incremental['resource_premium']['incremental_generation_tokens'], 0)} additional generation tokens per case run**. "
         f"That is **{format_number(incremental['primary_metric']['value'])} quality points per 1k additional tokens**, "
         f"or **{format_number(incremental['diagnostics']['incremental_tokens_per_quality_point'], 0)} additional tokens per quality point**.",
@@ -2498,7 +2498,7 @@ def render_summary(summary: dict[str, Any], config: dict[str, Any]) -> str:
             f"- Prompt corpus SHA-256: `{config['corpus_sha256']}`",
             f"- Control mode: `{config.get('control_mode', 'plain')}`",
             f"- Treatment invocation: `{config.get('treatment_invocation', 'implicit')}`",
-            f"- Design Council version: `{reproducibility.get('design_council_version') or 'n/a'}`",
+            f"- MightShape version: `{reproducibility.get('design_council_version') or 'n/a'}`",
             f"- Canonical skill tree SHA-256: `{reproducibility.get('skill_tree', {}).get('sha256', 'n/a')}` ({reproducibility.get('skill_tree', {}).get('file_count', 'n/a')} files)",
             f"- Benchmark runner SHA-256: `{reproducibility.get('runner_sha256', 'n/a')}`",
             f"- Judge schema SHA-256: `{reproducibility.get('judge_schema_sha256', 'n/a')}`",
@@ -2603,7 +2603,7 @@ def main(argv: list[str] | None = None) -> int:
         default="implicit",
         help=(
             "whether the primary treatment relies on implicit routing or explicitly invokes "
-            "Design Council; use explicit to estimate deliberate plugin use"
+            "MightShape; use explicit to estimate deliberate plugin use"
         ),
     )
     parser.add_argument(
@@ -2720,7 +2720,7 @@ def main(argv: list[str] | None = None) -> int:
                     args.word_cap,
                     explicit=args.treatment_invocation == "explicit",
                     explicit_invocation=(
-                        "/design-council:design-think"
+                        "/mightshape:design-think"
                         if args.candidate_runtime == "claude"
                         else "$design-think"
                     ),
@@ -2743,7 +2743,7 @@ def main(argv: list[str] | None = None) -> int:
                         args.word_cap,
                         explicit=True,
                         explicit_invocation=(
-                            "/design-council:design-think"
+                            "/mightshape:design-think"
                             if args.candidate_runtime == "claude"
                             else "$design-think"
                         ),
@@ -2909,9 +2909,9 @@ def main(argv: list[str] | None = None) -> int:
             ]
         ),
         "intervention": (
-            f"{args.candidate_runtime} Design Council adapter versus frozen one-shot Design Thinking prompt without the plugin"
+            f"{args.candidate_runtime} MightShape adapter versus frozen one-shot Design Thinking prompt without the plugin"
             if args.control_mode == "design-thinking-prompt"
-            else f"{args.candidate_runtime} Design Council adapter present versus absent"
+            else f"{args.candidate_runtime} MightShape adapter present versus absent"
         ),
         "primary_estimand": (
             "deliberately invoked plugin effect versus a competent frozen prompt-only Design Thinking comparator"
@@ -2936,7 +2936,7 @@ def main(argv: list[str] | None = None) -> int:
         f"Running {len(pair_plan)} paired cases and {len(judge_plan)} blind judgments "
         f"({estimated_calls} calls, up to {args.workers} workers); results: {run_dir}"
     )
-    with tempfile.TemporaryDirectory(prefix="design-council-ab-") as temp_name:
+    with tempfile.TemporaryDirectory(prefix="mightshape-ab-") as temp_name:
         temp_root = Path(temp_name)
 
         def generate_pair(batch: dict[str, Any]) -> list[dict[str, Any]]:
@@ -2966,7 +2966,7 @@ def main(argv: list[str] | None = None) -> int:
                     ),
                     control_mode=args.control_mode if arm == "control" else "plain",
                     explicit_invocation=(
-                        "/design-council:design-think"
+                        "/mightshape:design-think"
                         if args.candidate_runtime == "claude"
                         else "$design-think"
                     ),

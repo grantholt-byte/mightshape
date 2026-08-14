@@ -1,0 +1,25 @@
+display_information:
+  name: MightShape
+  description: Collaborative human-centered design exercises with source-linked visual artifacts.
+  background_color: "#6457FF"
+features:
+  bot_user:
+    display_name: MightShape
+    always_online: false
+  slash_commands:
+    - command: /design-think
+      description: Start a guided MightShape exercise in this channel
+      usage_hint: "[optional design challenge]"
+      should_escape: false
+oauth_config:
+  scopes:
+    bot:
+      - commands
+      - chat:write
+      - files:write
+settings:
+  interactivity:
+    is_enabled: true
+  org_deploy_enabled: false
+  socket_mode_enabled: true
+  token_rotation_enabled: false

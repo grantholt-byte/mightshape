@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Design Council model evaluation result",
+  "title": "MightShape model evaluation result",
   "type": "object",
   "additionalProperties": false,
   "required": ["case_id", "status", "criterion_results", "summary"],

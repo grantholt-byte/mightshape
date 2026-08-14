@@ -18,14 +18,14 @@ async function request(path) {
   );
 }
 
-test("server-renders the finished Design Council companion", async () => {
+test("server-renders the finished MightShape companion", async () => {
   const response = await request("/");
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   assert.equal(response.headers.get("referrer-policy"), "no-referrer");
   assert.match(response.headers.get("content-security-policy") ?? "", /connect-src 'self'/);
   const html = await response.text();
-  assert.match(html, /<title>Design Council Research<\/title>/i);
+  assert.match(html, /<title>MightShape Research<\/title>/i);
   assert.match(html, /A more human interview, facilitated by AI\./);
   assert.match(html, /SOLUTION BLACKOUT/);
   assert.match(html, /Participant privacy/);

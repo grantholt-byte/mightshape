@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "application_name": "MightShape",
+  "installation_context": "GUILD_INSTALL",
+  "oauth2_scopes": ["applications.commands", "bot"],
+  "bot_permissions": "309237681152",
+  "permission_names": [
+    "VIEW_CHANNEL",
+    "SEND_MESSAGES",
+    "ATTACH_FILES",
+    "CREATE_PUBLIC_THREADS",
+    "SEND_MESSAGES_IN_THREADS"
+  ],
+  "gateway_intents": [],
+  "message_content_intent": false,
+  "interaction_endpoint": "/interactions",
+  "notes": [
+    "The adapter receives only signed HTTP interactions; it does not connect to the Gateway.",
+    "Participants contribute through buttons and per-user modals, so ambient channel message access is unnecessary.",
+    "If thread creation is unavailable, the workshop falls back to the initiating channel."
+  ]
+}

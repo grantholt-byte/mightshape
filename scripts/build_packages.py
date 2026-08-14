@@ -15,8 +15,16 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "dist"
-CANONICAL_SKILL = ROOT / "skills" / "design-council"
-LEGACY_SKILL = ROOT / "skills" / "design-council-legacy"
+BRAND = json.loads((ROOT / "brand.json").read_text(encoding="utf-8"))
+PRODUCT_NAME = BRAND["product"]["display_name"]
+PRODUCT_SLUG = BRAND["product"]["slug"]
+PRIMARY_SKILL = BRAND["product"]["primary_skill"]
+TAGLINE = BRAND["product"]["tagline"]
+LEGACY_PACKAGE_SLUGS = {
+    BRAND["legacy_contracts"]["former_slug"],
+    *BRAND["legacy_contracts"].get("transitional_slugs", []),
+}
+CANONICAL_SKILL = ROOT / "skills" / PRODUCT_SLUG
 SHARED_PARTS = ("references", "schemas", "scripts", "assets")
 PLATFORMS = ("openai", "claude")
 DUPLICATE_COPY_RE = re.compile(r" \d+(?:$|(?=\.))")
@@ -61,21 +69,21 @@ def write_json(path: Path, value: object) -> None:
 
 def package_readme(platform: str) -> str:
     invocation = (
-        "$design-think"
+        f"${PRIMARY_SKILL}"
         if platform == "OpenAI / Codex"
-        else "/design-council:design-think"
+        else f"/{PRODUCT_SLUG}:{PRIMARY_SKILL}"
     )
-    return f"""# ◇ Design Council — {platform}
+    return f"""# ◇ {PRODUCT_NAME} — {platform}
 
-Think wider. Frame better. Build what matters.
+{TAGLINE}
 
-This is the generated {platform} distribution of Design Council {version()}. Invoke
+This is the generated {platform} distribution of {PRODUCT_NAME} {version()}. Invoke
 it with `{invocation}` or a matching natural-language request. Canonical source,
 tests, research notes, privacy documentation, and the optional interview Site
 live in the source repository from which this package was built.
 
-Design Council is independent and is not affiliated with or endorsed by
-Stanford University or the Stanford d.school.
+{PRODUCT_NAME} is independently authored and does not claim third-party
+affiliation, certification, or endorsement.
 """
 
 
@@ -83,22 +91,23 @@ def build_openai(target: Path) -> None:
     write_json(target / ".codex-plugin" / "plugin.json", normalized_manifest(ROOT / ".codex-plugin" / "plugin.json"))
     copy_tree(ROOT / "assets", target / "assets", "concepts")
     copy_tree(ROOT / "hooks", target / "hooks")
-    copy_tree(CANONICAL_SKILL, target / "skills" / "design-council")
-    copy_tree(LEGACY_SKILL, target / "skills" / "design-council-legacy")
+    copy_tree(CANONICAL_SKILL, target / "skills" / PRODUCT_SLUG)
     copy_file(ROOT / "LICENSE", target / "LICENSE")
     (target / "README.md").write_text(package_readme("OpenAI / Codex"), encoding="utf-8")
 
 
 def build_claude(target: Path) -> None:
     write_json(target / ".claude-plugin" / "plugin.json", normalized_manifest(ROOT / "platforms" / "claude" / "plugin.json"))
-    skill_target = target / "skills" / "design-council"
-    skill_target.mkdir(parents=True)
+    skill_target = target / "skills" / PRODUCT_SLUG
+    # A user-owned numbered conflict copy may remain inside this generated
+    # directory after a clean build. Merge canonical output around it without
+    # deleting or treating that backup as part of the release archive.
+    skill_target.mkdir(parents=True, exist_ok=True)
     for part in SHARED_PARTS:
         copy_tree(CANONICAL_SKILL / part, skill_target / part)
     canonical = (CANONICAL_SKILL / "SKILL.md").read_text(encoding="utf-8").rstrip()
     appendix = (ROOT / "platforms" / "claude" / "adapter-appendix.md").read_text(encoding="utf-8")
     (skill_target / "SKILL.md").write_text(canonical + "\n" + appendix, encoding="utf-8")
-    copy_tree(LEGACY_SKILL, target / "skills" / "design-council-legacy")
     copy_tree(ROOT / "platforms" / "claude" / "agents", target / "agents")
     copy_tree(ROOT / "assets", target / "assets", "concepts")
     copy_file(ROOT / "LICENSE", target / "LICENSE")
@@ -132,16 +141,14 @@ def write_checksums() -> Path:
 
 
 def package_target(platform: str) -> Path:
-    return DIST / platform / "design-council"
+    return DIST / platform / PRODUCT_SLUG
 
 
 def archive_target(platform: str) -> Path:
-    return DIST / f"design-council-{platform}-{version()}.zip"
+    return DIST / f"{PRODUCT_SLUG}-{platform}-{version()}.zip"
 
 
-def clean_platform(platform: str) -> None:
-    target = package_target(platform)
-    archive = archive_target(platform)
+def clean_target(target: Path) -> None:
     if target.exists():
         # Generated files are replaceable, but conflict copies are user-owned.
         # Remove the generated tree bottom-up while leaving every duplicate
@@ -161,6 +168,11 @@ def clean_platform(platform: str) -> None:
             target.rmdir()
         except OSError:
             pass
+
+
+def clean_platform(platform: str) -> None:
+    clean_target(package_target(platform))
+    archive = archive_target(platform)
     if archive.exists():
         archive.unlink()
 
@@ -174,12 +186,18 @@ def clean_generated_dist() -> list[str]:
         if target.exists():
             removed.append(str(target))
         clean_platform(platform)
+        for legacy_slug in LEGACY_PACKAGE_SLUGS:
+            legacy_target = DIST / platform / legacy_slug
+            if legacy_target.exists():
+                removed.append(str(legacy_target))
+                clean_target(legacy_target)
     for platform in PLATFORMS:
-        for archive in sorted(DIST.glob(f"design-council-{platform}-*.zip")):
-            if is_duplicate_copy(Path(archive.name)):
-                continue
-            removed.append(str(archive))
-            archive.unlink()
+        for slug in {PRODUCT_SLUG, *LEGACY_PACKAGE_SLUGS}:
+            for archive in sorted(DIST.glob(f"{slug}-{platform}-*.zip")):
+                if is_duplicate_copy(Path(archive.name)):
+                    continue
+                removed.append(str(archive))
+                archive.unlink()
     return removed
 
 

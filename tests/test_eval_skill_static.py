@@ -5,14 +5,14 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-SKILL = REPO_ROOT / "skills" / "design-council" / "SKILL.md"
+SKILL = REPO_ROOT / "skills" / "mightshape" / "SKILL.md"
 
 
 class SkillBehavioralContractTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         if not SKILL.exists():
-            raise unittest.SkipTest("Design Council skill is still being assembled")
+            raise unittest.SkipTest("MightShape skill is still being assembled")
         cls.text = SKILL.read_text(encoding="utf-8")
 
     def test_skill_names_core_evidence_provenance(self) -> None:
@@ -170,7 +170,7 @@ class SkillBehavioralContractTests(unittest.TestCase):
     def test_expert_facilitator_is_progressively_loaded(self) -> None:
         self.assertIn("[facilitator-practice.md](references/facilitator-practice.md)", self.text)
         self.assertIn("Diagnose the learning bottleneck", self.text)
-        facilitator = (REPO_ROOT / "skills/design-council/references/facilitator-practice.md").read_text(encoding="utf-8")
+        facilitator = (REPO_ROOT / "skills/mightshape/references/facilitator-practice.md").read_text(encoding="utf-8")
         for marker in ("Intervention ladder", "psychological safety", "When ideas stall", "Debrief every substantive exercise"):
             with self.subTest(marker=marker):
                 self.assertIn(marker, facilitator)

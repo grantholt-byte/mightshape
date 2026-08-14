@@ -1,4 +1,4 @@
-"""Unit and adversarial tests for Design Council's deterministic helpers."""
+"""Unit and adversarial tests for MightShape's deterministic helpers."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / "skills" / "design-council" / "scripts"
+SCRIPTS = ROOT / "skills" / "mightshape" / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
 from allocate_council import allocate_council  # noqa: E402
@@ -263,7 +263,7 @@ class SchemaTests(unittest.TestCase):
             import jsonschema
         except ImportError:  # pragma: no cover - requirements-dev installs it
             self.skipTest("jsonschema unavailable")
-        for path in sorted((ROOT / "skills/design-council/schemas").glob("*.json")):
+        for path in sorted((ROOT / "skills/mightshape/schemas").glob("*.json")):
             with self.subTest(schema=path.name):
                 schema = json.loads(path.read_text(encoding="utf-8"))
                 jsonschema.validators.validator_for(schema).check_schema(schema)

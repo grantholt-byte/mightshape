@@ -2,7 +2,7 @@
 	validate-packages check-cross-platform-drift check-drift platform-evals test \
 	benchmark-dry-run benchmark trajectory-benchmark-dry-run trajectory-benchmark \
 	trajectory-conformance-dry-run verify-v1-trajectory-gate context-profile \
-	release-check clean-dist
+	collaboration-test collaboration-audit release-check clean-dist
 
 build-openai:
 	python3 scripts/build_packages.py --platform openai
@@ -65,6 +65,12 @@ verify-v1-trajectory-gate:
 
 context-profile:
 	python3 scripts/profile_context.py
+
+collaboration-test:
+	cd collaboration-app && npm run typecheck && npm test
+
+collaboration-audit:
+	cd collaboration-app && npm audit --omit=dev
 
 release-check:
 	python3 scripts/release_check.py

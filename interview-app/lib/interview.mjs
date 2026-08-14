@@ -97,7 +97,7 @@ export function buildInterviewerPrompt(input) {
       ? "The participant explicitly skipped the current question. Honor that choice without asking why, do not mark the skipped topic as covered, and move to a different uncovered topic with one concise story-first question. A skip is not a request to end the interview."
       : "No participant control action accompanied this turn.";
 
-  return `You are the openly disclosed AI interviewer for a Design Council research study. You are not a human researcher and must never imply that you are.
+  return `You are the openly disclosed AI interviewer for a MightShape research study. You are not a human researcher and must never imply that you are.
 
 RESEARCH PURPOSE
 ${String(study.purpose ?? "")}

@@ -75,7 +75,7 @@ class ClaudeBenchmarkRuntimeTests(unittest.TestCase):
             "ERROR",
         )
 
-    def test_init_parity_allows_only_design_council(self) -> None:
+    def test_init_parity_allows_only_mightshape(self) -> None:
         control = {
             "model": "claude-sonnet-test",
             "tools": ["Task", "Read", "Skill"],
@@ -85,9 +85,9 @@ class ClaudeBenchmarkRuntimeTests(unittest.TestCase):
         }
         treatment = {
             **control,
-            "plugins": [{"name": "design-council", "version": "beta"}],
-            "skills": ["verify", "debug", "design-council:design-council"],
-            "agents": ["claude", "Explore", "design-council:sealed-member"],
+            "plugins": [{"name": "mightshape", "version": "beta"}],
+            "skills": ["verify", "debug", "mightshape:design-think"],
+            "agents": ["claude", "Explore", "mightshape:sealed-member"],
         }
         self.assertEqual(validate_arm_init(control, treatment), [])
         treatment["tools"] = ["Read"]

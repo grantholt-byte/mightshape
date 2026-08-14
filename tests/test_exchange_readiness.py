@@ -8,8 +8,8 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT_ROOT = ROOT / "skills" / "design-council" / "scripts"
-SCHEMA_ROOT = ROOT / "skills" / "design-council" / "schemas"
+SCRIPT_ROOT = ROOT / "skills" / "mightshape" / "scripts"
+SCHEMA_ROOT = ROOT / "skills" / "mightshape" / "schemas"
 if str(SCRIPT_ROOT) not in sys.path:
     sys.path.insert(0, str(SCRIPT_ROOT))
 

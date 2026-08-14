@@ -1,7 +1,0 @@
-interface:
-  display_name: "Design Council (legacy alias)"
-  short_description: "Compatibility alias; prefer Design Think"
-  brand_color: "#6457FF"
-  default_prompt: "Continue with the canonical $design-think skill."
-policy:
-  allow_implicit_invocation: false

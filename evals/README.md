@@ -1,4 +1,4 @@
-# Design Council behavioral evals
+# MightShape behavioral evals
 
 This suite treats V1's product invariants as executable contracts. The JSONL
 corpus is intentionally adversarial: passing only happy-path prompts is not
@@ -33,7 +33,7 @@ DC_RUN_MODEL_EVALS=1 python3 evals/run_model_evals.py --case acceptance.family_s
 ```
 
 The runner creates a fresh temporary project for every case, exposes the local
-skill through `.agents/skills/design-council`, invokes `codex exec --ephemeral`,
+skill through `.agents/skills/mightshape`, invokes `codex exec --ephemeral`,
 and writes results beneath `evals/results/`. Response-only cases use a read-only
 sandbox. Declared mutation cases use a disposable workspace-write sandbox and
 must leave a deterministically valid versioned state, visual artifact, or
@@ -110,18 +110,18 @@ The frozen content-safe run is in
 
 ## Paired plugin-versus-baseline benchmark
 
-`run_ab_benchmark.py` measures whether Design Council produces a practically meaningful
+`run_ab_benchmark.py` measures whether MightShape produces a practically meaningful
 outcome-quality improvement under either deliberate invocation or implicit availability. Token and latency
 use are reported separately as resource descriptors; they do not veto a demonstrated
 quality benefit. This is distinct from the invariant corpus above: it estimates
-comparative effectiveness instead of asking only whether a Design Council response
+comparative effectiveness instead of asking only whether a MightShape response
 satisfies its own contract.
 
 The primary comparison is paired and controlled:
 
 - both arms receive the identical raw user request, neutral wrapper, model,
   reasoning effort, word cap, sandbox, and fresh workspace;
-- the treatment workspace contains the repository-local Design Council skill; in explicit mode its
+- the treatment workspace contains the repository-local MightShape skill; in explicit mode its
   raw request is preceded only by the native skill invocation;
   the control workspace contains no skill;
 - candidate working directories use opaque random cell names that do not reveal
@@ -152,7 +152,7 @@ for total/input/cached/output/reasoning tokens, response words, and observable
 tool activity.
 
 The judge is blind to arm allocation, not guaranteed blind to product identity:
-a treatment response may name Design Council or use recognizable terminology.
+a treatment response may name MightShape or use recognizable terminology.
 The judge is instructed not to reward those cues. For a publication-quality
 claim, add held-out prompts not written by the product team and independent
 human raters who do not know which response came from which condition.
@@ -203,20 +203,20 @@ DC_RUN_AB_BENCHMARK=1 python3 evals/run_ab_benchmark.py \
 
 That comparator has no plugin, state, Human Models, protocols, or modular references. It receives
 one frozen, competent Design Thinking instruction in addition to the same raw prompt. This tests
-whether Design Council adds value beyond a one-shot prompt, not only beyond an unassisted session.
+whether MightShape adds value beyond a one-shot prompt, not only beyond an unassisted session.
 
 The completed pre-tag beta3 candidate-snapshot run (`20260813T160656Z`) did **not** establish that incremental
-single-turn benefit: Design Council scored **93.57** versus **95.12** for the prompt-only control
+single-turn benefit: the treatment scored **93.57** versus **95.12** for the prompt-only control
 (difference **-1.55**, 95% case-bootstrap CI **[-4.64, 1.79]**; 3 wins, 2 ties, 7 losses).
 Generation-token use was **2.15×** control. The quality verdict is `INCONCLUSIVE`; token use is
 reported separately and is not the reason for that verdict. This result must be read alongside,
-not blended with, the separate raw-prompt comparison, where Design Council established a
+not blended with, the separate raw-prompt comparison, where MightShape established a
 meaningful benefit. Redacted evidence is committed in
 [`ab-benchmark-strong-prompt-beta3.json`](evidence/ab-benchmark-strong-prompt-beta3.json) and
 [`ab-benchmark-beta3.json`](evidence/ab-benchmark-beta3.json).
 
 The clean post-refinement beta.6 rerun (`20260813T210644Z`) completed all 24 generation pairs and
-48 blind judgments. Design Council scored **95.54** versus **92.98**: **+2.56 points**, 95%
+48 blind judgments. The treatment scored **95.54** versus **92.98**: **+2.56 points**, 95%
 case-bootstrap CI **[0.42, 4.82]**, with 7 wins, 2 ties, and 3 losses. Generation-token use was
 **1.523×** control, down from 2.15× in the beta3 strong-comparator run. The correct verdict is
 `DIRECTIONAL_BENEFIT_NOT_YET_ESTABLISHED_AS_MEANINGFUL`, because the interval does not clear the
@@ -284,7 +284,7 @@ in a completed beta3 raw-baseline run was added post-hoc and is labeled accordin
 future confirmatory runs freeze its hash before generation.
 
 `--treatment-invocation explicit` makes deliberate use the primary paired treatment. Optional
-`--explicit-diagnostic` adds an explicitly invoked Design Council arm when the primary treatment
+`--explicit-diagnostic` adds an explicitly invoked MightShape arm when the primary treatment
 is implicit so routing failure can be diagnosed. The diagnostic is intentionally excluded from
 the primary paired uplift, which measures implicit skill availability against no skill with
 identical prompts.
@@ -353,7 +353,7 @@ credentials are excluded.
 
 The first fully preregistered five-trajectory, explicitly invoked attempt ran from clean beta.6
 commit `f88cb2e` as `20260813T210617Z`. All 20 candidate arms and 20 blind judgments completed
-without retry, skip, timeout, or malformed output. Design Council scored **96.875** versus
+without retry, skip, timeout, or malformed output. The treatment scored **96.875** versus
 **91.375**, a **+5.5-point** advantage with 4 wins, 0 ties, and 1 loss. The 10,000-sample
 case-bootstrap interval was **[0.25, 11.625]** and the candidate-token ratio was **1.594817×**.
 The shipped content-safe bundle reproduces an independent verifier result of **42/44** when
@@ -367,8 +367,8 @@ interval's lower bound did not clear +3 and the verdict remained
 
 The unchanged preregistered gate then reran from clean beta.7 commit `893867f7d` as
 `20260813T225549Z`. All **100/100 planned calls** completed: 80 persisted candidate-turn calls and
-20 blind judgments, with no failures, retries, skips, timeouts, or malformed records. Design
-Council scored **97.0** versus **93.125** for the competent prompt control, a **+3.875-point**
+20 blind judgments, with no failures, retries, skips, timeouts, or malformed records. The
+treatment scored **97.0** versus **93.125** for the competent prompt control, a **+3.875-point**
 difference with **4 wins, 0 ties, and 1 loss**. The 10,000-sample case-bootstrap interval was
 **[0.25, 6.75]**. Candidate-token use was **1.546573×** control and wall time was **1.306717×**
 control; neither resource measure changes the outcome verdict.
@@ -400,7 +400,7 @@ the subsequent unchanged preregistered gate run.
 
 The unchanged gate subsequently ran from clean beta.8 source commit
 `afddbf4ee4b2c7555f8e390d92edd843427ea31c` as `20260814T002300Z`. All **100/100 planned
-calls** completed. Design Council scored **97.50** versus **88.125** for the competent Design
+calls** completed. The treatment scored **97.50** versus **88.125** for the competent Design
 Thinking prompt control, a **+9.375-point** advantage with **4 wins, 1 tie, and 0 losses**. The
 10,000-sample case-bootstrap interval was **[4.625, 14.625]**, entirely above the fixed +3-point
 minimum-important-uplift threshold. Candidate-token use was **1.320392×** control and wall time
@@ -455,7 +455,7 @@ retain identical vendor-bundled skills and tools, while the treatment alone adds
 through `--plugin-dir`. Use a fresh empty working directory and `CLAUDE_CONFIG_DIR`,
 `--setting-sources local`, `--no-session-persistence`, a pinned model, and
 `--output-format stream-json --verbose`; verify from the init event that the only treatment delta
-is Design Council and that there are no plugin errors. Compare Claude arms only—raw token counts
+is MightShape and that there are no plugin errors. Compare Claude arms only—raw token counts
 and client-estimated cost are not directly comparable across vendors.
 
 This host structurally verified that boundary with Claude Code 2.1.231, but no native Claude model
@@ -476,7 +476,7 @@ Each run writes beneath ignored `evals/results/ab/<timestamp>/`:
 
 The manifest and summary also pin the canonical skill-tree hash (excluding
 cache files and intentionally ignored `* 2.*` duplicates), runner hash, judge
-schema hash, Design Council version, Git commit and dirty state, Codex CLI
+schema hash, MightShape version, Git commit and dirty state, Codex CLI
 version, Python runtime, and host platform. This lets later runs distinguish a
 model change from a skill, runner, schema, or environment change.
 
@@ -506,7 +506,7 @@ temporary-directory, certificate, and proxy variables. Because Codex also
 discovers personal skills beneath `$HOME/.agents/skills` independently of
 `CODEX_HOME`, the runner refuses a live benchmark when that directory contains
 skills. The candidate workspace itself contains only the common `AGENTS.md`;
-the treatment adds `.agents/skills/design-council`. Candidate cells are opaque
+the treatment adds `.agents/skills/mightshape`. Candidate cells are opaque
 random directories and contain neither `treatment` nor `control` in the
 candidate-visible working-directory path.
 
@@ -543,13 +543,11 @@ quality score.
 
 `openai/manifest.json` and `claude/manifest.json` map the complete shared case
 corpus in `cases/` to each generated package. Explicit cases receive the native
-primary invocation (`$design-think` for Codex or `/design-council:design-think`
+primary invocation (`$design-think` for Codex or `/mightshape:design-think`
 for the Claude plugin); implicit and avoid-routing prompts remain byte-for-byte
 unchanged. ChatGPT uses `@design-think`. Exact Claude `/design-think` is only a
 separately installed explicit-only delegating alias; the plugin itself remains namespaced.
-Legacy `$design-council` and
-`/design-council:design-council` remain compatibility checks rather than the
-primary adapter mapping. The platform directories do not copy cases or fixtures.
+The platform directories do not copy cases or fixtures.
 
 Run both mappings, or one adapter, without model calls:
 

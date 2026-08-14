@@ -1,10 +1,10 @@
-# Design Council — Live Interview Companion
+# MightShape — Live Interview Companion
 
-The optional Sites-hosted extension for **◇ Design Council**. It lets a research
+The optional Sites-hosted extension for **◇ MightShape**. It lets a research
 team share a high-entropy link with a real participant and conduct a transparent,
 adaptive text interview with an AI facilitator.
 
-The core Design Council skill does not depend on this app. If Sites hosting or an
+The core MightShape skill does not depend on this app. If Sites hosting or an
 OpenAI API key is unavailable, researchers can still prepare and conduct human-led
 fieldwork from the core plugin.
 

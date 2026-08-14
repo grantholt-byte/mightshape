@@ -11,14 +11,19 @@ import shutil
 import subprocess
 import struct
 import sys
+import tempfile
 import zipfile
 from pathlib import Path
 from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OPENAI = ROOT / "dist/openai/design-council"
-CLAUDE = ROOT / "dist/claude/design-council"
+BRAND = json.loads((ROOT / "brand.json").read_text(encoding="utf-8"))
+PRODUCT_NAME = BRAND["product"]["display_name"]
+PRODUCT_SLUG = BRAND["product"]["slug"]
+PRIMARY_SKILL = BRAND["product"]["primary_skill"]
+OPENAI = ROOT / "dist" / "openai" / PRODUCT_SLUG
+CLAUDE = ROOT / "dist" / "claude" / PRODUCT_SLUG
 OPENAI_VALIDATOR = Path.home() / ".codex/skills/.system/plugin-creator/scripts/validate_plugin.py"
 SKILL_VALIDATOR = Path.home() / ".codex/skills/.system/skill-creator/scripts/quick_validate.py"
 PLATFORMS = ("openai", "claude")
@@ -28,6 +33,20 @@ SEMVER_RE = re.compile(
     r"(?:\+([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$"
 )
 PLUGIN_NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+
+
+def release_archive(platform: str) -> Path:
+    version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+    return ROOT / "dist" / f"{PRODUCT_SLUG}-{platform}-{version}.zip"
+
+
+def extract_release_payload(platform: str, destination: Path) -> Path:
+    """Extract the distributable artifact so validators inspect what users install."""
+
+    archive_path = release_archive(platform)
+    with zipfile.ZipFile(archive_path) as archive:
+        archive.extractall(destination)
+    return destination / PRODUCT_SLUG
 
 
 def skill_name(path: Path) -> str | None:
@@ -111,8 +130,7 @@ def contrast_against_white(value: object) -> float | None:
 def validate_openai_archive() -> list[str]:
     """Check current portal archive limits that local tooling can enforce."""
 
-    version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
-    archive_path = ROOT / f"dist/design-council-openai-{version}.zip"
+    archive_path = release_archive("openai")
     if not archive_path.is_file():
         return [f"OpenAI release archive is missing: {archive_path.name}"]
     if archive_path.stat().st_size > 100 * 1024 * 1024:
@@ -133,7 +151,7 @@ def validate_openai_archive() -> list[str]:
             roots.add(parts[0])
             if len(parts) > 20:
                 errors.append(f"OpenAI archive path exceeds 20 segments: {item.filename}")
-        if roots != {"design-council"}:
+        if roots != {PRODUCT_SLUG}:
             errors.append(f"OpenAI archive must contain exactly one plugin root; found {sorted(roots)}")
     return errors
 
@@ -147,27 +165,23 @@ def basic_openai_validate() -> list[str]:
         marketplace = json.loads(marketplace_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         return [f"OpenAI JSON load failed: {exc}"]
-    if manifest.get("name") != "design-council":
-        errors.append("OpenAI plugin name must be design-council")
+    if manifest.get("name") != PRODUCT_SLUG:
+        errors.append(f"OpenAI plugin name must be {PRODUCT_SLUG}")
     if not isinstance(manifest.get("name"), str) or len(manifest["name"]) > 64 or not PLUGIN_NAME_RE.fullmatch(manifest["name"]):
         errors.append("OpenAI plugin name must be <=64 lowercase ASCII letters/digits/hyphens")
     if not is_semver(manifest.get("version", "")):
         errors.append("OpenAI plugin version must be valid SemVer (for example 1.0.0 or 0.9.0-beta.1)")
     if len(str(manifest.get("version", ""))) > 64:
         errors.append("OpenAI plugin version must be <=64 characters")
-    if not (OPENAI / "skills/design-council/SKILL.md").is_file():
+    if not (OPENAI / "skills" / PRODUCT_SLUG / "SKILL.md").is_file():
         errors.append("OpenAI skill is missing")
-    elif skill_name(OPENAI / "skills/design-council/SKILL.md") != "design-think":
-        errors.append("OpenAI primary skill must expose the design-think invocation")
-    if not (OPENAI / "skills/design-council-legacy/SKILL.md").is_file():
-        errors.append("OpenAI legacy invocation alias is missing")
-    elif skill_name(OPENAI / "skills/design-council-legacy/SKILL.md") != "design-council":
-        errors.append("OpenAI legacy alias must preserve the design-council invocation")
-    if marketplace.get("name") != "design-council":
-        errors.append("OpenAI marketplace name must be design-council")
+    elif skill_name(OPENAI / "skills" / PRODUCT_SLUG / "SKILL.md") != PRIMARY_SKILL:
+        errors.append(f"OpenAI primary skill must expose the {PRIMARY_SKILL} invocation")
+    if marketplace.get("name") != PRODUCT_SLUG:
+        errors.append(f"OpenAI marketplace name must be {PRODUCT_SLUG}")
     plugins = marketplace.get("plugins", [])
-    if len(plugins) != 1 or plugins[0].get("name") != "design-council":
-        errors.append("OpenAI marketplace must expose exactly Design Council")
+    if len(plugins) != 1 or plugins[0].get("name") != PRODUCT_SLUG:
+        errors.append(f"OpenAI marketplace must expose exactly {PRODUCT_NAME}")
     interface = manifest.get("interface", {})
     if not isinstance(interface, dict):
         errors.append("OpenAI interface metadata must be an object")
@@ -208,12 +222,12 @@ def basic_openai_validate() -> list[str]:
             errors.append(f"OpenAI skills-only package must not declare {forbidden}")
     if "screenshots" in interface:
         errors.append("OpenAI skills-only package without custom UI must not declare screenshots")
-    skill_metadata = OPENAI / "skills/design-council/agents/openai.yaml"
+    skill_metadata = OPENAI / "skills" / PRODUCT_SLUG / "agents" / "openai.yaml"
     if skill_metadata.is_file():
         metadata_text = skill_metadata.read_text(encoding="utf-8")
         icon_match = re.search(r'(?m)^\s*icon_large:\s*["\']?([^"\'\n]+)', metadata_text)
         if icon_match:
-            skill_asset = OPENAI / "skills/design-council" / icon_match.group(1).strip()
+            skill_asset = OPENAI / "skills" / PRODUCT_SLUG / icon_match.group(1).strip()
             dimensions = png_dimensions(skill_asset.resolve())
             if dimensions is None or dimensions[0] != dimensions[1] or not 48 <= dimensions[0] <= 4096:
                 errors.append("OpenAI skill icon_large must resolve to a square 48–4096 px PNG")
@@ -230,27 +244,23 @@ def basic_claude_validate() -> list[str]:
         marketplace = json.loads(marketplace_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         return [f"Claude JSON load failed: {exc}"]
-    if manifest.get("name") != "design-council":
-        errors.append("Claude plugin name must be design-council")
+    if manifest.get("name") != PRODUCT_SLUG:
+        errors.append(f"Claude plugin name must be {PRODUCT_SLUG}")
     if not is_semver(manifest.get("version", "")):
         errors.append("Claude plugin version must be valid SemVer (for example 1.0.0 or 0.9.0-beta.1)")
-    if not (CLAUDE / "skills/design-council/SKILL.md").is_file():
+    if not (CLAUDE / "skills" / PRODUCT_SLUG / "SKILL.md").is_file():
         errors.append("Claude skill is missing")
-    elif skill_name(CLAUDE / "skills/design-council/SKILL.md") != "design-think":
+    elif skill_name(CLAUDE / "skills" / PRODUCT_SLUG / "SKILL.md") != PRIMARY_SKILL:
         errors.append(
-            "Claude primary skill must expose design-think as the namespaced "
-            "/design-council:design-think command"
+            f"Claude primary skill must expose {PRIMARY_SKILL} as the namespaced "
+            f"/{PRODUCT_SLUG}:{PRIMARY_SKILL} command"
         )
-    if not (CLAUDE / "skills/design-council-legacy/SKILL.md").is_file():
-        errors.append("Claude legacy invocation alias is missing")
-    elif skill_name(CLAUDE / "skills/design-council-legacy/SKILL.md") != "design-council":
-        errors.append("Claude legacy alias must preserve the design-council command")
     if not (CLAUDE / "agents/sealed-member.md").is_file():
         errors.append("Claude sealed-member agent is missing")
     plugins = marketplace.get("plugins", [])
-    if len(plugins) != 1 or plugins[0].get("name") != "design-council":
-        errors.append("Claude marketplace must expose exactly Design Council")
-    if plugins and plugins[0].get("source") != "./dist/claude/design-council":
+    if len(plugins) != 1 or plugins[0].get("name") != PRODUCT_SLUG:
+        errors.append(f"Claude marketplace must expose exactly {PRODUCT_NAME}")
+    if plugins and plugins[0].get("source") != f"./dist/claude/{PRODUCT_SLUG}":
         errors.append("Claude marketplace source must stay inside the repository root")
     return errors
 
@@ -271,23 +281,20 @@ def validate(require_claude: bool = False, platform: str = "all") -> dict[str, A
 
     if "openai" in selected:
         errors.extend(basic_openai_validate())
-        if OPENAI_VALIDATOR.is_file():
-            results.append(run([sys.executable, str(OPENAI_VALIDATOR), str(OPENAI)]))
-        else:
-            errors.append(f"bundled OpenAI authoring validator unavailable: {OPENAI_VALIDATOR}")
-        if SKILL_VALIDATOR.is_file():
-            results.append(run([sys.executable, str(SKILL_VALIDATOR), str(OPENAI / "skills/design-council")]))
-            results.append(run([sys.executable, str(SKILL_VALIDATOR), str(OPENAI / "skills/design-council-legacy")]))
-        else:
-            errors.append(f"skill validator unavailable: {SKILL_VALIDATOR}")
+        if release_archive("openai").is_file():
+            with tempfile.TemporaryDirectory(prefix="dc-openai-release-") as temp_dir:
+                payload = extract_release_payload("openai", Path(temp_dir))
+                if OPENAI_VALIDATOR.is_file():
+                    results.append(run([sys.executable, str(OPENAI_VALIDATOR), str(payload)]))
+                else:
+                    errors.append(f"bundled OpenAI authoring validator unavailable: {OPENAI_VALIDATOR}")
+                if SKILL_VALIDATOR.is_file():
+                    results.append(run([sys.executable, str(SKILL_VALIDATOR), str(payload / "skills" / PRODUCT_SLUG)]))
+                else:
+                    errors.append(f"skill validator unavailable: {SKILL_VALIDATOR}")
 
     if "claude" in selected:
         errors.extend(basic_claude_validate())
-        if SKILL_VALIDATOR.is_file():
-            results.append(run([sys.executable, str(SKILL_VALIDATOR), str(CLAUDE / "skills/design-council")]))
-            results.append(run([sys.executable, str(SKILL_VALIDATOR), str(CLAUDE / "skills/design-council-legacy")]))
-        else:
-            errors.append(f"skill validator unavailable: {SKILL_VALIDATOR}")
         configured_claude = os.environ.get("DC_CLAUDE_CLI")
         claude = configured_claude or shutil.which("claude")
         if claude:
@@ -296,15 +303,25 @@ def validate(require_claude: bool = False, platform: str = "all") -> dict[str, A
             claude_command = [shutil.which("npx") or "npx", "--yes", "@anthropic-ai/claude-code@latest"]
         else:
             claude_command = []
+        if release_archive("claude").is_file():
+            with tempfile.TemporaryDirectory(prefix="dc-claude-release-") as temp_dir:
+                payload = extract_release_payload("claude", Path(temp_dir))
+                if SKILL_VALIDATOR.is_file():
+                    results.append(run([sys.executable, str(SKILL_VALIDATOR), str(payload / "skills" / PRODUCT_SLUG)]))
+                else:
+                    errors.append(f"skill validator unavailable: {SKILL_VALIDATOR}")
+                if claude_command:
+                    results.append(run(claude_command + ["plugin", "validate", str(payload), "--strict"]))
+        else:
+            errors.append(f"Claude release archive is missing: {release_archive('claude').name}")
         if claude_command:
-            results.append(run(claude_command + ["plugin", "validate", str(CLAUDE), "--strict"]))
             results.append(run(claude_command + ["plugin", "validate", str(ROOT), "--strict"]))
         elif require_claude:
             errors.append("official Claude CLI is required but neither `claude` nor `npx` is available")
         else:
             warnings.append(
                 "Claude CLI unavailable; run `claude plugin validate "
-                "dist/claude/design-council --strict` before publication"
+                f"dist/claude/{PRODUCT_SLUG} --strict` before publication"
             )
 
     for item in results:

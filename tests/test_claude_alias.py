@@ -20,9 +20,9 @@ class ClaudeAliasTests(unittest.TestCase):
         text = SOURCE.read_text(encoding="utf-8")
         self.assertIn("name: design-think", text)
         self.assertIn("disable-model-invocation: true", text)
-        self.assertIn("- Skill(design-council:design-think)\n", text)
-        self.assertIn("- Skill(design-council:design-think *)\n", text)
-        self.assertIn("design-council:design-think", text)
+        self.assertIn("- Skill(mightshape:design-think)\n", text)
+        self.assertIn("- Skill(mightshape:design-think *)\n", text)
+        self.assertIn("mightshape:design-think", text)
         self.assertIn("$ARGUMENTS", text)
         self.assertNotIn("Think wider. Frame better", text)
 

@@ -1,0 +1,85 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.29/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.29",
+  "version": "${{MIGHTSHAPE_VERSION}}",
+  "id": "${{TEAMS_APP_ID}}",
+  "developer": {
+    "name": "MightShape Project",
+    "websiteUrl": "https://github.com/grantholt-byte/mightshape",
+    "privacyUrl": "https://github.com/grantholt-byte/mightshape/blob/main/docs/privacy.md",
+    "termsOfUseUrl": "https://github.com/grantholt-byte/mightshape/blob/main/LICENSE"
+  },
+  "name": {
+    "short": "MightShape",
+    "full": "MightShape Collaborative Workshops"
+  },
+  "description": {
+    "short": "Facilitated design-thinking workshops in your Teams channel.",
+    "full": "Run collaborative MightShape exercises in a standard Microsoft Teams channel. One member starts a workshop by mentioning MightShape; teammates explicitly opt in through a private contribution dialog; the initiator freezes or closes the exercise; and the openly disclosed AI facilitator posts a source-linked visual plus an accessible text summary back to the same thread. Team input remains USER_PROVIDED design material and is never mislabeled as human-research evidence.",
+    "features": [
+      {
+        "title": "Collaborative workshops",
+        "description": "Run structured brainstorms, affinity clustering, process mapping, and assumption mapping in a channel thread."
+      },
+      {
+        "title": "Protected participation",
+        "description": "Use private dialogs for explicit opt-in input and sealed divergence before synthesis."
+      },
+      {
+        "title": "Visual synthesis",
+        "description": "Receive a whimsical source-linked PNG plus an accessible text summary in the workshop thread."
+      }
+    ]
+  },
+  "icons": {
+    "outline": "outline.png",
+    "color": "color.png"
+  },
+  "accentColor": "#6457FF",
+  "bots": [
+    {
+      "botId": "${{TEAMS_APP_ID}}",
+      "scopes": [
+        "team"
+      ],
+      "isNotificationOnly": false,
+      "supportsFiles": false,
+      "supportsCalling": false,
+      "supportsVideo": false,
+      "supportsTargetedMessages": false,
+      "commandLists": [
+        {
+          "scopes": [
+            "team"
+          ],
+          "triggers": [
+            "mention"
+          ],
+          "commands": [
+            {
+              "title": "start",
+              "description": "Start a workshop: start affinity | Map the handoffs in onboarding"
+            },
+            {
+              "title": "add",
+              "description": "Add to an open workshop: add TW-… one atomic note"
+            },
+            {
+              "title": "freeze",
+              "description": "Initiator only: freeze the contribution set and synthesize it"
+            },
+            {
+              "title": "close",
+              "description": "Initiator only: close the workshop without further collection"
+            },
+            {
+              "title": "help",
+              "description": "Show supported exercises and participation guidance"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "defaultInstallScope": "team"
+}

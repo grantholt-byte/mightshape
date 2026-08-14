@@ -233,7 +233,7 @@ export function InterviewClient({ token }: { token: string }) {
   if (error && !study) {
     return (
       <main className="interview-shell centered">
-        <p className="kicker">DESIGN COUNCIL RESEARCH</p>
+        <p className="kicker">MIGHTSHAPE RESEARCH</p>
         <h1>This study is unavailable.</h1>
         <p className="error-copy">{error}</p>
       </main>
@@ -257,7 +257,7 @@ export function InterviewClient({ token }: { token: string }) {
         <CouncilOrbit className="consent-orbit" />
         <header className="study-brand">
           <span aria-hidden="true">◇</span>
-          <span>Design Council Research</span>
+          <span>MightShape Research</span>
         </header>
         <section className="consent-card" aria-labelledby="study-title">
           <div className="ai-disclosure">

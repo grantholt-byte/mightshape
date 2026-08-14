@@ -11,7 +11,7 @@ permissions, and timebox:
 1. plain session with the raw user prompt;
 2. plain session plus the frozen prompt-only Design Thinking instruction recorded by
    `run_ab_benchmark.py --control-mode design-thinking-prompt`;
-3. Design Council available, with the same raw user prompt.
+3. MightShape available, with the same raw user prompt.
 
 Do not compare absolute Codex and Claude scores. Estimate each platform's within-platform uplift.
 Use held-out prompts written by people who did not author the plugin or its current rubric. Include

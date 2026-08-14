@@ -1,13 +1,16 @@
-# Design Council release evaluator guide
+# MightShape release evaluator guide
 
-The current private release is `1.0.0`. The fixed V1 efficacy gate passed from clean beta.8
+The current prepared renamed release is `1.0.1`. It is local-only until the owner publishes
+the renamed repository and immutable tag. The pre-rebrand core passed the fixed V1 efficacy gate
+from clean beta.8
 source commit `afddbf4ee4b2c7555f8e390d92edd843427ea31c`: run `20260814T002300Z` completed
 100/100 calls and scored 97.50 versus 88.125, **+9.375 points** (95% case-bootstrap CI
 **[4.625, 14.625]**; 4 wins, 1 tie, 0 losses). Candidate tokens were 1.320392× control and wall
 time was 1.244173×; raw verification passed 45/45 and exported verification passed 44/44.
-Before any evaluation install, require the documented `git ls-remote --exit-code` preflight to
-resolve `refs/tags/v1.0.0`. Do not represent a private tagged install as a public marketplace
-release: submission and publication are separate owner actions.
+Before any remote evaluation install, require the documented `git ls-remote --exit-code` preflight
+to resolve `refs/tags/v1.0.1`. Until that succeeds, use the generated local package. Do not
+represent a private tagged install as a public marketplace release: repository publication,
+submission, review, and marketplace publication are separate owner actions.
 
 ## Setup
 
@@ -18,8 +21,11 @@ release: submission and publication are separate owner actions.
    round, one Inquiry Lab request, and one optional participatory exercise.
 5. Verify the native invocation for the installed platform before testing implicit routing:
    `$design-think` or `/skills` in Codex, `@design-think` in ChatGPT, and
-   `/design-council:design-think` for the Claude plugin. Test exact `/design-think` only when
+   `/mightshape:design-think` for the Claude plugin. Test exact `/design-think` only when
    intentionally evaluating the optional explicit-only delegating Claude alias.
+6. For the optional team-channel beta, use a non-confidential test workspace and the platform
+   setup guide under `collaboration-app/docs/`. Do not reuse production credentials or collect
+   ambient channel content.
 
 ## Tasks
 
@@ -37,16 +43,20 @@ release: submission and publication are separate owner actions.
 - “Cluster these source-linked notes into an affinity map and give me a visual artifact.”
 - “Turn this multi-person handoff into a process map; mark missing transitions as unknown.”
 - “Implement the explicit dark-mode issue in this repository.”
-- Invoke the legacy compatibility entry (`$design-council` in Codex or
-  `/design-council:design-council` in Claude) once and confirm it still reaches the same
-  product rather than a divergent methodology.
+- In Slack or Discord, start `/design-think`; in a standard Teams channel, mention
+  `@MightShape start affinity | Where does our handoff lose context?`. Have at least three
+  teammates independently contribute, have one explicitly pass, freeze the set, and verify the
+  PNG, alt text, source IDs, text fallback, outlier preservation, and `USER_PROVIDED` labels.
+- During a sealed channel exercise, confirm that no note wording appears before freeze and that
+  an unauthorized teammate cannot freeze or close it. Confirm ordinary channel messages are not
+  ingested. Delete the session and run the expiry purge against a disposable record.
 
 ## Questions
 
 - How hard was installation and first invocation?
-- Was the documented native invocation discoverable, and did it load the same Design Council
+- Was the documented native invocation discoverable, and did it load the same MightShape
   behavior as natural-language activation?
-- Could you explain Design Council to another person after two minutes?
+- Could you explain MightShape to another person after two minutes?
 - Did Council members feel like distinct humans or renamed viewpoints? Which blurred?
 - Did the process preserve momentum, or did it feel obstructive? Where?
 - Was Inquiry Lab's synthetic-versus-human distinction unmistakable?
@@ -56,7 +66,7 @@ release: submission and publication are separate owner actions.
   playful and inviting rather than corporate? Did any decoration interfere with meaning?
 - Did the visual artifact make a relationship easier to understand than the text fallback?
 - Did the visible checkpoints help you inspect the method, or did any feel like token-burning narration?
-- In compact mode, did Design Council avoid unnecessary workshop overhead?
+- In compact mode, did MightShape avoid unnecessary workshop overhead?
 - Was participation clearly optional, and did ignoring the offer allow work to continue?
 - In one-prompt mode, did the facilitator explain only the immediate purpose and mindset,
   give one useful example, and ask exactly one manageable question?
@@ -68,6 +78,8 @@ release: submission and publication are separate owner actions.
 - When did it trigger but should not have?
 - When did it fail to trigger?
 - Did OpenAI and Claude behavior differ in methodology or identity?
+- Did Slack, Discord, and Teams feel like the same facilitated exercise despite native UI
+  differences? Was it obvious that participation was optional and the facilitator was AI?
 
 ## Evidence to collect
 

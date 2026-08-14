@@ -50,7 +50,7 @@ except ModuleNotFoundError:  # Imported as evals.run_council_recognition.
 
 EVAL_ROOT = Path(__file__).resolve().parent
 REPO_ROOT = EVAL_ROOT.parent
-REFERENCE_ROOT = REPO_ROOT / "skills" / "design-council" / "references"
+REFERENCE_ROOT = REPO_ROOT / "skills" / "mightshape" / "references"
 CHALLENGE_PATH = EVAL_ROOT / "benchmark" / "council-recognition-challenge.json"
 RESPONSE_SCHEMA = EVAL_ROOT / "schema" / "council-recognition-response.schema.json"
 JUDGE_SCHEMA = EVAL_ROOT / "schema" / "council-recognition-judge.schema.json"
@@ -89,7 +89,7 @@ evidence. Keep the `response` between 70 and 180 words and return only JSON matc
 """
 
 JUDGE_INSTRUCTION = """Act as a blinded identity-recognition evaluator. You receive ten frozen,
-anonymous conclusion-level artifacts from fictional Design Council Human Models and ten anonymous
+anonymous conclusion-level artifacts from fictional MightShape Human Models and ten anonymous
 behavioral reference cards projected from the canonical profiles. Names, roles, signature samples,
 and obvious biography have been withheld from both artifact text and reference cards. Neither the
 artifact-to-source mapping nor the profile-card-to-identity mapping is provided.
@@ -779,7 +779,7 @@ def run_live(
     repeat_records: list[dict[str, Any]] = []
     run_error: str | None = None
 
-    with tempfile.TemporaryDirectory(prefix="design-council-recognition-") as temp_name:
+    with tempfile.TemporaryDirectory(prefix="mightshape-recognition-") as temp_name:
         temp_root = Path(temp_name)
         for repeat in range(1, args.repeats + 1):
             call_order = list(profiles)

@@ -54,7 +54,7 @@ class PlatformEvalContractTests(unittest.TestCase):
 
     def test_single_platform_build_preserves_other_platform_artifact(self) -> None:
         version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
-        claude_archive = ROOT / f"dist/design-council-claude-{version}.zip"
+        claude_archive = ROOT / f"dist/mightshape-claude-{version}.zip"
         before = sha256(claude_archive)
         result = build(platform="openai")
         self.assertEqual(result["platforms"], ["openai"])
@@ -88,6 +88,7 @@ class PlatformEvalContractTests(unittest.TestCase):
             '"build"',
             '"audit", "--omit=dev"',
             '"evals/run_platform_contracts.py"',
+            '"scripts/check_runtime_branding.py"',
         ):
             with self.subTest(marker=marker):
                 self.assertIn(marker, script)

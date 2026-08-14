@@ -49,31 +49,31 @@ class ContextProfilerTests(unittest.TestCase):
         self.assertEqual(paths["quick-look"], [base])
         self.assertEqual(
             paths["participatory-first-prompt"],
-            [base, "skills/design-council/references/participatory-workshops.md"],
+            [base, "skills/mightshape/references/participatory-workshops.md"],
         )
         self.assertEqual(
             paths["expert-facilitated-workshop"],
             [
                 base,
-                "skills/design-council/references/participatory-workshops.md",
-                "skills/design-council/references/facilitator-practice.md",
+                "skills/mightshape/references/participatory-workshops.md",
+                "skills/mightshape/references/facilitator-practice.md",
             ],
         )
         self.assertEqual(
             paths["inquiry-lab"],
-            [base, "skills/design-council/references/inquiry-lab.md"],
+            [base, "skills/mightshape/references/inquiry-lab.md"],
         )
-        self.assertEqual(paths["sealed-panel"][0:2], [base, "skills/design-council/references/council-protocol.md"])
+        self.assertEqual(paths["sealed-panel"][0:2], [base, "skills/mightshape/references/council-protocol.md"])
         self.assertEqual(len(paths["sealed-panel"]), 7)
         self.assertTrue(
             all(
-                path.startswith("skills/design-council/references/council-")
+                path.startswith("skills/mightshape/references/council-")
                 for path in paths["sealed-panel"][1:]
             )
         )
         self.assertEqual(
             paths["visual-affinity"],
-            [base, "skills/design-council/references/visual-workbench.md"],
+            [base, "skills/mightshape/references/visual-workbench.md"],
         )
 
     def test_counts_and_redundancies_are_deterministic(self) -> None:

@@ -14,9 +14,9 @@ from scripts.validate_packages import basic_claude_validate, basic_openai_valida
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CANONICAL = ROOT / "skills/design-council"
-OPENAI = ROOT / "dist/openai/design-council"
-CLAUDE = ROOT / "dist/claude/design-council"
+CANONICAL = ROOT / "skills/mightshape"
+OPENAI = ROOT / "dist/openai/mightshape"
+CLAUDE = ROOT / "dist/claude/mightshape"
 
 
 def sha256(path: Path) -> str:
@@ -35,25 +35,19 @@ class CrossPlatformPackageTests(unittest.TestCase):
 
     def test_claude_adapter_preserves_canonical_skill_verbatim(self) -> None:
         canonical = (CANONICAL / "SKILL.md").read_text(encoding="utf-8").rstrip()
-        openai = (OPENAI / "skills/design-council/SKILL.md").read_text(encoding="utf-8").rstrip()
-        claude = (CLAUDE / "skills/design-council/SKILL.md").read_text(encoding="utf-8")
+        openai = (OPENAI / "skills/mightshape/SKILL.md").read_text(encoding="utf-8").rstrip()
+        claude = (CLAUDE / "skills/mightshape/SKILL.md").read_text(encoding="utf-8")
         self.assertEqual(openai, canonical)
         self.assertTrue(claude.startswith(canonical + "\n"))
         self.assertIn("Claude Code adapter", claude[len(canonical) :])
 
-    def test_short_invocation_and_legacy_alias_ship_on_both_platforms(self) -> None:
+    def test_primary_short_invocation_ships_on_both_platforms(self) -> None:
         for package in (OPENAI, CLAUDE):
             with self.subTest(package=package):
-                primary = (package / "skills/design-council/SKILL.md").read_text(encoding="utf-8")
-                legacy = (package / "skills/design-council-legacy/SKILL.md").read_text(encoding="utf-8")
+                primary = (package / "skills/mightshape/SKILL.md").read_text(encoding="utf-8")
                 self.assertIn("\nname: design-think\n", primary)
-                self.assertIn("\nname: design-council\n", legacy)
-                self.assertIn("legacy compatibility alias", legacy)
-        claude_legacy = (
-            CLAUDE / "skills/design-council-legacy/SKILL.md"
-        ).read_text(encoding="utf-8")
-        self.assertIn("/design-council:design-think", claude_legacy)
-        self.assertIn("delegating alias", claude_legacy)
+        self.assertFalse((OPENAI / "skills/design-council-legacy").exists())
+        self.assertFalse((CLAUDE / "skills/design-council-legacy").exists())
 
     def test_all_human_models_are_byte_identical(self) -> None:
         profiles = sorted(
@@ -65,8 +59,8 @@ class CrossPlatformPackageTests(unittest.TestCase):
         for profile in profiles:
             relative = profile.relative_to(CANONICAL)
             with self.subTest(profile=profile.name):
-                self.assertEqual(sha256(profile), sha256(OPENAI / "skills/design-council" / relative))
-                self.assertEqual(sha256(profile), sha256(CLAUDE / "skills/design-council" / relative))
+                self.assertEqual(sha256(profile), sha256(OPENAI / "skills/mightshape" / relative))
+                self.assertEqual(sha256(profile), sha256(CLAUDE / "skills/mightshape" / relative))
 
     def test_one_version_and_marketplace_identity(self) -> None:
         expected = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
@@ -91,8 +85,8 @@ class CrossPlatformPackageTests(unittest.TestCase):
         self.assertEqual(interview_lock["version"], expected)
         self.assertEqual(interview_lock["packages"][""]["version"], expected)
         openai_marketplace = json.loads((ROOT / ".agents/plugins/marketplace.json").read_text(encoding="utf-8"))
-        self.assertEqual(openai_marketplace["name"], "design-council")
-        self.assertEqual(openai_marketplace["plugins"][0]["name"], "design-council")
+        self.assertEqual(openai_marketplace["name"], "mightshape")
+        self.assertEqual(openai_marketplace["plugins"][0]["name"], "mightshape")
 
     def test_openai_manifest_respects_runtime_prompt_limit(self) -> None:
         manifest = json.loads((ROOT / ".codex-plugin/plugin.json").read_text(encoding="utf-8"))
@@ -138,7 +132,7 @@ class CrossPlatformPackageTests(unittest.TestCase):
     def test_archives_exclude_local_duplicate_backups(self) -> None:
         version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
         for platform in ("openai", "claude"):
-            archive = ROOT / f"dist/design-council-{platform}-{version}.zip"
+            archive = ROOT / f"dist/mightshape-{platform}-{version}.zip"
             with self.subTest(platform=platform), zipfile.ZipFile(archive) as package:
                 duplicates = [name for name in package.namelist() if is_duplicate_copy(Path(name))]
                 self.assertEqual(duplicates, [])
@@ -148,7 +142,7 @@ class CrossPlatformPackageTests(unittest.TestCase):
             temporary_dist = Path(temporary) / "dist"
             temporary_dist.mkdir()
             current_version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
-            duplicate = temporary_dist / f"design-council-claude-{current_version} 2.zip"
+            duplicate = temporary_dist / f"mightshape-claude-{current_version} 2.zip"
             duplicate.write_bytes(b"user-owned duplicate")
             unrelated = temporary_dist / "research-notes.txt"
             unrelated.write_text("preserve me", encoding="utf-8")
@@ -167,7 +161,7 @@ class CrossPlatformPackageTests(unittest.TestCase):
             duplicate.write_text("user-owned", encoding="utf-8")
             with patch("scripts.build_packages.DIST", temporary_dist):
                 build(clean=True, platform="openai")
-                archive = Path(temporary_dist) / f"design-council-openai-{(ROOT / 'VERSION').read_text().strip()}.zip"
+                archive = Path(temporary_dist) / f"mightshape-openai-{(ROOT / 'VERSION').read_text().strip()}.zip"
                 with zipfile.ZipFile(archive) as package:
                     self.assertNotIn("design-council/assets 7/notes.md", package.namelist())
             self.assertEqual(duplicate.read_text(encoding="utf-8"), "user-owned")
@@ -175,8 +169,8 @@ class CrossPlatformPackageTests(unittest.TestCase):
     def test_archives_are_deterministic(self) -> None:
         version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
         paths = [
-            ROOT / f"dist/design-council-openai-{version}.zip",
-            ROOT / f"dist/design-council-claude-{version}.zip",
+            ROOT / f"dist/mightshape-openai-{version}.zip",
+            ROOT / f"dist/mightshape-claude-{version}.zip",
         ]
         first = [sha256(path) for path in paths]
         build(clean=True)
@@ -192,9 +186,9 @@ class CrossPlatformPackageTests(unittest.TestCase):
             self.assertIn("owner authorization", document)
             self.assertIn("distinct", document)
         self.assertIn("approval alone does not publish", openai.lower())
-        self.assertIn("claude-community", claude.lower())
+        self.assertIn("claude-plugins-official", claude.lower())
         self.assertIn("anthropic verified", claude.lower())
-        self.assertIn("no public application", claude.lower())
+        self.assertIn("does not guarantee that badge", claude.lower())
 
 
 if __name__ == "__main__":

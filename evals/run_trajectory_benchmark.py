@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run an opt-in, longitudinal Design Council-versus-plain-Codex benchmark.
+"""Run an opt-in, longitudinal MightShape-versus-plain-Codex benchmark.
 
 The primary comparison uses real persisted Codex threads. Both arms start from
 the same four raw user turns. The treatment workspace contains the local Design
@@ -40,7 +40,7 @@ from typing import Any, Iterable, Sequence
 
 EVAL_ROOT = Path(__file__).resolve().parent
 REPO_ROOT = EVAL_ROOT.parent
-SKILL_ROOT = REPO_ROOT / "skills" / "design-council"
+SKILL_ROOT = REPO_ROOT / "skills" / "mightshape"
 TRAJECTORIES_PATH = EVAL_ROOT / "benchmark" / "trajectories.jsonl"
 PRODUCT_CONFORMANCE_TRAJECTORIES_PATH = (
     EVAL_ROOT / "benchmark" / "product-conformance-trajectories.jsonl"
@@ -340,7 +340,7 @@ def prepare_workspace(root: Path, arm: str, skill_root: Path = SKILL_ROOT) -> Pa
         encoding="utf-8",
     )
     if arm == "treatment":
-        destination = workdir / ".agents" / "skills" / "design-council"
+        destination = workdir / ".agents" / "skills" / "mightshape"
         destination.parent.mkdir(parents=True)
         shutil.copytree(skill_root, destination)
     return workdir
@@ -1413,17 +1413,17 @@ def aggregate_results(
         "effectiveness": {
             "verdict": verdict,
             "primary_estimand": (
-                "within-model quality uplift from deliberate Design Council invocation on turn one over "
+                "within-model quality uplift from deliberate MightShape invocation on turn one over "
                 "a no-skill trajectory receiving the frozen Design Thinking prompt on every user turn"
                 if control_mode == "design-thinking-prompt"
                 and treatment_invocation == "explicit-first-turn"
-                else "within-model quality uplift from Design Council skill availability over a no-skill "
+                else "within-model quality uplift from MightShape skill availability over a no-skill "
                 "trajectory receiving the frozen Design Thinking prompt on every user turn"
                 if control_mode == "design-thinking-prompt"
-                else "within-model quality uplift from deliberate Design Council invocation on turn one "
+                else "within-model quality uplift from deliberate MightShape invocation on turn one "
                 "over a plain no-skill trajectory"
                 if treatment_invocation == "explicit-first-turn"
-                else "within-model quality uplift from Design Council skill availability over a plain no-skill trajectory"
+                else "within-model quality uplift from MightShape skill availability over a plain no-skill trajectory"
             ),
             "control_mode": control_mode,
             "treatment_invocation": treatment_invocation,
@@ -1501,7 +1501,7 @@ def render_summary(summary: dict[str, Any], manifest: dict[str, Any]) -> str:
         return str(value)
 
     lines = [
-        "# Design Council longitudinal A/B benchmark",
+        "# MightShape longitudinal A/B benchmark",
         "",
         f"**Effectiveness verdict:** `{effect['verdict']}`",
         "",
@@ -1552,7 +1552,7 @@ def render_summary(summary: dict[str, Any], manifest: dict[str, Any]) -> str:
             f"- Frozen prompt-only instruction SHA-256: `{manifest['prompt_only_control_sha256'] or 'n/a'}`",
             f"- Candidate: `{manifest['candidate_model']}` / `{manifest['candidate_effort']}`",
             f"- Judge: `{manifest['judge_model']}` / `{manifest['judge_effort']}`",
-            f"- Design Council version: `{reproducibility.get('design_council_version') or 'unavailable'}`",
+            f"- MightShape version: `{reproducibility.get('design_council_version') or 'unavailable'}`",
             f"- Git commit: `{git_provenance.get('commit') or 'unavailable'}`; dirty: "
             f"`{git_provenance.get('dirty')}`; status available: "
             f"`{git_provenance.get('status_available', False)}`",
@@ -1765,17 +1765,17 @@ def main(argv: list[str] | None = None) -> int:
             else None
         ),
         "primary_estimand": (
-            "within-model quality uplift from deliberate Design Council invocation on turn one over "
+            "within-model quality uplift from deliberate MightShape invocation on turn one over "
             "a no-skill trajectory receiving the frozen Design Thinking prompt on every user turn"
             if args.control_mode == "design-thinking-prompt"
             and args.treatment_invocation == "explicit-first-turn"
-            else "within-model quality uplift from Design Council skill availability over a no-skill "
+            else "within-model quality uplift from MightShape skill availability over a no-skill "
             "trajectory receiving the frozen Design Thinking prompt on every user turn"
             if args.control_mode == "design-thinking-prompt"
-            else "within-model quality uplift from deliberate Design Council invocation on turn one "
+            else "within-model quality uplift from deliberate MightShape invocation on turn one "
             "over a plain no-skill trajectory"
             if args.treatment_invocation == "explicit-first-turn"
-            else "within-model quality uplift from Design Council skill availability over a plain no-skill trajectory"
+            else "within-model quality uplift from MightShape skill availability over a plain no-skill trajectory"
         ),
         "session_fidelity": (
             "real Codex session persisted from turn one and resumed by explicit thread ID"
@@ -1809,10 +1809,10 @@ def main(argv: list[str] | None = None) -> int:
             "sandbox": "read-only",
             "user_config_and_rules": "ignored",
             "treatment_difference": (
-                "repository-local Design Council skill with raw turns and the declared treatment "
+                "repository-local MightShape skill with raw turns and the declared treatment "
                 "invocation mode versus no skill with the frozen Design Thinking prompt on every turn"
                 if args.control_mode == "design-thinking-prompt"
-                else "repository-local Design Council skill present only in treatment; both arms receive raw turns"
+                else "repository-local MightShape skill present only in treatment; both arms receive raw turns"
             ),
         },
         "privacy": {
@@ -1840,7 +1840,7 @@ def main(argv: list[str] | None = None) -> int:
         f"Running {len(pair_plan)} longitudinal pairs ({candidate_calls} candidate turns), "
         f"then {judge_calls} blind judgments; results: {run_dir}"
     )
-    with tempfile.TemporaryDirectory(prefix="design-council-trajectory-") as temp_name:
+    with tempfile.TemporaryDirectory(prefix="mightshape-trajectory-") as temp_name:
         temp_root = Path(temp_name)
         # Phase 1: finish every candidate trajectory before constructing any judge prompt.
         for pair in pair_plan:

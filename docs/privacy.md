@@ -5,13 +5,13 @@ deployment-specific privacy notice.
 
 ## Core plugin
 
-Design Council's canonical project record is the human-readable
+MightShape's canonical project record is the human-readable
 `.design-council/project.json` file in the active project, with revision snapshots under
-`.design-council/history/`. The plugin does not require a Design Council account, external
+`.design-council/history/`. The plugin does not require a MightShape account, external
 database, telemetry collector, Exchange backend, or remote memory service.
 
 The active AI platform still processes prompts, opened files, and tool results under that
-platform's terms and workspace settings. When Design Council performs external research,
+platform's terms and workspace settings. When MightShape performs external research,
 search queries and retrieved pages go through the platform's configured research tools.
 Do not assume “local state” means the model provider receives no content.
 
@@ -47,6 +47,29 @@ confidential project prompts unless that processing and local retention are acce
 The benchmark strips ambient service credentials from candidate subprocesses, but this is
 process isolation rather than a claim of hardware, account, or provider isolation.
 
+## Team-channel workshops
+
+The optional V1.1 collaboration service accepts only explicit slash commands, app mentions,
+button actions, and submitted dialogs. It does not subscribe to or retrieve surrounding channel
+history. A channel initiator cannot opt coworkers in; each coworker contributes or passes through
+an explicit action. Their text is stored as `USER_PROVIDED` design material, not
+`HUMAN_INTERVIEW` or `OBSERVED_HUMAN_BEHAVIOR`.
+
+Portable workshop records use opaque participant and contribution IDs. Raw workspace, tenant,
+guild, channel, message, and user identifiers are retained separately in an owner-only adapter
+binding so replies can return to the correct thread. Owner-only file permissions reduce accidental
+local disclosure; they are not application-level encryption. Open submissions and frozen sealed
+sets are visible to people who can access the selected thread, and the generated PNG/text fallback
+may reproduce them. A team channel is not automatically confidential.
+
+With `DC_AI_MODE=openai`, the frozen, bounded workshop packet is sent to the configured model
+provider for synthesis with `store: false`; that flag does not mean the provider receives no
+content or override its governing terms. Mock mode makes no model call and labels the output as an
+unsynthesized source wall. The operator selects a retention period, exposes its deletion policy,
+and schedules `npm run purge-expired`. There is no collaboration telemetry or training-data export.
+Slack, Discord, and Teams still process interactions and uploaded images under their respective
+workspace policies.
+
 ## Bring-Your-Own human interviews
 
 The optional interview Site may store:
@@ -75,18 +98,18 @@ material. Disclosure Guard creates a separate sanitized candidate and never dest
 internal original. It can reduce accidental exposure but cannot guarantee confidentiality,
 legal privilege, trade-secret protection, conflict screening, or NDA enforceability.
 
-## Exchange and Design Council Research
+## Exchange and MightShape Research
 
-Design Council Exchange is a future provider boundary, not an operating marketplace in V1.
+MightShape Exchange is a future provider boundary, not an operating marketplace in V1.
 There is no participant recruitment, payment, credit ledger, identity verification,
 reputation marketplace, or Exchange data transfer.
 
-“Join Design Council Research” is future-facing and defaults off. No remote contribution
+“Join MightShape Research” is future-facing and defaults off. No remote contribution
 collector ships in V1. A future Learning Signal is designed to omit raw project content,
 conversations, product ideas, code, files, company names, transcripts, and participant
 quotes. Project-owner opt-in would never override participant consent.
 
-Design Council Core does not sell confidential project content. A future hosted service
+MightShape Core does not sell confidential project content. A future hosted service
 would require its own public policy, contracts, access controls, retention rules, and
 consent model before processing data.
 

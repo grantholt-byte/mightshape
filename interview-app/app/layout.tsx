@@ -3,11 +3,11 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Design Council Research",
-    template: "%s · Design Council Research",
+    default: "MightShape Research",
+    template: "%s · MightShape Research",
   },
   description:
-    "Transparent, privacy-conscious AI-facilitated interviews for Design Council research studies.",
+    "Transparent, privacy-conscious AI-facilitated interviews for MightShape research studies.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

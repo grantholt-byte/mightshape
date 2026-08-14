@@ -1,4 +1,4 @@
-"""Behavior and state tests for optional participatory Design Council exercises."""
+"""Behavior and state tests for optional participatory MightShape exercises."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / "skills" / "design-council" / "scripts"
+SCRIPTS = ROOT / "skills" / "mightshape" / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
 from dc_core import DesignCouncilError, schema_validation  # noqa: E402
@@ -327,8 +327,8 @@ class ParticipationTests(unittest.TestCase):
 
 class ParticipationStaticContractTests(unittest.TestCase):
     def test_skill_and_reference_encode_adaptive_noncoercive_facilitation(self) -> None:
-        skill = (ROOT / "skills/design-council/SKILL.md").read_text(encoding="utf-8")
-        reference = (ROOT / "skills/design-council/references/participatory-workshops.md").read_text(encoding="utf-8")
+        skill = (ROOT / "skills/mightshape/SKILL.md").read_text(encoding="utf-8")
+        reference = (ROOT / "skills/mightshape/references/participatory-workshops.md").read_text(encoding="utf-8")
         for marker in (
             "OBSERVE",
             "COLLABORATE",

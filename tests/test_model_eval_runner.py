@@ -30,7 +30,7 @@ from evals.run_model_evals import (
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 RUNNER = REPO_ROOT / "evals" / "run_model_evals.py"
-SKILL_SCRIPTS = REPO_ROOT / "skills" / "design-council" / "scripts"
+SKILL_SCRIPTS = REPO_ROOT / "skills" / "mightshape" / "scripts"
 sys.path.insert(0, str(SKILL_SCRIPTS))
 
 from sealed_round import freeze_round, prepare_round, stage_response  # noqa: E402

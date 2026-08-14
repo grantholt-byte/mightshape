@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Optionally exercise Design Council cases with ``codex exec --ephemeral``.
+"""Optionally exercise MightShape cases with ``codex exec --ephemeral``.
 
 Normal CI is offline: model calls require ``DC_RUN_MODEL_EVALS=1`` or
 ``--run-model``. Saved responses can be checked with ``--responses-dir``.
@@ -29,7 +29,7 @@ from typing import Any
 
 EVAL_ROOT = Path(__file__).resolve().parent
 REPO_ROOT = EVAL_ROOT.parent
-SKILL_ROOT = REPO_ROOT / "skills" / "design-council"
+SKILL_ROOT = REPO_ROOT / "skills" / "mightshape"
 RESULTS_ROOT = EVAL_ROOT / "results"
 JUDGE_SCHEMA = EVAL_ROOT / "schema" / "model-result.schema.json"
 sys.path.insert(0, str(EVAL_ROOT))
@@ -93,6 +93,7 @@ RESPONSE_ONLY_STATE_EFFECTS = {
     "ADD_TEST_PLAN",
     "ADD_UNKNOWN",
     "ADD_WARNING_AND_UNKNOWN",
+    "CONTINUE_PARTICIPATORY_SESSION",
     "CREATE_CONSENT_CONFIGURATION",
     "CREATE_CONSENT_TEXT",
     "CREATE_DISTINCT_SYNTHETIC_PARTICIPANT",
@@ -104,6 +105,7 @@ RESPONSE_ONLY_STATE_EFFECTS = {
     "CREATE_REALITY_PACKET",
     "CREATE_STUDY_WITHOUT_PUBLIC_URL",
     "CREATE_THREE_PERSONAS",
+    "CREATE_TEAM_WORKSHOP",
     "CREATE_VERSIONED_EXTERNAL_PACKET",
     "MARK_PACKET_INSUFFICIENT",
     "MAY_ADD_COMPETING_POVS",
@@ -120,9 +122,11 @@ RESPONSE_ONLY_STATE_EFFECTS = {
     "NONE",
     "OFFER_MODE_CHANGE",
     "PRESERVE_MINORITY",
+    "QUEUE_NEXT_COMMON_PACKET",
     "REJECT_EVIDENCE_PROMOTION",
     "REJECT_PARTICIPANT_CONTENT_CONTRIBUTION",
     "REJECT_PROVENANCE_UPGRADE",
+    "RETAIN_USER_PROVIDED",
     "SELECT_PARTICIPANT_SOURCE",
     "SUPERSEDE_POV_AND_BACKWARD_TRANSITION",
     "SUPERSEDE_FRAME_WITH_HISTORY",
@@ -873,7 +877,7 @@ def candidate_prompt(case: dict[str, Any]) -> str:
         mutation_contract = (
             f"This case declares state_effect {effect}. It requires local, inspectable "
             f"workspace output ({', '.join(requirements)}). Create the minimum valid output "
-            "needed under this disposable project, using the installed Design Council helpers "
+            "needed under this disposable project, using the installed MightShape helpers "
             "where available. Keep canonical state under .design-council/, preserve revision "
             "history and immutable hashes, and do not merely say that an artifact was created. "
             "Do not alter AGENTS.md or the installed .agents/ skill. "
@@ -885,7 +889,7 @@ def candidate_prompt(case: dict[str, Any]) -> str:
             "claiming persistence. Do not edit files. "
         )
     return (
-        "You are running a Design Council behavioral evaluation in a disposable project. "
+        "You are running a MightShape behavioral evaluation in a disposable project. "
         "Respond to the user's request conversationally and completely. "
         f"{mutation_contract}"
         "Do not deploy, publish, contact people, or claim to have collected evidence. Observable "
@@ -1002,10 +1006,10 @@ def make_skill_project(
     # Codex resolve interface assets through `..` outside the temporary plugin
     # boundary, which is intentionally rejected by the loader and does not
     # represent a clean installation accurately.
-    shutil.copytree(SKILL_ROOT, skill_parent / "design-council")
+    shutil.copytree(SKILL_ROOT, skill_parent / "mightshape")
     if allows_mutation:
         guidance = (
-            "This is a disposable Design Council behavioral-evaluation project. You may create "
+            "This is a disposable MightShape behavioral-evaluation project. You may create "
             "the minimum local project outputs required by the declared state effect. Keep all "
             "writes inside this project. Never alter AGENTS.md or .agents/, and never deploy, "
             "publish, contact people, or make unrelated external writes.\n"
@@ -1090,13 +1094,13 @@ def main(argv: list[str] | None = None) -> int:
         print("SKIP: Codex CLI is unavailable")
         return 1 if args.require_model else 0
     if not SKILL_ROOT.joinpath("SKILL.md").exists():
-        print(f"ERROR: Design Council skill not found at {SKILL_ROOT}", file=sys.stderr)
+        print(f"ERROR: MightShape skill not found at {SKILL_ROOT}", file=sys.stderr)
         return 2
 
     run_dir = result_run_dir(args.results_dir)
     summary: list[dict[str, Any]] = []
     failures = 0
-    with tempfile.TemporaryDirectory(prefix="design-council-evals-") as temp_name:
+    with tempfile.TemporaryDirectory(prefix="mightshape-evals-") as temp_name:
         temp_root = Path(temp_name)
         judge_dir = temp_root / "judge"
         judge_dir.mkdir()

@@ -1,0 +1,102 @@
+{
+  "name": "design-think",
+  "description": "Facilitate a source-linked MightShape team exercise.",
+  "integration_types": [0],
+  "contexts": [0],
+  "options": [
+    {
+      "type": 1,
+      "name": "start",
+      "description": "Start a collaborative exercise and open its setup form.",
+      "options": [
+        {
+          "type": 3,
+          "name": "exercise",
+          "description": "Exercise to facilitate (defaults to protected brainstorm).",
+          "required": false,
+          "choices": [
+            { "name": "Protected brainstorm", "value": "BRAINSTORMING" },
+            { "name": "Silent brainwriting", "value": "BRAINWRITING" },
+            { "name": "Affinity clustering", "value": "AFFINITY_CLUSTERING" },
+            { "name": "Process reconstruction", "value": "PROCESS_RECONSTRUCTION" },
+            { "name": "Assumption mapping", "value": "ASSUMPTION_MAPPING" },
+            { "name": "POV + How Might We", "value": "POV_HMW" },
+            { "name": "Prototype the uncertainty", "value": "PROTOTYPE_DESIGN" },
+            { "name": "Test to learn", "value": "TEST_DESIGN" }
+          ]
+        },
+        {
+          "type": 3,
+          "name": "visibility",
+          "description": "Choose whether contributions stay sealed until freeze.",
+          "required": false,
+          "choices": [
+            { "name": "Method default", "value": "AUTO" },
+            { "name": "Sealed independent input", "value": "SEALED" },
+            { "name": "Open team input", "value": "OPEN" }
+          ]
+        },
+        {
+          "type": 3,
+          "name": "starting-point",
+          "description": "Where the team's idea or challenge is today.",
+          "required": false,
+          "choices": [
+            { "name": "Early hunch", "value": "EARLY_HUNCH" },
+            { "name": "Grounded exploration", "value": "GROUNDED_EXPLORATION" },
+            { "name": "Framed challenge", "value": "FRAMED_CHALLENGE" },
+            { "name": "Established concept", "value": "CONCEPT" },
+            { "name": "Prototype", "value": "PROTOTYPE" },
+            { "name": "Live product or service", "value": "LIVE" },
+            { "name": "Unsure", "value": "UNSURE" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": 1,
+      "name": "status",
+      "description": "Show the current phase and participation count privately.",
+      "options": [
+        {
+          "type": 3,
+          "name": "session",
+          "description": "MightShape session ID shown in the workshop card.",
+          "required": true,
+          "min_length": 39,
+          "max_length": 39
+        }
+      ]
+    },
+    {
+      "type": 1,
+      "name": "delete",
+      "description": "Delete a workshop record (initiator or delegated facilitator only).",
+      "options": [
+        {
+          "type": 3,
+          "name": "session",
+          "description": "MightShape session ID shown in the workshop card.",
+          "required": true,
+          "min_length": 39,
+          "max_length": 39
+        }
+      ]
+    },
+    {
+      "type": 1,
+      "name": "retry",
+      "description": "Retry failed synthesis or delivery without changing the frozen source set.",
+      "options": [
+        {
+          "type": 3,
+          "name": "session",
+          "description": "MightShape session ID shown in the workshop card.",
+          "required": true,
+          "min_length": 39,
+          "max_length": 39
+        }
+      ]
+    }
+  ]
+}
