@@ -30,6 +30,8 @@ Nothing in this file authorizes publication. Check items only with inspectable e
 - [x] Cross-platform drift/parity check passes with ten identical Human Models.
 - [x] Model-backed family-scheduler, ED-nurse, Council-humanity, and routing evals pass within their documented claim boundaries.
 - [x] No secrets, transcripts, real participant quotes, or confidential project data ship.
+- [x] Public GitHub source contains the MIT license, passed a tracked-history credential-pattern
+  scan, supports anonymous pinned installs, and has private vulnerability reporting enabled.
 - [x] Privacy copy explains visible workshop output, local participation records,
   undo-as-supersession, visual exports, and opt-in benchmark model calls.
 - [x] Python and Site dependency/security audits reviewed.

@@ -16,7 +16,7 @@ reported separately.
 
 | Area | Completed | Remaining external step |
 |---|---|---|
-| Shared product | V1 gate, 13/13 release checks, MIT license, immutable tag, archive hashes, clean pinned installs, cross-platform parity | Make the reviewed source public for Claude directory submission |
+| Shared product | V1 gate, 13/13 release checks, MIT license, public source, immutable tag, archive hashes, anonymous clean pinned installs, cross-platform parity | None inside the repository |
 | OpenAI | Skills-only package, manifest, listing copy, icon, three prompts, required 5 positive/3 negative cases, local validation and clean-context routing tests | Portal draft, verified publisher/permission, availability, attestations, upload scan, Submit for Review |
 | Claude | Plugin/marketplace manifests, strict validation, install lifecycle, GitHub tag install, listing copy | Public GitHub source, authorized contact and legal acceptance, directory form submission |
 | Hosted interview app | Optional deployable source and deterministic tests | Not part of either marketplace submission and not represented as an operated service |
@@ -146,7 +146,7 @@ Update this table only from portal receipts or catalog visibility:
 |---|---|---|
 | OpenAI | Authorized; portal state not yet recorded | — |
 | Claude community | Authorized; form state not yet recorded | — |
-| GitHub source | Private until the publication operation is completed | `v1.0.0` → `e3152c7a41c2afcb22ecd5009ddd051bfb69722e` |
+| GitHub source | **Public**; private vulnerability reporting enabled | `v1.0.0` → `e3152c7a41c2afcb22ecd5009ddd051bfb69722e` |
 
 ## Primary references
 

@@ -297,11 +297,11 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md
 
 ## Release status
 
-Version `1.0.0` is the current private V1 release, and the fixed model-backed efficacy gate passed.
+Version `1.0.0` is the current public V1 release, and the fixed model-backed efficacy gate passed.
 The immutable tag and remote install are operational checks: verify `refs/tags/v1.0.0` with the
-preflight above before installing. The GitHub repository is private
-and has not been submitted to or published in either marketplace. Public publication still requires
-publisher identity, public support/privacy/terms URLs where applicable, a fresh release audit,
-and the platforms’ current review or catalog steps. The OpenAI listing must remain independently
-useful and contain no digital-service plans, Exchange-credit promotion, upgrade pitch, or checkout
-link under the current plugin commerce policy.
+preflight above before installing. The GitHub repository is public, anonymous fresh installs pass
+on both adapters, and the owner has authorized directory submission. Portal submission, review,
+approval, and catalog publication are distinct external states tracked in the
+[submission dossier](docs/SUBMISSION_DOSSIER.md). The OpenAI listing remains independently useful
+and contains no digital-service plans, Exchange-credit promotion, upgrade pitch, or checkout link;
+Design Council is free on both platforms.
