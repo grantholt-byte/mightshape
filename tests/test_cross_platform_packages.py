@@ -185,14 +185,16 @@ class CrossPlatformPackageTests(unittest.TestCase):
         for path, digest in zip(paths, first):
             self.assertIn(f"{digest}  {path.name}", sums)
 
-    def test_publication_documents_do_not_claim_publication(self) -> None:
+    def test_publication_documents_distinguish_authorization_and_catalog_state(self) -> None:
         openai = (ROOT / "docs/marketplace-openai.md").read_text(encoding="utf-8")
         claude = (ROOT / "docs/marketplace-claude.md").read_text(encoding="utf-8")
         for document in (openai.lower(), claude.lower()):
-            self.assertIn("no submission has", document)
-            self.assertIn("been made", document)
+            self.assertIn("owner authorization", document)
+            self.assertIn("distinct", document)
+        self.assertIn("approval alone does not publish", openai.lower())
+        self.assertIn("claude-community", claude.lower())
         self.assertIn("anthropic verified", claude.lower())
-        self.assertIn("no guarantee", claude.lower())
+        self.assertIn("no public application", claude.lower())
 
 
 if __name__ == "__main__":

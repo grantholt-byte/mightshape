@@ -70,24 +70,18 @@ The first four repository demo images are composed from live acceptance-session 
 The last two images are rendered directly by the shipped Visual Workbench from the
 versioned example JSON under `skills/design-council/assets/examples/`.
 
-## Install the private V1 release
+## Install V1 from GitHub
 
-The repository is private. The owner must add the installer as a repository
-collaborator, and the collaborator must accept the invitation. On a fresh machine, verify
-GitHub CLI authentication and access to the exact immutable release tag first. Run the pinned
-install commands only when this preflight resolves `v1.0.0`:
+The repository is the public, inspectable source used for marketplace review. On a fresh machine,
+verify the exact immutable release tag first. Run the pinned install commands only when this
+preflight resolves `v1.0.0`:
 
 ```bash
-gh auth status
-# If the preceding command reports that you are not logged in:
-gh auth login --git-protocol https
-gh auth setup-git
 git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
   refs/tags/v1.0.0
 ```
 
-Do not continue if `ls-remote` fails: the invitation may still need to be accepted, the
-GitHub account may be wrong, or the `v1.0.0` tag may not be available yet.
+Do not continue if `ls-remote` fails: the tag or repository is not currently available.
 
 ### OpenAI / Codex
 
@@ -119,8 +113,8 @@ delegates to the installed plugin; from a pinned source checkout run
 [Claude installation](docs/installation-claude.md) for sideloading, update, uninstall, and
 troubleshooting.
 
-The hosted collaborator install uses Claude's `user` scope so it remains available across
-projects. Repository contributors testing a locally built package should instead clone the
+The hosted install uses Claude's `user` scope so it remains available across projects.
+Repository contributors testing a locally built package should instead clone the
 tag, run `python3 scripts/build_packages.py --clean`, and use the documented `local`-scope
 marketplace commands. Updating a hosted install to a later pinned tag requires uninstalling
 the plugin, removing the old marketplace, adding the new tag, and reinstalling; a normal
@@ -281,7 +275,7 @@ human review remain necessary for broader claims. See the
 See the [validation report](docs/validation-report.md), [V1 release gate](docs/V1_RELEASE_GATE.md),
 [architecture](docs/architecture.md), [publishing checklist](docs/PUBLISHING_CHECKLIST.md),
 [submission dossier](docs/SUBMISSION_DOSSIER.md),
-[release evaluator guide](docs/BETA_TEST.md), [monetization recommendation](docs/MONETIZATION.md),
+[release evaluator guide](docs/BETA_TEST.md), [free product policy](docs/MONETIZATION.md),
 [OpenAI marketplace path](docs/marketplace-openai.md), and
 [Claude marketplace path](docs/marketplace-claude.md).
 
@@ -299,7 +293,7 @@ See [methodology](docs/methodology.md) and the canonical [source notes](skills/d
 
 ## Contributing, security, and license
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), and [SECURITY.md](SECURITY.md). The code is licensed under MIT, which keeps installation and collaboration simple while allowing separately operated proprietary hosted services. See [the licensing decision](docs/licensing.md).
+Read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), and [SECURITY.md](SECURITY.md). The code is licensed under MIT, which keeps installation, collaboration, and public distribution simple. Design Council is free; see the [free product policy](docs/MONETIZATION.md) and [licensing decision](docs/licensing.md).
 
 ## Release status
 

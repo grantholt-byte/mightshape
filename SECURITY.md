@@ -3,14 +3,16 @@
 ## Reporting
 
 Do not open a public issue for a vulnerability that could expose participant data,
-study links, credentials, or confidential project material. When this repository has
-a public host, use its private vulnerability-reporting channel. Until a maintainer
-publishes a dedicated security contact, contact the repository owner through a private
-channel they control. Include affected version, reproduction steps, impact, and the
-smallest safe proof. Do not include live participant content.
+study links, credentials, or confidential project material. Use GitHub's private vulnerability
+reporting for this repository at
+`https://github.com/grantholt-byte/design-council/security/advisories/new`. Include the affected
+version, reproduction steps, impact, and the smallest safe proof. Do not include live participant
+content. The maintainer aims to acknowledge a complete private report within five business days;
+response and remediation timing depend on severity and reproducibility.
 
-Before public publication, replace this interim route with a monitored private vulnerability
-reporting channel or dedicated security address and publish an expected acknowledgment window.
+Use public GitHub issues only for non-sensitive bugs and support questions. If private
+vulnerability reporting is temporarily unavailable, do not disclose sensitive details publicly;
+contact the repository owner through a private channel shown on their GitHub profile.
 
 ## Security boundaries
 

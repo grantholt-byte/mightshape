@@ -2,6 +2,18 @@
 
 All notable changes use [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+
+- Recorded the owner's decision to keep Design Council free and defer every monetization model
+  unless wide adoption later leads to a new explicit decision.
+- Updated OpenAI submission materials for the required five positive and three negative reviewer
+  cases and updated Claude publication materials for the current public-GitHub-only
+  `claude-community` route.
+- Replaced private-collaborator installation language with public, immutable-tag installation and
+  established GitHub private vulnerability reporting as the sensitive security channel.
+
 ## [1.0.0] — 2026-08-13
 
 ### Added

@@ -32,7 +32,7 @@ not shipped. Legacy `$design-council` remains available for compatibility.
 
 The root `.agents/plugins/marketplace.json` points to the generated package. This path-based
 marketplace is for repository-local development; the GitHub source below is the shareable
-collaborator install.
+public install.
 
 ```bash
 codex plugin marketplace add /absolute/path/to/design-council --json
@@ -74,14 +74,10 @@ only through a deliberate project-data retention decision.
 
 ## GitHub marketplace source
 
-For a collaborator who has access to the private repository, after the owner confirms the
-immutable `v1.0.0` tag has been created and pushed:
+The public repository can be installed without collaborator access. First prove that the
+immutable `v1.0.0` tag resolves:
 
 ```bash
-gh auth status
-# If the preceding command reports that you are not logged in:
-gh auth login --git-protocol https
-gh auth setup-git
 git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
   refs/tags/v1.0.0
 codex plugin marketplace add grantholt-byte/design-council --ref v1.0.0 --json
@@ -90,11 +86,8 @@ codex plugin add design-council@design-council --json
 codex plugin list --json
 ```
 
-The repository owner must add the installer as a collaborator, and the collaborator must
-accept the invitation. `gh auth status` must show that account, while `ls-remote` proves both
-private-repository access and availability of the exact `v1.0.0` tag. Do not continue
-if either check fails. This installs from the immutable release tag rather than the moving
-`main` branch.
+`ls-remote` proves availability of the exact `v1.0.0` tag. Do not continue if it fails. This
+installs from the immutable release tag rather than the moving `main` branch.
 
 To move to a later immutable release tag, remove the installed plugin and marketplace, then
 repeat the commands above with the new `--ref`. `marketplace upgrade` refreshes a moving

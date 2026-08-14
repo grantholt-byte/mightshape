@@ -18,10 +18,9 @@ claude plugin marketplace add /absolute/path/to/design-council --scope local
 claude plugin install design-council@design-council --scope local
 ```
 
-After the owner grants private-repository collaborator access and the collaborator accepts
-the invitation, verify authentication and the exact release tag before adding the hosted
-marketplace in Claude's cross-project `user` scope. Use these commands only when the preflight
-resolves the immutable tag:
+For a private collaborator or, after publication, any GitHub user, verify authentication when
+needed and the exact release tag before adding the hosted marketplace in Claude's cross-project
+`user` scope. Use these commands only when the preflight resolves the immutable tag:
 
 ```bash
 gh auth status
@@ -35,31 +34,40 @@ CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
 claude plugin install design-council@design-council --scope user
 ```
 
-`gh auth status` must show the invited GitHub account, and `ls-remote` must succeed. Stop and
-resolve authentication, invitation, or tag availability if it does not.
+For a private repository, `gh auth status` must show an authorized GitHub account. Once the
+repository is public, authentication is optional, but `ls-remote` must still prove the immutable
+tag is available.
 
 Git-backed relative plugin sources are supported because Claude clones the entire
 marketplace. A direct URL to only `marketplace.json` would not resolve this relative source.
 
 ## Plugin directory submission
 
-Independent publishers can submit either a public GitHub repository or a ZIP through the current
-[Claude.ai plugin submission form](https://claude.ai/settings/plugins/submit) or
-[Console plugin submission form](https://platform.claude.com/plugins/submit). Anthropic describes
-the resulting directory as community-driven and surfaces it in Claude Code through the built-in
-`claude-plugins-official` marketplace. That marketplace name does **not** mean every listing is
-created, endorsed, or deeply reviewed by Anthropic.
+Independent publishers submit a **public GitHub repository** through the current
+[Claude.ai plugin submission form](https://claude.ai/admin-settings/directory/submissions/plugins/new)
+or [Console plugin submission form](https://platform.claude.com/plugins/submit). Closed-source
+repositories are not accepted, and the current form has no ZIP-upload route. Use repository
+`https://github.com/grantholt-byte/design-council` with path
+`dist/claude/design-council`.
 
-Submissions receive basic automated review. Only listings that undergo Anthropic's additional
-quality and safety review receive an **Anthropic Verified** badge, and the submission route gives
-no guarantee that a community plugin will receive that badge. The dependable publisher-controlled
-route therefore remains this GitHub-hosted marketplace even after directory submission.
+Approved third-party submissions enter the public `claude-community` marketplace and are pinned to
+a reviewed commit. `claude-plugins-official` is separately curated at Anthropic's discretion and
+has no public application route. Only listings that undergo additional review receive an
+**Anthropic Verified** badge; no community submission is guaranteed that badge.
 
-Before submitting, either make the repository/distribution mirror public for the GitHub-backed
-route or prepare the accepted final ZIP. Run `claude plugin validate`, and confirm the stable
-release, license, security/privacy documentation, README, tests, and publisher rights. Accepted
-GitHub-backed listings are mirrored into the directory and later source updates are screened
-automatically; review timing varies. No submission has been made.
+Before submitting, make the repository public, run `claude plugin validate`, and confirm the stable
+release, license, security/privacy documentation, README, tests, and publisher rights. The live
+form requires the repository URL, plugin name, description, examples, at least one supported
+platform, a contact email, and acceptance of the directory terms. Later source updates are mirrored
+and screened automatically; review timing varies. Owner authorization was recorded on 2026-08-13;
+record the actual form receipt separately.
+
+After community approval, install with:
+
+```bash
+claude plugin marketplace add anthropics/claude-plugins-community
+claude plugin install design-council@claude-community
+```
 
 ## Version and updates
 
@@ -102,9 +110,9 @@ claude plugin install design-council@design-council --scope user
 The fixed model-backed V1 gate passed in run `20260814T002300Z` from clean beta.8 source commit
 `afddbf4ee4b2c7555f8e390d92edd843427ea31c`: 100/100 calls, 97.50 versus 88.125,
 +9.375 points, 95% CI [4.625, 14.625], 4 wins, 1 tie, and 0 losses. Raw verification passed
-45/45 and exported-bundle verification passed 44/44. Verify `v1.0.0` and a fresh collaborator
-install as operational checks; never substitute a moving branch. No directory submission or
-publication has occurred.
+45/45 and exported-bundle verification passed 44/44. The immutable `v1.0.0` tag and a fresh
+GitHub-backed install were verified as operational checks; never substitute a moving branch.
+Authorization, form submission, approval, and catalog visibility remain distinct states.
 
 ## Reviewer trust
 

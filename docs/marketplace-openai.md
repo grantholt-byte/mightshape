@@ -15,7 +15,8 @@ Verified from current official OpenAI plugin and skill documentation on 2026-08-
    plugin must then be explicitly published before it is discoverable across supported
    ChatGPT and Codex surfaces.
 
-There is a real public submission path; no submission has been made by this build.
+There is a real public submission path. The owner authorized public submission on 2026-08-13;
+record the portal draft/review state separately from directory publication.
 
 ## Current prerequisites
 
@@ -26,9 +27,9 @@ There is a real public submission path; no submission has been made by this buil
 - Production listing: name, subtitle, long description, logo, and category. Website, support,
   privacy-policy, and terms URLs are optional for the current skills-only submission type and
   become required for an MCP-backed submission.
-- Five positive and three negative behavioral cases are prepared for internal/reviewer use, but
-  the current final-submission reference lists that exact requirement for MCP-backed plugins rather
-  than skills-only packages.
+- At least five positive and three negative behavioral cases are required by the current general
+  submission guide, including for this skills-only submission. The prepared cases include prompts,
+  observable behavior, result shape or safe fallback, and reproducibility information.
 - Country/region availability, release notes, and policy attestations.
 
 Design Council is skills-only. The optional interview Site is not an MCP server bundled into
@@ -36,14 +37,11 @@ the plugin. Do not add an unnecessary MCP server merely to alter the submission 
 
 ## Current commerce boundary
 
-The current directory policy permits plugin commerce only for physical goods. Design Council
-must not sell or promote hosted interviews, digital subscriptions, Exchange credits, or an
-indirect freemium upgrade inside the OpenAI plugin. A future adapter may recognize an existing
-paid entitlement and may explain an unavailable entitlement within policy. It may link to a
-neutral informational plan page, but it must not display plans, promote an upgrade, start
-checkout, or link directly to a transaction. Recheck the
+Design Council is free and has no paid entitlement, checkout, advertising, or upgrade path. The
+current directory policy also prohibits selling or promoting digital services, subscriptions, or
+credits through the plugin. Recheck the
 [current commerce policy](https://developers.openai.com/plugins/app-guidelines#commerce-and-monetization)
-before submission; the free core remains complete without a paid service.
+before any future commercial change; the current product makes no commercial offer.
 
 ## Prepared metadata
 
@@ -51,7 +49,7 @@ before submission; the free core remains complete without a paid service.
 - Tagline: **Think wider. Frame better. Build what matters.**
 - Subtitle: **Frame better before building**
 - Category: Productivity
-- Version: `1.0.0` (private release; verify the exact immutable tag and a clean pinned install)
+- Version: `1.0.0` (immutable tag and clean pinned install verified)
 - Directory logo/composer icon: square `assets/icon.png` (the wide `assets/logo.png` wordmark
   remains documentation-only)
 - Starter prompts: three in `.codex-plugin/plugin.json`
@@ -96,8 +94,8 @@ shipped. Legacy `$design-council` remains available for compatibility.
 4. Build the final package and inspect archive contents/secrets.
 5. Open the portal, select **Skills only**, upload the final skill bundle, and complete the
    verified publisher/listing fields.
-6. Keep the prepared five positive and three negative test cases available; enter them if the live
-   portal requests reviewer cases for this skills-only submission.
+6. Enter the prepared five positive and three negative reviewer cases; they are required by the
+   current general submission guide for this skills-only submission.
 7. Submit for review; respond to actual portal validation/review findings.
 8. After approval, publish deliberately. Approval alone does not publish.
 
@@ -123,7 +121,8 @@ The fixed model-backed V1 gate passed in run `20260814T002300Z` from clean beta.
 `afddbf4ee4b2c7555f8e390d92edd843427ea31c`: 100/100 calls, 97.50 versus 88.125,
 +9.375 points, 95% CI [4.625, 14.625], 4 wins, 1 tie, and 0 losses. Raw verification passed
 45/45 and exported-bundle verification passed 44/44. Verify the immutable `v1.0.0` tag and a clean
-pinned install as operational release checks. Nothing has been submitted to or published in the
-directory.
+pinned install as operational release checks. Owner authorization to submit was recorded on
+2026-08-13; a portal draft, a submission under review, approval, and final publication are distinct
+states and must be reported precisely.
 The prefilled fields and remaining owner actions are consolidated in
 [`SUBMISSION_DOSSIER.md`](SUBMISSION_DOSSIER.md).

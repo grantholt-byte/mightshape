@@ -40,16 +40,19 @@ Nothing in this file authorizes publication. Check items only with inspectable e
 - [x] `.codex-plugin/plugin.json` passes bundled authoring validation.
 - [x] Skill metadata passes bundled authoring validation.
 - [ ] Final bundle passes the current live OpenAI portal validator.
-- [ ] Local marketplace add/install/list/remove tested in a clean context.
-- [ ] Explicit and implicit invocation plus inappropriate-trigger avoidance tested.
+- [x] Local marketplace add/install/list/remove tested in a clean context.
+- [x] Explicit and implicit invocation plus inappropriate-trigger avoidance tested in a clean
+  Codex context.
 - [ ] Publisher identity verified; Apps Management write access confirmed.
 - [ ] Owner decides whether to add the optional skills-only website/support/privacy/terms URLs;
   any hosted service has reviewed deployment-specific pages before it is promoted.
 - [ ] Repository architecture notes are not submitted as if they were reviewed production
   privacy terms or service terms.
-- [x] Five positive and three negative reviewer cases prepared; submit them if the live skills-only
-  portal requests them (the current exact requirement applies to MCP-backed plugins).
-- [ ] Current submission path rechecked at the OpenAI plugin portal.
+- [x] Five positive and three negative reviewer cases prepared with prompts, observable behavior,
+  result shape or fallback, and reproducibility information; the current general submission guide
+  requires them for this skills-only submission.
+- [x] Current submission path and requirements rechecked against the live official OpenAI docs;
+  authenticated portal access remains an external account step.
 - [x] Skills-only submission reviewed; no unnecessary MCP server or unsupported screenshot is bundled.
 - [x] V1 gate passed before any public submission; no beta trial/demo listing was submitted merely
   to reserve placement.
@@ -62,14 +65,19 @@ Nothing in this file authorizes publication. Check items only with inspectable e
 - [x] `dist/claude/design-council/.claude-plugin/plugin.json` passes through
   `claude plugin validate dist/claude/design-council --strict`.
 - [x] Root marketplace passes `claude plugin validate . --strict`.
-- [ ] `--plugin-dir` sideload tested in a clean project.
-- [ ] Local marketplace add/install/details/update/uninstall/remove tested.
-- [ ] Explicit, implicit, sealed Agent, and negative-routing behavior tested.
-- [ ] Immutable private `v1.0.0` tag and pinned collaborator install verified for
+- [x] `--plugin-dir` sideload/package loading tested in an isolated configuration.
+- [x] Local marketplace add/install/details/update/uninstall/remove lifecycle tested.
+- [ ] Native Claude explicit, implicit, sealed Agent, and negative-routing model behavior remains
+  unclaimed because the available Claude OAuth session expired; shared contracts and package
+  parity pass.
+- [x] Immutable `v1.0.0` tag and pinned GitHub install verified for
   `grantholt-byte/design-council`.
-- [ ] Claude distribution decision made separately: public repository/mirror for self-hosted
-  marketplace installs, or a final ZIP where the current directory-submission form accepts it.
-- [x] Community directory form, public-repository/ZIP, validation, and safety-review requirements rechecked against current official documentation.
+- [x] Claude distribution selected: public GitHub repository with plugin path
+  `dist/claude/design-council`. Current directory submission does not accept closed-source or ZIP
+  submissions.
+- [x] Community directory form, public-repository, validation, and safety-review requirements
+  rechecked against current official documentation; approved third-party plugins enter
+  `claude-community`, not the separately curated `claude-plugins-official` marketplace.
 - [ ] Anthropic Software Directory Policy and Terms reviewed and accepted by the authorized
   publisher; rights and privacy representations are accurate.
 - [x] Public copy distinguishes a community directory listing from the separate Anthropic Verified badge.
@@ -79,5 +87,5 @@ Nothing in this file authorizes publication. Check items only with inspectable e
 - [x] `dist/design-council-openai-1.0.0.zip` inspected; archive integrity, version, and numbered-duplicate exclusion pass.
 - [x] `dist/design-council-claude-1.0.0.zip` inspected; archive integrity, version, and numbered-duplicate exclusion pass.
 - [x] Archive hashes are recorded in `dist/SHA256SUMS`; recheck from the final clean commit.
-- [x] Owner approved private GitHub collaborator distribution; public marketplace publication
-  remains a separate explicit action.
+- [x] Owner authorized free public marketplace submission on 2026-08-13; portal/form submission,
+  review approval, and final catalog publication are recorded as separate external states.

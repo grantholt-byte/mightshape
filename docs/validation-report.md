@@ -4,7 +4,14 @@
 
 **Release:** `1.0.0`
 
-**Scope:** private collaborator distribution only; no public deployment or marketplace submission.
+**Scope at validation time:** private collaborator distribution only; no public deployment or
+marketplace submission.
+
+**Publication update — 2026-08-13:** after this evidence snapshot was completed, the owner
+authorized free public marketplace submission. The validated V1 product and package remain
+unchanged. Current draft, review, approval, and publication states are tracked in
+`docs/SUBMISSION_DOSSIER.md`; this report is not rewritten to imply that a later portal action was
+part of the original validation run.
 
 This report records observed checks without upgrading model judgments or synthetic exercises into
 human evidence. Raw runtime streams remain locally ignored. Content-safe audit bundles preserve

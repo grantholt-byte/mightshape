@@ -117,15 +117,11 @@ chooses to remove that project data.
 
 ## GitHub-hosted marketplace
 
-For a collaborator who has accepted access to the private repository, use `user` scope so
-Design Council is available across that collaborator's projects after the owner confirms the
-immutable `v1.0.0` tag has been created and pushed:
+Use `user` scope so Design Council is available across projects. The source repository is public
+for directory review; GitHub authentication is optional for public installation, while the
+`ls-remote` check proves the immutable `v1.0.0` tag exists:
 
 ```bash
-gh auth status
-# If the preceding command reports that you are not logged in:
-gh auth login --git-protocol https
-gh auth setup-git
 git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
   refs/tags/v1.0.0
 CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
@@ -133,12 +129,10 @@ CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
 claude plugin install design-council@design-council --scope user
 ```
 
-The repository owner must add the installer as a collaborator, and the collaborator must
-accept the invitation. `gh auth status` must show that account, while `ls-remote` proves both
-private-repository access and availability of the exact `v1.0.0` tag. Do not continue
-if either check fails. Claude Code otherwise prefers SSH for GitHub shorthand, so the
-environment setting above avoids requiring an SSH key. The `local`-scope commands above
-remain the repository-specific, no-network development path.
+No collaborator invitation is required after public publication. Do not continue if
+`ls-remote` fails. Claude Code may prefer SSH for GitHub shorthand, so the environment setting
+above selects HTTPS and avoids requiring an SSH key. The `local`-scope commands above remain the
+repository-specific, no-network development path.
 
 ### Move a hosted install to a later release tag
 
