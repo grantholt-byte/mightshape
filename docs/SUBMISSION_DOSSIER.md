@@ -54,9 +54,10 @@ comparative result, not a platform requirement or a claim of universal effective
 - Plugin UI: none; omit screenshots
 - Starter prompts: the three `interface.defaultPrompt` entries in `.codex-plugin/plugin.json`
 - Required reviewer cases: `docs/submission-openai-test-cases.md`
-- Website/support/privacy/terms URLs: optional under the current skills-only final-validator rule;
-  the general guide recommends public trust URLs. Leave blank rather than fabricate them if the
-  live form permits.
+- Website: `https://github.com/grantholt-byte/design-council`
+- Support: `https://github.com/grantholt-byte/design-council/issues`
+- Privacy/terms URLs: optional under the current skills-only final-validator rule. Leave them blank
+  rather than represent architecture notes as operated-service policies if the live form permits.
 
 ### Initial release notes
 

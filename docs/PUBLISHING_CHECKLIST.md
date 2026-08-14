@@ -7,7 +7,8 @@ Nothing in this file authorizes publication. Check items only with inspectable e
 - [x] Repository metadata names Grant Holt as the intended publisher; final platform identity verification remains manual.
 - [x] MIT retained for V1; reconfirm the licensing/trademark strategy before public publication.
 - [x] `VERSION` and `CHANGELOG.md` are final and synchronized.
-- [x] README, privacy, security, terms, attribution, and interim support routes reviewed.
+- [x] README, privacy, security, terms, attribution, public support route, and private vulnerability
+  route reviewed.
 - [ ] Owner confirms the public publisher name, launch regions, and repository visibility in
   `docs/SUBMISSION_DOSSIER.md`; owner separately decides on optional skills-only trust URLs and
   requires deployment-specific support/privacy/terms before promoting hosted interviews.

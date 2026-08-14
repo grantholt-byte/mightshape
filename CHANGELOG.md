@@ -12,7 +12,8 @@ All notable changes use [Semantic Versioning](https://semver.org/).
   cases and updated Claude publication materials for the current public-GitHub-only
   `claude-community` route.
 - Replaced private-collaborator installation language with public, immutable-tag installation and
-  established GitHub private vulnerability reporting as the sensitive security channel.
+  established public issue support plus GitHub private vulnerability reporting for sensitive
+  security reports.
 
 ## [1.0.0] — 2026-08-13
 

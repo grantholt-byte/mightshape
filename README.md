@@ -293,7 +293,10 @@ See [methodology](docs/methodology.md) and the canonical [source notes](skills/d
 
 ## Contributing, security, and license
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), and [SECURITY.md](SECURITY.md). The code is licensed under MIT, which keeps installation, collaboration, and public distribution simple. Design Council is free; see the [free product policy](docs/MONETIZATION.md) and [licensing decision](docs/licensing.md).
+Read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md),
+[SUPPORT.md](SUPPORT.md), and [SECURITY.md](SECURITY.md). The code is licensed under MIT, which
+keeps installation, collaboration, and public distribution simple. Design Council is free; see
+the [free product policy](docs/MONETIZATION.md) and [licensing decision](docs/licensing.md).
 
 ## Release status
 
