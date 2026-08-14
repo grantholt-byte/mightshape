@@ -27,6 +27,11 @@ From the user's own words, draft rather than interrogate:
 5. Choose depth and the smallest next move from the current decision—not from a requirement to start at Empathize.
 6. Ask at most one high-yield question when the answer would change the route. If explicit invocation supplies no usable context, ask which plain-language starting point best fits and include “not sure”; otherwise infer and proceed without a redundant question.
 
+For a `LIVE` product or service, name the current strategic fork before proposing another surface.
+Separate the outcome people need from the locus of the intervention: the product may need to become
+the destination, bridge into an accepted venue, support a private/incumbent mode, or change a role or
+process. Existing maturity and evidence narrow the inquiry; they do not make one locus inevitable.
+
 Example high-yield question: “Tell me about the last real incident that made you want this—what happened, who was involved, and what did they do next?”
 
 ## Do not be obstructive

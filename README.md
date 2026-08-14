@@ -82,16 +82,16 @@ gh auth status
 gh auth login --git-protocol https
 gh auth setup-git
 git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
-  refs/tags/v0.9.0-beta.7
+  refs/tags/v0.9.0-beta.8
 ```
 
 Do not continue if `ls-remote` fails: the invitation may still need to be accepted, the
-GitHub account may be wrong, or the `v0.9.0-beta.7` tag may not be available yet.
+GitHub account may be wrong, or the `v0.9.0-beta.8` tag may not be available yet.
 
 ### OpenAI / Codex
 
 ```bash
-codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.7 --json
+codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.8 --json
 codex plugin add design-council@design-council --json
 ```
 
@@ -106,7 +106,7 @@ clean-context tests, and troubleshooting.
 
 ```bash
 CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
-  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.7 --scope user
+  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.8 --scope user
 claude plugin install design-council@design-council --scope user
 ```
 
@@ -244,10 +244,18 @@ The first preregistered five-trajectory release-gate attempt ran from clean beta
 verdict is **`TREATMENT_ADVANTAGE_DETECTED_BELOW_IMPORTANCE_THRESHOLD`** and V1 remains beta.
 The result exposed one bounded clinic-workflow regression: a stochastic treatment repeat changed
 event counts into unsupported case ratios, retained obsolete pilot scope, and omitted legitimate
-parallel work/false-blocking cases. Beta.7 corrects those general behaviors and will rerun the
-unchanged gate. The complete failed-gate evidence remains available in the
+parallel work/false-blocking cases. Beta.7 corrected those general behaviors. Its unchanged
+rerun completed all 100 planned calls and improved the clinic case to **+5.00 points**, but the
+full result—**97.00** versus **93.13**, or **+3.875 points** (95% case-bootstrap CI
+**[0.25, 6.75]**; 4 wins, 0 ties, 1 loss)—still failed the fixed practical-benefit gate. It
+used **1.547×** control tokens and **1.307×** wall time. The remaining **−3.125-point**
+live-product loss exposed a general error: treating the desired outcome as proof of where an
+intervention must live. Beta.8 adds a bounded strategic-fork and discriminating-test rule. The
+complete first failed-gate evidence remains available in the
 [beta.6 trajectory bundle](evals/evidence/runs/20260813T210617Z/summary.md); it is not discarded
-or relabeled as success.
+or relabeled as success. The beta.7 rerun is preserved in the
+[beta.7 trajectory bundle](evals/evidence/runs/20260813T225549Z/summary.md). The unchanged gate
+must pass from a clean beta.8 source freeze before V1 promotion.
 
 Token use is an optimization target, not an outcome-value veto. These are exploratory internal
 Codex studies, not native Claude evidence, monetary ROI, or a universal efficacy claim. A focused
@@ -285,7 +293,7 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md
 
 ## Release status
 
-Version `0.9.0-beta.7` is the current private-beta release candidate. Its final release-gate
+Version `0.9.0-beta.8` is the current private-beta release candidate. Its final release-gate
 rerun, immutable tag, and fresh collaborator-install checks
 remain pending; do not treat it as a completed release until those gates pass. The GitHub repository
 is private and has not been published to either marketplace. Public release still requires

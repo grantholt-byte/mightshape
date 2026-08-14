@@ -365,6 +365,39 @@ interval's lower bound did not clear +3 and the verdict remained
 [`evidence/runs/20260813T210617Z`](evidence/runs/20260813T210617Z); no passing
 `v1-trajectory-gate.json` exists.
 
+The unchanged preregistered gate then reran from clean beta.7 commit `893867f7d` as
+`20260813T225549Z`. All **100/100 planned calls** completed: 80 persisted candidate-turn calls and
+20 blind judgments, with no failures, retries, skips, timeouts, or malformed records. Design
+Council scored **97.0** versus **93.125** for the competent prompt control, a **+3.875-point**
+difference with **4 wins, 0 ties, and 1 loss**. The 10,000-sample case-bootstrap interval was
+**[0.25, 6.75]**. Candidate-token use was **1.546573×** control and wall time was **1.306717×**
+control; neither resource measure changes the outcome verdict.
+
+The raw-run verifier reproduced **43/45 checks**. Its two failures were the required
+meaningful-benefit verdict and the interval threshold. Because the interval's lower bound did not
+clear the fixed +3 minimum-important uplift, the result remains
+`TREATMENT_ADVANTAGE_DETECTED_BELOW_IMPORTANCE_THRESHOLD` and the V1 release gate failed. The
+content-safe artifacts and checksums are in
+[`evidence/runs/20260813T225549Z`](evidence/runs/20260813T225549Z). This positive but insufficient
+result must not be described as a passing efficacy receipt. The committed content-safe export
+reproduces **42/44** with `--allow-exported-bundle`; it has the same two decision failures and omits
+the raw-only intervention-snapshot check by design.
+
+The beta.7 clinic correction held in that primary rerun: clinic handoff improved from the previous
+**−3.125** loss to a **+5.0** win. The remaining loss was the live-product trajectory at
+**−3.125**. Diagnosis isolated an outcome-versus-intervention-locus defect: the treatment converged
+on making the product the coordination destination instead of preserving a discriminating fork
+among destination, bridge to an existing venue, and incumbent or private workflows. It also used
+the one available event for a role declaration instead of reciprocal downstream behavior.
+
+A bounded beta.8 candidate correction now requires that strategic fork and its explicit decision
+boundary, rejects experiments whose plausible results cannot distinguish the competing loci, and
+spends scarce instrumentation on consequential downstream behavior rather than clicks or
+self-declared roles. One targeted local model regression passed semantic judgment, and its saved
+response passed the corrected deterministic matcher. This gitignored diagnostic is **unshipped**, was
+not run from a frozen beta.8 release candidate, and is **not release evidence**. It does not replace
+another unchanged preregistered gate run.
+
 Verify a newly completed raw run against the committed fail-closed V1 policy, then export it:
 
 ```sh
@@ -386,9 +419,11 @@ event count became an unsupported case ratio, hard constraints did not fully ret
 scope, and legitimate shared work and false blocking were under-tested. Beta.7 adds general
 invariants and adversarial cases for those behaviors, scopes authoritative research to decision-
 changing boundaries, and records only privacy-safe completed runtime item-type counts so future
-context spikes are diagnosable. The unchanged comparison must now be rerun from the clean beta.7
-freeze. Afterward, add held-out trajectories and independent human review before making a public
-efficacy claim.
+context spikes are diagnosable. The clean beta.7 rerun above confirmed the clinic correction but
+failed the fixed V1 gate after exposing the live-product outcome-locus defect. Beta.8 addresses only
+that bounded defect; the comparison policy, corpus, threshold, and verifier remain unchanged.
+Held-out trajectories and independent human review remain necessary before making a public efficacy
+claim.
 
 Use [`human-rating-guide.md`](benchmark/human-rating-guide.md) and
 [`human-paired-rating.schema.json`](schema/human-paired-rating.schema.json) for blind human review.

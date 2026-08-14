@@ -14,7 +14,7 @@ make validate-openai
 ```
 
 The installable package is `dist/openai/design-council/` and the deterministic archive is
-`dist/design-council-openai-0.9.0-beta.7.zip` after the beta.7 build completes.
+`dist/design-council-openai-0.9.0-beta.8.zip` after the beta.8 build completes.
 
 ## Invoke Design Council
 
@@ -82,8 +82,8 @@ gh auth status
 gh auth login --git-protocol https
 gh auth setup-git
 git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
-  refs/tags/v0.9.0-beta.7
-codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.7 --json
+  refs/tags/v0.9.0-beta.8
+codex plugin marketplace add grantholt-byte/design-council --ref v0.9.0-beta.8 --json
 codex plugin list --marketplace design-council --available --json
 codex plugin add design-council@design-council --json
 codex plugin list --json
@@ -91,7 +91,7 @@ codex plugin list --json
 
 The repository owner must add the installer as a collaborator, and the collaborator must
 accept the invitation. `gh auth status` must show that account, while `ls-remote` proves both
-private-repository access and availability of the exact `v0.9.0-beta.7` tag. Do not continue
+private-repository access and availability of the exact `v0.9.0-beta.8` tag. Do not continue
 if either check fails. This installs from the immutable beta tag rather than the moving
 `main` branch.
 
@@ -112,6 +112,6 @@ branch; it does not change a marketplace pinned to an older tag.
   aliases are not part of the current OpenAI packaging contract.
 - Hooks are optional and trust-gated. Declining the hook must not disable the skill.
 
-The beta.7 package and deterministic validators must pass before tagging. The model-backed release
-gate rerun, immutable tag, and pinned-tag clean install remain pending. Do not share the beta.7 GitHub commands as
+The beta.8 package and deterministic validators must pass before tagging. The model-backed release
+gate rerun, immutable tag, and pinned-tag clean install remain pending. Do not share the beta.8 GitHub commands as
 validated before the owner confirms those remaining steps.

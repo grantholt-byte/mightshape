@@ -1,7 +1,7 @@
 # Marketplace submission dossier
 
 **Checked against official platform documentation:** 2026-08-13
-**Current release line:** `0.9.0-beta.7`
+**Current release line:** `0.9.0-beta.8`
 **Publication state:** no submission has been made and nothing in this dossier authorizes one.
 
 This is the owner handoff for a future “go” decision. Technical metadata is prefilled. The

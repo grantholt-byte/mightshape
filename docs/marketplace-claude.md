@@ -28,9 +28,9 @@ gh auth status
 gh auth login --git-protocol https
 gh auth setup-git
 git ls-remote --exit-code https://github.com/grantholt-byte/design-council.git \
-  refs/tags/v0.9.0-beta.7
+  refs/tags/v0.9.0-beta.8
 CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
-  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.7 --scope user
+  claude plugin marketplace add grantholt-byte/design-council@v0.9.0-beta.8 --scope user
 claude plugin install design-council@design-council --scope user
 ```
 
@@ -61,7 +61,7 @@ updates are screened automatically; review timing varies. No submission has been
 
 ## Version and updates
 
-The plugin manifest and marketplace entry both target `0.9.0-beta.7`. Claude Code treats an explicit
+The plugin manifest and marketplace entry both target `0.9.0-beta.8`. Claude Code treats an explicit
 version as the update boundary, so every release must bump `VERSION` and regenerate both
 packages. `check_cross_platform_drift.py` rejects version mismatch.
 
@@ -81,7 +81,7 @@ claude plugin marketplace update design-council
 claude plugin update design-council@design-council --scope local
 ```
 
-For a hosted `user`-scope install pinned to `@v0.9.0-beta.7`, normal update commands cannot
+For a hosted `user`-scope install pinned to `@v0.9.0-beta.8`, normal update commands cannot
 move the marketplace to a different immutable tag. When a later beta is announced, set the
 variable below to that exact tag and re-create the installed marketplace boundary:
 
@@ -97,10 +97,10 @@ CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1 \
 claude plugin install design-council@design-council --scope user
 ```
 
-Beta.7 deterministic package validation, including the current strict Claude validator, must pass
+Beta.8 deterministic package validation, including the current strict Claude validator, must pass
 before tagging. The model-backed release-gate rerun, immutable tag, and a fresh collaborator install
 remain pending. After the owner confirms the tag has been pushed, the pinned beta is exactly
-`v0.9.0-beta.7`; do not substitute a moving branch.
+`v0.9.0-beta.8`; do not substitute a moving branch.
 
 ## Reviewer trust
 

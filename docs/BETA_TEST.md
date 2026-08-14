@@ -1,6 +1,6 @@
 # Design Council beta evaluator guide
 
-The current release candidate is `v0.9.0-beta.7`. Its full validation, benchmark rerun,
+The current release candidate is `v0.9.0-beta.8`. Its full validation, benchmark rerun,
 immutable tag, and fresh collaborator installs are still pending. Do not distribute it until
 the owner confirms the tag. Do not call it `1.0.0` or represent it as a public marketplace
 release unless the separate V1 and publication gates pass.

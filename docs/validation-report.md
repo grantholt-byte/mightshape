@@ -2,7 +2,7 @@
 
 **Validation date:** 2026-08-13
 
-**Release candidate:** `v0.9.0-beta.7`
+**Release candidate:** `v0.9.0-beta.8`
 
 **Scope:** private collaborator distribution only; no public deployment or marketplace submission.
 
@@ -11,21 +11,20 @@ human evidence. Raw runtime streams remain locally ignored. Content-safe audit b
 the frozen manifest, assistant outputs, blinded pairs, structured judgments, summaries, and hashes
 under [`evals/evidence/`](../evals/evidence/), without environment variables or credentials.
 
-> **Current status:** the beta.6 preregistered trajectory attempt was positive but failed the
-> fixed uncertainty threshold, so V1 correctly remains beta. Beta.7 contains bounded general
-> fixes plus five locally observed live-judged regression cases; those targeted run artifacts are
-> intentionally unshipped and are not release evidence. Its full deterministic release check and
-> both current platform validators pass; the unchanged preregistered rerun remains pending. Immutable
-> tag creation and fresh collaborator-install tests follow only after that gate. Earlier evidence
-> remains historical and is not silently promoted to beta.7 evidence.
+> **Current status:** the beta.7 preregistered trajectory gate completed all 100 planned calls and
+> produced a positive point estimate, but its uncertainty interval did not clear the fixed
+> minimum-important-uplift threshold. The verifier therefore failed 2 of 45 checks and V1 correctly
+> remains beta. A bounded beta.8 candidate fix now targets the newly isolated outcome-versus-
+> intervention-locus defect; its local targeted regression is intentionally unshipped diagnostic
+> evidence, not release evidence. Earlier evidence remains historical and is not silently promoted.
 
 ## Latest completed deterministic product and package checks
 
 | Check | Observed result |
 |---|---|
 | Python unit suite | **PASS — 274 tests** |
-| Behavioral contracts | **PASS — 131 cases**, including 73 adversarial cases and 52 invariant families |
-| Adapter mapping | **PASS — 131 shared cases per adapter** |
+| Behavioral contracts | **PASS — 132 cases**, including 74 adversarial cases and 52 invariant families |
+| Adapter mapping | **PASS — 132 shared cases per adapter** |
 | OpenAI package | **PASS** with bundled plugin/skill authoring validators and local portal-rule checks; portal upload validation remains manual |
 | Claude package | **PASS** with the current strict plugin validator used by `make release-check` |
 | Shared-core drift | **PASS — 106 shared files**, including 10 byte-identical Council Human Models |
@@ -275,9 +274,45 @@ from contribution, tracks evidence-driven frame changes, and keeps generic autho
 local causal evidence. In a local authenticated regression run, five focused live model responses
 passed independent semantic judgment and their saved responses passed corrected deterministic
 matchers. Those gitignored artifacts are a development diagnostic, not shipped release evidence.
-The unchanged primary gate must now rerun
-from a new clean beta.7 commit. Held-out trajectories and blind human ratings remain required before
-a broad public outcome claim.
+The unchanged primary gate then reran from a new clean beta.7 commit as described below.
+
+### Preregistered beta.7 trajectory gate
+
+The unchanged five-trajectory gate ran from clean beta.7 commit `893867f7d` as
+`20260813T225549Z`. All **100/100 planned calls** completed: 80 persisted candidate-turn calls and
+20 blind judgments, with no failures, retries, skips, timeouts, or malformed records. Design
+Council scored **97.0** versus **93.125** for the competent Design Thinking prompt control, a
+**+3.875-point** difference with **4 wins, 0 ties, and 1 loss**. The 10,000-sample case-bootstrap
+interval was **[0.25, 6.75]**. Candidate-token use was **1.546573×** control and wall time was
+**1.306717×** control; both remain resource diagnostics rather than outcome gates.
+
+The raw-run verifier reproduced **43/45 checks**. The two failures were exactly the required
+meaningful-benefit verdict and the interval threshold: although the point estimate exceeded +3,
+the interval's lower bound did not. The recorded verdict is
+`TREATMENT_ADVANTAGE_DETECTED_BELOW_IMPORTANCE_THRESHOLD`. This fails the fixed V1
+minimum-important-uplift gate, so it cannot support a V1 promotion. The complete content-safe,
+checksummed evidence is in
+[`evals/evidence/runs/20260813T225549Z`](../evals/evidence/runs/20260813T225549Z).
+Running that deliberately content-safe export with `--allow-exported-bundle` reproduces **42/44**;
+its same two failures are the verdict and interval threshold, while the raw-only snapshot check is
+not part of exported-bundle mode.
+
+The beta.7 clinic fix generalized in the primary rerun: clinic handoff changed from the previous
+**−3.125** loss to a **+5.0** win. The remaining loss was the live-product trajectory at
+**−3.125**. Forensics found that the treatment translated the desired outcome too directly into
+making the product the coordination destination. It did not preserve the decision boundary among
+becoming that destination, bridging into an accepted existing venue, and retaining incumbent or
+private workflows; it also spent the one-event budget on a role declaration rather than downstream
+reciprocal behavior.
+
+The bounded beta.8 candidate correction makes outcome and intervention locus separate decisions,
+requires the destination/bridge/incumbent-or-private fork to survive until a discriminating test,
+and allocates scarce instrumentation to consequential downstream behavior rather than clicks or
+self-declared roles. One targeted local model regression for this new invariant passed semantic
+judgment, and its saved response passed the corrected deterministic matcher. That gitignored run is
+a development diagnostic only: it was not generated from a frozen beta.8 release candidate, is not
+in the shipped evidence bundle, and does not substitute for the unchanged 100-call gate. Held-out
+trajectories and blind human ratings also remain required before a broad public outcome claim.
 
 ## Interview companion and Exchange boundary
 
@@ -298,8 +333,10 @@ OpenAI and Claude packages are generated from one canonical core at
 SHA-256 checksums live under `dist/`. Installation, update, uninstall, private-repository auth,
 and current public-publication paths are documented separately.
 
-The `v0.9.0-beta.7` tag and fresh pinned-tag collaborator installs must occur only after the
-pending primary trajectory-gate rerun and a final clean-commit release verification. Existing beta tags remain immutable. Nothing has been
+The next beta tag and fresh pinned-tag collaborator installs must occur only after the bounded
+beta.8 candidate is frozen and passes a final clean-commit release verification. Promotion to V1
+still requires the unchanged trajectory gate to pass; the completed beta.7 run did not. Existing
+beta tags remain immutable. Nothing has been
 submitted, approved, or published to either marketplace. Public publication remains gated on
 owner-controlled publisher identity, public policy/support URLs, independent evaluation, a fresh
 release audit, and each platform's current review/catalog process.

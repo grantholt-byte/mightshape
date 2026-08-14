@@ -20,6 +20,11 @@ Use comparison when it reveals a meaningful tradeoff or distinguishes live mecha
 same realistic trigger where practical, observe behavior rather than preference voting, and keep
 the comparison to the fewest alternatives that could change the next decision.
 
+In a mature ecosystem, test both the behavior and the intervention locus when either could change
+the strategy—for example, becoming the destination versus bridging into an already accepted venue.
+Spend scarce instrumentation on reciprocal, repeated, or consequential behavior rather than a
+self-declared role, exposure, click, or other proxy unless that proxy is itself the pivotal unknown.
+
 For coordination tests, deliberately include both true conflicts and legitimate shared work. Observe
 false duplicate warnings, false blocking, stale-state recovery, and whether one accountable owner can
 coexist with visible contributors; do not award success merely because the design suppresses all

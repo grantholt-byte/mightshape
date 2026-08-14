@@ -86,12 +86,19 @@ class SkillBehavioralContractTests(unittest.TestCase):
         self.assertIn("distinguish one accountable owner from permitted contributors", self.text)
         self.assertIn("false duplicate detection", self.text)
         self.assertIn("prior claim → STRENGTHENED | WEAKENED | FALSIFIED | RETAINED", self.text)
+        self.assertIn("separate the desired outcome from the intervention locus", self.text)
+        self.assertIn("`BRIDGE_TO_EXISTING_VENUE`", self.text)
+        self.assertIn("`DECISION BOUNDARY: mechanism A vs mechanism B`", self.text)
+        self.assertIn("reject a test when its plausible results cannot discriminate", self.text)
+        self.assertIn("spend the event on the downstream behavior", self.text)
+        self.assertIn("minimum matched arms needed for one decision", self.text)
 
     def test_authoritative_grounding_stays_scoped_to_its_evidence(self) -> None:
         self.assertIn("Generic guidance constrains safe inquiry", self.text)
         self.assertIn("not evidence of the local failure mechanism", self.text)
         self.assertIn("isolated research pass", self.text)
         self.assertIn("compact cited claim ledger", self.text)
+        self.assertIn("do not launch broad research merely because the domain is regulated", self.text)
 
     def test_synthetic_participants_are_distinct_from_council_members(self) -> None:
         self.assertIn("opaque study ID", self.text)

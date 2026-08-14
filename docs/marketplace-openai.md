@@ -48,7 +48,7 @@ before submission; the free core remains complete without a paid service.
 - Tagline: **Think wider. Frame better. Build what matters.**
 - Subtitle: **Frame better before building**
 - Category: Productivity
-- Version: `0.9.0-beta.7` (release candidate; validation must pass before tagging)
+- Version: `0.9.0-beta.8` (release candidate; validation must pass before tagging)
 - Directory logo/composer icon: square `assets/icon.png` (the wide `assets/logo.png` wordmark
   remains documentation-only)
 - Starter prompts: three in `.codex-plugin/plugin.json`
@@ -111,7 +111,7 @@ Primary sources: [Package plugins](https://developers.openai.com/plugins/build/p
 [developer commands](https://learn.chatgpt.com/docs/developer-commands?surface=cli), and
 [deprecated custom prompts](https://learn.chatgpt.com/docs/custom-prompts).
 
-Beta.7 deterministic package validation and the model-backed release-gate rerun must pass before
+Beta.8 deterministic package validation and the model-backed release-gate rerun must pass before
 tagging; clean pinned-tag installation then remains required. This document describes the prepared route; it does not
 claim those remaining gates have passed.
 The prefilled fields and remaining owner actions are consolidated in

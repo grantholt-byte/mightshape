@@ -37,6 +37,22 @@ or disruption across the smallest comparison that could change the build decisio
 is tested alone, state why a comparison adds no decision value and what result would reopen the
 alternatives.
 
+For a mature product or service embedded in an existing ecosystem, separate the desired behavior
+from where the intervention must live. A failure to become the accepted destination may imply a
+better destination, a bridge into the venue people already accept, a role/process change, or a valid
+private/incumbent mode. Preserve the smallest set of those strategic loci that remain plausible and
+make the experiment discriminate among them before committing to one product surface.
+
+Treat instrumentation as a scarce learning budget. When only one new event is available, prefer the
+downstream reciprocal or repeated behavior that distinguishes the live mechanisms. Do not spend it
+on role declaration, exposure, a click, or another proxy when eligibility or assignment can be
+captured through existing data or the experiment record. One experiment may contain the minimum
+matched arms necessary for one decision; it is not permission to retain every earlier exploratory arm.
+
+Before finalizing, write `DECISION BOUNDARY: mechanism A vs mechanism B`. For every plausible result,
+ask whether it changes belief across that boundary. Reject or redesign a test whose outcomes could
+all be explained by the fidelity, copy, ritual, or surface of one chosen mechanism.
+
 For shared-work and coordination concepts, distinguish accountable ownership from contribution.
 Include cases for legitimate parallel work, stale ownership or status, failed transfer recovery,
 false duplicate warnings, and complete work falsely blocked as incomplete. A mechanism that prevents

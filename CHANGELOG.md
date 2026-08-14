@@ -2,6 +2,38 @@
 
 All notable changes use [Semantic Versioning](https://semver.org/).
 
+## [0.9.0-beta.8] — 2026-08-13
+
+### Added
+
+- Added an adversarial mature-product contract that requires the design outcome to remain
+  distinct from the intervention locus and preserves destination, bridge, and incumbent/private
+  alternatives until an experiment can discriminate them.
+- Added an explicit `DECISION BOUNDARY` preflight for prototype choice and a scarce-instrumentation
+  rule that spends a single new event on consequential downstream behavior rather than a declaration,
+  exposure, or click proxy.
+- Added the complete content-safe beta.7 release-gate evidence bundle, including the failed fixed-gate
+  verdict and immutable hashes.
+
+### Changed
+
+- Mature product and service routing now names the strategic locus fork before proposing another
+  surface, then retires unrelated exploratory arms when a one-experiment constraint narrows the decision.
+- Regulated-domain research remains safety-conscious but proportional: when the user already supplies
+  the relevant boundary and a test is fictional, reversible, and non-operational, unsupported local
+  practice stays `UNKNOWN` instead of triggering broad research that cannot change the decision.
+
+### Fixed
+
+- Corrected a general convergence error exposed by the beta.7 live-product trajectory: failure to
+  become an accepted venue no longer silently becomes a mandate to build a better destination.
+- Corrected the corresponding deterministic multiline matcher after independent semantic judgment
+  confirmed the targeted response met the intended behavioral contract.
+
+### Breaking Changes
+
+- None. Native platform invocations, project state, and beta compatibility aliases remain supported.
+
 ## [0.9.0-beta.7] — 2026-08-13
 
 ### Added
