@@ -45,6 +45,21 @@ internal comparative evidence, not a guarantee of performance on every project.
 The archives are deterministic, contain one `mightshape/` root, and exclude local numbered
 conflict copies. `dist/SHA256SUMS` is the canonical checksum file.
 
+## Public-source installation preflight
+
+The public GitHub repository at `grantholt-byte/mightshape` was tested from exact commit
+`dae745ef1e73daf17fbfee6fcfe2219d4d4a79fc` before the final tag was attached.
+
+- Codex Git marketplace add, plugin install, and plugin list passed; the installed cache reported
+  `mightshape@mightshape` version `1.0.1`. An isolated ephemeral turn explicitly loaded the
+  installed `design-think` skill and correctly identified MightShape's solution-first routing.
+- Claude Code cloned the public repository over HTTPS from a temporary release-candidate ref;
+  local-scope marketplace add, plugin install, and plugin list passed with
+  `mightshape@mightshape` version `1.0.1`.
+- A native Claude model turn could not run because the machine's existing OAuth session had
+  expired and could not refresh. The failure occurred before any model tokens or plugin behavior;
+  it does not invalidate the package/install checks and is not presented as a native behavior pass.
+
 ## Collaboration scope
 
 The release includes an optional, separately hosted companion with Slack, Discord, and

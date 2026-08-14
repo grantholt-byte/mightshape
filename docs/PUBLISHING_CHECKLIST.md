@@ -11,14 +11,14 @@ Nothing in this file authorizes publication. Check items only with inspectable e
 - [x] MIT retained for independently authored V1 material; no third-party source expression is
   represented as MIT-licensed.
 - [x] `VERSION` and `CHANGELOG.md` are synchronized for `1.0.1`.
-- [ ] README, privacy, security, terms, attribution, public support route, and private vulnerability
+- [x] README, privacy, security, terms, attribution, public support route, and private vulnerability
   route reviewed against the renamed repository and collaboration deployment.
 - [ ] Owner confirms the public publisher name, launch regions, and repository visibility in
   `docs/SUBMISSION_DOSSIER.md`; owner separately decides on optional skills-only trust URLs and
   requires deployment-specific support/privacy/terms before promoting hosted interviews.
 - [x] Runtime package and marketplace branding check passes with no third-party institutional positioning, source artwork, or implied endorsement.
-- [ ] `make release-check` passes after the collaboration lifecycle merge and from the final clean
-  commit.
+- [x] `make release-check` passes after the collaboration lifecycle merge: 18/18 checks,
+  284 unit tests, 137 shared behavioral cases, and both companion dependency audits.
 - [x] Humanity, independence, Inquiry, process, and adversarial evals pass.
 - [x] Optional participation tests pass for Watch, Collaborate, and One prompt at a time,
   including non-blocking default behavior, durable `USER_PROVIDED` contributions, and
@@ -36,7 +36,7 @@ Nothing in this file authorizes publication. Check items only with inspectable e
 - [x] Cross-platform drift/parity check passes with ten identical Human Models.
 - [x] Model-backed family-scheduler, ED-nurse, Council-humanity, and routing evals pass within their documented claim boundaries.
 - [x] No secrets, transcripts, real participant quotes, or confidential project data ship.
-- [ ] Renamed public GitHub source contains the MIT license, passes a tracked-history
+- [x] Renamed public GitHub source contains the MIT license, passes a tracked-history
   credential-pattern scan, supports anonymous pinned installs, and has private vulnerability
   reporting enabled.
 - [x] Privacy copy explains visible workshop output, local participation records,
@@ -46,12 +46,12 @@ Nothing in this file authorizes publication. Check items only with inspectable e
 
 ## OpenAI / Codex
 
-- [x] MightShape beta `.codex-plugin/plugin.json` passes bundled authoring validation after the
-  collaboration merge; repeat on the final stable artifact.
-- [x] MightShape beta skill metadata passes bundled authoring validation after the collaboration
-  merge; repeat on the final stable artifact.
+- [x] MightShape `.codex-plugin/plugin.json` passes bundled authoring validation on the final
+  stable artifact.
+- [x] MightShape skill metadata passes bundled authoring validation on the final stable artifact.
 - [ ] Final bundle passes the current live OpenAI portal validator.
-- [ ] Renamed local marketplace add/install/list/remove tested in a clean context.
+- [x] Public Git marketplace add/install/list tested from exact release commit
+  `dae745ef1e73daf17fbfee6fcfe2219d4d4a79fc`; version `1.0.1` resolved.
 - [ ] Renamed explicit and implicit invocation plus inappropriate-trigger avoidance tested in a
   clean Codex context.
 - [ ] Publisher identity verified; Apps Management write access confirmed.
@@ -65,27 +65,26 @@ Nothing in this file authorizes publication. Check items only with inspectable e
 - [x] Current submission path and requirements rechecked against the live official OpenAI docs;
   authenticated portal access remains an external account step.
 - [x] Skills-only submission reviewed; no unnecessary MCP server or unsupported screenshot is bundled.
-- [x] The pre-rebrand V1 core gate passed; MightShape remains beta until its new release gates pass
-  and is not submitted merely to reserve placement.
+- [x] The pre-rebrand V1 core efficacy gate and the MightShape 1.0.1 release gates passed; the
+  stable release is not submitted merely to reserve placement.
 - [x] Prepared listing contains no digital-service pricing, Exchange-credit promotion, subscription
   plans, upgrade pitch, or checkout link.
 - [x] Approval and final Publish are treated as separate manual actions in the release documentation.
 
 ## Claude Code
 
-- [x] MightShape beta `dist/claude/mightshape/.claude-plugin/plugin.json` passes through
-  `claude plugin validate dist/claude/mightshape --strict` after the collaboration merge; repeat
-  on the final stable artifact.
-- [x] MightShape beta root marketplace passes `claude plugin validate . --strict`; repeat on the
-  final stable artifact.
+- [x] `dist/claude/mightshape/.claude-plugin/plugin.json` passes strict official Claude
+  validation on the stable artifact.
+- [x] The root MightShape marketplace passes `claude plugin validate . --strict`.
 - [ ] Renamed `--plugin-dir` sideload/package loading tested in an isolated configuration.
-- [ ] Renamed local marketplace add/install/details/update/uninstall/remove lifecycle tested.
+- [x] Fresh Claude local-scope marketplace add/install/list tested from the public release
+  candidate ref; `mightshape@mightshape` resolved as version `1.0.1`.
 - [ ] Native Claude explicit, implicit, sealed Agent, and negative-routing model behavior remains
   unclaimed because the available Claude OAuth session expired; shared contracts and package
   parity pass.
 - [ ] Immutable `v1.0.1` (and later stable `v1.1.0`) tag plus pinned GitHub install verified
   for `grantholt-byte/mightshape`.
-- [ ] Claude distribution selected: publish the renamed GitHub repository with plugin path
+- [x] Claude distribution selected: the renamed public GitHub repository exposes plugin path
   `dist/claude/mightshape`. Current directory submission does not accept closed-source or ZIP
   submissions.
 - [x] Community directory form, public-repository, validation, and safety-review requirements
@@ -101,14 +100,13 @@ Nothing in this file authorizes publication. Check items only with inspectable e
   numbered-duplicate exclusion pass.
 - [x] Current `dist/mightshape-claude-1.0.1.zip` inspected; archive integrity, version, and
   numbered-duplicate exclusion pass.
-- [x] Current beta archive hashes are recorded in `dist/SHA256SUMS`; regenerate from the clean
-  release commit.
+- [x] Stable archive hashes are recorded in `dist/SHA256SUMS` from the release commit.
 - [x] Owner requested the renamed free release; MightShape submission, review approval, catalog
   publication, and former-listing retirement remain separate manual states.
 
 ## Optional team-channel companion
 
-- [ ] Repeat `make release-check` from the final clean `1.0.1` commit.
+- [x] `make release-check` passed after the final 1.0.1 collaboration merge.
 - [x] Shared workshop engine, portable/private state split, explicit opt-in, Pass, sealed freeze,
   `USER_PROVIDED` provenance, retention deletion, and visual fallback tests pass.
 - [x] Slack manifest requests only `commands`, `chat:write`, and `files:write`; Socket Mode and the

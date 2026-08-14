@@ -24,8 +24,8 @@ claude plugin install mightshape@mightshape --scope local
 
 For a private collaborator or, after publication, any GitHub user, verify authentication when
 needed and the exact release tag before adding the hosted marketplace in Claude's cross-project
-`user` scope. The intended renamed repository/tag is not yet published; use these commands only
-when the preflight resolves the immutable tag:
+`user` scope. The renamed repository is public; use these commands only when the preflight
+resolves the immutable tag:
 
 ```bash
 gh auth status

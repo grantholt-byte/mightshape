@@ -52,8 +52,8 @@ before any future commercial change; the current product makes no commercial off
 - Tagline: **Think wider. Frame better. Build what matters.**
 - Subtitle: **Shape the right thing**
 - Category: Productivity
-- Prepared version: `1.0.1` (local package validation only; no renamed remote tag or clean
-  pinned install has been claimed)
+- Prepared version: `1.0.1` (official local package validators and a clean install from the
+  public release commit passed; the final immutable tag is verified separately)
 - Directory logo/composer icon: square `assets/icon.png` (the wide `assets/logo.png` wordmark
   remains documentation-only)
 - Starter prompts: three in `.codex-plugin/plugin.json`
@@ -104,9 +104,9 @@ shipped.
 8. After approval, publish deliberately. Approval alone does not publish.
 
 Do not submit merely to reserve a listing. OpenAI's guidelines require a stable, responsive,
-complete product and reject trial or demo plugins. Promote MightShape from beta only after the
-collaboration lifecycle, package, live-install, and name-clearance gates pass; this is a product
-release decision, not a claim that OpenAI mandates a particular semantic-version string.
+complete product and reject trial or demo plugins. MightShape 1.0.1 passed the collaboration,
+package, and release-commit install gates. The owner accepted the documented residual naming risk;
+the project still does not claim comprehensive trademark clearance.
 
 The official guidelines say screenshots are optional for plugins with UI and should not be
 submitted for plugins without UI. MightShape ships repository demo images for reviewers
@@ -125,8 +125,9 @@ The pre-rebrand core passed the fixed model-backed V1 gate in run `20260814T0023
 beta.8 source commit
 `afddbf4ee4b2c7555f8e390d92edd843427ea31c`: 100/100 calls, 97.50 versus 88.125,
 +9.375 points, 95% CI [4.625, 14.625], 4 wins, 1 tie, and 0 losses. Raw verification passed
-45/45 and exported-bundle verification passed 44/44. The renamed MightShape package still requires
-an immutable `v1.0.1` tag and clean pinned-install evidence before it can be shared remotely.
+45/45 and exported-bundle verification passed 44/44. The renamed MightShape package passed clean
+release-commit installation on both adapters; the immutable `v1.0.1` tag is the final public
+sharing coordinate.
 A portal draft, submission under review, approval, and final publication are distinct states and
 must be reported precisely.
 The prefilled fields and remaining owner actions are consolidated in

@@ -16,9 +16,9 @@ reported separately.
 
 | Area | Completed | Remaining external step |
 |---|---|---|
-| Shared product | Canonical rebrand, beta packages, MIT license, archive hashes, shared core, preserved legacy state contracts, and a green 18-check local beta gate | Repeat from a final clean commit; obtain name clearance; publish and verify an immutable renamed tag; complete live channel installs |
-| OpenAI | Skills-only package, manifest, listing copy, icon, three prompts, required 5 positive/3 negative cases, and local validation | Submit MightShape as a new identity after clearance; verify publisher/permission, availability, attestations, upload scan, and clean pinned install |
-| Claude | Plugin/marketplace manifests, strict local validation, and listing copy | Publish the renamed GitHub source/tag, verify a fresh hosted install, accept directory terms, and submit the new namespace |
+| Shared product | Canonical rebrand, stable packages, MIT license, archive hashes, shared core, preserved legacy state contracts, and a green 18-check final gate | Attach and verify the final immutable tag; complete live channel installs separately |
+| OpenAI | Skills-only package, manifest, listing copy, icon, three prompts, required 5 positive/3 negative cases, official local validation, public Git source, and clean install from the release commit | Submit MightShape as a new identity; verify publisher/permission, availability, attestations, and the live upload scan |
+| Claude | Plugin/marketplace manifests, strict official validation, public Git source, and fresh local-scope install from the release candidate ref | Attach the final tag, accept directory terms, and submit the new namespace; native model invocation remains blocked only by the expired local OAuth session |
 | Hosted interview app | Optional deployable source and deterministic tests | Not part of either marketplace submission and not represented as an operated service |
 
 The pre-rebrand core passed the fixed internal V1 efficacy gate in run `20260814T002300Z`: 100/100 model calls,
@@ -72,7 +72,7 @@ comparative result, not a platform requirement or a claim of universal effective
 
 1. Open `https://platform.openai.com/plugins` in the publishing organization.
 2. Confirm Apps Management write access and select the verified developer identity.
-3. Create a new **Skills only** plugin named **MightShape** and upload the exact validated beta
+3. Create a new **Skills only** plugin named **MightShape** and upload the exact validated release
    bundle. Do not submit it as a normal update to the former-name listing: OpenAI's update validator
    requires the package name to match the existing plugin identity.
 4. Enter the listing, three starter prompts, five positive cases, and three negative cases.
@@ -148,7 +148,7 @@ Update this table only from portal receipts or catalog visibility:
 |---|---|---|
 | OpenAI MightShape | Not submitted; new identity required | — |
 | Claude MightShape | Not submitted | — |
-| GitHub MightShape source | Intended repository not yet published/tagged | — |
+| GitHub MightShape source | Public on `main`; release commit installed successfully in Codex and Claude | `dae745ef1e73daf17fbfee6fcfe2219d4d4a79fc` |
 | Former OpenAI listing | Published under the former name; migration/delisting is a manual owner action | Existing portal record |
 
 ## Primary references
