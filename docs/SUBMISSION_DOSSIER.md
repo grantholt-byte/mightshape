@@ -16,9 +16,9 @@ reported separately.
 
 | Area | Completed | Remaining external step |
 |---|---|---|
-| Shared product | Canonical rebrand, stable packages, MIT license, archive hashes, shared core, preserved legacy state contracts, and a green 18-check final gate | Attach and verify the final immutable tag; complete live channel installs separately |
+| Shared product | Canonical rebrand, stable packages, MIT license, archive hashes, shared core, preserved legacy state contracts, a verified immutable `v1.0.1` tag, and a green 18-check final gate | Complete live channel installs separately |
 | OpenAI | Skills-only package, manifest, listing copy, icon, three prompts, required 5 positive/3 negative cases, official local validation, public Git source, and clean install from the release commit | Submit MightShape as a new identity; verify publisher/permission, availability, attestations, and the live upload scan |
-| Claude | Plugin/marketplace manifests, strict official validation, public Git source, and fresh local-scope install from the release candidate ref | Attach the final tag, accept directory terms, and submit the new namespace; native model invocation remains blocked only by the expired local OAuth session |
+| Claude | Plugin/marketplace manifests, strict official validation, public Git source, and fresh local-scope installs from both the release candidate and immutable release tag | Accept directory terms and submit the new namespace; native model invocation remains blocked only by the expired local OAuth session |
 | Hosted interview app | Optional deployable source and deterministic tests | Not part of either marketplace submission and not represented as an operated service |
 
 The pre-rebrand core passed the fixed internal V1 efficacy gate in run `20260814T002300Z`: 100/100 model calls,
@@ -148,7 +148,7 @@ Update this table only from portal receipts or catalog visibility:
 |---|---|---|
 | OpenAI MightShape | Not submitted; new identity required | — |
 | Claude MightShape | Not submitted | — |
-| GitHub MightShape source | Public on `main`; release commit installed successfully in Codex and Claude | `dae745ef1e73daf17fbfee6fcfe2219d4d4a79fc` |
+| GitHub MightShape source | Public on `main`; immutable `v1.0.1` release published with verified OpenAI and Claude artifacts | [Release `v1.0.1`](https://github.com/grantholt-byte/mightshape/releases/tag/v1.0.1) at `7f4d8b517f32c407126fcc906328499ca920c3c3` |
 | Former OpenAI listing | Published under the former name; migration/delisting is a manual owner action | Existing portal record |
 
 ## Primary references

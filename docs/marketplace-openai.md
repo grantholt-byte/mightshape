@@ -52,8 +52,8 @@ before any future commercial change; the current product makes no commercial off
 - Tagline: **Think wider. Frame better. Build what matters.**
 - Subtitle: **Shape the right thing**
 - Category: Productivity
-- Prepared version: `1.0.1` (official local package validators and a clean install from the
-  public release commit passed; the final immutable tag is verified separately)
+- Prepared version: `1.0.1` (official local package validators, a clean install from the
+  public release commit, and the final immutable `v1.0.1` tag are verified)
 - Directory logo/composer icon: square `assets/icon.png` (the wide `assets/logo.png` wordmark
   remains documentation-only)
 - Starter prompts: three in `.codex-plugin/plugin.json`

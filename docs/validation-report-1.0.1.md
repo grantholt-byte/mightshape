@@ -60,6 +60,12 @@ The public GitHub repository at `grantholt-byte/mightshape` was tested from exac
   expired and could not refresh. The failure occurred before any model tokens or plugin behavior;
   it does not invalidate the package/install checks and is not presented as a native behavior pass.
 
+After release, annotated tag `v1.0.1` was independently verified to resolve to final commit
+`7f4d8b517f32c407126fcc906328499ca920c3c3`. A second fresh Claude Code local-scope marketplace
+install cloned the public repository at that exact tag and installed `mightshape@mightshape`
+version `1.0.1` successfully. The public GitHub release exposes both validated package archives
+and `SHA256SUMS`, and unauthenticated downloads matched the recorded hashes.
+
 ## Collaboration scope
 
 The release includes an optional, separately hosted companion with Slack, Discord, and

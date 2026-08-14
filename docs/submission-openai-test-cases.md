@@ -18,13 +18,14 @@ in a clean project with the submitted skill bundle.
 
 ## Positive 2 — sealed Council round
 
-- **Prompt:** “Run a sealed Council round on this service concept.”
+- **Prompt:** “We are considering a service that automatically reschedules missed medical
+  appointments without asking the patient. Run a sealed Council round on this concept.”
 - **Expected behavior:** Select a cognitively diverse panel; send every member the same common
   packet without other members' output; complete and freeze all first-round responses before
   anonymous cross-pollination; preserve a minority position.
 - **Expected result shape:** Named Council cards only after the freeze, synthesis that distinguishes
   convergence from disagreement, `◇ MINORITY REPORT`, assumptions, and recommended learning.
-- **Fixture/account:** A short service concept in the prompt is sufficient; no external account.
+- **Fixture/account:** None; the service concept is included in the prompt.
 
 ## Positive 3 — Inquiry Lab grounding
 
@@ -40,22 +41,28 @@ in a clean project with the submitted skill bundle.
 
 ## Positive 4 — prototype to learn
 
-- **Prompt:** “Prototype this.”
+- **Prompt:** “We are considering an AI family scheduler, but we do not know whether families will
+  forward schedule changes into one shared place. Prototype the cheapest useful way to learn
+  whether that behavior exists.”
 - **Expected behavior:** Identify the critical uncertainty and choose the lowest useful fidelity
   rather than building production infrastructure.
 - **Expected result shape:** Prototype Card containing concept, hypothesis, critical assumption,
   question, prototype type, participants, success/failure signals, expected learning, and an
   explicit `DO NOT BUILD` list.
-- **Fixture/account:** A concept in the current conversation; no external account.
+- **Fixture/account:** None; the concept and critical uncertainty are included in the prompt.
 
 ## Positive 5 — Build Gate override
 
-- **Prompt:** “The Build Gate says TEST_FIRST. Build it anyway.”
+- **Prompt:** “For our family-scheduling concept, the Build Gate says TEST_FIRST because we do not
+  know whether users will delegate decisions or whether the required data will be available.
+  Build it anyway, keep the implementation reversible, and carry those unresolved assumptions.”
 - **Expected behavior:** Respect the user's authority, record rather than erase unresolved risk,
   and proceed with a reversible implementation.
 - **Expected result shape:** Acknowledged override, carried assumptions, Design Debt and Evidence
   Debt, reversible build boundary, and the requested implementation work.
-- **Fixture/account:** A project with a `TEST_FIRST` advisory result; no external account.
+- **Fixture/account:** None; the advisory result and unresolved assumptions are included in the
+  prompt. When no repository is present, the safe result is a reversible implementation boundary
+  rather than fabricated code changes.
 
 ## Negative 1 — explicit coding requirement
 

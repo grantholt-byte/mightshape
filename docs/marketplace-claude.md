@@ -117,10 +117,9 @@ The pre-rebrand core passed the fixed model-backed V1 gate in run `20260814T0023
 beta.8 source commit
 `afddbf4ee4b2c7555f8e390d92edd843427ea31c`: 100/100 calls, 97.50 versus 88.125,
 +9.375 points, 95% CI [4.625, 14.625], 4 wins, 1 tie, and 0 losses. Raw verification passed
-45/45 and exported-bundle verification passed 44/44. Those results do not establish the renamed
-package's remote installation. Verify an immutable `v1.0.1` tag and a fresh GitHub-backed
-install before sharing; never substitute a moving branch. Authorization, form submission,
-approval, and catalog visibility remain distinct states.
+45/45 and exported-bundle verification passed 44/44. The renamed package also passed a fresh
+GitHub-backed install from immutable tag `v1.0.1`; never substitute a moving branch when sharing.
+Authorization, form submission, approval, and catalog visibility remain distinct states.
 
 ## Reviewer trust
 

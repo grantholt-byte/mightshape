@@ -52,8 +52,11 @@ Nothing in this file authorizes publication. Check items only with inspectable e
 - [ ] Final bundle passes the current live OpenAI portal validator.
 - [x] Public Git marketplace add/install/list tested from exact release commit
   `dae745ef1e73daf17fbfee6fcfe2219d4d4a79fc`; version `1.0.1` resolved.
-- [ ] Renamed explicit and implicit invocation plus inappropriate-trigger avoidance tested in a
-  clean Codex context.
+- [x] Renamed explicit invocation tested in an isolated ephemeral Codex context from the installed
+  package; it loaded the submitted skill and applied solution-first routing.
+- [ ] Implicit invocation and inappropriate-trigger avoidance remain to be repeated in a fully
+  clean Codex user profile; the shared behavioral contracts pass, but the current user profile's
+  unusually large plugin inventory exceeded the available skill-context budget.
 - [ ] Publisher identity verified; Apps Management write access confirmed.
 - [ ] Owner decides whether to add the optional skills-only website/support/privacy/terms URLs;
   any hosted service has reviewed deployment-specific pages before it is promoted.
@@ -77,13 +80,14 @@ Nothing in this file authorizes publication. Check items only with inspectable e
   validation on the stable artifact.
 - [x] The root MightShape marketplace passes `claude plugin validate . --strict`.
 - [ ] Renamed `--plugin-dir` sideload/package loading tested in an isolated configuration.
-- [x] Fresh Claude local-scope marketplace add/install/list tested from the public release
-  candidate ref; `mightshape@mightshape` resolved as version `1.0.1`.
+- [x] Fresh Claude local-scope marketplace add/install/list tested from both the public release
+  candidate and immutable `v1.0.1` tag; `mightshape@mightshape` resolved as version `1.0.1`.
 - [ ] Native Claude explicit, implicit, sealed Agent, and negative-routing model behavior remains
   unclaimed because the available Claude OAuth session expired; shared contracts and package
   parity pass.
-- [ ] Immutable `v1.0.1` (and later stable `v1.1.0`) tag plus pinned GitHub install verified
-  for `grantholt-byte/mightshape`.
+- [x] Immutable `v1.0.1` tag plus pinned GitHub install verified for
+  `grantholt-byte/mightshape`; the annotated tag resolves to final commit
+  `7f4d8b517f32c407126fcc906328499ca920c3c3`.
 - [x] Claude distribution selected: the renamed public GitHub repository exposes plugin path
   `dist/claude/mightshape`. Current directory submission does not accept closed-source or ZIP
   submissions.
